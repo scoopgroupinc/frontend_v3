@@ -4,27 +4,41 @@
     "slug": "scoop",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "src/assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "src/assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
     "assetBundlePatterns": [
       "**/*"
     ],
+    "jsEngine": "hermes",
     "ios": {
-      "supportsTablet": true
+      "jsEngine": "jsc",
+      "supportsTablet": true,
+      "buildNumber": "1.0.0",
+      "bundleIdentifier": "com.scoop-app",
+      "icon": "./assets/apple-touch-icon.png"
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      }
+        "foregroundImage": "src/assets/adaptive-icon.png",
+        "backgroundColor": "#FFFFFF",
+        "package": "com.scoop.app",
+        "versionCode": 1
+      },
+      "package": "com.scoop.app"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
-    }
+      "favicon": "src/assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "c7bc250b-d451-49fd-b042-5a9fae365906"
+      }
+    },
+    "owner": "scoopgroup"
   }
 }

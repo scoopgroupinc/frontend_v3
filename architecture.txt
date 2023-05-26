@@ -1,0 +1,9 @@
+## Scoop App Boilerplate
+
+1. Home navigator (Home, Vote, Message)
+2. Auth navigator (Login, Register, Forgot Password, Launch, Reset Password)
+3. App navigator
+4. Vote navigator (onboarding, vote)
+
+## Home Navigator
+
