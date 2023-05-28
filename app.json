@@ -8,19 +8,17 @@
     "userInterfaceStyle": "light",
     "splash": {
       "image": "src/assets/splash.png",
-      "resizeMode": "contain",
+      "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "jsEngine": "hermes",
     "ios": {
       "jsEngine": "jsc",
       "supportsTablet": true,
       "buildNumber": "1.0.0",
       "bundleIdentifier": "com.scoop-app",
-      "icon": "./assets/apple-touch-icon.png"
+      "icon": "src/assets/apple-touch-icon.png"
     },
     "android": {
       "adaptiveIcon": {
