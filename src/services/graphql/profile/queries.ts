@@ -1,4 +1,4 @@
-import {gql} from '@apollo/client'
+import { gql } from "@apollo/client";
 
 export const GET_USER = gql`
   query getUser($userId: String!) {
@@ -11,7 +11,7 @@ export const GET_USER = gql`
       onBoarding
     }
   }
-`
+`;
 
 export const GET_PROMPTS = gql`
   query GET_PROMPTS {
@@ -22,7 +22,7 @@ export const GET_PROMPTS = gql`
       sample_answer
     }
   }
-`
+`;
 
 export const GET_PROMPTS_ORDER = gql`
   query getUserPromptsOrder($userPromptsOrder: IGetPromptOrder!) {
@@ -35,7 +35,7 @@ export const GET_PROMPTS_ORDER = gql`
       answer
     }
   }
-`
+`;
 
 export const GET_USER_NAMES = gql`
   query getUser($userId: String!) {
@@ -45,7 +45,7 @@ export const GET_USER_NAMES = gql`
       lastName
     }
   }
-`
+`;
 
 export const GET_BIRTHDAY_HEIGHT = gql`
   query getUserProfile($userId: String!) {
@@ -55,7 +55,7 @@ export const GET_BIRTHDAY_HEIGHT = gql`
       height
     }
   }
-`
+`;
 
 export const GET_USER_PROFILE = gql`
   query getUserProfile($userId: String!) {
@@ -73,7 +73,7 @@ export const GET_USER_PROFILE = gql`
       school
     }
   }
-`
+`;
 
 export const GET_USER_TAGS_TYPE_VISIBLE = gql`
   query getAllUserTagsTypeVisible($userId: String!) {
@@ -90,7 +90,7 @@ export const GET_USER_TAGS_TYPE_VISIBLE = gql`
       }
     }
   }
-`
+`;
 
 export const GET_CRITERIAS = gql`
   query getCriterias($criteriaType: String!) {
@@ -101,7 +101,7 @@ export const GET_CRITERIAS = gql`
       type
     }
   }
-`
+`;
 
 export const GET_USER_CHOICES = gql`
   query getUserChoices($userId: String!) {
@@ -141,7 +141,7 @@ export const GET_USER_CHOICES = gql`
       }
     }
   }
-`
+`;
 
 export const GET_USER_MATCHES = gql`
   query getUserMatches($userId: String!) {
@@ -158,7 +158,7 @@ export const GET_USER_MATCHES = gql`
       }
     }
   }
-`
+`;
 
 export const GET_RATING_BY_CONTENT = gql`
   query getRatingByContent($RatingInput: [IGetRatingInput!]!) {
@@ -179,7 +179,7 @@ export const GET_RATING_BY_CONTENT = gql`
       }
     }
   }
-`
+`;
 export const GET_RATING_CONTENT_COMMENTS = gql`
   query getRatingContentComments($contentId: String!) {
     getRatingContentComments(contentId: $contentId) {
@@ -187,7 +187,7 @@ export const GET_RATING_CONTENT_COMMENTS = gql`
       endTime
     }
   }
-`
+`;
 
 export const GET_ARCHIVED_USER_PROMPTS = gql`
   query getUserPrompts($userId: String!) {
@@ -199,4 +199,4 @@ export const GET_ARCHIVED_USER_PROMPTS = gql`
       answer
     }
   }
-`
+`;

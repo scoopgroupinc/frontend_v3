@@ -1,11 +1,11 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { screenName } from "../utils/constants";
-import { PromptVote } from "../containers/votes/PromptVote";
-import { VisualVote } from "../containers/votes/VisualVote";
-import { ProfileView } from "../containers/votes/ProfileView";
-import { MatchScreen } from "../containers/votes/MatchScreen";
-import ComeBackTomorrow from "../containers/votes/ComeBackTomorrow";
+import { PromptVote } from "../containers/Votes/PromptVote";
+import { VisualVote } from "../containers/Votes/VisualVote";
+import { ProfileView } from "../containers/Votes/ProfileView";
+import { MatchScreen } from "../containers/Votes/MatchScreen";
+import { ComeBackTomorrow } from "../containers/Votes/ComeBackTomorrow";
 
 const VoteStack = createStackNavigator();
 

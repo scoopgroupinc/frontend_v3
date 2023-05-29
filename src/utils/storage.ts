@@ -10,7 +10,7 @@ const storeObjectData = async (key: string, value: any) => {
 
 const getStringData = async (key: string) => {
   const value = await AsyncStorage.getItem(key);
-  return value;
+  return value !== null ? value : null;
 };
 
 const getObjectData = async (key: string) => {
@@ -19,9 +19,7 @@ const getObjectData = async (key: string) => {
 };
 
 const removeData = async (key: string) => {
-  await AsyncStorage.removeItem(key).then((res) => {
-    console.log("removeData", res);
-  });
+  await AsyncStorage.removeItem(key).then((res) => {});
 };
 
 const multiRemove = async (keys: string[]) => {

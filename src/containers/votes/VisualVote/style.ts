@@ -1,18 +1,18 @@
-import {StyleSheet} from 'react-native'
-import {Typography, Spacing, Colors} from 'src/styles'
+import { StyleSheet } from "react-native";
+import { Typography, Spacing, Colors } from "../../../utils";
 
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   sliderContainer: {
     paddingVertical: 16,
   },
   textContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     // justifyContent: 'space-between',
   },
   text: {
@@ -27,4 +27,4 @@ export const styles = StyleSheet.create({
     fontSize: Typography.FONT_SIZE_16,
     paddingBottom: Spacing.SCALE_2,
   },
-})
+});

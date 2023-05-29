@@ -1,22 +1,38 @@
 import React from "react";
-import { TouchableOpacity, Text } from "react-native";
+import { Pressable, Text, ViewStyle } from "react-native";
 import { Colors } from "../../../utils";
 import { styles } from "./styles";
-import { ButtonType } from "./types";
+
+export interface ButtonType {
+  title: string;
+  txtColor?: string;
+  disabled?: boolean;
+  bgColor?: any;
+  onPress?: () => void;
+  style?: ViewStyle;
+}
 
 export const AppButton = ({
   title,
   onPress,
-  color = Colors.DARK_GRAY_BLUE,
+  txtColor = Colors.DARK_GRAY_BLUE,
   disabled = false,
+  bgColor,
+  style,
 }: ButtonType) => {
   return (
-    <TouchableOpacity
+    <Pressable
       disabled={disabled}
       onPress={onPress}
-      style={styles.button}
+      style={[
+        styles.button,
+        style,
+        // {
+        //   backgroundColor: disabled ? "transparent" : bgColor,
+        // },
+      ]}
     >
-      <Text style={[{ color: color }, styles.text]}>{title}</Text>
-    </TouchableOpacity>
+      <Text style={[{ color: txtColor }, styles.text]}>{title}</Text>
+    </Pressable>
   );
 };

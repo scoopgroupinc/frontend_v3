@@ -1,8 +1,7 @@
 import React from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { navigationRef } from "./RootNavigation";
 import { useAppSelector } from "../store/hooks";
 import AuthNavigator from "./AuthNavigator";
 import screenName from "../utils/constants/screenName";
@@ -11,6 +10,7 @@ import AppNavigator from "./AppNavigator";
 const Stack = createNativeStackNavigator();
 
 const Navigator = () => {
+  //because of persistGate, we can fetch the user from the store
   const { user } = useAppSelector((state) => state.appUser);
 
   return (

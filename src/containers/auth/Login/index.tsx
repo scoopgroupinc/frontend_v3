@@ -1,8 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { TouchableOpacity, View, Text } from "react-native";
 import AppActivityIndicator from "../../../components/atoms/ActivityIndicator";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { Colors } from "react-native/Libraries/NewAppScreen";
 import { GradientLayout } from "../../../components/layouts/GradientLayout";
 import { styles } from "./styles";
 import FormField from "../../../components/molecule/FormField";
@@ -17,9 +16,18 @@ import { LOG_IN_USER } from "../../../services/graphql/auth/mutations";
 import { useAppDispatch } from "../../../store/hooks";
 import { setUser } from "../../../store/features/user/userSlice";
 import { storeStringData } from "../../../utils/storage";
+import { OTPInputModal } from "../../../components/templates/OTPInputModal";
+import { Colors } from "../../../utils";
+import { screenName } from "../../../utils/constants";
 
 const LoginScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
+  const [userData, setUserData] = useState<any>();
+  const [modalState, setModalState] = useState<boolean>(false);
+  const [revalidate, setRevalidate] = useState<boolean>(true);
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [details, setDetails] = useState<any>();
+
   const dispatch = useAppDispatch();
 
   const [loginUserMutation, { data: loginData, loading: loginLoading }] =
@@ -48,6 +56,7 @@ const LoginScreen = () => {
 
   const onForgotPasswordPress = () => {};
   const loginUser = (formData: any) => {
+    setUserData(formData);
     loginUserMutation({
       variables: {
         LoginUserInput: {
@@ -65,7 +74,14 @@ const LoginScreen = () => {
         );
       })
       .catch((err) => {
-        console.log("err", err);
+        if (err.message === "Kindly activate your account") {
+          setModalState(true);
+        }
+        // logEvent({
+        //   eventName: eventNames.submitSignInButtonResponse,
+        //   params: { error: err.message },
+        // });
+        // loading = false;
       });
   };
 
@@ -110,10 +126,12 @@ const LoginScreen = () => {
           <View style={styles.btnContainer}>
             <AppButton
               title={"Submit"}
-              style={{
-                backgroundColor: Colors.ICE_WHITE,
-              }}
               onPress={handleSubmit(loginUser)}
+              txtColor={Colors.BLACK}
+              disabled={
+                errors.email?.message || errors.password?.message ? true : false
+              }
+              bgColor={Colors.ICE_WHITE}
             />
 
             <TouchableOpacity onPress={() => onForgotPasswordPress()}>
@@ -121,24 +139,29 @@ const LoginScreen = () => {
             </TouchableOpacity>
 
             <TouchableOpacity
-              onPress={() => navigation.navigate("CreateAccount")}
+              onPress={() => navigation.navigate(screenName.REGISTER)}
             >
               <Text style={styles.link}>Sign Up</Text>
             </TouchableOpacity>
           </View>
         </KeyboardAwareScrollView>
-        {/* {modalState === true && (
+        {modalState === true && (
           <OTPInputModal
             userData={userData}
             state={modalState}
             revalidate={revalidate}
             changeValidation={setRevalidate}
             closeModal={() => setModalState(false)}
-            next={() => {
+            next={(dt) => {
               setModalState(false);
+              dispatch(
+                setUser({
+                  user: dt?.data?.activateAccount?.user,
+                })
+              );
             }}
           />
-        )} */}
+        )}
         {/* {showModal && (
           <UpdateModal
             onClose={() => setShowModal(false)}

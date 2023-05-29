@@ -1,24 +1,67 @@
-import React from "react";
+import React, { useEffect } from "react";
+import axios from "axios";
 import VoteNavigator from "./VoteNavigator";
 import { screenName } from "../utils/constants";
 import ProfileNavigator from "./ProfileNavigator";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import { Colors } from "../utils";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
-import Conversations from "../containers/chat/Conversations";
+import Conversations from "../containers/Chat/Conversations";
 import VoteOnboardNavigator from "./VoteOnboardNavigator";
-import { AppButton } from "../components/atoms/AppButton";
-import { logout } from "../store/features/user/userSlice";
+import { setUserVisuals } from "../store/features/user/userSlice";
+import { URLS } from "../utils/constants/apis";
+import { OnboardNavigator } from "./OnboardNavigator";
+import { GET_PROMPTS } from "../services/graphql/profile/queries";
+import { useQuery } from "@apollo/client";
+import { setAllPrompts } from "../store/features/prompts/promptsSlice";
 
 const AppTabStack = createBottomTabNavigator();
 
 const AppNavigator = () => {
   const { user } = useAppSelector((state) => state.appUser);
-  const { voteOnboard } = user;
+  const userId = user?.userId;
+  const voteOnboard = user?.voteOnboard;
+  const onBoarding = user?.onBoarding;
+
   const dispatch = useAppDispatch();
-  return (
+
+  const getVisuals = async () => {
+    axios
+      .get(`${URLS.FILE_URL}/api/v1/visuals/${userId}`, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        method: "GET",
+      })
+      .then((res) => {
+        dispatch(
+          setUserVisuals({
+            userVisuals: res.data,
+          })
+        );
+      })
+      .catch((err) => {});
+  };
+
+  const { data: promptsResult } = useQuery(GET_PROMPTS);
+
+  useEffect(() => {
+    getVisuals();
+  }, [userId]);
+
+  useEffect(() => {
+    if (promptsResult) {
+      dispatch(
+        setAllPrompts({
+          allPrompts: promptsResult.getPrompts,
+        })
+      );
+    }
+  }, [promptsResult]);
+
+  return onBoarding ? (
     <AppTabStack.Navigator
       initialRouteName={screenName.PROFILE}
       screenOptions={{
@@ -47,29 +90,30 @@ const AppNavigator = () => {
     >
       <AppTabStack.Screen
         name={screenName.VOTE}
-        component={voteOnboard ? VoteNavigator : VoteOnboardNavigator}
+        // component={voteOnboard ? VoteNavigator : VoteOnboardNavigator}
+        component={VoteNavigator}
         options={{
-          tabBarStyle: voteOnboard
-            ? {
-                overflow: "hidden",
-                backgroundColor: "#ffffff",
-                position: "absolute",
-                bottom: 25,
-                left: "20%",
-                right: "20%",
-                elevation: 0,
-                borderRadius: 15,
-                height: 80,
-                borderTopWidth: 1,
-                borderBottomWidth: 1,
-                borderLeftWidth: 1,
-                borderRightWidth: 1,
-                borderTopColor: Colors.RUST,
-                borderLeftColor: Colors.RUST,
-                borderRightColor: Colors.RUST,
-                borderBottomColor: Colors.RUST,
-              }
-            : { display: "none" },
+          // tabBarStyle: voteOnboard
+          //   ? {
+          //       overflow: "hidden",
+          //       backgroundColor: "#ffffff",
+          //       position: "absolute",
+          //       bottom: 25,
+          //       left: "20%",
+          //       right: "20%",
+          //       elevation: 0,
+          //       borderRadius: 15,
+          //       height: 80,
+          //       borderTopWidth: 1,
+          //       borderBottomWidth: 1,
+          //       borderLeftWidth: 1,
+          //       borderRightWidth: 1,
+          //       borderTopColor: Colors.RUST,
+          //       borderLeftColor: Colors.RUST,
+          //       borderRightColor: Colors.RUST,
+          //       borderBottomColor: Colors.RUST,
+          //     }
+          //   : { display: "none" },
           tabBarItemStyle: {
             height: 70,
           },
@@ -100,6 +144,7 @@ const AppNavigator = () => {
       />
       <AppTabStack.Screen
         name={screenName.PROFILE}
+        component={ProfileNavigator}
         options={{
           tabBarIcon: ({ focused }) => {
             return (
@@ -127,27 +172,7 @@ const AppNavigator = () => {
             height: 70,
           },
         }}
-      >
-        {/* {() => <ProfileScreen openPanel={() => {}} />} */}
-        {() => (
-          <View
-            style={{
-              flex: 1,
-              backgroundColor: "tomato",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <Text>Profile Screen</Text>
-            <AppButton
-              title="Logout"
-              onPress={() => {
-                dispatch(logout());
-              }}
-            />
-          </View>
-        )}
-      </AppTabStack.Screen>
+      />
 
       <AppTabStack.Screen
         name={screenName.CONVERSATIONS}
@@ -183,6 +208,8 @@ const AppNavigator = () => {
         }}
       />
     </AppTabStack.Navigator>
+  ) : (
+    <OnboardNavigator />
   );
 };
 
