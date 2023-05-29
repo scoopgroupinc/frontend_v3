@@ -1,5 +1,5 @@
-import React, { useEffect, useCallback } from "react";
 import "react-native-gesture-handler";
+import React, { useEffect, useCallback } from "react";
 import { View } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import Navigator from "./src/navigation";
@@ -16,6 +16,7 @@ import { persistor, store } from "./src/store";
 import { ApolloProvider } from "@apollo/client";
 import { client } from "./src/services/api/client";
 import { PersistGate } from "redux-persist/integration/react";
+import { PaperProvider } from "react-native-paper";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -63,9 +64,11 @@ export default function App() {
       <ApolloProvider client={client}>
         <Provider store={store}>
           <PersistGate persistor={persistor} loading={null}>
-            <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
-              <Navigator />
-            </View>
+            <PaperProvider>
+              <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
+                <Navigator />
+              </View>
+            </PaperProvider>
           </PersistGate>
         </Provider>
       </ApolloProvider>

@@ -1,10 +1,10 @@
-import {StyleSheet} from 'react-native'
-import {Typography, Colors, Spacing} from 'src/styles'
+import { StyleSheet } from "react-native";
+import { Typography, Colors, Spacing } from "../../../utils";
 export const styles = StyleSheet.create({
   sliderContainer: {
     paddingVertical: 16,
-    display: 'flex',
-    flexFlow: ' row wrap',
+    display: "flex",
+    flexFlow: " row wrap",
   },
   trackStyle: {
     backgroundColor: Colors.SLIDER_TRACK,
@@ -12,14 +12,14 @@ export const styles = StyleSheet.create({
     borderRadius: 50,
   },
   thumbStyle: {
-    backgroundColor: 'transparent',
+    backgroundColor: "transparent",
     height: 35,
   },
   textContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
+    flexDirection: "row",
+    flexWrap: "wrap",
+    alignItems: "center",
+    justifyContent: "flex-start",
     // width: '100%',
   },
   text: {
@@ -36,13 +36,13 @@ export const styles = StyleSheet.create({
   },
   title: {
     color: Colors.WHITE,
-    alignSelf: 'flex-start',
+    alignSelf: "flex-start",
     fontFamily: Typography.FONT_CAPRIOLA_REGULAR,
     fontSize: Typography.FONT_SIZE_24,
   },
   input: {
     borderWidth: 4,
-    width: '100%',
+    width: "100%",
     borderRadius: Spacing.SCALE_8,
     padding: Spacing.SCALE_12,
     borderColor: Colors.INPUT_BORDER,
@@ -50,8 +50,8 @@ export const styles = StyleSheet.create({
     fontFamily: Typography.FONT_POPPINS_REGULAR,
     fontSize: Typography.FONT_SIZE_16,
     marginTop: Spacing.SCALE_8,
-    overflow: 'hidden',
-    shadowColor: 'black',
+    overflow: "hidden",
+    shadowColor: "black",
     shadowOffset: {
       width: 9,
       height: 1,
@@ -61,4 +61,4 @@ export const styles = StyleSheet.create({
 
     elevation: -8,
   },
-})
+});

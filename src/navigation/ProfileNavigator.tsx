@@ -1,24 +1,31 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { View, Text } from "react-native";
+import { ProfileEdit } from "../containers/UserProfile/profileEdit";
+import { screenName } from "../utils/constants";
+import { ProfileView } from "../containers/UserProfile/profileView";
+import { UserProfile } from "../containers/UserProfile";
 
 const HomeStack = createStackNavigator();
 
 const ProfileNavigator = () => {
   return (
-    <HomeStack.Navigator>
+    <HomeStack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
       <HomeStack.Screen
-        name="Home"
-        component={() => (
-          <View
-            style={{
-              flex: 1,
-              backgroundColor: "goldenrod",
-            }}
-          >
-            <Text>Home</Text>
-          </View>
-        )}
+        name={screenName.USER_PROFILE}
+        component={UserProfile}
+      />
+      <HomeStack.Screen
+        name={screenName.USER_PROFILE_EDIT}
+        component={ProfileEdit}
+      />
+      <HomeStack.Screen
+        name={screenName.USER_PROFILE_VIEW}
+        component={ProfileView}
       />
     </HomeStack.Navigator>
   );

@@ -8,10 +8,12 @@ import {
 
 export interface UserState {
   user: any;
+  userVisuals: any;
 }
 
 const initialState: UserState = {
   user: null,
+  userVisuals: null,
 };
 
 export const UserSlice = createSlice({
@@ -23,13 +25,54 @@ export const UserSlice = createSlice({
       state.user = user;
       storeObjectData("user", action.payload);
     },
-    logout: (state) => {
-      state.user = null;
-      multiRemove(["user", "userToken"]);
+    setUserVisuals: (state, action: PayloadAction<any>) => {
+      const { userVisuals } = action.payload;
+      state.userVisuals = userVisuals;
+      storeObjectData("userVisuals", action.payload);
     },
+    updateUser: (state, action: PayloadAction<any>) => {
+      const { value } = action.payload;
+      state.user = { ...state.user, ...value };
+      removeData("user");
+      storeObjectData("user", { ...state.user, ...value });
+    },
+    // logout: (state) => {
+    //   state.user = null;
+    //   state.userVisuals = null;
+    //   multiRemove(["user", "userToken", "token", "onboardKey", "userVisuals"]);
+    // },
+    // deleteAccount: (state) => {
+    //   state.user = null;
+    //   state.userVisuals = null;
+    //   multiRemove(["user", "userToken", "token", "onboardKey", "userVisuals"]);
+    // },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase("appUser/logout", (state) => {
+        state.user = null;
+        state.userVisuals = null;
+        multiRemove([
+          "user",
+          "userToken",
+          "token",
+          "onboardKey",
+          "userVisuals",
+        ]);
+      })
+      .addCase("appUser/deleteAccount", (state) => {
+        Object.assign(state, initialState);
+        multiRemove([
+          "user",
+          "userToken",
+          "token",
+          "onboardKey",
+          "userVisuals",
+        ]);
+      });
   },
 });
 
-export const { setUser, logout } = UserSlice.actions;
+export const { setUser, setUserVisuals, updateUser } = UserSlice.actions;
 
 export default UserSlice.reducer;

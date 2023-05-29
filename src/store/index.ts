@@ -4,6 +4,7 @@ import {
   getDefaultMiddleware,
 } from "@reduxjs/toolkit";
 import UserSlice from "./features/user/userSlice";
+import PromptSlice from "./features/prompts/promptsSlice";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   FLUSH,
@@ -19,11 +20,12 @@ import {
 const persistConfig = {
   key: "root",
   storage: AsyncStorage,
-  // whitelist: ["appUser"],
+  whitelist: ["appUser"],
 };
 
 const rootReducer = combineReducers({
   appUser: UserSlice,
+  appPrompts: PromptSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

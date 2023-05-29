@@ -3,8 +3,10 @@ import { Colors, Spacing, Typography } from "../../../utils";
 
 export const styles = StyleSheet.create({
   button: {
-    backgroundColor: Colors.NEO_BUTTON_BG,
     borderRadius: Spacing.SCALE_24,
+    borderWidth: 1,
+    borderColor: Colors.ICE_WHITE,
+    backgroundColor: Colors.ICE_WHITE,
     marginTop: Spacing.SCALE_16,
     marginBottom: Spacing.SCALE_16,
     width: "100%",

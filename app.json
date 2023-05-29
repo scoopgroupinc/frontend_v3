@@ -8,28 +8,26 @@
     "userInterfaceStyle": "light",
     "splash": {
       "image": "src/assets/splash.png",
-      "resizeMode": "contain",
+      "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "jsEngine": "hermes",
     "ios": {
       "jsEngine": "jsc",
       "supportsTablet": true,
       "buildNumber": "1.0.0",
-      "bundleIdentifier": "com.scoop-app",
-      "icon": "./assets/apple-touch-icon.png"
+      "bundleIdentifier": "com.scoop.love",
+      "icon": "src/assets/apple-touch-icon.png"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "src/assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF",
-        "package": "com.scoop.app",
+        "package": "com.scoop.love",
         "versionCode": 1
       },
-      "package": "com.scoop.app"
+      "package": "com.scoop.love"
     },
     "web": {
       "favicon": "src/assets/favicon.png"
@@ -39,6 +37,14 @@
         "projectId": "c7bc250b-d451-49fd-b042-5a9fae365906"
       }
     },
-    "owner": "scoopgroup"
+    "owner": "scoopgroup",
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "The app accesses your photos to let you share them with your friends."
+        }
+      ]
+    ]
   }
 }

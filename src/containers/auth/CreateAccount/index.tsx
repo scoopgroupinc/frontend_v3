@@ -1,5 +1,5 @@
-import React from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import React, { useState } from "react";
+import { View, Text, TouchableOpacity, Alert } from "react-native";
 import { GradientLayout } from "../../../components/layouts/GradientLayout";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import FormField from "../../../components/molecule/FormField";
@@ -15,9 +15,17 @@ import { Colors } from "../../../utils";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { screenName } from "../../../utils/constants";
+import { OTPInputModal } from "../../../components/templates/OTPInputModal";
+import { useAppDispatch } from "../../../store/hooks";
+import { setUser, updateUser } from "../../../store/features/user/userSlice";
+import { storeStringData } from "../../../utils/storage";
 
 const CreateAccount = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
+  const [userData, setUserData] = useState<any>();
+  const [modalState, setModalState] = useState<boolean>(false);
+
+  const dispatch = useAppDispatch();
 
   const EMAIL_REGEX = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 
@@ -53,7 +61,39 @@ const CreateAccount = () => {
     { data: registerData, loading: registerLoading },
   ] = useMutation(CREATE_USER);
 
-  const createUserAccount = () => {};
+  const createUserAccount = (formData: any) => {
+    setUserData({ ...userData, ...formData });
+
+    // logEvent({
+    //   eventName: eventNames.submitSignUpButtonClick,
+    //   params: { email: userData.email },
+    // });
+    try {
+      let data = {
+        email: formData.email,
+        password: formData.password,
+      };
+
+      registerUserMutation({
+        variables: { CreateUserInput: data },
+      })
+        .then((response) => {
+          if (response && response?.data?.createUser) {
+            setModalState(true);
+          }
+          // logEvent({
+          //   eventName: eventNames.submitSignUpButtonResponse,
+          //   params: { success: response?.data?.createUser },
+          // });
+        })
+        .catch((err) => {
+          // logEvent({
+          //   eventName: eventNames.submitSignUpButtonResponse,
+          //   params: { error: err.message },
+          // });
+        });
+    } catch (err) {}
+  };
 
   return (
     <>
@@ -114,9 +154,12 @@ const CreateAccount = () => {
             />
             <View style={styles.btnContainer}>
               <AppButton
-                style={{
-                  backgroundColor: Colors.ICE_WHITE,
-                }}
+                bgColor={Colors.ICE_WHITE}
+                disabled={
+                  errors.email || errors.password || errors.confirmPassword
+                    ? true
+                    : false
+                }
                 title={"Submit"}
                 onPress={handleSubmit(createUserAccount)}
               />
@@ -128,17 +171,25 @@ const CreateAccount = () => {
             </View>
           </View>
         </KeyboardAwareScrollView>
-        {/* {modalState === true && (
+        {modalState === true && (
           <OTPInputModal
             userData={userData}
             state={modalState}
             closeModal={() => setModalState(false)}
-            next={() => {
+            next={async (dt) => {
               setModalState(false);
-              navigation.navigate(MAIN_NAVIGATION.ONBOARDING_HANDLER);
+              await storeStringData(
+                "userToken",
+                dt?.data?.activateAccount?.token
+              );
+              dispatch(
+                setUser({
+                  user: dt?.data?.activateAccount?.user,
+                })
+              );
             }}
           />
-        )} */}
+        )}
       </GradientLayout>
     </>
   );

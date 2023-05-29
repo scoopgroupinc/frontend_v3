@@ -1,8 +1,8 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { screenName } from "../utils/constants";
-import Conversations from "../containers/chat/Conversations";
-import Messages from "../containers/chat/Messages";
+import Conversations from "../containers/Chat/Conversations";
+import Messages from "../containers/Chat/Messages";
 
 const ChatStack = createStackNavigator();
 

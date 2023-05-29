@@ -1,4 +1,4 @@
-import {gql} from '@apollo/client'
+import { gql } from "@apollo/client";
 
 export const RESET_PASSWORD = gql`
   mutation ResetPassword($email: String!, $password: String!) {
@@ -6,13 +6,13 @@ export const RESET_PASSWORD = gql`
       email
     }
   }
-`
+`;
 
 export const RESEND_ACTIVATION_CODE = gql`
   mutation ResendActivationCode($email: String!) {
     resendActivationCode(email: $email)
   }
-`
+`;
 
 export const ACTIVATE_ACCOUNT = gql`
   mutation ActivateAccount($email: String!, $code: Float!) {
@@ -24,11 +24,12 @@ export const ACTIVATE_ACCOUNT = gql`
         lastName
         email
         onBoarding
+        voteOnboard
       }
       message
     }
   }
-`
+`;
 
 export const VERIFY_PASSWORD_CHANGE = gql`
   mutation VerifyPasswordResetCode($code: Float!, $email: String!) {
@@ -37,19 +38,19 @@ export const VERIFY_PASSWORD_CHANGE = gql`
       token
     }
   }
-`
+`;
 
 export const FORGOT_PASSWORD = gql`
   mutation ForgotPassword($email: String!) {
     forgotPassword(email: $email)
   }
-`
+`;
 
 export const CREATE_USER = gql`
   mutation CreateUser($CreateUserInput: CreateUserInput!) {
     createUser(createUserInput: $CreateUserInput)
   }
-`
+`;
 
 export const LOG_IN_USER = gql`
   mutation Login($LoginUserInput: LoginUserInput!) {
@@ -66,4 +67,4 @@ export const LOG_IN_USER = gql`
       message
     }
   }
-`
+`;

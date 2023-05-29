@@ -26,6 +26,8 @@ const screenName = {
   NOTIFICATIONS: "SendNotification",
   QUESTION_PROMPT: "QuestionPrompt",
   ONBOARD_TEXT: "OnboardText",
+  ALLPROMPTS: "AllPrompts",
+  ONBOARD_PROMPT_ANSWER: "OnboardPromptAnswer",
 
   // APP_NAVIGATOR
   PROFILE: "Profile",
@@ -81,6 +83,10 @@ const screenName = {
   PROFILE_VIEW: "ProfileView",
   MATCH_VIEW: "MatchView",
   COME_BACK_LATER: "ComeBackLater",
+
+  // HOME/PROFILE
+  USER_PROFILE_EDIT: "UserProfileEdit",
+  USER_PROFILE_VIEW: "UserProfileView",
 };
 
 export default screenName;
