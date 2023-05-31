@@ -2,15 +2,15 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
 import { View, Text } from "react-native";
 import { screenName } from "../utils/constants";
-import { OnboardName } from "../containers/Onboarding/Name";
-import { GenderScreen } from "../containers/Onboarding/Gender";
-import { DateWhoScreen } from "../containers/Onboarding/DateWho";
-import { OnboardBirthdayScreen } from "../containers/Onboarding/Birthday";
-import { HeightScreen } from "../containers/Onboarding/Height";
-import { PhotoVideoScreen } from "../containers/Onboarding/photoVideo";
-import { QuestionPromptScreen } from "../containers/Onboarding/QuestionPrompt";
-import AllPrompts from "../containers/Onboarding/Prompts";
-import OnboardPromptAnswer from "../containers/Onboarding/PromptAnswer";
+import { OnboardName } from "../containers/onboarding/Name";
+import { GenderScreen } from "../containers/onboarding/Gender";
+import { DateWhoScreen } from "../containers/onboarding/DateWho";
+import { OnboardBirthdayScreen } from "../containers/onboarding/Birthday";
+import { HeightScreen } from "../containers/onboarding/Height";
+import { PhotoVideoScreen } from "../containers/onboarding/PhotoVideo";
+import { QuestionPromptScreen } from "../containers/onboarding/QuestionPrompt";
+import AllPrompts from "../containers/onboarding/Prompts";
+import OnboardPromptAnswer from "../containers/onboarding/PromptAnswer";
 
 const OnboardStack = createNativeStackNavigator();
 
