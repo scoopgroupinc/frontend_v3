@@ -1,9 +1,9 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import screenName from "../utils/constants/screenName";
-import Launch from "../containers/Auth/Launch";
-import LoginScreen from "../containers/Auth/Login";
-import CreateAccount from "../containers/Auth/CreateAccount";
+import Launch from "../containers/auth/Launch";
+import LoginScreen from "../containers/auth/Login";
+import CreateAccount from "../containers/auth/CreateAccount";
 
 const AuthStack = createStackNavigator();
 

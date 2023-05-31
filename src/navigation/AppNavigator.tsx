@@ -8,7 +8,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { View } from "react-native";
 import { Colors } from "../utils";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
-import Conversations from "../containers/Chat/Conversations";
+import Conversations from "../containers/chat/Conversations";
 import VoteOnboardNavigator from "./VoteOnboardNavigator";
 import { setUserVisuals } from "../store/features/user/userSlice";
 import { URLS } from "../utils/constants/apis";
