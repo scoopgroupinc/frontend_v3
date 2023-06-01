@@ -8,16 +8,6 @@ module.exports = function (api) {
       },
     },
     plugins: [
-      [
-        "module-resolver",
-        {
-          root: ["./src/"],
-          alias: {
-            "@atoms": ".src/components/atoms",
-            src: "./src",
-          },
-        },
-      ],
       "react-native-reanimated/plugin",
     ],
   };
