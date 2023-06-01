@@ -3,8 +3,12 @@ import {
   configureStore,
   getDefaultMiddleware,
 } from "@reduxjs/toolkit";
-import UserSlice from "./features/user/userSlice";
+import UserSlice from "./features/user/userSlice"
+import UserProfileSlice from "./features/user/userProfileSlice"
+import UserMatchesSlice from './features/user/userMatchesSlice';
+import UserChoicesSlice from './features/user/userChoicesSlice';
 import PromptSlice from "./features/prompts/promptsSlice";
+import MessagesSlice from "./features/messages/messagesSlice";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   FLUSH,
@@ -17,6 +21,7 @@ import {
   persistStore,
 } from "redux-persist";
 
+
 const persistConfig = {
   key: "root",
   storage: AsyncStorage,
@@ -25,7 +30,11 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   appUser: UserSlice,
+  userProfile: UserProfileSlice,
+  userMatches: UserMatchesSlice,
+  userChoices: UserChoicesSlice,
   appPrompts: PromptSlice,
+  messages: MessagesSlice
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
