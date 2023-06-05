@@ -20,7 +20,6 @@ interface d {
 const AllPrompts = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
-  const { user } = useAppSelector((state: any) => state.appUser);
   const allPrompts = useAppSelector(selectAllPrompts);
 
   const gradient = [Colors.RUST, Colors.RED, Colors.TEAL];

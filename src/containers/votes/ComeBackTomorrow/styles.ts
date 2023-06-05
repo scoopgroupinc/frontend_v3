@@ -1,5 +1,5 @@
-import {StyleSheet} from 'react-native'
-import {Colors, Typography} from 'src/styles'
+import { StyleSheet } from "react-native";
+import { Colors, Typography } from "../../../../utils";
 
 export const styles = StyleSheet.create({
   text: {
@@ -8,7 +8,7 @@ export const styles = StyleSheet.create({
     fontFamily: Typography.FONT_POPPINS_REGULAR,
     fontWeight: Typography.FONT_WEIGHT_BOLD,
     top: 90,
-    position: 'absolute',
+    position: "absolute",
     width: 160,
   },
   image: {
@@ -19,16 +19,16 @@ export const styles = StyleSheet.create({
     borderWidth: 5,
   },
   imageWrapper: {
-    display: 'flex',
-    flexDirection: 'row',
+    display: "flex",
+    flexDirection: "row",
     marginTop: 180,
-    position: 'absolute',
-    justifyContent: 'space-between',
+    position: "absolute",
+    justifyContent: "space-between",
   },
   match: {
     height: 70,
     width: 70,
-    position: 'absolute',
+    position: "absolute",
     left: 100,
     top: 80,
     // borderRadius:150,
@@ -51,7 +51,7 @@ export const styles = StyleSheet.create({
   closeIcon: {
     height: 50,
     left: 155,
-    position: 'absolute',
+    position: "absolute",
     top: 0,
   },
   noMatchLogo: {
@@ -62,13 +62,13 @@ export const styles = StyleSheet.create({
     color: Colors.WHITE,
     fontSize: Typography.FONT_SIZE_20,
     fontFamily: Typography.FONT_POPPINS_REGULAR,
-    textAlign: 'center',
+    textAlign: "center",
   },
   textWrapper: {
     width: 200,
-    display: 'flex',
-    justifyContent: 'center',
-    position: 'absolute',
+    display: "flex",
+    justifyContent: "center",
+    position: "absolute",
     top: 240,
   },
-})
+});

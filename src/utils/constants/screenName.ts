@@ -33,6 +33,7 @@ const screenName = {
   PROFILE: "Profile",
   VOTE: "Vote",
   CHAT: "Chat",
+  HOME: "Home",
 
   //PROFILE
   ANALYTICS: "Analytics",

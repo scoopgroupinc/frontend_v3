@@ -1,21 +1,21 @@
-import React, {useEffect, useState} from 'react'
-import {View, Text, Platform, Alert} from 'react-native'
-import {GradientLayout} from 'src/components/layout/GradientLayout'
-import {styles} from './styles'
-import * as Location from 'expo-location'
-import Constants from 'expo-constants'
-import {ProgressBar} from 'react-native-paper'
-import {NavigationScreenType} from 'src/types/globals'
-import {useMutation} from '@apollo/client'
-import {SubmissionBtn} from 'src/components/atoms/SubmissionButton'
-import {ONBOARD_NAVIGATION, STORAGE} from 'src/navigations/utils/CONSTANTS'
-import {SAVE_USER_LOCATION} from 'src/graphql/onboarding/mutations'
-import {completeScreen, COMPLETE_SCREEN} from '../../onboardHandler/utils'
-import {useAppSelector} from 'src/store/hooks'
-import {selectUser} from 'src/store/features/UserProfileSlice'
-import {Colors} from 'src/styles'
-import { logEvent, onScreenView } from 'src/analytics'
-import { eventNames, screenClass, screenNames } from 'src/analytics/constants'
+import React, { useEffect, useState } from "react";
+import { View, Text, Platform, Alert } from "react-native";
+import { GradientLayout } from "src/components/layout/GradientLayout";
+import { styles } from "./styles";
+import * as Location from "expo-location";
+import Constants from "expo-constants";
+import { ProgressBar } from "react-native-paper";
+import { NavigationScreenType } from "src/types/globals";
+import { useMutation } from "@apollo/client";
+import { SubmissionBtn } from "src/components/atoms/SubmissionButton";
+import { ONBOARD_NAVIGATION, STORAGE } from "src/navigations/utils/CONSTANTS";
+import { SAVE_USER_LOCATION } from "src/graphql/onboarding/mutations";
+import { completeScreen, COMPLETE_SCREEN } from "../../onboardHandler/utils";
+import { useAppSelector } from "src/store/hooks";
+import { selectUser } from "src/store/features/UserProfileSlice";
+import { Colors } from "../../../../utils";
+import { logEvent, onScreenView } from "src/analytics";
+import { eventNames, screenClass, screenNames } from "src/analytics/constants";
 
 const locationObject = {
   latitude: 0,
@@ -25,65 +25,65 @@ const locationObject = {
   altitudeAccuracy: 0,
   heading: 0,
   speed: 0,
-}
+};
 
-export const GetLocationsScreen = ({navigation}: NavigationScreenType) => {
-  const reduxUser = useAppSelector(selectUser)
-  const {userId} = reduxUser
+export const GetLocationsScreen = ({ navigation }: NavigationScreenType) => {
+  const reduxUser = useAppSelector(selectUser);
+  const { userId } = reduxUser;
 
-  const [location, setLocation] = useState<any>(null)
-  const [errorMsg, setErrorMsg] = useState<string | null>(null)
+  const [location, setLocation] = useState<any>(null);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   const screenProgress = COMPLETE_SCREEN.find(
     (item) => item.name === ONBOARD_NAVIGATION.LOCATION
-  )?.progress
+  )?.progress;
 
-  const [saveUserLocation, {loading}] = useMutation(SAVE_USER_LOCATION)
+  const [saveUserLocation, { loading }] = useMutation(SAVE_USER_LOCATION);
   const saveUserLocationMutation = async () => {
     try {
       let data = {
         userId: userId,
         latitude: location?.latitude.toString(),
         longitude: location?.longitude.toString(),
-      }
+      };
 
       await saveUserLocation({
         variables: {
           CreateLocationInput: data,
         },
-      })
-      completeScreen(ONBOARD_NAVIGATION.LOCATION)
-      navigation.navigate(ONBOARD_NAVIGATION.NOTIFICATIONS)
+      });
+      completeScreen(ONBOARD_NAVIGATION.LOCATION);
+      navigation.navigate(ONBOARD_NAVIGATION.NOTIFICATIONS);
     } catch (err) {
-      console.error(err)
+      console.error(err);
     }
-  }
+  };
   useEffect(() => {
-    ;(async () => {
-      if (Platform.OS === 'android' && !Constants.isDevice) {
+    (async () => {
+      if (Platform.OS === "android" && !Constants.isDevice) {
         setErrorMsg(
-          'Oops, this will not work on Snack in an Android emulator. Try it on your device!'
-        )
-        return
+          "Oops, this will not work on Snack in an Android emulator. Try it on your device!"
+        );
+        return;
       }
-      let {status} = await Location.requestForegroundPermissionsAsync()
-      if (status !== 'granted') {
-        setErrorMsg('Permission to access location was denied')
-        return
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        setErrorMsg("Permission to access location was denied");
+        return;
       }
 
-      let location = await Location.getCurrentPositionAsync({})
-      setLocation(location.coords)
-    })()
+      let location = await Location.getCurrentPositionAsync({});
+      setLocation(location.coords);
+    })();
     onScreenView({
-      screenName:screenNames.onBoardLocation,
-      screenType:screenClass.onBoarding,
-    })
-  }, [])
+      screenName: screenNames.onBoardLocation,
+      screenType: screenClass.onBoarding,
+    });
+  }, []);
 
   const allowLocation = async () => {
-    let {status} = await Location.requestForegroundPermissionsAsync()
-    if (status === 'granted') {
+    let { status } = await Location.requestForegroundPermissionsAsync();
+    if (status === "granted") {
       await Location.watchPositionAsync(
         {
           accuracy: Location.Accuracy.BestForNavigation,
@@ -92,58 +92,60 @@ export const GetLocationsScreen = ({navigation}: NavigationScreenType) => {
         (loc) => {
           logEvent({
             eventName: eventNames.submitOnBoardLocationButton,
-            params:{location:loc, screenClass:screenClass.onBoarding}
-          })
+            params: { location: loc, screenClass: screenClass.onBoarding },
+          });
         }
-      )
-      saveUserLocationMutation()
+      );
+      saveUserLocationMutation();
     }
-  }
+  };
 
   const requestLocation = () => {
     if (location === null) {
       Alert.alert(
-        'Scoop would like to use your location',
+        "Scoop would like to use your location",
         `Turn on Location Services to allow "Scoop" to determine your location`,
         [
           {
             text: "Don't Allow",
             onPress: dontAllow,
-            style: 'cancel',
+            style: "cancel",
           },
-          {text: 'Allow', onPress: allowLocation},
+          { text: "Allow", onPress: allowLocation },
         ]
-      )
+      );
     } else {
-      saveUserLocationMutation()
-      navigation.navigate('SendNotification')
+      saveUserLocationMutation();
+      navigation.navigate("SendNotification");
     }
-  }
+  };
 
   const dontAllow = () => {
-    Alert.alert('Sorry', 'You need to allow location to use Scoop', [
+    Alert.alert("Sorry", "You need to allow location to use Scoop", [
       {
         text: "Don't Allow",
-        style: 'cancel',
+        style: "cancel",
       },
-      {text: 'Allow', onPress: allowLocation},
-    ])
-  }
+      { text: "Allow", onPress: allowLocation },
+    ]);
+  };
 
   return (
     <GradientLayout>
       <View style={styles.container}>
-        <ProgressBar progress={screenProgress} color={'#0E0E2C'} />
+        <ProgressBar progress={screenProgress} color={"#0E0E2C"} />
         <View style={styles.textContainer}>
-          <Text style={[styles.text, styles.textHeader]}>Where do you live?</Text>
+          <Text style={[styles.text, styles.textHeader]}>
+            Where do you live?
+          </Text>
           <Text style={[styles.text, styles.textMinor]}>
             The best way to get to know someone is to meet them in person.
           </Text>
         </View>
         <SubmissionBtn
-          title={'Add my location'}
+          title={"Add my location"}
           style={{
-            backgroundColor: location === null ? 'transparent' : Colors.WHITE,
+            backgroundColor: location === null ? "transparent" : Colors.WHITE,
           }}
           disabled={location === null ? true : false}
           spinner={loading ? true : false}
@@ -151,5 +153,5 @@ export const GetLocationsScreen = ({navigation}: NavigationScreenType) => {
         />
       </View>
     </GradientLayout>
-  )
-}
+  );
+};

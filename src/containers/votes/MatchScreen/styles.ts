@@ -1,16 +1,16 @@
-import {StyleSheet} from 'react-native'
-import {Colors, Spacing, Typography} from 'src/styles'
+import { StyleSheet } from "react-native";
+import { Colors, Spacing, Typography } from "../../../../utils";
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
   closeIcon: {
     right: 20,
-    position: 'absolute',
+    position: "absolute",
     top: 0,
   },
   text: {
-    alignSelf: 'center',
+    alignSelf: "center",
     color: Colors.WHITE,
     fontSize: Typography.FONT_SIZE_24,
     fontFamily: Typography.FONT_POPPINS_REGULAR,
@@ -24,15 +24,15 @@ export const styles = StyleSheet.create({
     borderWidth: 5,
   },
   imageWrapper: {
-    display: 'flex',
-    flexDirection: 'row',
-    position: 'absolute',
+    display: "flex",
+    flexDirection: "row",
+    position: "absolute",
     top: 50,
   },
   match: {
     height: 70,
     width: 70,
-    position: 'absolute',
+    position: "absolute",
     left: 90,
     top: 80,
   },
@@ -43,7 +43,7 @@ export const styles = StyleSheet.create({
   },
   input: {
     borderWidth: 4,
-    width: '100%',
+    width: "100%",
     borderRadius: Spacing.SCALE_8,
     padding: Spacing.SCALE_12,
     borderColor: Colors.INPUT_BORDER,
@@ -51,8 +51,8 @@ export const styles = StyleSheet.create({
     fontFamily: Typography.FONT_POPPINS_REGULAR,
     fontSize: Typography.FONT_SIZE_16,
     marginTop: Spacing.SCALE_8,
-    overflow: 'hidden',
-    shadowColor: 'black',
+    overflow: "hidden",
+    shadowColor: "black",
     shadowOffset: {
       width: 9,
       height: 1,
@@ -66,4 +66,4 @@ export const styles = StyleSheet.create({
   btn: {
     marginTop: 20,
   },
-})
+});

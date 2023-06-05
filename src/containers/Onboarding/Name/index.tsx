@@ -74,6 +74,10 @@ export const OnboardName = () => {
     //     ...formData,
     //   },
     // });
+
+    // dispatch({
+    //   type: "appUser/logout",
+    // });
     try {
       let data = {
         firstName: formData.firstname,

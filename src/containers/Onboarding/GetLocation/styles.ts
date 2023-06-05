@@ -1,15 +1,15 @@
-import {StyleSheet} from 'react-native'
-import {Colors, Spacing, Typography} from 'src/styles'
+import { StyleSheet } from "react-native";
+import { Colors, Spacing, Typography } from "../../../../utils";
 
 export const styles = StyleSheet.create({
   container: {
-    height: '100%',
-    width: '100%',
+    height: "100%",
+    width: "100%",
   },
   textContainer: {
     flex: 1,
-    justifyContent: 'flex-start',
-    alignContent: 'center',
+    justifyContent: "flex-start",
+    alignContent: "center",
     marginTop: Spacing.SCALE_24,
   },
   text: {
@@ -23,7 +23,7 @@ export const styles = StyleSheet.create({
   },
   textHeader: {
     fontSize: Typography.FONT_SIZE_30,
-    textAlign: 'center',
+    textAlign: "center",
   },
   modalHeaderText: {
     color: Colors.DARK_GRAY_BLUE,
@@ -33,7 +33,7 @@ export const styles = StyleSheet.create({
     letterSpacing: 2,
   },
   modalContainer: {
-    justifyContent: 'space-between',
-    height: '85%',
+    justifyContent: "space-between",
+    height: "85%",
   },
-})
+});

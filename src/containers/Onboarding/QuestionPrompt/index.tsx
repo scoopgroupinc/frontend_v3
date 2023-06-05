@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, Alert } from "react-native";
-import { useMutation } from "@apollo/client";
+import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
 import { styles } from "./styles";
 import { ProgressBar } from "react-native-paper";
 
@@ -21,6 +21,7 @@ import { AppButton } from "../../../components/atoms/AppButton";
 import { CaptureText } from "../../../components/atoms/CaptureText";
 import AppActivityIndicator from "../../../components/atoms/ActivityIndicator";
 import { updateUser } from "../../../store/features/user/userSlice";
+import { GET_PROMPTS_ORDER } from "../../../services/graphql/profile/queries";
 
 export const QuestionPromptScreen = ({ route }: any) => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
@@ -59,6 +60,7 @@ export const QuestionPromptScreen = ({ route }: any) => {
     },
     onCompleted: () => {
       //load all necessary data here for the user
+      //fetch user onboard data and save in redux
       dispatch(
         updateUser({
           value: {
