@@ -1,11 +1,4 @@
 import { combineReducers, configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
-import UserSlice from "./features/user/userSlice";
-import UserProfileSlice from "./features/user/userProfileSlice";
-import UserMatchesSlice from "./features/user/userMatchesSlice";
-import UserChoicesSlice from "./features/user/userChoicesSlice";
-import PromptSlice from "./features/prompts/promptsSlice";
-import MessagesSlice from "./features/messages/messagesSlice";
-import MatchSlice from "./features/matches/matchSlice";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   FLUSH,
@@ -17,6 +10,13 @@ import {
   persistReducer,
   persistStore,
 } from "redux-persist";
+import UserSlice from "./features/user/userSlice";
+import UserProfileSlice from "./features/user/userProfileSlice";
+import UserMatchesSlice from "./features/user/userMatchesSlice";
+import UserChoicesSlice from "./features/user/userChoicesSlice";
+import PromptSlice from "./features/prompts/promptsSlice";
+import MessagesSlice from "./features/messages/messagesSlice";
+import MatchSlice from "./features/matches/matchSlice";
 
 const persistConfig = {
   key: "root",

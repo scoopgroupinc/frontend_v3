@@ -1,0 +1,26 @@
+{
+  "env": {
+    "node": true,
+    "es2021": true
+  },
+  "extends": [
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react/recommended",
+    "airbnb",
+    "airbnb-typescript",
+    "airbnb/hooks",
+    "prettier"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": "latest",
+    "project": ["tsconfig.json"],
+    "sourceType": "module"
+  },
+  "plugins": ["react", "react-native", "react-hooks", "@typescript-eslint", "prettier"],
+
+  "rules": {}
+}

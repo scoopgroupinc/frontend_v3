@@ -7,8 +7,7 @@ export const cloneArray = (array: any[]) => {
   return [];
 };
 
-export const mapIndexToUserVisuals = (d: any, index: number, arr: any[]) => {
-  return {
+export const mapIndexToUserVisuals = (d: any, index: number, arr: any[]) => ({
     id: `${index}`,
     createdAt: "",
     userId: "",
@@ -18,18 +17,15 @@ export const mapIndexToUserVisuals = (d: any, index: number, arr: any[]) => {
     description: "",
     order: "",
     isVisible: true,
-  };
-};
+  });
 
-export const mapIndexToPrompts = (d: any, index: number, arr: any[]) => {
-  return {
+export const mapIndexToPrompts = (d: any, index: number, arr: any[]) => ({
     id: `${index}`,
     userId: "",
     promptId: "",
     prompt: "",
     answer: "",
-  };
-};
+  });
 
 export type Item = ReturnType<typeof mapIndexToPrompts>;
 export type UserVisualsType = ReturnType<typeof mapIndexToUserVisuals>;
