@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity } from "react-native";
 import { Colors } from "../../../utils";
 import { styles } from "./styles";
 
-export const SelectButtons = ({ funk, titles }: any) => {
+export function SelectButtons({ funk, titles }: any) {
   const [value, setValue] = useState<string>("");
 
   const onSelectGender = (item: string) => {
@@ -38,4 +38,4 @@ export const SelectButtons = ({ funk, titles }: any) => {
       ))}
     </View>
   );
-};
+}

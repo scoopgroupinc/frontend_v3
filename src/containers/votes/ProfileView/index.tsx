@@ -8,9 +8,10 @@ import {
   Image,
   Dimensions,
 } from "react-native";
-import { AppButton } from "../../../components/atoms/AppButton";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
+import { useMutation } from "@apollo/client";
+import { AppButton } from "../../../components/atoms/AppButton";
 import { screenName } from "../../../utils/constants";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { selectUser } from "../../../store/features/user/userSlice";
@@ -22,7 +23,6 @@ import {
   selectUserMatchPrompts,
   setMatchedUsers,
 } from "../../../store/features/matches/matchSlice";
-import { useMutation } from "@apollo/client";
 import { USER_SWIPER_ACTION } from "../../../services/graphql/profile/mutations";
 import { Spacing } from "../../../utils";
 import { QuotedText } from "../../../components/atoms/QuotedText";
@@ -31,7 +31,7 @@ import LikeButtonsView from "../../../components/molecule/LikeButtonsView";
 const screenHeight = Dimensions.get("window").height;
 const onethirdScreenHeight = screenHeight / 3;
 
-export const ProfileView = () => {
+export function ProfileView() {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const dispatch = useAppDispatch();
   const { user } = useAppSelector(selectUser);
@@ -140,14 +140,12 @@ export const ProfileView = () => {
       return (
         <Text style={[styles.descriptionText]}>
           {userProfile?.find((item: any) => item.tagType === "language")?.emoji}
-          {languages?.userTags.map((item: any, index: any) => {
-            return (
+          {languages?.userTags.map((item: any, index: any) => (
               <Text key={index}>
                 {item.tagName}
                 {index === languages.length - 1 ? "" : ", "}
               </Text>
-            );
-          })}
+            ))}
         </Text>
       );
     }
@@ -159,14 +157,12 @@ export const ProfileView = () => {
       return (
         <Text style={[styles.descriptionText]}>
           {userProfile?.find((item: any) => item.tagType === "music_genre")?.emoji}
-          {music?.userTags.map((item: any, index: any) => {
-            return (
+          {music?.userTags.map((item: any, index: any) => (
               <Text key={index}>
                 {item.tagName}
                 {index === music.length - 1 ? "" : ", "}
               </Text>
-            );
-          })}
+            ))}
         </Text>
       );
     }
@@ -178,14 +174,12 @@ export const ProfileView = () => {
       return (
         <Text style={[styles.descriptionText]}>
           {userProfile?.find((item: any) => item.tagType === "book_genre")?.emoji}
-          {book?.userTags.map((item: any, index: any) => {
-            return (
+          {book?.userTags.map((item: any, index: any) => (
               <Text key={index}>
                 {item.tagName}
                 {index === book.length - 1 ? "" : ", "}
               </Text>
-            );
-          })}
+            ))}
         </Text>
       );
     }
@@ -197,14 +191,12 @@ export const ProfileView = () => {
       return (
         <Text style={[styles.descriptionText]}>
           {userProfile?.find((item: any) => item.tagType === "pets")?.emoji}
-          {pets?.userTags.map((item: any, index: any) => {
-            return (
+          {pets?.userTags.map((item: any, index: any) => (
               <Text key={index}>
                 {item.tagName}
                 {index === pets.length - 1 ? "" : ", "}
               </Text>
-            );
-          })}
+            ))}
         </Text>
       );
     }
@@ -216,14 +208,12 @@ export const ProfileView = () => {
       return (
         <Text style={[styles.descriptionText]}>
           {userProfile?.find((item: any) => item.tagType === "physical_activity")?.emoji}
-          {sports?.userTags.map((item: any, index: any) => {
-            return (
+          {sports?.userTags.map((item: any, index: any) => (
               <Text key={index}>
                 {item.tagName}
                 {index === sports.length - 1 ? "" : ", "}
               </Text>
-            );
-          })}
+            ))}
         </Text>
       );
     }
@@ -235,14 +225,12 @@ export const ProfileView = () => {
       return (
         <Text style={[styles.descriptionText]}>
           {userProfile?.find((item: any) => item.tagType === "going_out")?.emoji}
-          {goingOut?.userTags.map((item: any, index: any) => {
-            return (
+          {goingOut?.userTags.map((item: any, index: any) => (
               <Text key={index}>
                 {item.tagName}
                 {index === goingOut.length - 1 ? "" : ", "}
               </Text>
-            );
-          })}
+            ))}
         </Text>
       );
     }
@@ -254,14 +242,12 @@ export const ProfileView = () => {
       return (
         <Text style={[styles.descriptionText]}>
           {userProfile?.find((item: any) => item.tagType === "creative")?.emoji}
-          {creative?.userTags.map((item: any, index: any) => {
-            return (
+          {creative?.userTags.map((item: any, index: any) => (
               <Text key={index}>
                 {item.tagName}
                 {index === creative.length - 1 ? "" : ", "}
               </Text>
-            );
-          })}
+            ))}
         </Text>
       );
     }
@@ -273,14 +259,12 @@ export const ProfileView = () => {
       return (
         <Text style={[styles.descriptionText]}>
           {userProfile?.find((item: any) => item.tagType === "staying_in")?.emoji}
-          {stayingIn?.userTags.map((item: any, index: any) => {
-            return (
+          {stayingIn?.userTags.map((item: any, index: any) => (
               <Text key={index}>
                 {item.tagName}
                 {index === stayingIn.length - 1 ? "" : ", "}
               </Text>
-            );
-          })}
+            ))}
         </Text>
       );
     }
@@ -292,14 +276,12 @@ export const ProfileView = () => {
       return (
         <Text style={[styles.descriptionText]}>
           {userProfile?.find((item: any) => item.tagType === "drink")?.emoji}
-          {drink?.userTags.map((item: any, index: any) => {
-            return (
+          {drink?.userTags.map((item: any, index: any) => (
               <Text key={index}>
                 {item.tagName}
                 {index === drink.length - 1 ? "" : ", "}
               </Text>
-            );
-          })}
+            ))}
         </Text>
       );
     }
@@ -430,14 +412,12 @@ export const ProfileView = () => {
       return (
         <Text style={[styles.descriptionText]}>
           {userProfile?.find((item: any) => item.tagType === "ethnicity")?.emoji}
-          {ethnicity?.userTags.map((item: any, index: any) => {
-            return (
+          {ethnicity?.userTags.map((item: any, index: any) => (
               <Text key={index}>
                 {item.tagName}
                 {index === ethnicity.length - 1 ? "" : ", "}
               </Text>
-            );
-          })}
+            ))}
         </Text>
       );
     }
@@ -522,7 +502,7 @@ export const ProfileView = () => {
           }
         }
         return merged;
-      } else {
+      } 
         setMerged([]);
         for (let i = 0; i < userPrompts.length; i++) {
           if (userPrompts[i].answer !== "") {
@@ -530,7 +510,7 @@ export const ProfileView = () => {
           }
         }
         return merged;
-      }
+      
     };
     mergeData();
     // onScreenView({
@@ -641,7 +621,7 @@ export const ProfileView = () => {
                         <QuotedText title={item.prompt.prompt} text={item.prompt.answer} />
                       </View>
                     );
-                  } else {
+                  } 
                     return (
                       <View
                         key={index}
@@ -662,7 +642,7 @@ export const ProfileView = () => {
                         />
                       </View>
                     );
-                  }
+                  
                 })}
               </View>
               <View
@@ -678,4 +658,4 @@ export const ProfileView = () => {
       </ImageBackground>
     </SafeAreaView>
   );
-};
+}

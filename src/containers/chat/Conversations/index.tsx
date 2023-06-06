@@ -15,7 +15,7 @@ import Badge from "../../../components/atoms/Badge";
 import { GET_USER_CHOICES } from "../../../services/graphql/profile/queries";
 import { IS_USER_BLOCKED } from "../../../services/graphql/chat/queries";
 import { screenName } from "../../../utils/constants";
-//TODO: add analytics
+// TODO: add analytics
 // import { onScreenView } from '../../../analytics'
 // import { screenClass, screenNames } from '../../../analytics/constants'
 import { styles } from "./styles";
@@ -36,7 +36,7 @@ export const getUserConversationList = async (userChoices: any, dispatch: any, u
               lstMessage: {
                 text: res.data[res.data.length - 1]?.content.slice(0, 50).concat("..."),
                 timestamp: res.data[res.data.length - 1]?.createdAt,
-                myTurn: res.data[res.data.length - 1]?.receiverID === userId ? true : false,
+                myTurn: res.data[res.data.length - 1]?.receiverID === userId,
               },
               mgs: res.data,
             });
@@ -44,10 +44,8 @@ export const getUserConversationList = async (userChoices: any, dispatch: any, u
           .catch((err: any) => {});
       })
     );
-    //sort results by last message timestamp
-    const modifiedResults = results.sort((a: any, b: any) => {
-      return new Date(b.lstMessage.timestamp) - new Date(a.lstMessage.timestamp);
-    });
+    // sort results by last message timestamp
+    const modifiedResults = results.sort((a: any, b: any) => new Date(b.lstMessage.timestamp) - new Date(a.lstMessage.timestamp));
     dispatch(
       setMessages({
         messages: modifiedResults,
@@ -56,7 +54,7 @@ export const getUserConversationList = async (userChoices: any, dispatch: any, u
   } catch (error) {}
 };
 
-const Conversations = () => {
+function Conversations() {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const dispatch = useAppDispatch();
   const reduxUser = useAppSelector(selectUser);
@@ -98,8 +96,7 @@ const Conversations = () => {
     });
   };
 
-  const renderItem = (item: any) => {
-    return (
+  const renderItem = (item: any) => (
       <List.Item
         style={styles.content}
         key={item.matchUserId}
@@ -127,16 +124,15 @@ const Conversations = () => {
             <Text style={styles.lastActive}>{moment(item.lstMessage.timestamp).fromNow()}</Text>
             {item.lstMessage.myTurn === true ? (
               <View style={{ alignSelf: "flex-end" }}>
-                <Badge value={"Your turn"} />
+                <Badge value="Your turn" />
               </View>
             ) : null}
           </View>
         )}
       />
     );
-  };
 
-  return <View></View>;
-};
+  return <View />;
+}
 
 export default Conversations;

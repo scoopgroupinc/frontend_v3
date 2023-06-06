@@ -15,7 +15,7 @@ const screenName = {
   ONBOARD_NAVIGATOR: "OnboardNavigator",
   VOTE_ONBOARD_NAVIGATOR: "VoteOnboardNavigator",
 
-  //ONBOARD_NAVIGATION
+  // ONBOARD_NAVIGATION
   NAME: "OnboardName",
   GENDER: "Gender",
   DATE_WHO: "DateWho",
@@ -35,7 +35,7 @@ const screenName = {
   CHAT: "Chat",
   HOME: "Home",
 
-  //PROFILE
+  // PROFILE
   ANALYTICS: "Analytics",
   USER_PROFILE: "UserProfile",
   EDIT_PROFILE: "Edit",
@@ -78,7 +78,7 @@ const screenName = {
   CONVERSATIONS: "Conversations",
   MESSAGES: "Messages",
 
-  //VOTE NAVIGATOR
+  // VOTE NAVIGATOR
   PROMPT_VOTE: "PromptVote",
   VISUAL_VOTE: "VisualVote",
   PROFILE_VIEW: "ProfileView",

@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { View } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { styles } from "./styles";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { styles } from "./styles";
 import { Colors } from "../../../../utils";
 import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
 import {
@@ -14,7 +14,7 @@ import TagScreenHeader from "../../../../components/molecule/TagScreenHeader";
 import { AppInput } from "../../../../components/atoms/AppInput";
 import TagsView from "../../../../components/molecule/TagsView";
 
-const School = ({ navigation, route }: any) => {
+function School({ navigation, route }: any) {
   const userProfile = useAppSelector(selectUserProfile);
   const dispatch = useAppDispatch();
   const { user } = useAppSelector(selectUser);
@@ -86,6 +86,6 @@ const School = ({ navigation, route }: any) => {
       </SafeAreaView>
     </LinearGradient>
   );
-};
+}
 
 export default School;

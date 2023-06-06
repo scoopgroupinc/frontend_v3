@@ -1,11 +1,11 @@
 import { ApolloClient, HttpLink, InMemoryCache, from } from "@apollo/client";
 import { onError } from "@apollo/client/link/error";
+import { Alert } from "react-native";
+import { setContext } from "@apollo/client/link/context";
 import { ErrorCodes, URLS } from "../../utils/constants/apis";
 import * as RootNavigation from "../../navigation/RootNavigation";
 import { screenName } from "../../utils/constants";
-import { Alert } from "react-native";
 import { getStringData } from "../../utils/storage";
-import { setContext } from "@apollo/client/link/context";
 
 export const getToken = async () => {
   const token = getStringData("userToken");
@@ -14,11 +14,11 @@ export const getToken = async () => {
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors) {
-    for (let err of graphQLErrors) {
+    for (const err of graphQLErrors) {
       switch (err.extensions?.code) {
         case ErrorCodes.UNAUTHENTICATED:
           RootNavigation.navigate(screenName.LOGIN);
-          //check why it does not redirect to login
+          // check why it does not redirect to login
           break;
         case ErrorCodes.BAD_USER_INPUT:
           // show error message

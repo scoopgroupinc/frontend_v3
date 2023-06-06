@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import { View } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Colors } from "../../../../utils";
 import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
 import {
@@ -9,14 +11,12 @@ import {
   selectUserProfile,
   setUserProfile,
 } from "../../../../store/features/user/userSlice";
-import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { styles } from "./styles";
 import TagScreenHeader from "../../../../components/molecule/TagScreenHeader";
 import { AppInput } from "../../../../components/atoms/AppInput";
 import TagsView from "../../../../components/molecule/TagsView";
 
-const JobTitle = ({ route }: any) => {
+function JobTitle({ route }: any) {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const { user } = useAppSelector(selectUser);
   const userProfile = useAppSelector(selectUserProfile);
@@ -91,6 +91,6 @@ const JobTitle = ({ route }: any) => {
       </SafeAreaView>
     </LinearGradient>
   );
-};
+}
 
 export default JobTitle;

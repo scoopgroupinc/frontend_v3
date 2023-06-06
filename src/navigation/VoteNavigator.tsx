@@ -11,10 +11,10 @@ import { selectUserChoices } from "../store/features/matches/matchSlice";
 
 const VoteStack = createStackNavigator();
 
-const VoteNavigator = () => {
+function VoteNavigator() {
   const userChoices = useAppSelector(selectUserChoices);
   if (userChoices.length === 0) {
-    return <ComeBackTomorrow noMatchToday={true} />;
+    return <ComeBackTomorrow noMatchToday />;
   }
 
   return (
@@ -31,5 +31,5 @@ const VoteNavigator = () => {
       <VoteStack.Screen name={screenName.COME_BACK_LATER} component={ComeBackTomorrow} />
     </VoteStack.Navigator>
   );
-};
+}
 export default VoteNavigator;

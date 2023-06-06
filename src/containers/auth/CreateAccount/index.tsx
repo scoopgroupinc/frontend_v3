@@ -1,26 +1,26 @@
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, Alert } from "react-native";
-import { GradientLayout } from "../../../components/layouts/GradientLayout";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import FormField from "../../../components/molecule/FormField";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { useMutation } from "@apollo/client";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { GradientLayout } from "../../../components/layouts/GradientLayout";
+import FormField from "../../../components/molecule/FormField";
 import { styles } from "./styles";
 import { AppButton } from "../../../components/atoms/AppButton";
-import { useMutation } from "@apollo/client";
 import { CREATE_USER } from "../../../services/graphql/auth/mutations";
 import AppActivityIndicator from "../../../components/atoms/ActivityIndicator";
 import { Colors } from "../../../utils";
-import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { screenName } from "../../../utils/constants";
 import { OTPInputModal } from "../../../components/templates/OTPInputModal";
 import { useAppDispatch } from "../../../store/hooks";
 import { setUser, updateUser } from "../../../store/features/user/userSlice";
 import { storeStringData } from "../../../utils/storage";
 
-const CreateAccount = () => {
+function CreateAccount() {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const [userData, setUserData] = useState<any>();
   const [modalState, setModalState] = useState<boolean>(false);
@@ -67,7 +67,7 @@ const CreateAccount = () => {
     //   params: { email: userData.email },
     // });
     try {
-      let data = {
+      const data = {
         email: formData.email,
         password: formData.password,
       };
@@ -114,7 +114,7 @@ const CreateAccount = () => {
               }}
               label="Email"
               placeholder="Email..."
-              autoCaps={"none"}
+              autoCaps="none"
               msg={errors?.email?.message}
             />
             <FormField
@@ -129,7 +129,7 @@ const CreateAccount = () => {
               }}
               label="Password"
               placeholder="Password..."
-              autoCaps={"none"}
+              autoCaps="none"
               inputType="password"
               msg={errors?.password?.message}
             />
@@ -146,15 +146,15 @@ const CreateAccount = () => {
               name="confirmPassword"
               label="Confirm Password"
               placeholder="Confirm Password..."
-              autoCaps={"none"}
+              autoCaps="none"
               inputType="password"
               msg={errors?.confirmPassword?.message}
             />
             <View style={styles.btnContainer}>
               <AppButton
                 bgColor={Colors.ICE_WHITE}
-                disabled={errors.email || errors.password || errors.confirmPassword ? true : false}
-                title={"Submit"}
+                disabled={!!(errors.email || errors.password || errors.confirmPassword)}
+                title="Submit"
                 onPress={handleSubmit(createUserAccount)}
               />
               <TouchableOpacity onPress={() => navigation.navigate(screenName.LOGIN)}>
@@ -182,6 +182,6 @@ const CreateAccount = () => {
       </GradientLayout>
     </>
   );
-};
+}
 
 export default CreateAccount;

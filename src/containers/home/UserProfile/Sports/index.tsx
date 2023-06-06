@@ -1,7 +1,7 @@
 import React from "react";
 import { LinearGradient } from "expo-linear-gradient";
-import { styles } from "./styles";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { styles } from "./styles";
 import { Colors } from "../../../../utils";
 import TagScreenHeader from "../../../../components/molecule/TagScreenHeader";
 import TagsView from "../../../../components/molecule/TagsView";
@@ -12,7 +12,7 @@ const TypeOf = {
   ARRAY: "array",
 };
 
-const Sports = ({ navigation, route }: any) => {
+function Sports({ navigation, route }: any) {
   const gradient = [Colors.RUST, Colors.RED, Colors.TEAL];
 
   const { currentTagType } = route?.params;
@@ -44,6 +44,6 @@ const Sports = ({ navigation, route }: any) => {
       </SafeAreaView>
     </LinearGradient>
   );
-};
+}
 
 export default Sports;

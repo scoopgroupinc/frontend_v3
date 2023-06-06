@@ -1,10 +1,10 @@
 import { LinearGradient } from "expo-linear-gradient";
-import { Colors } from "../../../utils";
-import { styles } from "./styles";
 import { ScrollView } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { Colors } from "../../../utils";
+import { styles } from "./styles";
 
-export const ScrollableGradientLayout = ({ children, align, safe = true }: any) => {
+export function ScrollableGradientLayout({ children, align, safe = true }: any) {
   const gradient = [Colors.RUST, Colors.RED, Colors.TEAL];
   return (
     <LinearGradient style={[styles.container, align && styles.alignCenter]} colors={gradient}>
@@ -21,4 +21,4 @@ export const ScrollableGradientLayout = ({ children, align, safe = true }: any) 
       )}
     </LinearGradient>
   );
-};
+}

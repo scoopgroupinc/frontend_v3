@@ -9,8 +9,8 @@ import AppNavigator from "./AppNavigator";
 
 const Stack = createNativeStackNavigator();
 
-const Navigator = () => {
-  //because of persistGate, we can fetch the user from the store
+function Navigator() {
+  // because of persistGate, we can fetch the user from the store
   const { user } = useAppSelector((state) => state.appUser);
 
   return (
@@ -30,7 +30,7 @@ const Navigator = () => {
       </NavigationContainer>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {

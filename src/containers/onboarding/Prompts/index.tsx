@@ -1,11 +1,11 @@
 import React from "react";
 import { FlatList, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { styles } from "./styles";
 import { LinearGradient } from "expo-linear-gradient";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { styles } from "./styles";
 import { useAppSelector } from "../../../store/hooks";
 import { Colors } from "../../../utils";
 import { screenName } from "../../../utils/constants";
@@ -17,7 +17,7 @@ interface d {
   prompt: string;
 }
 
-const AllPrompts = () => {
+function AllPrompts() {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const { user } = useAppSelector((state: any) => state.appUser);
@@ -48,7 +48,7 @@ const AllPrompts = () => {
           </View>
         </View>
         <View style={styles.modalContainer}>
-          <View style={styles.modalHeader}></View>
+          <View style={styles.modalHeader} />
           <FlatList
             ItemSeparatorComponent={() => (
               <View style={{ height: 1, backgroundColor: Colors.ICON_INNER_SHADOW }} />
@@ -71,6 +71,6 @@ const AllPrompts = () => {
       </SafeAreaView>
     </LinearGradient>
   );
-};
+}
 
 export default AllPrompts;

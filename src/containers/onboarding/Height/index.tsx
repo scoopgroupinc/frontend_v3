@@ -1,20 +1,20 @@
 import React, { useState } from "react";
 import { View, Text } from "react-native";
-import { styles } from "./styles";
 import { ProgressBar } from "react-native-paper";
 import { useMutation } from "@apollo/client";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { Slider } from "@miblanchard/react-native-slider";
+import { styles } from "./styles";
 import { useAppSelector } from "../../../store/hooks";
 import { SAVE_USER_HEIGHT } from "../../../services/graphql/onboarding/mutations";
 import { screenName } from "../../../utils/constants";
 import AppActivityIndicator from "../../../components/atoms/ActivityIndicator";
 import { GradientLayout } from "../../../components/layouts/GradientLayout";
 import { AppButton } from "../../../components/atoms/AppButton";
-//TODO: replace with better slider
-import { Slider } from "@miblanchard/react-native-slider";
+// TODO: replace with better slider
 
-export const HeightScreen = () => {
+export function HeightScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const { user } = useAppSelector((state: any) => state.appUser);
@@ -26,7 +26,7 @@ export const HeightScreen = () => {
   const [saveUserProfile, { loading }] = useMutation(SAVE_USER_HEIGHT);
   const saveUserHeight = async () => {
     try {
-      let data = {
+      const data = {
         userId,
         height: `${heightFt}'${heightCm}"`,
       };
@@ -61,7 +61,7 @@ export const HeightScreen = () => {
       <AppActivityIndicator visible={loading} />
       <GradientLayout>
         <View style={styles.container}>
-          <ProgressBar progress={0.5} color={"#0E0E2C"} />
+          <ProgressBar progress={0.5} color="#0E0E2C" />
           <View style={styles.sliderContainer}>
             <View style={styles.titleContainer}>
               <Text style={styles.caption}>How tall are you?</Text>
@@ -104,12 +104,12 @@ export const HeightScreen = () => {
             />
           </View>
           <AppButton
-            title={"Next"}
-            disabled={heightFt && heightCm === 5.1 ? true : false}
+            title="Next"
+            disabled={!!(heightFt && heightCm === 5.1)}
             onPress={saveUserHeight}
           />
         </View>
       </GradientLayout>
     </>
   );
-};
+}

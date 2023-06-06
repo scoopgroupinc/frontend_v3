@@ -4,7 +4,7 @@ import { styles } from "./styles";
 import { ModalType } from "./types";
 import { GradientLayout } from "../../layouts/GradientLayout";
 
-export const FullModalView = ({ children, close, done }: ModalType) => {
+export function FullModalView({ children, close, done }: ModalType) {
   return (
     <GradientLayout>
       <View
@@ -33,4 +33,4 @@ export const FullModalView = ({ children, close, done }: ModalType) => {
       </View>
     </GradientLayout>
   );
-};
+}

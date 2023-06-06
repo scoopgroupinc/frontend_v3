@@ -27,7 +27,7 @@ interface Tag {
   name: string;
 }
 
-export const TagsButton = ({ currentTagType, typeOf, data }: TagButtonProps) => {
+export function TagsButton({ currentTagType, typeOf, data }: TagButtonProps) {
   const gradient = [Colors.RUST, Colors.RED, Colors.TEAL];
   const [tags, setTags] = useState<any>([]);
 
@@ -117,4 +117,4 @@ export const TagsButton = ({ currentTagType, typeOf, data }: TagButtonProps) => 
       </LinearGradient>
     </TouchableOpacity>
   );
-};
+}

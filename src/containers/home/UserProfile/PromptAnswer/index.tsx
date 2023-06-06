@@ -4,7 +4,7 @@ import { useAppDispatch } from "../../../../store/hooks";
 import { screenName } from "../../../../utils/constants";
 import { PromptAnswerModal } from "../../../../components/templates/PromptAnswerModal";
 
-const PromptAnswer = ({ route }: any) => {
+function PromptAnswer({ route }: any) {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const dispatch = useAppDispatch();
 
@@ -35,6 +35,6 @@ const PromptAnswer = ({ route }: any) => {
   };
 
   return <PromptAnswerModal goBack={goBack} close={close} prompt={prompt} />;
-};
+}
 
 export default PromptAnswer;

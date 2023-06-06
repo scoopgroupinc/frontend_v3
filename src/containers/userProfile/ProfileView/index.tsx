@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text } from "react-native";
 
-export const ProfileView = () => {
+export function ProfileView() {
   return (
     <View
       style={{
@@ -14,4 +14,4 @@ export const ProfileView = () => {
       <Text>Profile View</Text>
     </View>
   );
-};
+}

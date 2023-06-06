@@ -4,7 +4,7 @@ import { multiRemove, removeData, storeObjectData } from "../../../utils/storage
 import { UserPrompts } from "../../../utils/types";
 import { mapIndexToPrompts } from "../../../utils/helpers";
 
-const counter: number = 6;
+const counter = 6;
 const initialPromptsData: UserPrompts[] = [...Array(counter)].map(mapIndexToPrompts);
 
 interface UserState {

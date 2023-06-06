@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { useMutation } from "@apollo/client";
 import { View, Text } from "react-native";
-import { styles } from "./styles";
-import { initialData } from "./utils/util";
 import { ProgressBar } from "react-native-paper";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { SAVE_USER_NAME } from "../../../services/graphql/onboarding/mutations";
 import { screenName } from "../../../utils/constants";
-import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { initialData } from "./utils/util";
+import { styles } from "./styles";
 import { GradientLayout } from "../../../components/layouts/GradientLayout";
 import FieldComponent from "../../../components/molecule/FormField";
 import { AppButton } from "../../../components/atoms/AppButton";
@@ -25,7 +25,7 @@ export type UserData = {
   lastname: string;
 };
 
-export const OnboardName = () => {
+export function OnboardName() {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const { user } = useAppSelector((state: any) => state.appUser);
@@ -75,7 +75,7 @@ export const OnboardName = () => {
     //   },
     // });
     try {
-      let data = {
+      const data = {
         firstName: formData.firstname,
         lastName: formData.lastname,
         email,
@@ -124,7 +124,7 @@ export const OnboardName = () => {
               justifyContent: "space-between",
             }}
           >
-            <ProgressBar style={{ marginTop: "3%" }} progress={0.1} color={"#0E0E2C"} />
+            <ProgressBar style={{ marginTop: "3%" }} progress={0.1} color="#0E0E2C" />
             <View>
               <Text style={styles.title}>What's your name?</Text>
               <Text style={styles.subTitle}>This can't be changed later</Text>
@@ -135,7 +135,7 @@ export const OnboardName = () => {
                 name="firstname"
                 label="First Name"
                 placeholder="First Name..."
-                autoCaps={"none"}
+                autoCaps="none"
                 msg={errors.firstname?.message}
               />
               <FieldComponent
@@ -143,12 +143,12 @@ export const OnboardName = () => {
                 name="lastname"
                 label="Last Name"
                 placeholder="Last Name..."
-                autoCaps={"none"}
+                autoCaps="none"
                 msg={errors.lastname?.message}
               />
             </View>
             <AppButton
-              title={"Next"}
+              title="Next"
               style={{
                 bottom: 0,
                 backgroundColor:
@@ -162,4 +162,4 @@ export const OnboardName = () => {
       </GradientLayout>
     </>
   );
-};
+}

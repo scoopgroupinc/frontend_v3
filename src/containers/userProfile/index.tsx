@@ -1,8 +1,5 @@
 import React, { useCallback, useState } from "react";
 import { View, Text, Pressable, Linking, Alert } from "react-native";
-import { ScrollableGradientLayout } from "../../components/layouts/ScrollableGradientLayout";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { styles } from "./styles";
 import {
   AntDesign,
   FontAwesome5,
@@ -12,14 +9,17 @@ import {
 } from "@expo/vector-icons";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
+import { useMutation } from "@apollo/client";
+import { ScrollableGradientLayout } from "../../components/layouts/ScrollableGradientLayout";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { styles } from "./styles";
 import { SlideUpModal } from "../../components/layouts/SlideUpModal";
 import { ProfileAvatar } from "../../components/molecule/ProfileAvatar";
 import { screenName } from "../../utils/constants";
 import OptionTab from "../../components/atoms/OptionsTabs";
-import { useMutation } from "@apollo/client";
 import { DELETE_USER_PROFILE } from "../../services/graphql/user/mutations";
 
-export const UserProfile = () => {
+export function UserProfile() {
   const { user } = useAppSelector((state) => state.appUser);
   const firstName = user?.firstName;
   const email = user?.email;
@@ -197,4 +197,4 @@ export const UserProfile = () => {
       </View>
     </ScrollableGradientLayout>
   );
-};
+}

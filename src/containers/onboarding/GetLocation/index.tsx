@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, Platform, Alert } from "react-native";
 import { GradientLayout } from "src/components/layout/GradientLayout";
-import { styles } from "./styles";
 import * as Location from "expo-location";
 import Constants from "expo-constants";
 import { ProgressBar } from "react-native-paper";
@@ -10,12 +9,13 @@ import { useMutation } from "@apollo/client";
 import { SubmissionBtn } from "src/components/atoms/SubmissionButton";
 import { ONBOARD_NAVIGATION, STORAGE } from "src/navigations/utils/CONSTANTS";
 import { SAVE_USER_LOCATION } from "src/graphql/onboarding/mutations";
-import { completeScreen, COMPLETE_SCREEN } from "../../onboardHandler/utils";
 import { useAppSelector } from "src/store/hooks";
 import { selectUser } from "src/store/features/UserProfileSlice";
 import { Colors } from "src/styles";
 import { logEvent, onScreenView } from "src/analytics";
 import { eventNames, screenClass, screenNames } from "src/analytics/constants";
+import { completeScreen, COMPLETE_SCREEN } from "../../onboardHandler/utils";
+import { styles } from "./styles";
 
 const locationObject = {
   latitude: 0,
@@ -27,7 +27,7 @@ const locationObject = {
   speed: 0,
 };
 
-export const GetLocationsScreen = ({ navigation }: NavigationScreenType) => {
+export function GetLocationsScreen({ navigation }: NavigationScreenType) {
   const reduxUser = useAppSelector(selectUser);
   const { userId } = reduxUser;
 
@@ -41,8 +41,8 @@ export const GetLocationsScreen = ({ navigation }: NavigationScreenType) => {
   const [saveUserLocation, { loading }] = useMutation(SAVE_USER_LOCATION);
   const saveUserLocationMutation = async () => {
     try {
-      let data = {
-        userId: userId,
+      const data = {
+        userId,
         latitude: location?.latitude.toString(),
         longitude: location?.longitude.toString(),
       };
@@ -66,13 +66,13 @@ export const GetLocationsScreen = ({ navigation }: NavigationScreenType) => {
         );
         return;
       }
-      let { status } = await Location.requestForegroundPermissionsAsync();
+      const { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== "granted") {
         setErrorMsg("Permission to access location was denied");
         return;
       }
 
-      let location = await Location.getCurrentPositionAsync({});
+      const location = await Location.getCurrentPositionAsync({});
       setLocation(location.coords);
     })();
     onScreenView({
@@ -82,7 +82,7 @@ export const GetLocationsScreen = ({ navigation }: NavigationScreenType) => {
   }, []);
 
   const allowLocation = async () => {
-    let { status } = await Location.requestForegroundPermissionsAsync();
+    const { status } = await Location.requestForegroundPermissionsAsync();
     if (status === "granted") {
       await Location.watchPositionAsync(
         {
@@ -133,7 +133,7 @@ export const GetLocationsScreen = ({ navigation }: NavigationScreenType) => {
   return (
     <GradientLayout>
       <View style={styles.container}>
-        <ProgressBar progress={screenProgress} color={"#0E0E2C"} />
+        <ProgressBar progress={screenProgress} color="#0E0E2C" />
         <View style={styles.textContainer}>
           <Text style={[styles.text, styles.textHeader]}>Where do you live?</Text>
           <Text style={[styles.text, styles.textMinor]}>
@@ -141,15 +141,15 @@ export const GetLocationsScreen = ({ navigation }: NavigationScreenType) => {
           </Text>
         </View>
         <SubmissionBtn
-          title={"Add my location"}
+          title="Add my location"
           style={{
             backgroundColor: location === null ? "transparent" : Colors.WHITE,
           }}
-          disabled={location === null ? true : false}
-          spinner={loading ? true : false}
+          disabled={location === null}
+          spinner={!!loading}
           onPress={() => requestLocation()}
         />
       </View>
     </GradientLayout>
   );
-};
+}

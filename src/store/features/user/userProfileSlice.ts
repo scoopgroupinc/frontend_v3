@@ -4,7 +4,7 @@ import { RootState } from "../..";
 import { mapIndexToPrompts } from "../../../utils/helpers";
 import { UserPrompts } from "../../../utils/types";
 
-const counter: number = 6;
+const counter = 6;
 const initialPromptsData: UserPrompts[] = [...Array(counter)].map(mapIndexToPrompts);
 
 interface IUserProfileContext {
@@ -139,7 +139,7 @@ export const UserProfileSlice = createSlice({
     },
     setPromptAnswer: (state, action: PayloadAction<any>) => {
       const { promptAnswer } = action.payload;
-      let index = state.userPrompts.findIndex((item: any) => item.id === state.captureId);
+      const index = state.userPrompts.findIndex((item: any) => item.id === state.captureId);
       state.userPrompts[index] = {
         ...state.userPrompts[index],
         promptId: promptAnswer.promptId,
@@ -167,14 +167,14 @@ export const UserProfileSlice = createSlice({
     updateAllPrompts: (state, action: PayloadAction<any>) => {
       const { promptId, previousPromptId } = action.payload;
       if (previousPromptId !== "" || previousPromptId !== null) {
-        let previousIndex = state.allPrompts.findIndex((item: any) => item.id === previousPromptId);
+        const previousIndex = state.allPrompts.findIndex((item: any) => item.id === previousPromptId);
         state.allPrompts[previousIndex] = {
           ...state.allPrompts[previousIndex],
           filled: false,
         };
       }
       if (promptId !== "" || promptId !== null) {
-        let index = state.allPrompts.findIndex((item: any) => item.id === promptId);
+        const index = state.allPrompts.findIndex((item: any) => item.id === promptId);
         state.allPrompts[index] = {
           ...state.allPrompts[index],
           filled: true,
@@ -213,18 +213,14 @@ export const selectUserPromptIds = (state: RootState) => state.userProfile.userP
 export const selectCaptureId = (state: RootState) => state.userProfile.captureId;
 export const selectAllPrompts = (state: RootState) => state.userProfile.allPrompts;
 export const selectMixedPrompts = (state: RootState) => {
-  const allPrompts = state.userProfile.allPrompts;
-  const userPrompts = state.userProfile.userPrompts;
-  const archievedUserPrompts = state.userProfile.archivedUserPrompts.filter((usrPrmpts: any) => {
-    return !userPrompts.some((item: any) => item.promptId === usrPrmpts.promptId);
-  });
+  const {allPrompts} = state.userProfile;
+  const {userPrompts} = state.userProfile;
+  const archievedUserPrompts = state.userProfile.archivedUserPrompts.filter((usrPrmpts: any) => !userPrompts.some((item: any) => item.promptId === usrPrmpts.promptId));
 
-  //filter out userPrompts from allPrompts
-  const filteredPrompts = allPrompts.filter((item: any) => {
-    return !state.userProfile.archivedUserPrompts.some((item2: any) => item.id === item2.promptId);
-  });
+  // filter out userPrompts from allPrompts
+  const filteredPrompts = allPrompts.filter((item: any) => !state.userProfile.archivedUserPrompts.some((item2: any) => item.id === item2.promptId));
 
-  //combine userPrompts and filteredPrompts
+  // combine userPrompts and filteredPrompts
   const mixedPrompts = [
     {
       title: archievedUserPrompts.length > 0 ? "Archieved Prompts" : "",
@@ -232,14 +228,12 @@ export const selectMixedPrompts = (state: RootState) => {
     },
     {
       title: "Prompts",
-      data: filteredPrompts.map((item: any) => {
-        return {
+      data: filteredPrompts.map((item: any) => ({
           id: item.id,
           prompt: item.prompt,
           answer: item.sample_answer,
           filled: item.filled,
-        };
-      }),
+        })),
     },
   ];
 

@@ -1,25 +1,25 @@
 import React, { useEffect } from "react";
 import axios from "axios";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { View } from "react-native";
+import { FontAwesome, Ionicons } from "@expo/vector-icons";
+import { useQuery } from "@apollo/client";
 import VoteNavigator from "./VoteNavigator";
 import { screenName } from "../utils/constants";
 import ProfileNavigator from "./ProfileNavigator";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { View } from "react-native";
 import { Colors } from "../utils";
-import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import Conversations from "../containers/chat/Conversations";
 import VoteOnboardNavigator from "./VoteOnboardNavigator";
 import { setUserVisuals } from "../store/features/user/userSlice";
 import { URLS } from "../utils/constants/apis";
 import { OnboardNavigator } from "./OnboardNavigator";
 import { GET_PROMPTS } from "../services/graphql/profile/queries";
-import { useQuery } from "@apollo/client";
 import { setAllPrompts } from "../store/features/prompts/promptsSlice";
 
 const AppTabStack = createBottomTabNavigator();
 
-const AppNavigator = () => {
+function AppNavigator() {
   const { user } = useAppSelector((state) => state.appUser);
   const userId = user?.userId;
   const voteOnboard = user?.voteOnboard;
@@ -118,8 +118,7 @@ const AppNavigator = () => {
             height: 70,
           },
           tabBarInactiveBackgroundColor: "white",
-          tabBarIcon: ({ focused }) => {
-            return (
+          tabBarIcon: ({ focused }) => (
               <View
                 style={{
                   flexDirection: "row",
@@ -138,16 +137,14 @@ const AppNavigator = () => {
                   color={focused ? "white" : "black"}
                 />
               </View>
-            );
-          },
+            ),
         }}
       />
       <AppTabStack.Screen
         name={screenName.PROFILE}
         component={ProfileNavigator}
         options={{
-          tabBarIcon: ({ focused }) => {
-            return (
+          tabBarIcon: ({ focused }) => (
               <View
                 style={{
                   flexDirection: "row",
@@ -166,8 +163,7 @@ const AppNavigator = () => {
                   color={focused ? "white" : "black"}
                 />
               </View>
-            );
-          },
+            ),
           tabBarItemStyle: {
             height: 70,
           },
@@ -183,8 +179,7 @@ const AppNavigator = () => {
           tabBarItemStyle: {
             height: 70,
           },
-          tabBarIcon: ({ focused }) => {
-            return (
+          tabBarIcon: ({ focused }) => (
               <View
                 style={{
                   flexDirection: "row",
@@ -203,14 +198,13 @@ const AppNavigator = () => {
                   color={focused ? "white" : "black"}
                 />
               </View>
-            );
-          },
+            ),
         }}
       />
     </AppTabStack.Navigator>
   ) : (
     <OnboardNavigator />
   );
-};
+}
 
 export default AppNavigator;

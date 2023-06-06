@@ -3,7 +3,7 @@ import LottieView from "lottie-react-native";
 import { View, StyleSheet } from "react-native";
 import { Colors } from "../../../utils";
 
-const AppActivityIndicator = ({ visible = false }) => {
+function AppActivityIndicator({ visible = false }) {
   if (!visible) return null;
 
   return (
@@ -11,7 +11,7 @@ const AppActivityIndicator = ({ visible = false }) => {
       <LottieView autoPlay loop source={require("../../../assets/animations/loader.json")} />
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   overlay: {

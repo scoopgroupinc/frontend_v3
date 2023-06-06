@@ -8,8 +8,8 @@ type SvgProps = {
   viewBox?: string;
 };
 
-const RenderSvgXml = ({ xml, width, height, viewBox }: any) => (
-  <SvgXml xml={xml} width={width} height={height} viewBox={viewBox} />
-);
+function RenderSvgXml({ xml, width, height, viewBox }: any) {
+  return <SvgXml xml={xml} width={width} height={height} viewBox={viewBox} />
+}
 
 export default RenderSvgXml;

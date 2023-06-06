@@ -8,11 +8,11 @@ import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { selectUser } from "../../../store/features/user/userProfileSlice";
 import { getUserConversationList } from "../Conversations";
 import { selectUserChoices } from "../../../store/features/user/userChoicesSlice";
-//TODO: add analytics
+// TODO: add analytics
 // import { onScreenView } from '../../../analytics'
 // import { screenClass, screenNames } from '../../../analytics/constants'
 
-const ChatMessage = ({ route, navigation }: any) => {
+function ChatMessage({ route, navigation }: any) {
   const reduxUser = useAppSelector(selectUser);
   const { userId, firstName, token } = reduxUser;
   const dispatch = useAppDispatch();
@@ -50,8 +50,7 @@ const ChatMessage = ({ route, navigation }: any) => {
 
   useEffect(() => {
     const getMessages = async () => {
-      const modifiedMessage = msgs.map((message: any) => {
-        return {
+      const modifiedMessage = msgs.map((message: any) => ({
           _id: message.id,
           text: message.content,
           createdAt: moment(message.createdAt).toISOString(),
@@ -59,8 +58,7 @@ const ChatMessage = ({ route, navigation }: any) => {
             _id: message.senderID == userId ? +message.senderID : +receiverID,
             name: message.senderID == userId ? firstName : username,
           },
-        };
-      });
+        }));
       setMessages([]);
       setMessages((previousMessages: any) => GiftedChat.append(previousMessages, modifiedMessage));
     };
@@ -72,7 +70,7 @@ const ChatMessage = ({ route, navigation }: any) => {
       setOnline(data ? "online" : "");
     });
     setInterval(() => {
-      socket.emit("online", { userId: userId, checkecUserId: receiverID });
+      socket.emit("online", { userId, checkecUserId: receiverID });
     }, 18000);
     getMessages();
     // onScreenView({
@@ -145,5 +143,5 @@ const ChatMessage = ({ route, navigation }: any) => {
       />
     </SafeAreaView>
   );
-};
+}
 export default ChatMessage;

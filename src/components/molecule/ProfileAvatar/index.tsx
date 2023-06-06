@@ -1,15 +1,15 @@
 import React from "react";
 import { View, Image } from "react-native";
-import { styles } from "./styles";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { styles } from "./styles";
 
-export const ProfileAvatar = ({
+export function ProfileAvatar({
   displayPhoto,
   settings,
 }: {
   displayPhoto?: string;
-  settings?: Boolean;
-}) => {
+  settings?: boolean;
+}) {
   return (
     <View style={styles.avatarCon}>
       <Image
@@ -20,9 +20,9 @@ export const ProfileAvatar = ({
       />
       {!settings && (
         <View style={styles.profileLevel}>
-          <MaterialCommunityIcons name="account-edit-outline" size={20} color={"#fff"} />
+          <MaterialCommunityIcons name="account-edit-outline" size={20} color="#fff" />
         </View>
       )}
     </View>
   );
-};
+}

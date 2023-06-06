@@ -1,14 +1,14 @@
 import React from "react";
 import { View, Text, Image, TouchableOpacity } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { AppButton } from "../../../components/atoms/AppButton";
 import { GradientLayout } from "../../../components/layouts/GradientLayout";
 import { styles } from "./styles";
-import { useNavigation } from "@react-navigation/native";
 import screenName from "../../../utils/constants/screenName";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Colors } from "../../../utils";
 
-const Launch = () => {
+function Launch() {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const onSignUpPress = () => {
@@ -37,6 +37,6 @@ const Launch = () => {
       </View>
     </GradientLayout>
   );
-};
+}
 
 export default Launch;

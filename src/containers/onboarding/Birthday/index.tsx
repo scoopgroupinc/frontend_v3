@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, Alert } from "react-native";
-import { styles } from "./styles";
 import { ProgressBar } from "react-native-paper";
 import { useMutation } from "@apollo/client";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { useAppSelector } from "../../../store/hooks";
 import moment from "moment";
+import { useAppSelector } from "../../../store/hooks";
+import { styles } from "./styles";
 import { SAVE_USER_BIRTHDAY } from "../../../services/graphql/onboarding/mutations";
 import { screenName } from "../../../utils/constants";
 import AppActivityIndicator from "../../../components/atoms/ActivityIndicator";
@@ -14,7 +14,7 @@ import { GradientLayout } from "../../../components/layouts/GradientLayout";
 import { AppButton } from "../../../components/atoms/AppButton";
 import { DateSpinner } from "../../../components/atoms/DateSpinner";
 
-export const OnboardBirthdayScreen = () => {
+export function OnboardBirthdayScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const { user } = useAppSelector((state: any) => state.appUser);
@@ -29,7 +29,7 @@ export const OnboardBirthdayScreen = () => {
 
   useEffect(() => {
     if (date !== null) {
-      let age = moment().diff(date, "years");
+      const age = moment().diff(date, "years");
       setAge(age);
     }
     // onScreenView({
@@ -41,7 +41,7 @@ export const OnboardBirthdayScreen = () => {
   const [saveUserProfile, { loading }] = useMutation(SAVE_USER_BIRTHDAY);
   const saveUserBirthday = async () => {
     try {
-      let data = {
+      const data = {
         userId,
         birthday: moment(date).format("YYYY-MM-DD"),
       };
@@ -90,7 +90,7 @@ export const OnboardBirthdayScreen = () => {
       <AppActivityIndicator visible={loading} />
       <GradientLayout>
         <View style={styles.container}>
-          <ProgressBar progress={0.4} color={"#0E0E2C"} />
+          <ProgressBar progress={0.4} color="#0E0E2C" />
           <View style={styles.textContainer}>
             <Text style={styles.dobTitle}>What's your date of birth?</Text>
             <Text style={styles.dobSubTitle}>This can't be changed later</Text>
@@ -101,11 +101,9 @@ export const OnboardBirthdayScreen = () => {
               <DateSpinner getAge={setAge} getDate={setDate} />
             </View>
             <AppButton
-              title={"Next"}
+              title="Next"
               disabled={
                 moment(date).format("YYYY-MM-DD") === moment(new Date()).format("YYYY-MM-DD")
-                  ? true
-                  : false
               }
               onPress={() => DateAlert()}
             />
@@ -114,4 +112,4 @@ export const OnboardBirthdayScreen = () => {
       </GradientLayout>
     </>
   );
-};
+}

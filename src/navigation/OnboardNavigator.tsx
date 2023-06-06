@@ -14,7 +14,7 @@ import OnboardPromptAnswer from "../containers/onboarding/PromptAnswer";
 
 const OnboardStack = createNativeStackNavigator();
 
-export const OnboardNavigator = () => {
+export function OnboardNavigator() {
   return (
     <OnboardStack.Navigator
       screenOptions={{
@@ -44,4 +44,4 @@ export const OnboardNavigator = () => {
       />
     </OnboardStack.Navigator>
   );
-};
+}

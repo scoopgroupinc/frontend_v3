@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import { View } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { styles } from "./styles";
 
-import { SafeAreaView } from "react-native-safe-area-context";
 import {
   selectUser,
   selectUserProfile,
@@ -15,7 +15,7 @@ import TagsView from "../../../../components/molecule/TagsView";
 import { Colors } from "../../../../utils";
 import { AppInput } from "../../../../components/atoms/AppInput";
 
-const Company = ({ navigation, route }: any) => {
+function Company({ navigation, route }: any) {
   const userProfile = useAppSelector(selectUserProfile);
   const dispatch = useAppDispatch();
   const { user } = useAppSelector(selectUser);
@@ -117,6 +117,6 @@ const Company = ({ navigation, route }: any) => {
       </SafeAreaView>
     </LinearGradient>
   );
-};
+}
 
 export default Company;

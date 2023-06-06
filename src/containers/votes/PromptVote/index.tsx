@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, ScrollView } from "react-native";
-import { useAppDispatch, useAppSelector } from "../../../store/hooks";
-import { selectUser } from "../../../store/features/user/userSlice";
-import { Colors, Spacing } from "../../../utils";
 import { useMutation, useQuery } from "@apollo/client";
-import { SAVE_GROUP_RATING } from "../../../services/graphql/profile/mutations";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
-import { screenName } from "../../../utils/constants";
-import { GET_PROMPTS_ORDER } from "../../../services/graphql/profile/queries";
-import { URLS } from "../../../utils/constants/apis";
 import { LinearGradient } from "expo-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
+import { selectUser } from "../../../store/features/user/userSlice";
+import { Colors, Spacing } from "../../../utils";
+import { SAVE_GROUP_RATING } from "../../../services/graphql/profile/mutations";
+import { screenName } from "../../../utils/constants";
+import { GET_PROMPTS_ORDER } from "../../../services/graphql/profile/queries";
+import { URLS } from "../../../utils/constants/apis";
 import { QuotedText } from "../../../components/atoms/QuotedText";
 import { styles } from "./style";
 import { AppButton } from "../../../components/atoms/AppButton";
@@ -24,7 +24,7 @@ import {
   setUserMatchPrompts,
 } from "../../../store/features/matches/matchSlice";
 
-export const PromptVote = () => {
+export function PromptVote() {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const { user } = useAppSelector(selectUser);
   const userId = user?.userId;
@@ -55,7 +55,7 @@ export const PromptVote = () => {
     comment: [
       {
         ratingGroupId: "",
-        comment: comment,
+        comment,
         startTime: new Date().toISOString(),
         endTime: new Date().toISOString(),
         final: true,
@@ -106,7 +106,7 @@ export const PromptVote = () => {
     text: `"${userChoicePrompt?.answer}"`,
   };
 
-  //load images for the next screen
+  // load images for the next screen
   const fetchMatchVisuals = async () => {
     await fetch(`${URLS.FILE_URL}/api/v1/visuals/${userChoiceId}`, {
       method: "GET",
@@ -127,11 +127,11 @@ export const PromptVote = () => {
       .catch((err) => {});
   };
 
-  //load prompts for the profile view screen
+  // load prompts for the profile view screen
   const fetchPromptsOrder = async () => {
     if (promptsOrderLoading) return null;
 
-    let promptsOrder = promptsOrderResult?.getUserPromptsOrder;
+    const promptsOrder = promptsOrderResult?.getUserPromptsOrder;
 
     if (promptsOrder && promptsOrder.length > 0) {
       dispatch(
@@ -224,4 +224,4 @@ export const PromptVote = () => {
       </SafeAreaView>
     </LinearGradient>
   );
-};
+}

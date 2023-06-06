@@ -1,10 +1,10 @@
 import React, { PureComponent, useState } from "react";
 import { TextInput, View, Text, Pressable } from "react-native";
 import { Ionicons, AntDesign, Entypo } from "@expo/vector-icons";
+import { Controller } from "react-hook-form";
 import { Spacing, Colors } from "../../../utils";
 import { styles } from "./styles";
 import { FieldComponentState } from "./types";
-import { Controller } from "react-hook-form";
 
 type FieldComponentProps = {
   label: string;
@@ -20,7 +20,7 @@ type FieldComponentProps = {
   control?: any;
 };
 
-const FieldComponent = ({
+function FieldComponent({
   label,
   placeholder,
   inputType,
@@ -31,8 +31,8 @@ const FieldComponent = ({
   name,
   control,
   ...props
-}: FieldComponentProps) => {
-  const [hidePassword, sethidePassword] = useState(inputType === "password" ? true : false);
+}: FieldComponentProps) {
+  const [hidePassword, sethidePassword] = useState(inputType === "password");
   return (
     <View style={{ marginTop: Spacing.SCALE_8, marginBottom: Spacing.SCALE_12 }}>
       <View style={styles.labelContainer}>
@@ -73,6 +73,6 @@ const FieldComponent = ({
       {msg && <Text style={styles.errorText}>{msg}</Text>}
     </View>
   );
-};
+}
 
 export default FieldComponent;

@@ -8,13 +8,13 @@ interface RatingSiderType {
   rating: (rate: number) => void;
 }
 
-export const RatingSlider = ({ rating }: RatingSiderType) => {
+export function RatingSlider({ rating }: RatingSiderType) {
   const [ratingValue, setRating] = useState<any>({
     value: 0.5,
     image: require("src/assets/images/cool.png"),
     minTrackColor: Colors.YELLOW,
   });
-  const onSliderChange = (type: Number, val: any) => {
+  const onSliderChange = (type: number, val: any) => {
     val = Array.isArray(val) ? val[0] : val;
     let emotions = {};
     if (val >= 0 && val <= 0.33) {
@@ -62,4 +62,4 @@ export const RatingSlider = ({ rating }: RatingSiderType) => {
       onValueChange={(val) => onSliderChange(1, val)}
     />
   );
-};
+}

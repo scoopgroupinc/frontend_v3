@@ -5,7 +5,7 @@ import { View, Text } from "react-native";
 import { AppButton } from "../../../components/atoms/AppButton";
 import { screenName } from "../../../utils/constants";
 
-export const MatchScreen = () => {
+export function MatchScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   return (
@@ -24,4 +24,4 @@ export const MatchScreen = () => {
       />
     </View>
   );
-};
+}

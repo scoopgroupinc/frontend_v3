@@ -11,7 +11,7 @@ const TypeOf = {
   ARRAY: "array",
 };
 
-const EducationLevel = ({ navigation, route }: { navigation: any; route: any }) => {
+function EducationLevel({ navigation, route }: { navigation: any; route: any }) {
   const gradient = [Colors.RUST, Colors.RED, Colors.TEAL];
 
   const { currentTagType } = route?.params;
@@ -42,6 +42,6 @@ const EducationLevel = ({ navigation, route }: { navigation: any; route: any }) 
       </SafeAreaView>
     </LinearGradient>
   );
-};
+}
 
 export default EducationLevel;

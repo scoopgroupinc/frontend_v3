@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { LinearGradient } from "expo-linear-gradient";
-import { styles } from "./styles";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { styles } from "./styles";
 import { Colors } from "../../../../utils";
 import { DRUGS } from "../../../../utils/types/TAGS";
 import TagScreenHeader from "../../../../components/molecule/TagScreenHeader";
@@ -12,7 +12,7 @@ const TypeOf = {
   ARRAY: "array",
 };
 
-const Drugs = ({ navigation, route }: any) => {
+function Drugs({ navigation, route }: any) {
   const gradient = [Colors.RUST, Colors.RED, Colors.TEAL];
 
   const { currentTagType } = route?.params;
@@ -44,6 +44,6 @@ const Drugs = ({ navigation, route }: any) => {
       </SafeAreaView>
     </LinearGradient>
   );
-};
+}
 
 export default Drugs;

@@ -13,7 +13,7 @@ const TypeOf = {
   ARRAY: "array",
 };
 
-const TagsView = ({ currentTagType, tags, typeOf }: TagsViewProps) => {
+function TagsView({ currentTagType, tags, typeOf }: TagsViewProps) {
   const userProfile = useAppSelector(selectUserProfile);
   const dispatch = useAppDispatch();
 
@@ -80,6 +80,6 @@ const TagsView = ({ currentTagType, tags, typeOf }: TagsViewProps) => {
       </View>
     </View>
   );
-};
+}
 
 export default TagsView;

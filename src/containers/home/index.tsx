@@ -1,7 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { View, Text, Pressable, Linking, Alert } from "react-native";
-import { ScrollableGradientLayout } from "../../components/layouts/ScrollableGradientLayout";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import {
   AntDesign,
   FontAwesome5,
@@ -11,11 +9,13 @@ import {
 } from "@expo/vector-icons";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
+import { useMutation, useQuery } from "@apollo/client";
+import { ScrollableGradientLayout } from "../../components/layouts/ScrollableGradientLayout";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { SlideUpModal } from "../../components/layouts/SlideUpModal";
 import { ProfileAvatar } from "../../components/molecule/ProfileAvatar";
 import { screenName } from "../../utils/constants";
 import OptionTab from "../../components/atoms/OptionsTabs";
-import { useMutation, useQuery } from "@apollo/client";
 import { DELETE_USER_PROFILE } from "../../services/graphql/user/mutations";
 import {
   GET_PROMPTS_ORDER,
@@ -28,11 +28,10 @@ import {
   setUserProfile,
   setUserPrompts,
 } from "../../store/features/user/userSlice";
-import { setUserChoices } from "../../store/features/matches/matchSlice";
+import { setUserChoices , setCriterias } from "../../store/features/matches/matchSlice";
 import { styles } from "./styles";
-import { setCriterias } from "../../store/features/matches/matchSlice";
 
-export const Home = () => {
+export function Home() {
   const { user } = useAppSelector(selectUser);
   const firstName = user?.firstName;
   const email = user?.email;
@@ -244,24 +243,20 @@ export const Home = () => {
   useEffect(() => {
     if (userProfileResult && !userProfileLoading) {
       const { getAllUserTagsTypeVisible } = userProfileResult;
-      const modifiedResult: any = getAllUserTagsTypeVisible.map((item: any) => {
-        return {
+      const modifiedResult: any = getAllUserTagsTypeVisible.map((item: any) => ({
           userId: item.userId,
           tagType: item.tagType,
           userTags:
             item.userTags.length === 0
               ? item.userTags
-              : item.userTags?.map((tag: any) => {
-                  return {
+              : item.userTags?.map((tag: any) => ({
                     userId: item.userId,
                     tagName: tag.tagName,
                     tagType: tag.tagType,
-                  };
-                }),
+                  })),
           visible: item.visible,
           emoji: item.emoji,
-        };
-      });
+        }));
       dispatch(
         setUserProfile({
           userProfile: modifiedResult,
@@ -335,4 +330,4 @@ export const Home = () => {
       </>
     </ScrollableGradientLayout>
   );
-};
+}

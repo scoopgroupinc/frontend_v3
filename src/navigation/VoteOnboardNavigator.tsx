@@ -3,7 +3,7 @@ import { Text, View } from "react-native";
 
 // const VoteOnboardStack = createVoteOnboardStack();
 
-const VoteOnboardNavigator = () => {
+function VoteOnboardNavigator() {
   return (
     <></>
     // <VoteOnboardStack.Navigator
@@ -37,6 +37,6 @@ const VoteOnboardNavigator = () => {
     //   />
     // </VoteOnboardStack.Navigator>
   );
-};
+}
 
 export default VoteOnboardNavigator;

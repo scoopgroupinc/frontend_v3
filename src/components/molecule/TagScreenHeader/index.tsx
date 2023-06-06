@@ -11,7 +11,7 @@ interface tagScreenProps {
   close: () => void;
 }
 
-const TagScreenHeader = ({ title, close }: tagScreenProps) => {
+function TagScreenHeader({ title, close }: tagScreenProps) {
   return (
     <View style={styles.headerContainer}>
       <View>
@@ -24,6 +24,6 @@ const TagScreenHeader = ({ title, close }: tagScreenProps) => {
       </View>
     </View>
   );
-};
+}
 
 export default TagScreenHeader;

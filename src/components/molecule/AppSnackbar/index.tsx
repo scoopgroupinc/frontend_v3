@@ -3,7 +3,7 @@ import { View, StyleSheet } from "react-native";
 import { Snackbar } from "react-native-paper";
 import { Colors } from "../../../utils";
 
-export const AppSnackbar = ({ visible, message }: any) => {
+export function AppSnackbar({ visible, message }: any) {
   return (
     <View style={styles.container}>
       <Snackbar
@@ -18,7 +18,7 @@ export const AppSnackbar = ({ visible, message }: any) => {
       </Snackbar>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {

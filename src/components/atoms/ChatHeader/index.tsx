@@ -6,7 +6,7 @@ import { Image, Text, TouchableWithoutFeedback, View } from "react-native";
 
 import { styles } from "./styles";
 
-const ChatHeader = ({ username, photo }: { username: string; photo: string }) => {
+function ChatHeader({ username, photo }: { username: string; photo: string }) {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   return (
     <View style={styles.container}>
@@ -23,6 +23,6 @@ const ChatHeader = ({ username, photo }: { username: string; photo: string }) =>
       />
     </View>
   );
-};
+}
 
 export default ChatHeader;

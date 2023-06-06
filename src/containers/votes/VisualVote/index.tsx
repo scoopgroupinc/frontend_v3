@@ -2,21 +2,21 @@ import React, { useEffect, useState } from "react";
 import { View, Text, Image, ScrollView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useMutation } from "@apollo/client";
+import { LinearGradient } from "expo-linear-gradient";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { AppButton } from "../../../components/atoms/AppButton";
 import { screenName } from "../../../utils/constants";
 import { useAppSelector } from "../../../store/hooks";
 import { selectUser } from "../../../store/features/user/userSlice";
 import { selectUserChoices } from "../../../store/features/matches/matchSlice";
 import { Colors } from "../../../utils";
-import { useMutation } from "@apollo/client";
 import { SAVE_GROUP_RATING } from "../../../services/graphql/profile/mutations";
-import { LinearGradient } from "expo-linear-gradient";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { styles } from "./style";
 import { RatingSlider } from "../../../components/molecule/RatingSlider";
 import { AppInput } from "../../../components/atoms/AppInput";
 
-export const VisualVote = () => {
+export function VisualVote() {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const { user } = useAppSelector(selectUser);
   const userId = user?.userId;
@@ -30,7 +30,7 @@ export const VisualVote = () => {
 
   const userChoices = useAppSelector(selectUserChoices);
 
-  const visual = userChoices[0].visual;
+  const {visual} = userChoices[0];
   const photoCriteria = useAppSelector((state) =>
     state.matches.criterias.filter((criteria: any) => criteria.type === "user_visuals")
   );
@@ -44,7 +44,7 @@ export const VisualVote = () => {
     comment: [
       {
         ratingGroupId: "",
-        comment: comment,
+        comment,
         startTime: new Date().toISOString(),
         endTime: new Date().toISOString(),
         final: true,
@@ -182,4 +182,4 @@ export const VisualVote = () => {
       </KeyboardAwareScrollView>
     </LinearGradient>
   );
-};
+}

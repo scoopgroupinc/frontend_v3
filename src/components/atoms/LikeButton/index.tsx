@@ -10,7 +10,7 @@ interface ILikeButton {
   like?: () => void;
 }
 
-const LikeButton = ({ width, height, like }: ILikeButton) => {
+function LikeButton({ width, height, like }: ILikeButton) {
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.button} onPress={like}>
@@ -25,6 +25,6 @@ const LikeButton = ({ width, height, like }: ILikeButton) => {
       </TouchableOpacity>
     </View>
   );
-};
+}
 
 export default LikeButton;

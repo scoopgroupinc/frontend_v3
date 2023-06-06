@@ -1,5 +1,6 @@
-import { Spacing, Colors, Typography } from "../../../utils";
 import { StyleSheet } from "react-native";
+import { Spacing, Colors, Typography } from "../../../utils";
+
 export const styles = StyleSheet.create({
   modal: {
     backgroundColor: Colors.RUST,

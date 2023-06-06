@@ -7,7 +7,7 @@ import CreateAccount from "../containers/auth/CreateAccount";
 
 const AuthStack = createStackNavigator();
 
-const AuthNavigator = () => {
+function AuthNavigator() {
   return (
     <AuthStack.Navigator
       screenOptions={{
@@ -27,6 +27,6 @@ const AuthNavigator = () => {
       /> */}
     </AuthStack.Navigator>
   );
-};
+}
 
 export default AuthNavigator;

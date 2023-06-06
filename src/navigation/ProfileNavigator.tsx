@@ -8,7 +8,7 @@ import UserProfile from "../containers/home/UserProfile";
 
 const HomeStack = createStackNavigator();
 
-const ProfileNavigator = () => {
+function ProfileNavigator() {
   return (
     <HomeStack.Navigator
       screenOptions={{
@@ -21,6 +21,6 @@ const ProfileNavigator = () => {
       <HomeStack.Screen name={screenName.USER_PROFILE_VIEW} component={UserProfileView} />
     </HomeStack.Navigator>
   );
-};
+}
 
 export default ProfileNavigator;

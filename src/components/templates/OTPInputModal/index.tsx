@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, Alert, Pressable } from "react-native";
-import { styles } from "./styles";
 import { useMutation } from "@apollo/client";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import SmoothPinCodeInput from "react-native-smooth-pincode-input";
+import { styles } from "./styles";
 import { useAppDispatch } from "../../../store/hooks";
 import {
   ACTIVATE_ACCOUNT,
@@ -14,9 +15,8 @@ import { Colors } from "../../../utils";
 import { AppButton } from "../../atoms/AppButton";
 import { SlideUpModal } from "../../layouts/SlideUpModal";
 import { storeStringData } from "../../../utils/storage";
-//TODO: replace with a more manged component that doesnt use deprecated ViewPropTypes, breaks web view
-//when removed make sure to delete typings/react-native-smooth-pincode-input.d.ts
-import SmoothPinCodeInput from "react-native-smooth-pincode-input";
+// TODO: replace with a more manged component that doesnt use deprecated ViewPropTypes, breaks web view
+// when removed make sure to delete typings/react-native-smooth-pincode-input.d.ts
 import { setUser } from "../../../store/features/user/userSlice";
 
 type UserData = {
@@ -36,7 +36,7 @@ interface ModalType {
   forgotPass?: boolean;
 }
 
-export const OTPInputModal = ({
+export function OTPInputModal({
   state,
   closeModal,
   next,
@@ -44,7 +44,7 @@ export const OTPInputModal = ({
   revalidate,
   changeValidation,
   forgotPass,
-}: ModalType) => {
+}: ModalType) {
   const [timer, setTimer] = useState<number>(revalidate ? 0 : 60);
   const [showResend, setShowResend] = useState<boolean>(false);
   const [code, setCode] = useState<string>("");
@@ -182,7 +182,7 @@ export const OTPInputModal = ({
           </View>
 
           <AppButton
-            title={"Verify"}
+            title="Verify"
             txtColor={Colors.BLACK}
             bgColor={Colors.RUST}
             style={{
@@ -197,4 +197,4 @@ export const OTPInputModal = ({
       </KeyboardAwareScrollView>
     </SlideUpModal>
   );
-};
+}

@@ -4,7 +4,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { screenName } from "../../../utils/constants";
 import { PromptAnswerModal } from "../../../components/templates/PromptAnswerModal";
 
-const OnboardPromptAnswer = ({ route }: any) => {
+function OnboardPromptAnswer({ route }: any) {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const { prompt } = route?.params;
@@ -28,6 +28,6 @@ const OnboardPromptAnswer = ({ route }: any) => {
   // },[])
 
   return <PromptAnswerModal prompt={prompt} goBack={goBack} close={close} />;
-};
+}
 
 export default OnboardPromptAnswer;

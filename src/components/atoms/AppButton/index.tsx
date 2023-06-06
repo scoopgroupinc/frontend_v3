@@ -12,14 +12,14 @@ export interface ButtonType {
   style?: ViewStyle;
 }
 
-export const AppButton = ({
+export function AppButton({
   title,
   onPress,
   txtColor = Colors.DARK_GRAY_BLUE,
   disabled = false,
   bgColor,
   style,
-}: ButtonType) => {
+}: ButtonType) {
   return (
     <Pressable
       disabled={disabled}
@@ -35,4 +35,4 @@ export const AppButton = ({
       <Text style={[{ color: txtColor }, styles.text]}>{title}</Text>
     </Pressable>
   );
-};
+}

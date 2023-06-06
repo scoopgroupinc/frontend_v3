@@ -13,7 +13,7 @@ interface IDislikeButton {
   fill?: string;
   dislike?: () => void;
 }
-const DislikeButton = ({ dislike }: IDislikeButton) => {
+function DislikeButton({ dislike }: IDislikeButton) {
   return (
     <View
       style={{
@@ -49,6 +49,6 @@ const DislikeButton = ({ dislike }: IDislikeButton) => {
       </TouchableOpacity>
     </View>
   );
-};
+}
 
 export default DislikeButton;

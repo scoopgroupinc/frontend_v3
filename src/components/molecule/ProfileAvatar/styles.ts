@@ -1,5 +1,5 @@
-import { Colors } from "../../../utils";
 import { StyleSheet } from "react-native";
+import { Colors } from "../../../utils";
 
 export const styles = StyleSheet.create({
   avatarCon: {

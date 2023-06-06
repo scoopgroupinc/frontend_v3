@@ -6,7 +6,7 @@ import Messages from "../containers/chat/Messages";
 
 const ChatStack = createStackNavigator();
 
-const ChatNavigator = () => {
+function ChatNavigator() {
   return (
     <ChatStack.Navigator
       screenOptions={{
@@ -17,6 +17,6 @@ const ChatNavigator = () => {
       <ChatStack.Screen name={screenName.MESSAGES} component={Messages} />
     </ChatStack.Navigator>
   );
-};
+}
 
 export default ChatNavigator;
