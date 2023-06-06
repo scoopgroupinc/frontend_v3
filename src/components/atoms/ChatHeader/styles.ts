@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native'
-import {Colors} from 'src/styles'
+import {Colors} from '../../../utils'
 
 export const styles = StyleSheet.create({
   backBtn: {
