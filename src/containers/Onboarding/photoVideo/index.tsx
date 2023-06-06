@@ -1,0 +1,128 @@
+import React, { useState } from "react";
+import { View, Text, Alert } from "react-native";
+import axios from "axios";
+import { styles } from "./styles";
+import * as FileSystem from "expo-file-system";
+import { ProgressBar } from "react-native-paper";
+import { useNavigation } from "@react-navigation/native";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import AppActivityIndicator from "../../../components/atoms/ActivityIndicator";
+import { GradientLayout } from "../../../components/layouts/GradientLayout";
+import { URLS } from "../../../utils/constants/apis";
+import { screenName } from "../../../utils/constants";
+import { AppButton } from "../../../components/atoms/AppButton";
+import { MediaContainer } from "../../../components/molecule/MediaContainer";
+import { setUserVisuals } from "../../../store/features/user/userSlice";
+
+export const PhotoVideoScreen = () => {
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
+
+  const { user } = useAppSelector((state: any) => state.appUser);
+  const userId = user?.userId;
+  const dispatch = useAppDispatch();
+
+  const [allImages, setImages] = useState<object[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  // useEffect(() => {
+  //   onScreenView({
+  //     screenName: screenNames.onBoardPhotos,
+  //     screenType: screenClass.onBoarding,
+  //   })
+  // }, [])
+
+  const getVisuals = async () => {
+    axios
+      .get(`${URLS.FILE_URL}/api/v1/visuals/${userId}`, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        method: "GET",
+      })
+      .then((res) => {
+        dispatch(
+          setUserVisuals({
+            userVisuals: res.data,
+          })
+        );
+      })
+      .catch((err) => {});
+  };
+
+  const handleImages = (image: any) => {
+    const newImages = [...allImages];
+    newImages[image.index] = {
+      videoOrPhoto: image.imageUri,
+    };
+    setImages(newImages);
+  };
+
+  const saveImages = async () => {
+    setIsLoading(true);
+    // // logEvent({
+    // //   eventName: eventNames.addOnBoardPhotosButton,
+    // //   params: {},
+    // // })
+    let imageArray = [...allImages];
+    //save the image to DB
+    await Promise.all(
+      imageArray.map(
+        async (image: any) => await handleSaveImages(image.videoOrPhoto)
+      )
+    )
+      .then(async (response) => {
+        setIsLoading(false);
+        navigation.navigate(screenName.QUESTION_PROMPT);
+      })
+      .catch((error) => {
+        setIsLoading(false);
+        Alert.alert(`Error: ${error}`);
+      });
+  };
+
+  const handleSaveImages = async (img: any) => {
+    const postUrl = URLS.FILE_URL;
+    await FileSystem.uploadAsync(
+      `${postUrl}/api/v1/visuals/uploadvisuals/${userId}`,
+      img,
+      {
+        httpMethod: "POST",
+        uploadType: FileSystem.FileSystemUploadType.MULTIPART,
+        fieldName: "files",
+      }
+    )
+      .then(async (response) => {
+        if (response.status === 201) {
+          await getVisuals();
+        }
+      })
+      .catch((error) => {
+        Alert.alert(`Error: ${error}`);
+      });
+    // logEvent({
+    //   eventName: eventNames.editOnBoardPhotosButton,
+    //   params: {screenClass: screenClass.onBoarding},
+    // })
+  };
+
+  return (
+    <>
+      <AppActivityIndicator visible={isLoading} />
+      <GradientLayout>
+        <View style={styles.container}>
+          <ProgressBar progress={0.6} color={"#0E0E2C"} />
+          <View style={styles.photoContainer}>
+            <Text style={styles.text}>Photos & Videos</Text>
+            <MediaContainer images={allImages} onAddImage={handleImages} />
+          </View>
+          <AppButton
+            title={"Upload Photos"}
+            disabled={allImages.length < 1 ? true : false}
+            onPress={() => saveImages()}
+          />
+        </View>
+      </GradientLayout>
+    </>
+  );
+};
