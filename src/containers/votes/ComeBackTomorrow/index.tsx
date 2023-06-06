@@ -6,7 +6,7 @@ import { styles } from "./styles";
 export const ComeBackTomorrow = ({ outOfMatches, noMatchToday }: any) => (
   <GradientLayout>
     <View style={{ flex: 1, alignItems: "center" }}>
-      <Image style={styles.noMatchLogo} source={require("src/assets/images/scoop-logo.png")} />
+      <Image style={styles.noMatchLogo} source={require("../../../assets/images/scoop-logo.png")} />
       <View style={styles.textWrapper}>
         {noMatchToday && (
           <Text style={styles.noMatchText}>

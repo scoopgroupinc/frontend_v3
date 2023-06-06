@@ -11,7 +11,7 @@ interface RatingSiderType {
 export const RatingSlider = ({ rating }: RatingSiderType) => {
   const [ratingValue, setRating] = useState<any>({
     value: 0.5,
-    image: require("src/assets/images/cool.png"),
+    image: require("../../../assets/images/cool.png"),
     minTrackColor: Colors.YELLOW,
   });
   const onSliderChange = (type: number, val: any) => {
