@@ -42,6 +42,6 @@ const EducationLevel = ({ navigation, route }: { navigation: any; route: any }) 
       </SafeAreaView>
     </LinearGradient>
   );
-}
+};
 
 export default EducationLevel;

@@ -21,4 +21,4 @@ export const ScrollableGradientLayout = ({ children, align, safe = true }: any) 
       )}
     </LinearGradient>
   );
-}
+};

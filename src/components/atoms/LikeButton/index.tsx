@@ -11,18 +11,18 @@ interface ILikeButton {
 }
 
 const LikeButton = ({ width, height, like }: ILikeButton) => (
-    <View style={styles.container}>
-      <TouchableOpacity style={styles.button} onPress={like}>
-        <RenderSvg
-          originX={0}
-          originY={0}
-          width={42}
-          height={39}
-          fill="none"
-          children={likeBtnSvg()}
-        />
-      </TouchableOpacity>
-    </View>
-  )
+  <View style={styles.container}>
+    <TouchableOpacity style={styles.button} onPress={like}>
+      <RenderSvg
+        originX={0}
+        originY={0}
+        width={42}
+        height={39}
+        fill="none"
+        children={likeBtnSvg()}
+      />
+    </TouchableOpacity>
+  </View>
+);
 
 export default LikeButton;

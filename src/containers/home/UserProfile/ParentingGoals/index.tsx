@@ -44,6 +44,6 @@ const ParentingGoals = ({ navigation, route }: any) => {
       </SafeAreaView>
     </LinearGradient>
   );
-}
+};
 
 export default ParentingGoals;

@@ -61,4 +61,4 @@ export const RenderSvg = ({
       </Svg>
     </View>
   );
-}
+};

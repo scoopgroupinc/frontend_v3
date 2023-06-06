@@ -30,7 +30,7 @@ export const VisualVote = () => {
 
   const userChoices = useAppSelector(selectUserChoices);
 
-  const {visual} = userChoices[0];
+  const { visual } = userChoices[0];
   const photoCriteria = useAppSelector((state) =>
     state.matches.criterias.filter((criteria: any) => criteria.type === "user_visuals")
   );
@@ -182,4 +182,4 @@ export const VisualVote = () => {
       </KeyboardAwareScrollView>
     </LinearGradient>
   );
-}
+};

@@ -66,9 +66,7 @@ export const PhotoVideoScreen = () => {
     // // })
     const imageArray = [...allImages];
     // save the image to DB
-    await Promise.all(
-      imageArray.map(async (image: any) => handleSaveImages(image.videoOrPhoto))
-    )
+    await Promise.all(imageArray.map(async (image: any) => handleSaveImages(image.videoOrPhoto)))
       .then(async (response) => {
         setIsLoading(false);
         navigation.navigate(screenName.QUESTION_PROMPT);
@@ -119,4 +117,4 @@ export const PhotoVideoScreen = () => {
       </GradientLayout>
     </>
   );
-}
+};

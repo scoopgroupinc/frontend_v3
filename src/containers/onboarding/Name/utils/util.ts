@@ -7,12 +7,12 @@ export const validate = (
 ) => {
   let value;
   if (!userData.firstname) {
-    const errors = { ...errorData};
+    const errors = { ...errorData };
     errors.firstname = "First Name is required";
     setErrorData(errors);
   }
   if (!userData.lastname) {
-    const errors = { ...errorData};
+    const errors = { ...errorData };
     errors.lastname = "Last Name is required";
     setErrorData(errors);
   }
@@ -42,8 +42,8 @@ export const handleInputChange = async (
   errorData: UserData,
   setErrorData: (errorData: UserData) => void
 ) => {
-  const fields: any = { ...userData};
-  const fieldErrors: any = { ...errorData};
+  const fields: any = { ...userData };
+  const fieldErrors: any = { ...errorData };
   fields[name] = value;
   fieldErrors[name] = error;
   setUserData(fields);

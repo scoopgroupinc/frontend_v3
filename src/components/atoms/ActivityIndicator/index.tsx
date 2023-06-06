@@ -11,7 +11,7 @@ const AppActivityIndicator = ({ visible = false }) => {
       <LottieView autoPlay loop source={require("../../../assets/animations/loader.json")} />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   overlay: {

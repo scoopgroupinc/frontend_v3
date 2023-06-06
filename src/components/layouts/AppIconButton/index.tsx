@@ -9,7 +9,7 @@ interface LayoutType {
 }
 
 export const AppIconButton = ({ children, onPress, style }: LayoutType) => (
-    <TouchableOpacity onPress={onPress} style={[styles.icon, style]}>
-      {children}
-    </TouchableOpacity>
-  )
+  <TouchableOpacity onPress={onPress} style={[styles.icon, style]}>
+    {children}
+  </TouchableOpacity>
+);

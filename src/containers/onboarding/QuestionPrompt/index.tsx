@@ -42,10 +42,10 @@ export const QuestionPromptScreen = ({ route }: any) => {
 
   const answered_prompts = items.filter((item) => item.answer !== "");
   const UserPromptInput = answered_prompts.map((item) => ({
-      answer: item.answer,
-      promptId: item.promptId,
-      userId,
-    }));
+    answer: item.answer,
+    promptId: item.promptId,
+    userId,
+  }));
 
   const [saveOnBoardStatus] = useMutation(SAVE_ONBOARD_STATUS, {
     variables: {
@@ -148,19 +148,19 @@ export const QuestionPromptScreen = ({ route }: any) => {
               <View style={styles.mediaBox}>
                 <Text style={styles.mediaHeader}>Add prompts</Text>
                 {items?.map((item: any, index: any) => (
-                    <CaptureText
-                      key={index}
-                      addPrompt={() => {
-                        setCaptureId(index);
-                        navigation.navigate(screenName.ALLPROMPTS);
-                      }}
-                      prompt={item}
-                      change={() => {
-                        setCaptureId(index);
-                        handlePromptChange(item.id);
-                      }}
-                    />
-                  ))}
+                  <CaptureText
+                    key={index}
+                    addPrompt={() => {
+                      setCaptureId(index);
+                      navigation.navigate(screenName.ALLPROMPTS);
+                    }}
+                    prompt={item}
+                    change={() => {
+                      setCaptureId(index);
+                      handlePromptChange(item.id);
+                    }}
+                  />
+                ))}
               </View>
             </View>
           </ScrollView>
@@ -175,4 +175,4 @@ export const QuestionPromptScreen = ({ route }: any) => {
       </GradientLayout>
     </>
   );
-}
+};

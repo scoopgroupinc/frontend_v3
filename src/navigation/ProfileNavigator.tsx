@@ -9,16 +9,16 @@ import UserProfile from "../containers/home/UserProfile";
 const HomeStack = createStackNavigator();
 
 const ProfileNavigator = () => (
-    <HomeStack.Navigator
-      screenOptions={{
-        headerShown: false,
-      }}
-    >
-      <HomeStack.Screen name={screenName.HOME} component={Home} />
-      <HomeStack.Screen name={screenName.USER_PROFILE} component={UserProfile} />
-      <HomeStack.Screen name={screenName.USER_PROFILE_EDIT} component={UserProfileEdit} />
-      <HomeStack.Screen name={screenName.USER_PROFILE_VIEW} component={UserProfileView} />
-    </HomeStack.Navigator>
-  )
+  <HomeStack.Navigator
+    screenOptions={{
+      headerShown: false,
+    }}
+  >
+    <HomeStack.Screen name={screenName.HOME} component={Home} />
+    <HomeStack.Screen name={screenName.USER_PROFILE} component={UserProfile} />
+    <HomeStack.Screen name={screenName.USER_PROFILE_EDIT} component={UserProfileEdit} />
+    <HomeStack.Screen name={screenName.USER_PROFILE_VIEW} component={UserProfileView} />
+  </HomeStack.Navigator>
+);
 
 export default ProfileNavigator;

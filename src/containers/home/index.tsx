@@ -28,7 +28,7 @@ import {
   setUserProfile,
   setUserPrompts,
 } from "../../store/features/user/userSlice";
-import { setUserChoices , setCriterias } from "../../store/features/matches/matchSlice";
+import { setUserChoices, setCriterias } from "../../store/features/matches/matchSlice";
 import { styles } from "./styles";
 
 export const Home = () => {
@@ -244,19 +244,19 @@ export const Home = () => {
     if (userProfileResult && !userProfileLoading) {
       const { getAllUserTagsTypeVisible } = userProfileResult;
       const modifiedResult: any = getAllUserTagsTypeVisible.map((item: any) => ({
-          userId: item.userId,
-          tagType: item.tagType,
-          userTags:
-            item.userTags.length === 0
-              ? item.userTags
-              : item.userTags?.map((tag: any) => ({
-                    userId: item.userId,
-                    tagName: tag.tagName,
-                    tagType: tag.tagType,
-                  })),
-          visible: item.visible,
-          emoji: item.emoji,
-        }));
+        userId: item.userId,
+        tagType: item.tagType,
+        userTags:
+          item.userTags.length === 0
+            ? item.userTags
+            : item.userTags?.map((tag: any) => ({
+                userId: item.userId,
+                tagName: tag.tagName,
+                tagType: tag.tagType,
+              })),
+        visible: item.visible,
+        emoji: item.emoji,
+      }));
       dispatch(
         setUserProfile({
           userProfile: modifiedResult,
@@ -330,4 +330,4 @@ export const Home = () => {
       </>
     </ScrollableGradientLayout>
   );
-}
+};

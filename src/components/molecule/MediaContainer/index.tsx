@@ -11,9 +11,9 @@ export const MediaContainer = ({ images = [], onAddImage }: ScreenType) => {
   const [userVisuals, setUserVisuals] = useState(initialData);
 
   const mergedData = userVisuals.map((image, index) => ({
-      ...image,
-      videoOrPhoto: images[index]?.videoOrPhoto,
-    }));
+    ...image,
+    videoOrPhoto: images[index]?.videoOrPhoto,
+  }));
 
   return (
     <View style={styles.container}>
@@ -22,4 +22,4 @@ export const MediaContainer = ({ images = [], onAddImage }: ScreenType) => {
       ))}
     </View>
   );
-}
+};

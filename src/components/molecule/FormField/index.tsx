@@ -73,6 +73,6 @@ const FieldComponent = ({
       {msg && <Text style={styles.errorText}>{msg}</Text>}
     </View>
   );
-}
+};
 
 export default FieldComponent;

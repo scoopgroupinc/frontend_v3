@@ -30,7 +30,7 @@ const Navigator = () => {
       </NavigationContainer>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {

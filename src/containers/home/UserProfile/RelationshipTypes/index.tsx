@@ -48,6 +48,6 @@ const RelationshipTypes = ({ navigation, route }: any) => {
       </SafeAreaView>
     </LinearGradient>
   );
-}
+};
 
 export default RelationshipTypes;

@@ -64,4 +64,4 @@ export const PromptAnswerModal = ({ close, goBack, prompt }: PromptAnswerType) =
       </KeyboardAwareScrollView>
     </FullModalView>
   );
-}
+};

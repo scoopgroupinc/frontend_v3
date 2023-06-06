@@ -171,6 +171,6 @@ const LoginScreen = () => {
       </GradientLayout>
     </>
   );
-}
+};
 
 export default LoginScreen;

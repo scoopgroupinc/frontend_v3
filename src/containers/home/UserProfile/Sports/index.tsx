@@ -44,6 +44,6 @@ const Sports = ({ navigation, route }: any) => {
       </SafeAreaView>
     </LinearGradient>
   );
-}
+};
 
 export default Sports;

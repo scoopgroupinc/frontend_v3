@@ -38,6 +38,6 @@ const Drink = ({ navigation, route }: NavigationScreenProps) => {
       </SafeAreaView>
     </LinearGradient>
   );
-}
+};
 
 export default Drink;

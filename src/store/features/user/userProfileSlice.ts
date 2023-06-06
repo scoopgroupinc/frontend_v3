@@ -167,7 +167,9 @@ export const UserProfileSlice = createSlice({
     updateAllPrompts: (state, action: PayloadAction<any>) => {
       const { promptId, previousPromptId } = action.payload;
       if (previousPromptId !== "" || previousPromptId !== null) {
-        const previousIndex = state.allPrompts.findIndex((item: any) => item.id === previousPromptId);
+        const previousIndex = state.allPrompts.findIndex(
+          (item: any) => item.id === previousPromptId
+        );
         state.allPrompts[previousIndex] = {
           ...state.allPrompts[previousIndex],
           filled: false,
@@ -213,12 +215,17 @@ export const selectUserPromptIds = (state: RootState) => state.userProfile.userP
 export const selectCaptureId = (state: RootState) => state.userProfile.captureId;
 export const selectAllPrompts = (state: RootState) => state.userProfile.allPrompts;
 export const selectMixedPrompts = (state: RootState) => {
-  const {allPrompts} = state.userProfile;
-  const {userPrompts} = state.userProfile;
-  const archievedUserPrompts = state.userProfile.archivedUserPrompts.filter((usrPrmpts: any) => !userPrompts.some((item: any) => item.promptId === usrPrmpts.promptId));
+  const { allPrompts } = state.userProfile;
+  const { userPrompts } = state.userProfile;
+  const archievedUserPrompts = state.userProfile.archivedUserPrompts.filter(
+    (usrPrmpts: any) => !userPrompts.some((item: any) => item.promptId === usrPrmpts.promptId)
+  );
 
   // filter out userPrompts from allPrompts
-  const filteredPrompts = allPrompts.filter((item: any) => !state.userProfile.archivedUserPrompts.some((item2: any) => item.id === item2.promptId));
+  const filteredPrompts = allPrompts.filter(
+    (item: any) =>
+      !state.userProfile.archivedUserPrompts.some((item2: any) => item.id === item2.promptId)
+  );
 
   // combine userPrompts and filteredPrompts
   const mixedPrompts = [
@@ -229,11 +236,11 @@ export const selectMixedPrompts = (state: RootState) => {
     {
       title: "Prompts",
       data: filteredPrompts.map((item: any) => ({
-          id: item.id,
-          prompt: item.prompt,
-          answer: item.sample_answer,
-          filled: item.filled,
-        })),
+        id: item.id,
+        prompt: item.prompt,
+        answer: item.sample_answer,
+        filled: item.filled,
+      })),
     },
   ];
 

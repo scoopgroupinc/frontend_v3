@@ -62,4 +62,4 @@ export const RatingSlider = ({ rating }: RatingSiderType) => {
       onValueChange={(val) => onSliderChange(1, val)}
     />
   );
-}
+};

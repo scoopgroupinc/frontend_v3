@@ -45,6 +45,6 @@ const Alcohol = ({ navigation, route }: any) => {
       </SafeAreaView>
     </LinearGradient>
   );
-}
+};
 
 export default Alcohol;

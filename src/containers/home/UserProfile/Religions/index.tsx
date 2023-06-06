@@ -44,6 +44,6 @@ const Religions = ({ navigation, route }: any) => {
       </SafeAreaView>
     </LinearGradient>
   );
-}
+};
 
 export default Religions;

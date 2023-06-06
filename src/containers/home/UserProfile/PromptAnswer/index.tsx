@@ -35,6 +35,6 @@ const PromptAnswer = ({ route }: any) => {
   };
 
   return <PromptAnswerModal goBack={goBack} close={close} prompt={prompt} />;
-}
+};
 
 export default PromptAnswer;

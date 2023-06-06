@@ -34,4 +34,4 @@ export const SlideUpModal = ({ state, children, close, align }: ModalType) => {
       </SafeAreaView>
     </Modal>
   );
-}
+};

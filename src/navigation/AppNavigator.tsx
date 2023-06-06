@@ -119,25 +119,25 @@ const AppNavigator = () => {
           },
           tabBarInactiveBackgroundColor: "white",
           tabBarIcon: ({ focused }) => (
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  flex: 1,
-                  borderRadius: 50,
-                  backgroundColor: focused ? Colors.RUST : "white",
-                  padding: 20,
-                  marginVertical: focused ? 5 : 0,
-                }}
-              >
-                <FontAwesome
-                  name="thumbs-o-up"
-                  size={focused ? 22 : 32}
-                  color={focused ? "white" : "black"}
-                />
-              </View>
-            ),
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "center",
+                flex: 1,
+                borderRadius: 50,
+                backgroundColor: focused ? Colors.RUST : "white",
+                padding: 20,
+                marginVertical: focused ? 5 : 0,
+              }}
+            >
+              <FontAwesome
+                name="thumbs-o-up"
+                size={focused ? 22 : 32}
+                color={focused ? "white" : "black"}
+              />
+            </View>
+          ),
         }}
       />
       <AppTabStack.Screen
@@ -145,25 +145,25 @@ const AppNavigator = () => {
         component={ProfileNavigator}
         options={{
           tabBarIcon: ({ focused }) => (
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  backgroundColor: focused ? Colors.RUST : "white",
-                  flex: 1,
-                  borderRadius: 50,
-                  padding: 20,
-                  marginVertical: focused ? 5 : 0,
-                }}
-              >
-                <Ionicons
-                  name="person-outline"
-                  size={focused ? 22 : 32}
-                  color={focused ? "white" : "black"}
-                />
-              </View>
-            ),
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "center",
+                backgroundColor: focused ? Colors.RUST : "white",
+                flex: 1,
+                borderRadius: 50,
+                padding: 20,
+                marginVertical: focused ? 5 : 0,
+              }}
+            >
+              <Ionicons
+                name="person-outline"
+                size={focused ? 22 : 32}
+                color={focused ? "white" : "black"}
+              />
+            </View>
+          ),
           tabBarItemStyle: {
             height: 70,
           },
@@ -180,31 +180,31 @@ const AppNavigator = () => {
             height: 70,
           },
           tabBarIcon: ({ focused }) => (
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  flex: 1,
-                  borderRadius: 50,
-                  backgroundColor: focused ? Colors.RUST : "white",
-                  padding: 20,
-                  marginVertical: focused ? 5 : 0,
-                }}
-              >
-                <Ionicons
-                  name="md-chatbox-ellipses-outline"
-                  size={focused ? 22 : 32}
-                  color={focused ? "white" : "black"}
-                />
-              </View>
-            ),
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "center",
+                flex: 1,
+                borderRadius: 50,
+                backgroundColor: focused ? Colors.RUST : "white",
+                padding: 20,
+                marginVertical: focused ? 5 : 0,
+              }}
+            >
+              <Ionicons
+                name="md-chatbox-ellipses-outline"
+                size={focused ? 22 : 32}
+                color={focused ? "white" : "black"}
+              />
+            </View>
+          ),
         }}
       />
     </AppTabStack.Navigator>
   ) : (
     <OnboardNavigator />
   );
-}
+};
 
 export default AppNavigator;

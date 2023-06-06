@@ -197,4 +197,4 @@ export const UserProfile = () => {
       </View>
     </ScrollableGradientLayout>
   );
-}
+};

@@ -44,6 +44,6 @@ const Ethnicity = ({ navigation, route }: any) => {
       </SafeAreaView>
     </LinearGradient>
   );
-}
+};
 
 export default Ethnicity;

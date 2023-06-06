@@ -23,6 +23,6 @@ const ChatHeader = ({ username, photo }: { username: string; photo: string }) =>
       />
     </View>
   );
-}
+};
 
 export default ChatHeader;

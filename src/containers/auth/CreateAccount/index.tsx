@@ -182,6 +182,6 @@ const CreateAccount = () => {
       </GradientLayout>
     </>
   );
-}
+};
 
 export default CreateAccount;

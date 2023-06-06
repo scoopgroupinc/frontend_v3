@@ -20,17 +20,17 @@ export const AppButton = ({
   bgColor,
   style,
 }: ButtonType) => (
-    <Pressable
-      disabled={disabled}
-      onPress={onPress}
-      style={[
-        styles.button,
-        style,
-        // {
-        //   backgroundColor: disabled ? "transparent" : bgColor,
-        // },
-      ]}
-    >
-      <Text style={[{ color: txtColor }, styles.text]}>{title}</Text>
-    </Pressable>
-  )
+  <Pressable
+    disabled={disabled}
+    onPress={onPress}
+    style={[
+      styles.button,
+      style,
+      // {
+      //   backgroundColor: disabled ? "transparent" : bgColor,
+      // },
+    ]}
+  >
+    <Text style={[{ color: txtColor }, styles.text]}>{title}</Text>
+  </Pressable>
+);

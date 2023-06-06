@@ -44,6 +44,6 @@ const Pets = ({ navigation, route }: any) => {
       </SafeAreaView>
     </LinearGradient>
   );
-}
+};
 
 export default Pets;

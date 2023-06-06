@@ -63,12 +63,8 @@ export const GenderScreen = () => {
           <Text style={styles.genderTitle}>What gender do you identify with?</Text>
           <SelectButtons titles={["male", "female"]} funk={setGender} />
         </View>
-        <AppButton
-          title="Next"
-          disabled={gender === ""}
-          onPress={saveUserGender}
-        />
+        <AppButton title="Next" disabled={gender === ""} onPress={saveUserGender} />
       </View>
     </GradientLayout>
   );
-}
+};

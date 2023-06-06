@@ -117,6 +117,6 @@ const Company = ({ navigation, route }: any) => {
       </SafeAreaView>
     </LinearGradient>
   );
-}
+};
 
 export default Company;

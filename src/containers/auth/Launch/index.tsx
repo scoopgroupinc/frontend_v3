@@ -37,6 +37,6 @@ const Launch = () => {
       </View>
     </GradientLayout>
   );
-}
+};
 
 export default Launch;

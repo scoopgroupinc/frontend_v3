@@ -28,6 +28,6 @@ const OnboardPromptAnswer = ({ route }: any) => {
   // },[])
 
   return <PromptAnswerModal prompt={prompt} goBack={goBack} close={close} />;
-}
+};
 
 export default OnboardPromptAnswer;

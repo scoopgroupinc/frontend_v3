@@ -51,14 +51,14 @@ const ChatMessage = ({ route, navigation }: any) => {
   useEffect(() => {
     const getMessages = async () => {
       const modifiedMessage = msgs.map((message: any) => ({
-          _id: message.id,
-          text: message.content,
-          createdAt: moment(message.createdAt).toISOString(),
-          user: {
-            _id: message.senderID == userId ? +message.senderID : +receiverID,
-            name: message.senderID == userId ? firstName : username,
-          },
-        }));
+        _id: message.id,
+        text: message.content,
+        createdAt: moment(message.createdAt).toISOString(),
+        user: {
+          _id: message.senderID == userId ? +message.senderID : +receiverID,
+          name: message.senderID == userId ? firstName : username,
+        },
+      }));
       setMessages([]);
       setMessages((previousMessages: any) => GiftedChat.append(previousMessages, modifiedMessage));
     };
@@ -143,5 +143,5 @@ const ChatMessage = ({ route, navigation }: any) => {
       />
     </SafeAreaView>
   );
-}
+};
 export default ChatMessage;

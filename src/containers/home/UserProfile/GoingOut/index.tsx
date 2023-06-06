@@ -37,6 +37,6 @@ const GoingOut = ({ navigation, route }: any) => {
       </SafeAreaView>
     </LinearGradient>
   );
-}
+};
 
 export default GoingOut;

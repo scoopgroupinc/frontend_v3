@@ -59,11 +59,11 @@ export const UserProfileView = () => {
         <Text style={[styles.descriptionText]}>
           {userProfile?.find((item: any) => item.tagType === "language")?.emoji}
           {languages?.userTags.map((item: any, index: any) => (
-              <Text key={index}>
-                {item.tagName}
-                {index === languages.length - 1 ? "" : ", "}
-              </Text>
-            ))}
+            <Text key={index}>
+              {item.tagName}
+              {index === languages.length - 1 ? "" : ", "}
+            </Text>
+          ))}
         </Text>
       );
     }
@@ -76,11 +76,11 @@ export const UserProfileView = () => {
         <Text style={[styles.descriptionText]}>
           {userProfile?.find((item: any) => item.tagType === "music_genre")?.emoji}
           {music?.userTags.map((item: any, index: any) => (
-              <Text key={index}>
-                {item.tagName}
-                {index === music.length - 1 ? "" : ", "}
-              </Text>
-            ))}
+            <Text key={index}>
+              {item.tagName}
+              {index === music.length - 1 ? "" : ", "}
+            </Text>
+          ))}
         </Text>
       );
     }
@@ -93,11 +93,11 @@ export const UserProfileView = () => {
         <Text style={[styles.descriptionText]}>
           {userProfile?.find((item: any) => item.tagType === "book_genre")?.emoji}
           {book?.userTags.map((item: any, index: any) => (
-              <Text key={index}>
-                {item.tagName}
-                {index === book.length - 1 ? "" : ", "}
-              </Text>
-            ))}
+            <Text key={index}>
+              {item.tagName}
+              {index === book.length - 1 ? "" : ", "}
+            </Text>
+          ))}
         </Text>
       );
     }
@@ -110,11 +110,11 @@ export const UserProfileView = () => {
         <Text style={[styles.descriptionText]}>
           {userProfile?.find((item: any) => item.tagType === "pets")?.emoji}
           {pets?.userTags.map((item: any, index: any) => (
-              <Text key={index}>
-                {item.tagName}
-                {index === pets.length - 1 ? "" : ", "}
-              </Text>
-            ))}
+            <Text key={index}>
+              {item.tagName}
+              {index === pets.length - 1 ? "" : ", "}
+            </Text>
+          ))}
         </Text>
       );
     }
@@ -127,11 +127,11 @@ export const UserProfileView = () => {
         <Text style={[styles.descriptionText]}>
           {userProfile?.find((item: any) => item.tagType === "physical_activity")?.emoji}
           {sports?.userTags.map((item: any, index: any) => (
-              <Text key={index}>
-                {item.tagName}
-                {index === sports.length - 1 ? "" : ", "}
-              </Text>
-            ))}
+            <Text key={index}>
+              {item.tagName}
+              {index === sports.length - 1 ? "" : ", "}
+            </Text>
+          ))}
         </Text>
       );
     }
@@ -144,11 +144,11 @@ export const UserProfileView = () => {
         <Text style={[styles.descriptionText]}>
           {userProfile?.find((item: any) => item.tagType === "going_out")?.emoji}
           {goingOut?.userTags.map((item: any, index: any) => (
-              <Text key={index}>
-                {item.tagName}
-                {index === goingOut.length - 1 ? "" : ", "}
-              </Text>
-            ))}
+            <Text key={index}>
+              {item.tagName}
+              {index === goingOut.length - 1 ? "" : ", "}
+            </Text>
+          ))}
         </Text>
       );
     }
@@ -161,11 +161,11 @@ export const UserProfileView = () => {
         <Text style={[styles.descriptionText]}>
           {userProfile?.find((item: any) => item.tagType === "creative")?.emoji}
           {creative?.userTags.map((item: any, index: any) => (
-              <Text key={index}>
-                {item.tagName}
-                {index === creative.length - 1 ? "" : ", "}
-              </Text>
-            ))}
+            <Text key={index}>
+              {item.tagName}
+              {index === creative.length - 1 ? "" : ", "}
+            </Text>
+          ))}
         </Text>
       );
     }
@@ -178,11 +178,11 @@ export const UserProfileView = () => {
         <Text style={[styles.descriptionText]}>
           {userProfile?.find((item: any) => item.tagType === "staying_in")?.emoji}
           {stayingIn?.userTags.map((item: any, index: any) => (
-              <Text key={index}>
-                {item.tagName}
-                {index === stayingIn.length - 1 ? "" : ", "}
-              </Text>
-            ))}
+            <Text key={index}>
+              {item.tagName}
+              {index === stayingIn.length - 1 ? "" : ", "}
+            </Text>
+          ))}
         </Text>
       );
     }
@@ -195,11 +195,11 @@ export const UserProfileView = () => {
         <Text style={[styles.descriptionText]}>
           {userProfile?.find((item: any) => item.tagType === "drink")?.emoji}
           {drink?.userTags.map((item: any, index: any) => (
-              <Text key={index}>
-                {item.tagName}
-                {index === drink.length - 1 ? "" : ", "}
-              </Text>
-            ))}
+            <Text key={index}>
+              {item.tagName}
+              {index === drink.length - 1 ? "" : ", "}
+            </Text>
+          ))}
         </Text>
       );
     }
@@ -331,11 +331,11 @@ export const UserProfileView = () => {
         <Text style={[styles.descriptionText]}>
           {userProfile?.find((item: any) => item.tagType === "ethnicity")?.emoji}
           {ethnicity?.userTags.map((item: any, index: any) => (
-              <Text key={index}>
-                {item.tagName}
-                {index === ethnicity.length - 1 ? "" : ", "}
-              </Text>
-            ))}
+            <Text key={index}>
+              {item.tagName}
+              {index === ethnicity.length - 1 ? "" : ", "}
+            </Text>
+          ))}
         </Text>
       );
     }
@@ -427,15 +427,14 @@ export const UserProfileView = () => {
           }
         }
         return merged;
-      } 
-        setMerged([]);
-        for (let i = 0; i < userPrompts.length; i++) {
-          if (userPrompts[i].answer !== "") {
-            setMerged((prev: any) => [...prev, { type: "prompt", prompt: userPrompts[i] }]);
-          }
+      }
+      setMerged([]);
+      for (let i = 0; i < userPrompts.length; i++) {
+        if (userPrompts[i].answer !== "") {
+          setMerged((prev: any) => [...prev, { type: "prompt", prompt: userPrompts[i] }]);
         }
-        return merged;
-      
+      }
+      return merged;
     };
     mergeData();
     // onScreenView({
@@ -446,31 +445,31 @@ export const UserProfileView = () => {
 
   return (
     <ImageBackground
-        style={{ flex: 1 }}
-        resizeMode="cover"
-        source={{
-          uri: allImages[0]?.videoOrPhoto,
+      style={{ flex: 1 }}
+      resizeMode="cover"
+      source={{
+        uri: allImages[0]?.videoOrPhoto,
+      }}
+    >
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        style={{
+          flex: 1,
         }}
       >
-        <ScrollView
-          showsVerticalScrollIndicator={false}
+        <View
           style={{
-            flex: 1,
+            width: "100%",
+            height: "100%",
+            marginTop: onethirdScreenHeight,
+            marginBottom: "10%",
+            backgroundColor: "white",
+            borderTopRightRadius: 110,
+            padding: 20,
           }}
         >
-          <View
-            style={{
-              width: "100%",
-              height: "100%",
-              marginTop: onethirdScreenHeight,
-              marginBottom: "10%",
-              backgroundColor: "white",
-              borderTopRightRadius: 110,
-              padding: 20,
-            }}
-          >
-            <View style={styles.descriptionContainer}>
-              {/* <View style={styles.section}>
+          <View style={styles.descriptionContainer}>
+            {/* <View style={styles.section}>
                 <Text style={styles.descriptionHeader}>Prompts</Text>
                 <View style={styles.content}>
                   {prompts.map((item: any) => {
@@ -483,100 +482,99 @@ export const UserProfileView = () => {
                   })}
                 </View>
               </View> */}
-              <View style={styles.section}>
-                <Text style={styles.name}>{`${user?.firstName  } ${  user?.lastName}`}</Text>
-                <Text style={styles.age}>{/* {age} years old, {height} */}</Text>
-                <Text style={styles.descriptionHeader}>My Basics</Text>
+            <View style={styles.section}>
+              <Text style={styles.name}>{`${user?.firstName} ${user?.lastName}`}</Text>
+              <Text style={styles.age}>{/* {age} years old, {height} */}</Text>
+              <Text style={styles.descriptionHeader}>My Basics</Text>
 
-                <View style={[styles.content, { flexDirection: "column" }]}>
-                  {getJobDetails()}
-                  {getSchoolDetails()}
-                  {getHometownDetails()}
-                  {getEducationLevelDetails()}
-                  {getEthnicityDetails()}
-                  {getReligionsDetails()}
-                  {getReligiousPracticeDetails()}
-                </View>
+              <View style={[styles.content, { flexDirection: "column" }]}>
+                {getJobDetails()}
+                {getSchoolDetails()}
+                {getHometownDetails()}
+                {getEducationLevelDetails()}
+                {getEthnicityDetails()}
+                {getReligionsDetails()}
+                {getReligiousPracticeDetails()}
               </View>
-
-              <View style={styles.section}>
-                <Text style={styles.descriptionHeader}>My Interests</Text>
-                <View style={styles.content}>
-                  {getMusicGenreDetails()}
-                  {getBookGenreDetails()}
-                  {getPetsDetails()}
-                  {getSportsDetails()}
-                  {getGoingOutDetails()}
-                  {getStayingInDetails()}
-                  {getDrinkDetails()}
-                  {getDietDetails()}
-                  {getPoliticsDetails()}
-                  {getAlcoholDetails()}
-                  {getSmokingDetails()}
-                  {getDrugsDetails()}
-                  {getCreativeOuletDetails()}
-                  {getZodiacDetails()}
-                  {getMeyerBriggsDetails()}
-                  {getParentingGoalDetails()}
-                  {getRelationshipGoalsDetails()}
-                  {getRelationshipTypesDetails()}
-                  {getCannabisDetails()}
-                </View>
-              </View>
-              <View>
-                <View style={styles.section}>
-                  <Text style={styles.descriptionHeader}>Languages I know</Text>
-                  {getLanguagesDetails()}
-                </View>
-              </View>
-              {/* alternate prompts and images */}
-              <View style={styles.content}>
-                {merged.map((item: any, index: any) => {
-                  if (item?.type === "prompt") {
-                    return (
-                      <View
-                        key={index}
-                        style={{
-                          // backgroundColor: 'red',
-                          padding: Spacing.SCALE_20,
-                        }}
-                      >
-                        {/* <Text>{item.prompt.answer}</Text> */}
-                        <QuotedText title={item.prompt.prompt} text={item.prompt.answer} />
-                      </View>
-                    );
-                  } 
-                    return (
-                      <View
-                        key={index}
-                        style={{
-                          flex: 1,
-                        }}
-                      >
-                        <Image
-                          // resizeMode='cover'
-                          source={{
-                            uri: item?.image?.videoOrPhoto,
-                          }}
-                          style={{
-                            width: "100%",
-                            height: 300,
-                            resizeMode: "cover",
-                          }}
-                        />
-                      </View>
-                    );
-                  
-                })}
-              </View>
-              <View
-                style={{
-                  paddingHorizontal: 40,
-                }}
-               />
             </View>
+
+            <View style={styles.section}>
+              <Text style={styles.descriptionHeader}>My Interests</Text>
+              <View style={styles.content}>
+                {getMusicGenreDetails()}
+                {getBookGenreDetails()}
+                {getPetsDetails()}
+                {getSportsDetails()}
+                {getGoingOutDetails()}
+                {getStayingInDetails()}
+                {getDrinkDetails()}
+                {getDietDetails()}
+                {getPoliticsDetails()}
+                {getAlcoholDetails()}
+                {getSmokingDetails()}
+                {getDrugsDetails()}
+                {getCreativeOuletDetails()}
+                {getZodiacDetails()}
+                {getMeyerBriggsDetails()}
+                {getParentingGoalDetails()}
+                {getRelationshipGoalsDetails()}
+                {getRelationshipTypesDetails()}
+                {getCannabisDetails()}
+              </View>
+            </View>
+            <View>
+              <View style={styles.section}>
+                <Text style={styles.descriptionHeader}>Languages I know</Text>
+                {getLanguagesDetails()}
+              </View>
+            </View>
+            {/* alternate prompts and images */}
+            <View style={styles.content}>
+              {merged.map((item: any, index: any) => {
+                if (item?.type === "prompt") {
+                  return (
+                    <View
+                      key={index}
+                      style={{
+                        // backgroundColor: 'red',
+                        padding: Spacing.SCALE_20,
+                      }}
+                    >
+                      {/* <Text>{item.prompt.answer}</Text> */}
+                      <QuotedText title={item.prompt.prompt} text={item.prompt.answer} />
+                    </View>
+                  );
+                }
+                return (
+                  <View
+                    key={index}
+                    style={{
+                      flex: 1,
+                    }}
+                  >
+                    <Image
+                      // resizeMode='cover'
+                      source={{
+                        uri: item?.image?.videoOrPhoto,
+                      }}
+                      style={{
+                        width: "100%",
+                        height: 300,
+                        resizeMode: "cover",
+                      }}
+                    />
+                  </View>
+                );
+              })}
+            </View>
+            <View
+              style={{
+                paddingHorizontal: 40,
+              }}
+            />
           </View>
-        </ScrollView>
-      </ImageBackground>
+        </View>
+      </ScrollView>
+    </ImageBackground>
   );
-}
+};

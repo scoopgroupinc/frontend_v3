@@ -38,4 +38,4 @@ export const SelectButtons = ({ funk, titles }: any) => {
       ))}
     </View>
   );
-}
+};

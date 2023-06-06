@@ -197,4 +197,4 @@ export const OTPInputModal = ({
       </KeyboardAwareScrollView>
     </SlideUpModal>
   );
-}
+};

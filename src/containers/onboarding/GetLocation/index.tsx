@@ -152,4 +152,4 @@ export const GetLocationsScreen = ({ navigation }: NavigationScreenType) => {
       </View>
     </GradientLayout>
   );
-}
+};

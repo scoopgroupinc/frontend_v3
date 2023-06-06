@@ -31,5 +31,5 @@ const VoteNavigator = () => {
       <VoteStack.Screen name={screenName.COME_BACK_LATER} component={ComeBackTomorrow} />
     </VoteStack.Navigator>
   );
-}
+};
 export default VoteNavigator;

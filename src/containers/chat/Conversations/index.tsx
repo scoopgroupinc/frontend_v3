@@ -45,7 +45,9 @@ export const getUserConversationList = async (userChoices: any, dispatch: any, u
       })
     );
     // sort results by last message timestamp
-    const modifiedResults = results.sort((a: any, b: any) => new Date(b.lstMessage.timestamp) - new Date(a.lstMessage.timestamp));
+    const modifiedResults = results.sort(
+      (a: any, b: any) => new Date(b.lstMessage.timestamp) - new Date(a.lstMessage.timestamp)
+    );
     dispatch(
       setMessages({
         messages: modifiedResults,
@@ -97,42 +99,42 @@ const Conversations = () => {
   };
 
   const renderItem = (item: any) => (
-      <List.Item
-        style={styles.content}
-        key={item.matchUserId}
-        onPress={() =>
-          onPressChat(
-            item.matchUserId,
-            item.name,
-            item.photoUrl ? item.photoUrl : require("../../../assets/images/logo-small.png"),
-            item.mgs
-          )
-        }
-        title={item.name}
-        description={item.lstMessage.text}
-        left={(props) => (
-          <Image
-            resizeMode="cover"
-            style={{ width: 40, height: 40, borderRadius: 20 }}
-            source={{
-              uri: item.photoUrl ? item.photoUrl : require("../../../assets/images/logo-small.png"),
-            }}
-          />
-        )}
-        right={(props) => (
-          <View>
-            <Text style={styles.lastActive}>{moment(item.lstMessage.timestamp).fromNow()}</Text>
-            {item.lstMessage.myTurn === true ? (
-              <View style={{ alignSelf: "flex-end" }}>
-                <Badge value="Your turn" />
-              </View>
-            ) : null}
-          </View>
-        )}
-      />
-    );
+    <List.Item
+      style={styles.content}
+      key={item.matchUserId}
+      onPress={() =>
+        onPressChat(
+          item.matchUserId,
+          item.name,
+          item.photoUrl ? item.photoUrl : require("../../../assets/images/logo-small.png"),
+          item.mgs
+        )
+      }
+      title={item.name}
+      description={item.lstMessage.text}
+      left={(props) => (
+        <Image
+          resizeMode="cover"
+          style={{ width: 40, height: 40, borderRadius: 20 }}
+          source={{
+            uri: item.photoUrl ? item.photoUrl : require("../../../assets/images/logo-small.png"),
+          }}
+        />
+      )}
+      right={(props) => (
+        <View>
+          <Text style={styles.lastActive}>{moment(item.lstMessage.timestamp).fromNow()}</Text>
+          {item.lstMessage.myTurn === true ? (
+            <View style={{ alignSelf: "flex-end" }}>
+              <Badge value="Your turn" />
+            </View>
+          ) : null}
+        </View>
+      )}
+    />
+  );
 
   return <View />;
-}
+};
 
 export default Conversations;

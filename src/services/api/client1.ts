@@ -54,11 +54,9 @@ const networkErrorClosure = (
 ) => {
   let calls = 0;
   if (calls > 0) return;
-  
-    callback(alertText);
-    calls++;
-    
-  
+
+  callback(alertText);
+  calls++;
 };
 
 const authLink = setContext(async (_, { headers }) => {

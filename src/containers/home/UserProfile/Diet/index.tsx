@@ -44,6 +44,6 @@ const Diet = ({ navigation, route }: any) => {
       </SafeAreaView>
     </LinearGradient>
   );
-}
+};
 
 export default Diet;

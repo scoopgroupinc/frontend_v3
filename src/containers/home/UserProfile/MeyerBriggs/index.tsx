@@ -43,6 +43,6 @@ const MeyerBriggs = ({ navigation, route }: any) => {
       </SafeAreaView>
     </LinearGradient>
   );
-}
+};
 
 export default MeyerBriggs;

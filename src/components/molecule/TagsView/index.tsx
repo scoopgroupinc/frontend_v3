@@ -80,6 +80,6 @@ const TagsView = ({ currentTagType, tags, typeOf }: TagsViewProps) => {
       </View>
     </View>
   );
-}
+};
 
 export default TagsView;

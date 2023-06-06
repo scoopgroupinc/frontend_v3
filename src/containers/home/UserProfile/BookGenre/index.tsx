@@ -37,6 +37,6 @@ const BookGenre = ({ navigation, route }: any) => {
       </SafeAreaView>
     </LinearGradient>
   );
-}
+};
 
 export default BookGenre;

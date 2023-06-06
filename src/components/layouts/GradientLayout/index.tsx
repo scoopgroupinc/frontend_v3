@@ -25,4 +25,4 @@ export const GradientLayout = ({ children, safearea = true }: LayoutType) => {
       </SafeAreaView>
     </LinearGradient>
   );
-}
+};

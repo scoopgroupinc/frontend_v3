@@ -3,10 +3,10 @@ import { View, Text, StyleSheet } from "react-native";
 import { Colors } from "../../../utils";
 
 const Badge = ({ value }: { value: string }) => (
-    <View style={styles.body}>
-      <Text style={styles.value}>{value}</Text>
-    </View>
-  )
+  <View style={styles.body}>
+    <Text style={styles.value}>{value}</Text>
+  </View>
+);
 
 const styles = StyleSheet.create({
   body: {

@@ -91,10 +91,10 @@ export const UserProfileEdit = ({ route }: any) => {
   const UserPromptInput = userPrompts
     ?.filter((item: any) => item.answer !== "")
     ?.map((item: any) => ({
-        answer: item.answer,
-        promptId: item.promptId,
-        userId,
-      }));
+      answer: item.answer,
+      promptId: item.promptId,
+      userId,
+    }));
 
   const handleSaveImages = async (img: any) => {
     const postUrl = URLS.FILE_URL;
@@ -113,9 +113,7 @@ export const UserProfileEdit = ({ route }: any) => {
 
   const saveVisuals = async () => {
     const imageArray = [...userVisuals];
-    await Promise.all(
-      imageArray.map(async (image: any) => handleSaveImages(image.videoOrPhoto))
-    )
+    await Promise.all(imageArray.map(async (image: any) => handleSaveImages(image.videoOrPhoto)))
       .then(() => {
         isSaving(false);
         // Toast.show("User profile has been saved successfully!", {
@@ -375,19 +373,19 @@ export const UserProfileEdit = ({ route }: any) => {
           <View style={styles.mediaBox}>
             <Text style={styles.mediaHeader}>Prompts</Text>
             {userPrompts?.map((item: any, index: any) => (
-                <CaptureText
-                  key={index}
-                  addPrompt={() => {
-                    setCaptureId(index);
-                    navigation.navigate(screenName.ALLPROMPTS);
-                  }}
-                  prompt={item}
-                  change={() => {
-                    setCaptureId(index);
-                    handlePromptChange(item.id);
-                  }}
-                />
-              ))}
+              <CaptureText
+                key={index}
+                addPrompt={() => {
+                  setCaptureId(index);
+                  navigation.navigate(screenName.ALLPROMPTS);
+                }}
+                prompt={item}
+                change={() => {
+                  setCaptureId(index);
+                  handlePromptChange(item.id);
+                }}
+              />
+            ))}
           </View>
 
           <View
@@ -865,4 +863,4 @@ export const UserProfileEdit = ({ route }: any) => {
       </ScrollableGradientLayout>
     </>
   );
-}
+};

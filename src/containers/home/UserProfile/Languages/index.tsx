@@ -44,6 +44,6 @@ const Languages = ({ navigation, route }: any) => {
       </SafeAreaView>
     </LinearGradient>
   );
-}
+};
 
 export default Languages;

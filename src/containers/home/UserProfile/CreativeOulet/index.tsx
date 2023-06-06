@@ -44,6 +44,6 @@ const CreativeOulet = ({ navigation, route }: any) => {
       </SafeAreaView>
     </LinearGradient>
   );
-}
+};
 
 export default CreativeOulet;

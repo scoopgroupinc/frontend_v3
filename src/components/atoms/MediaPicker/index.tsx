@@ -5,7 +5,6 @@ import * as ImagePicker from "expo-image-picker";
 import { styles } from "./styles";
 import { Colors } from "../../../utils";
 
-
 import { imageContainer, ScreenType } from "./types.d";
 
 export const MediaPicker = ({ index, onChangeImage, item }: ScreenType) => {
@@ -76,4 +75,4 @@ export const MediaPicker = ({ index, onChangeImage, item }: ScreenType) => {
       </View>
     </TouchableWithoutFeedback>
   );
-}
+};

@@ -109,4 +109,4 @@ export const SendNotificationScreen = ({ navigation, route }: NavigationScreenTy
       </View>
     </GradientLayout>
   );
-}
+};

@@ -68,4 +68,4 @@ export const DateSpinner = ({ getAge, getDate }: DateSpinnerType) => {
       />
     </View>
   );
-}
+};

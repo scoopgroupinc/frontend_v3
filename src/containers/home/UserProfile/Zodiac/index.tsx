@@ -44,6 +44,6 @@ const Zodiac = ({ navigation, route }: any) => {
       </SafeAreaView>
     </LinearGradient>
   );
-}
+};
 
 export default Zodiac;

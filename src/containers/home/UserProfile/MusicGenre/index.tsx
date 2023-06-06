@@ -46,6 +46,6 @@ const MusicGenre = ({ navigation, route }: any) => {
       </SafeAreaView>
     </LinearGradient>
   );
-}
+};
 
 export default MusicGenre;

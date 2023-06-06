@@ -117,4 +117,4 @@ export const TagsButton = ({ currentTagType, typeOf, data }: TagButtonProps) => 
       </LinearGradient>
     </TouchableOpacity>
   );
-}
+};

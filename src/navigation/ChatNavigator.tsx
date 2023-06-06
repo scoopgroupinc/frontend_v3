@@ -7,14 +7,14 @@ import Messages from "../containers/chat/Messages";
 const ChatStack = createStackNavigator();
 
 const ChatNavigator = () => (
-    <ChatStack.Navigator
-      screenOptions={{
-        headerShown: false,
-      }}
-    >
-      <ChatStack.Screen name={screenName.CONVERSATIONS} component={Conversations} />
-      <ChatStack.Screen name={screenName.MESSAGES} component={Messages} />
-    </ChatStack.Navigator>
-  )
+  <ChatStack.Navigator
+    screenOptions={{
+      headerShown: false,
+    }}
+  >
+    <ChatStack.Screen name={screenName.CONVERSATIONS} component={Conversations} />
+    <ChatStack.Screen name={screenName.MESSAGES} component={Messages} />
+  </ChatStack.Navigator>
+);
 
 export default ChatNavigator;

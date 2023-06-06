@@ -91,6 +91,6 @@ const JobTitle = ({ route }: any) => {
       </SafeAreaView>
     </LinearGradient>
   );
-}
+};
 
 export default JobTitle;

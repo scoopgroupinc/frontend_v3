@@ -44,6 +44,6 @@ const Politics = ({ navigation, route }: any) => {
       </SafeAreaView>
     </LinearGradient>
   );
-}
+};
 
 export default Politics;

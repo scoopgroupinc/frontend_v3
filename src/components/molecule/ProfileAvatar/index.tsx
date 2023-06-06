@@ -10,17 +10,17 @@ export const ProfileAvatar = ({
   displayPhoto?: string;
   settings?: boolean;
 }) => (
-    <View style={styles.avatarCon}>
-      <Image
-        source={{
-          uri: displayPhoto,
-        }}
-        style={styles.avatar}
-      />
-      {!settings && (
-        <View style={styles.profileLevel}>
-          <MaterialCommunityIcons name="account-edit-outline" size={20} color="#fff" />
-        </View>
-      )}
-    </View>
-  )
+  <View style={styles.avatarCon}>
+    <Image
+      source={{
+        uri: displayPhoto,
+      }}
+      style={styles.avatar}
+    />
+    {!settings && (
+      <View style={styles.profileLevel}>
+        <MaterialCommunityIcons name="account-edit-outline" size={20} color="#fff" />
+      </View>
+    )}
+  </View>
+);

@@ -44,6 +44,6 @@ const Cannabis = ({ navigation, route }: any) => {
       </SafeAreaView>
     </LinearGradient>
   );
-}
+};
 
 export default Cannabis;

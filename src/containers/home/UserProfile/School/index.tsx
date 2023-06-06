@@ -86,6 +86,6 @@ const School = ({ navigation, route }: any) => {
       </SafeAreaView>
     </LinearGradient>
   );
-}
+};
 
 export default School;

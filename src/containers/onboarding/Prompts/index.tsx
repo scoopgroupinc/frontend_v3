@@ -71,6 +71,6 @@ const AllPrompts = () => {
       </SafeAreaView>
     </LinearGradient>
   );
-}
+};
 
 export default AllPrompts;

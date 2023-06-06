@@ -44,6 +44,6 @@ const ReligiousPractices = ({ navigation, route }: any) => {
       </SafeAreaView>
     </LinearGradient>
   );
-}
+};
 
 export default ReligiousPractices;
