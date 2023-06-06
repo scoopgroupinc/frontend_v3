@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { View, Text } from "react-native";
-import { styles } from "./styles";
 import { ProgressBar } from "react-native-paper";
 import { useMutation } from "@apollo/client";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { styles } from "./styles";
 import { SelectButtons } from "../../../components/layouts/SelectButtons";
 import { AppButton } from "../../../components/atoms/AppButton";
 import { useAppSelector } from "../../../store/hooks";
@@ -25,7 +25,7 @@ export const DateWhoScreen = () => {
   const [saveUserProfile, { loading }] = useMutation(SAVE_GENDER_PREFENCE);
   const saveGenderPreference = async () => {
     try {
-      let data = {
+      const data = {
         userId,
         gender: mate,
       };
@@ -61,23 +61,14 @@ export const DateWhoScreen = () => {
       <AppActivityIndicator visible={loading} />
       <GradientLayout>
         <View style={styles.container}>
-          <ProgressBar progress={0.3} color={"#0E0E2C"} />
+          <ProgressBar progress={0.3} color="#0E0E2C" />
           <View style={styles.genderContainer}>
-            <Text style={styles.genderTitle}>
-              Which gender do you want to be matched with?
-            </Text>
+            <Text style={styles.genderTitle}>Which gender do you want to be matched with?</Text>
             <View style={styles.genderTypesContainer}>
-              <SelectButtons
-                titles={["male", "female", "bisexual"]}
-                funk={setMate}
-              />
+              <SelectButtons titles={["male", "female", "bisexual"]} funk={setMate} />
             </View>
           </View>
-          <AppButton
-            title={"Next"}
-            disabled={mate === "" ? true : false}
-            onPress={saveGenderPreference}
-          />
+          <AppButton title="Next" disabled={mate === ""} onPress={saveGenderPreference} />
         </View>
       </GradientLayout>
     </>

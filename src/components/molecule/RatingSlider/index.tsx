@@ -14,7 +14,7 @@ export const RatingSlider = ({ rating }: RatingSiderType) => {
     image: require("src/assets/images/cool.png"),
     minTrackColor: Colors.YELLOW,
   });
-  const onSliderChange = (type: Number, val: any) => {
+  const onSliderChange = (type: number, val: any) => {
     val = Array.isArray(val) ? val[0] : val;
     let emotions = {};
     if (val >= 0 && val <= 0.33) {

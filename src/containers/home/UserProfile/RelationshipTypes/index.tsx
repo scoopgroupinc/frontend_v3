@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { LinearGradient } from "expo-linear-gradient";
-import { styles } from "./styles";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { styles } from "./styles";
 import { Colors } from "../../../../utils";
 import { RELATIONSHIP_TYPE } from "../../../../utils/types/TAGS";
 import TagScreenHeader from "../../../../components/molecule/TagScreenHeader";

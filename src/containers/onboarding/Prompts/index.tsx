@@ -1,11 +1,11 @@
 import React from "react";
 import { FlatList, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { styles } from "./styles";
 import { LinearGradient } from "expo-linear-gradient";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { styles } from "./styles";
 import { useAppSelector } from "../../../store/hooks";
 import { Colors } from "../../../utils";
 import { screenName } from "../../../utils/constants";
@@ -40,11 +40,7 @@ const AllPrompts = () => {
               style={{ alignSelf: "flex-start", padding: 0 }}
               onPress={() => navigation.goBack()}
             >
-              <MaterialIcons
-                name="keyboard-arrow-left"
-                size={32}
-                color={Colors.ICON_FILL}
-              />
+              <MaterialIcons name="keyboard-arrow-left" size={32} color={Colors.ICON_FILL} />
             </AppIconButton>
           </View>
           <View style={styles.textContainer}>
@@ -52,12 +48,10 @@ const AllPrompts = () => {
           </View>
         </View>
         <View style={styles.modalContainer}>
-          <View style={styles.modalHeader}></View>
+          <View style={styles.modalHeader} />
           <FlatList
             ItemSeparatorComponent={() => (
-              <View
-                style={{ height: 1, backgroundColor: Colors.ICON_INNER_SHADOW }}
-              />
+              <View style={{ height: 1, backgroundColor: Colors.ICON_INNER_SHADOW }} />
             )}
             showsVerticalScrollIndicator={false}
             data={allPrompts}

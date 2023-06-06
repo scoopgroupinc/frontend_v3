@@ -9,13 +9,12 @@ import { ComeBackTomorrow } from "../containers/votes/ComeBackTomorrow";
 import { useAppSelector } from "../store/hooks";
 import { selectUserChoices } from "../store/features/matches/matchSlice";
 
-
 const VoteStack = createStackNavigator();
 
 const VoteNavigator = () => {
   const userChoices = useAppSelector(selectUserChoices);
   if (userChoices.length === 0) {
-    return <ComeBackTomorrow noMatchToday={true} />;
+    return <ComeBackTomorrow noMatchToday />;
   }
 
   return (
@@ -27,15 +26,9 @@ const VoteNavigator = () => {
     >
       <VoteStack.Screen name={screenName.PROMPT_VOTE} component={PromptVote} />
       <VoteStack.Screen name={screenName.VISUAL_VOTE} component={VisualVote} />
-      <VoteStack.Screen
-        name={screenName.PROFILE_VIEW}
-        component={ProfileView}
-      />
+      <VoteStack.Screen name={screenName.PROFILE_VIEW} component={ProfileView} />
       <VoteStack.Screen name={screenName.MATCH_VIEW} component={MatchScreen} />
-      <VoteStack.Screen
-        name={screenName.COME_BACK_LATER}
-        component={ComeBackTomorrow}
-      />
+      <VoteStack.Screen name={screenName.COME_BACK_LATER} component={ComeBackTomorrow} />
     </VoteStack.Navigator>
   );
 };

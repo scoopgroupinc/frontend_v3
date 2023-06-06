@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { LinearGradient } from "expo-linear-gradient";
-import { styles } from "./styles";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { styles } from "./styles";
 import { Colors } from "../../../../utils";
 import { LANGUAGES } from "../../../../utils/types/TAGS";
 import TagScreenHeader from "../../../../components/molecule/TagScreenHeader";
@@ -40,11 +40,7 @@ const Languages = ({ navigation, route }: any) => {
     <LinearGradient style={styles.container} colors={gradient}>
       <SafeAreaView style={{ flex: 1 }} edges={["left", "right", "top"]}>
         <TagScreenHeader close={goBackHome} title={pageTitle} />
-        <TagsView
-          currentTagType={currentTagType}
-          tags={languagesTags}
-          typeOf={TypeOf.ARRAY}
-        />
+        <TagsView currentTagType={currentTagType} tags={languagesTags} typeOf={TypeOf.ARRAY} />
       </SafeAreaView>
     </LinearGradient>
   );

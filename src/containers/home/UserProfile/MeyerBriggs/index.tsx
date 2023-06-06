@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { LinearGradient } from "expo-linear-gradient";
-import { styles } from "./styles";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { styles } from "./styles";
 import { Colors } from "../../../../utils";
 import { MEYER_BRIGGS } from "../../../../utils/types/TAGS";
 import TagScreenHeader from "../../../../components/molecule/TagScreenHeader";
@@ -39,11 +39,7 @@ const MeyerBriggs = ({ navigation, route }: any) => {
     <LinearGradient style={styles.container} colors={gradient}>
       <SafeAreaView style={{ flex: 1 }} edges={["left", "right", "top"]}>
         <TagScreenHeader close={goBackHome} title={pageTitle} />
-        <TagsView
-          currentTagType={currentTagType}
-          tags={meyerBriggsTags}
-          typeOf={TypeOf.SINGLE}
-        />
+        <TagsView currentTagType={currentTagType} tags={meyerBriggsTags} typeOf={TypeOf.SINGLE} />
       </SafeAreaView>
     </LinearGradient>
   );

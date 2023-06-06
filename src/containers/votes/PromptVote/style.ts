@@ -1,5 +1,6 @@
 import { StyleSheet } from "react-native";
 import { Typography, Colors, Spacing } from "../../../utils";
+
 export const styles = StyleSheet.create({
   sliderContainer: {
     paddingVertical: 16,

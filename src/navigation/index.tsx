@@ -10,7 +10,7 @@ import AppNavigator from "./AppNavigator";
 const Stack = createNativeStackNavigator();
 
 const Navigator = () => {
-  //because of persistGate, we can fetch the user from the store
+  // because of persistGate, we can fetch the user from the store
   const { user } = useAppSelector((state) => state.appUser);
 
   return (
@@ -22,15 +22,9 @@ const Navigator = () => {
           }}
         >
           {user ? (
-            <Stack.Screen
-              name={screenName.APP_NAVIGATOR}
-              component={AppNavigator}
-            />
+            <Stack.Screen name={screenName.APP_NAVIGATOR} component={AppNavigator} />
           ) : (
-            <Stack.Screen
-              name={screenName.AUTH_NAVIGATOR}
-              component={AuthNavigator}
-            />
+            <Stack.Screen name={screenName.AUTH_NAVIGATOR} component={AuthNavigator} />
           )}
         </Stack.Navigator>
       </NavigationContainer>

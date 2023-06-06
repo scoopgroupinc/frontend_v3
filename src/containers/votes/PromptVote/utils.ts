@@ -14,12 +14,12 @@ export class BackgroundImage {
       image: require("src/assets/images/smile.png"),
     },
     {
-        name: "heart-eyes.png",
-        image: require("src/assets/images/heart-eyes.png"),
+      name: "heart-eyes.png",
+      image: require("src/assets/images/heart-eyes.png"),
     },
     {
-        name: "neutral.png",
-        image: require("src/assets/images/neutral.png"),
+      name: "neutral.png",
+      image: require("src/assets/images/neutral.png"),
     },
   ];
 

@@ -8,11 +8,7 @@ const AppActivityIndicator = ({ visible = false }) => {
 
   return (
     <View style={styles.overlay}>
-      <LottieView
-        autoPlay
-        loop
-        source={require("../../../assets/animations/loader.json")}
-      />
+      <LottieView autoPlay loop source={require("../../../assets/animations/loader.json")} />
     </View>
   );
 };

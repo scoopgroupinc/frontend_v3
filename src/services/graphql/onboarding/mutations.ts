@@ -1,4 +1,4 @@
-import {gql} from '@apollo/client'
+import { gql } from "@apollo/client";
 
 export const SAVE_USER_PROMPT = gql`
   mutation SaveUserPrompt($UserPromptInput: UserPromptsInput!) {
@@ -10,12 +10,12 @@ export const SAVE_USER_PROMPT = gql`
       answer
     }
   }
-`
+`;
 export const SAVE_USER_PROMPT_ORDER = gql`
   mutation SaveUserPromptOrder($UserPromptsOrder: UserPromptsOrder!) {
     saveUserPromptsOrder(userPromptsOrder: $UserPromptsOrder)
   }
-`
+`;
 
 export const SAVE_USER_GENDER = gql`
   mutation saveUserProfile($UserProfileInput: UserProfileInput!) {
@@ -24,7 +24,7 @@ export const SAVE_USER_GENDER = gql`
       gender
     }
   }
-`
+`;
 
 export const SAVE_USER_LOCATION = gql`
   mutation saveUserLocation($CreateLocationInput: CreateLocationInput!) {
@@ -35,7 +35,7 @@ export const SAVE_USER_LOCATION = gql`
       zipPostal
     }
   }
-`
+`;
 
 export const SAVE_USER_HEIGHT = gql`
   mutation saveUserProfile($UserProfileInput: UserProfileInput!) {
@@ -44,7 +44,7 @@ export const SAVE_USER_HEIGHT = gql`
       height
     }
   }
-`
+`;
 
 export const SAVE_USER_BIRTHDAY = gql`
   mutation saveUserProfile($UserProfileInput: UserProfileInput!) {
@@ -53,7 +53,7 @@ export const SAVE_USER_BIRTHDAY = gql`
       birthday
     }
   }
-`
+`;
 
 export const SAVE_USER_NAME = gql`
   mutation updateUser($UpdateUserInput: UpdateUserInput!) {
@@ -64,7 +64,7 @@ export const SAVE_USER_NAME = gql`
       email
     }
   }
-`
+`;
 
 export const SAVE_GENDER_PREFENCE = gql`
   mutation saveUserPreference($userPreferenceInput: UserPreferenceInput!) {
@@ -73,4 +73,4 @@ export const SAVE_GENDER_PREFENCE = gql`
       gender
     }
   }
-`
+`;

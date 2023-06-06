@@ -19,8 +19,7 @@ export const SelectButtons = ({ funk, titles }: any) => {
           style={[
             styles.btnContainer,
             {
-              backgroundColor:
-                value === item ? Colors.WHITE : Colors.TRANSPARENT,
+              backgroundColor: value === item ? Colors.WHITE : Colors.TRANSPARENT,
             },
           ]}
           onPress={() => onSelectGender(item)}
@@ -33,9 +32,7 @@ export const SelectButtons = ({ funk, titles }: any) => {
               },
             ]}
           >
-            {item === "bisexual"
-              ? "Both"
-              : item.charAt(0).toUpperCase() + item.slice(1)}
+            {item === "bisexual" ? "Both" : item.charAt(0).toUpperCase() + item.slice(1)}
           </Text>
         </TouchableOpacity>
       ))}

@@ -1,11 +1,11 @@
-import React, {useRef} from 'react'
+import React, { useRef } from "react";
 
 interface replaceImageProps {
-  index: number
-  imageUri: string | null
+  index: number;
+  imageUri: string | null;
 }
 
 export interface ScreenType {
-  images?: any[]
-  onAddImage: (uri: replaceImageProps | null) => void
+  images?: any[];
+  onAddImage: (uri: replaceImageProps | null) => void;
 }

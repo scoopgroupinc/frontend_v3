@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, Alert } from "react-native";
+import { useMutation } from "@apollo/client";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useNavigation } from "@react-navigation/native";
+import { useSelector } from "react-redux";
+import * as FileSystem from "expo-file-system";
 import { ScrollableGradientLayout } from "../../../components/layouts/ScrollableGradientLayout";
 import { AppAlert } from "../../../components/layouts/AppAlert";
 import { AppButton } from "../../../components/atoms/AppButton";
-import { useMutation } from "@apollo/client";
 import {
   SAVE_USER_PROMPTS,
   SAVE_USER_PROMPT_ORDER,
   SAVE_USER_TAGS_TYPE_VISIBLE,
 } from "../../../services/graphql/profile/mutations";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { useNavigation } from "@react-navigation/native";
 import { Colors } from "../../../utils";
 import { MediaContainer } from "../../../components/molecule/MediaContainer";
 import {
@@ -21,7 +23,6 @@ import {
   setUserPrompts,
   setUserVisuals,
 } from "../../../store/features/user/userSlice";
-import { useSelector } from "react-redux";
 import { CaptureText } from "../../../components/atoms/CaptureText";
 import { useAppDispatch } from "../../../store/hooks";
 import { screenName } from "../../../utils/constants";
@@ -30,7 +31,6 @@ import { AppInput } from "../../../components/atoms/AppInput";
 import { UserPrompts } from "../../../utils/types";
 import { cloneArray, mapIndexToPrompts } from "../../../utils/helpers";
 import { URLS } from "../../../utils/constants/apis";
-import * as FileSystem from "expo-file-system";
 import AppActivityIndicator from "../../../components/atoms/ActivityIndicator";
 
 const inputTextProps = {
@@ -90,26 +90,20 @@ export const UserProfileEdit = ({ route }: any) => {
 
   const UserPromptInput = userPrompts
     ?.filter((item: any) => item.answer !== "")
-    ?.map((item: any) => {
-      return {
-        answer: item.answer,
-        promptId: item.promptId,
-        userId,
-      };
-    });
+    ?.map((item: any) => ({
+      answer: item.answer,
+      promptId: item.promptId,
+      userId,
+    }));
 
   const handleSaveImages = async (img: any) => {
     const postUrl = URLS.FILE_URL;
     if (img.includes("file://")) {
-      await FileSystem.uploadAsync(
-        `${postUrl}/api/v1/visuals/uploadvisuals/${userId}`,
-        img,
-        {
-          httpMethod: "POST",
-          uploadType: FileSystem.FileSystemUploadType.MULTIPART,
-          fieldName: "files",
-        }
-      )
+      await FileSystem.uploadAsync(`${postUrl}/api/v1/visuals/uploadvisuals/${userId}`, img, {
+        httpMethod: "POST",
+        uploadType: FileSystem.FileSystemUploadType.MULTIPART,
+        fieldName: "files",
+      })
         .then((res) => {
           isSaving(false);
         })
@@ -118,12 +112,8 @@ export const UserProfileEdit = ({ route }: any) => {
   };
 
   const saveVisuals = async () => {
-    let imageArray = [...userVisuals];
-    await Promise.all(
-      imageArray.map(
-        async (image: any) => await handleSaveImages(image.videoOrPhoto)
-      )
-    )
+    const imageArray = [...userVisuals];
+    await Promise.all(imageArray.map(async (image: any) => handleSaveImages(image.videoOrPhoto)))
       .then(() => {
         isSaving(false);
         // Toast.show("User profile has been saved successfully!", {
@@ -151,12 +141,12 @@ export const UserProfileEdit = ({ route }: any) => {
 
   const [saveUserPrompts] = useMutation(SAVE_USER_PROMPTS, {
     variables: {
-      UserPromptInput: UserPromptInput,
+      UserPromptInput,
     },
     onCompleted: async (data) => {
       const { saveUserPrompts } = data;
       if (saveUserPrompts.length > 0) {
-        //get the ids of prompts in items
+        // get the ids of prompts in items
         const ids: string[] = userPrompts.map((item: any) => item.id);
 
         saveUserPrompts.forEach((item: any, index: number) => {
@@ -285,10 +275,8 @@ export const UserProfileEdit = ({ route }: any) => {
   useEffect(() => {
     if (route?.params?.item) {
       const { item } = route?.params;
-      let newArray: UserPrompts[] = cloneArray(userPrompts);
-      let index = newArray.findIndex(
-        (item) => Number(item.id) === Number(captureId)
-      );
+      const newArray: UserPrompts[] = cloneArray(userPrompts);
+      const index = newArray.findIndex((item) => Number(item.id) === Number(captureId));
       newArray[index] = {
         ...newArray[index],
         answer: item.answer,
@@ -316,9 +304,7 @@ export const UserProfileEdit = ({ route }: any) => {
         >
           <AppAlert state={modalState} close={() => setModalState(false)}>
             <View style={styles.textContainer}>
-              <Text style={styles.modalText}>
-                Are you sure you want to discard your changes?{" "}
-              </Text>
+              <Text style={styles.modalText}>Are you sure you want to discard your changes? </Text>
               <View style={styles.buttonContainer}>
                 <View style={styles.buttons}>
                   <AppButton
@@ -342,9 +328,7 @@ export const UserProfileEdit = ({ route }: any) => {
 
           <AppAlert state={doneState} close={() => setDoneState(false)}>
             <View style={styles.textContainer}>
-              <Text style={styles.modalText}>
-                Are you sure you want to save your changes?{" "}
-              </Text>
+              <Text style={styles.modalText}>Are you sure you want to save your changes? </Text>
               <View style={styles.buttonContainer}>
                 <View style={styles.buttons}>
                   <AppButton
@@ -383,30 +367,25 @@ export const UserProfileEdit = ({ route }: any) => {
 
           <View style={styles.mediaBox}>
             <Text style={styles.mediaHeader}>Photos</Text>
-            <MediaContainer
-              images={userVisuals}
-              onAddImage={handleUserVisuals}
-            />
+            <MediaContainer images={userVisuals} onAddImage={handleUserVisuals} />
           </View>
 
           <View style={styles.mediaBox}>
             <Text style={styles.mediaHeader}>Prompts</Text>
-            {userPrompts?.map((item: any, index: any) => {
-              return (
-                <CaptureText
-                  key={index}
-                  addPrompt={() => {
-                    setCaptureId(index);
-                    navigation.navigate(screenName.ALLPROMPTS);
-                  }}
-                  prompt={item}
-                  change={() => {
-                    setCaptureId(index);
-                    handlePromptChange(item.id);
-                  }}
-                />
-              );
-            })}
+            {userPrompts?.map((item: any, index: any) => (
+              <CaptureText
+                key={index}
+                addPrompt={() => {
+                  setCaptureId(index);
+                  navigation.navigate(screenName.ALLPROMPTS);
+                }}
+                prompt={item}
+                change={() => {
+                  setCaptureId(index);
+                  handlePromptChange(item.id);
+                }}
+              />
+            ))}
           </View>
 
           <View
@@ -431,16 +410,12 @@ export const UserProfileEdit = ({ route }: any) => {
                 });
               }}
               _typeOf="tag_field"
-              visible={
-                userProfile?.find((item: any) => item.tagType === "job")
-                  ?.visible
-              }
+              visible={userProfile?.find((item: any) => item.tagType === "job")?.visible}
               value={
-                userProfile?.find((item: any) => item.tagType === "job")
-                  ?.userTags?.[0]?.tagName
+                userProfile?.find((item: any) => item.tagType === "job")?.userTags?.[0]?.tagName
               }
-              label={"Job Title"}
-              placeholder={"Founder & CEO"}
+              label="Job Title"
+              placeholder="Founder & CEO"
               {...inputTextProps}
               onPressIn={() => {
                 navigation.navigate(screenName.JOB_TITLE, {
@@ -450,16 +425,12 @@ export const UserProfileEdit = ({ route }: any) => {
             />
             <AppInput
               _typeOf="tag_field"
-              visible={
-                userProfile?.find((item: any) => item.tagType === "company")
-                  ?.visible
-              }
+              visible={userProfile?.find((item: any) => item.tagType === "company")?.visible}
               value={
-                userProfile?.find((item: any) => item.tagType === "company")
-                  ?.userTags[0]?.tagName
+                userProfile?.find((item: any) => item.tagType === "company")?.userTags[0]?.tagName
               }
-              label={"Company"}
-              placeholder={"Scoop LLC"}
+              label="Company"
+              placeholder="Scoop LLC"
               onPressIn={() => {
                 navigation.navigate(screenName.COMPANY, {
                   currentTagType: "company",
@@ -469,16 +440,12 @@ export const UserProfileEdit = ({ route }: any) => {
             />
             <AppInput
               _typeOf="tag_field"
-              visible={
-                userProfile?.find((item: any) => item.tagType === "homeTown")
-                  ?.visible
-              }
+              visible={userProfile?.find((item: any) => item.tagType === "homeTown")?.visible}
               value={
-                userProfile?.find((item: any) => item.tagType === "homeTown")
-                  ?.userTags[0]?.tagName
+                userProfile?.find((item: any) => item.tagType === "homeTown")?.userTags[0]?.tagName
               }
-              label={"Hometown"}
-              placeholder={"New York, NY"}
+              label="Hometown"
+              placeholder="New York, NY"
               onPressIn={() => {
                 navigation.navigate(screenName.HOMETOWN, {
                   currentTagType: "homeTown",
@@ -488,16 +455,12 @@ export const UserProfileEdit = ({ route }: any) => {
             />
             <AppInput
               _typeOf="tag_field"
-              visible={
-                userProfile?.find((item: any) => item.tagType === "school")
-                  ?.visible
-              }
+              visible={userProfile?.find((item: any) => item.tagType === "school")?.visible}
               value={
-                userProfile?.find((item: any) => item.tagType === "school")
-                  ?.userTags[0]?.tagName
+                userProfile?.find((item: any) => item.tagType === "school")?.userTags[0]?.tagName
               }
-              label={"School"}
-              placeholder={"University of Michigan"}
+              label="School"
+              placeholder="University of Michigan"
               onPressIn={() => {
                 navigation.navigate(screenName.SCHOOL, {
                   currentTagType: "school",
@@ -511,12 +474,9 @@ export const UserProfileEdit = ({ route }: any) => {
                 ?.find((item: any) => item.tagType === "education")
                 ?.userTags.map((item: any) => item.tagName)
                 .join(", ")}
-              visible={
-                userProfile?.find((item: any) => item.tagType === "education")
-                  ?.visible
-              }
-              label={"Education Level"}
-              placeholder={"Graduate"}
+              visible={userProfile?.find((item: any) => item.tagType === "education")?.visible}
+              label="Education Level"
+              placeholder="Graduate"
               onPressIn={() => {
                 navigation.navigate(screenName.EDUCATION_LEVEL, {
                   currentTagType: "education",
@@ -530,14 +490,9 @@ export const UserProfileEdit = ({ route }: any) => {
                 ?.find((item: any) => item.tagType === "ethnicity")
                 ?.userTags.map((item: any) => item.tagName)
                 .join(", ")}
-              visible={
-                userProfile?.find((item: any) => item.tagType === "ethnicity")
-                  ?.visible
-              }
-              label={"Ethnicity"}
-              placeholder={
-                "Asian, Black/African, Hispanic/Latinx, White/Caucasian"
-              }
+              visible={userProfile?.find((item: any) => item.tagType === "ethnicity")?.visible}
+              label="Ethnicity"
+              placeholder="Asian, Black/African, Hispanic/Latinx, White/Caucasian"
               onPressIn={() => {
                 navigation.navigate(screenName.ETHNICITY, {
                   currentTagType: "ethnicity",
@@ -552,12 +507,10 @@ export const UserProfileEdit = ({ route }: any) => {
                 ?.userTags.map((item: any) => item.tagName)
                 .join(", ")}
               visible={
-                userProfile?.find(
-                  (item: any) => item.tagType === "physical_activity"
-                )?.visible
+                userProfile?.find((item: any) => item.tagType === "physical_activity")?.visible
               }
-              label={"Sports"}
-              placeholder={"Basketball, Football, Soccer, Tennis, Volleyball"}
+              label="Sports"
+              placeholder="Basketball, Football, Soccer, Tennis, Volleyball"
               onPressIn={() => {
                 navigation.navigate(screenName.SPORTS, {
                   currentTagType: "physical_activity",
@@ -571,12 +524,9 @@ export const UserProfileEdit = ({ route }: any) => {
                 ?.find((item: any) => item.tagType === "smoking")
                 ?.userTags.map((item: any) => item.tagName)
                 .join(", ")}
-              visible={
-                userProfile?.find((item: any) => item.tagType === "smoking")
-                  ?.visible
-              }
-              label={"Smoking"}
-              placeholder={"Yes"}
+              visible={userProfile?.find((item: any) => item.tagType === "smoking")?.visible}
+              label="Smoking"
+              placeholder="Yes"
               onPressIn={() => {
                 navigation.navigate(screenName.SMOKING, {
                   currentTagType: "smoking",
@@ -590,13 +540,9 @@ export const UserProfileEdit = ({ route }: any) => {
                 ?.find((item: any) => item.tagType === "cannibis_usage")
                 ?.userTags.map((item: any) => item.tagName)
                 .join(", ")}
-              visible={
-                userProfile?.find(
-                  (item: any) => item.tagType === "cannibis_usage"
-                )?.visible
-              }
-              label={"Cannabis"}
-              placeholder={"Yes"}
+              visible={userProfile?.find((item: any) => item.tagType === "cannibis_usage")?.visible}
+              label="Cannabis"
+              placeholder="Yes"
               onPressIn={() => {
                 navigation.navigate(screenName.CANNABIS, {
                   currentTagType: "cannibis_usage",
@@ -610,13 +556,9 @@ export const UserProfileEdit = ({ route }: any) => {
                 ?.find((item: any) => item.tagType === "alcohol_usage")
                 ?.userTags.map((item: any) => item.tagName)
                 .join(", ")}
-              visible={
-                userProfile?.find(
-                  (item: any) => item.tagType === "alcohol_usage"
-                )?.visible
-              }
-              label={"Alcohol"}
-              placeholder={"Yes"}
+              visible={userProfile?.find((item: any) => item.tagType === "alcohol_usage")?.visible}
+              label="Alcohol"
+              placeholder="Yes"
               onPressIn={() => {
                 navigation.navigate(screenName.ALCOHOL, {
                   currentTagType: "alcohol_usage",
@@ -630,12 +572,9 @@ export const UserProfileEdit = ({ route }: any) => {
                 ?.find((item: any) => item.tagType === "drug_usage")
                 ?.userTags.map((item: any) => item.tagName)
                 .join(", ")}
-              visible={
-                userProfile?.find((item: any) => item.tagType === "drug_usage")
-                  ?.visible
-              }
-              label={"Drugs"}
-              placeholder={"Yes"}
+              visible={userProfile?.find((item: any) => item.tagType === "drug_usage")?.visible}
+              label="Drugs"
+              placeholder="Yes"
               onPressIn={() => {
                 navigation.navigate(screenName.DRUGS, {
                   currentTagType: "drug_usage",
@@ -649,12 +588,9 @@ export const UserProfileEdit = ({ route }: any) => {
                 ?.find((item: any) => item.tagType === "drink")
                 ?.userTags.map((item: any) => item.tagName)
                 .join(", ")}
-              visible={
-                userProfile?.find((item: any) => item.tagType === "drink")
-                  ?.visible
-              }
-              label={"Drink"}
-              placeholder={"Yes"}
+              visible={userProfile?.find((item: any) => item.tagType === "drink")?.visible}
+              label="Drink"
+              placeholder="Yes"
               onPressIn={() => {
                 navigation.navigate(screenName.DRINK, {
                   currentTagType: "drink",
@@ -668,12 +604,9 @@ export const UserProfileEdit = ({ route }: any) => {
                 ?.find((item: any) => item.tagType === "diet")
                 ?.userTags.map((item: any) => item.tagName)
                 .join(", ")}
-              visible={
-                userProfile?.find((item: any) => item.tagType === "diet")
-                  ?.visible
-              }
-              label={"Diet"}
-              placeholder={"Vegetarian, Vegan, Gluten-Free, Dairy-Free, Kosher"}
+              visible={userProfile?.find((item: any) => item.tagType === "diet")?.visible}
+              label="Diet"
+              placeholder="Vegetarian, Vegan, Gluten-Free, Dairy-Free, Kosher"
               onPressIn={() => {
                 navigation.navigate(screenName.DIET, {
                   currentTagType: "diet",
@@ -687,12 +620,9 @@ export const UserProfileEdit = ({ route }: any) => {
                 ?.find((item: any) => item.tagType === "language")
                 ?.userTags.map((item: any) => item.tagName)
                 .join(", ")}
-              visible={
-                userProfile?.find((item: any) => item.tagType === "language")
-                  ?.visible
-              }
-              label={"Languages"}
-              placeholder={"English, Spanish, French, German, Italian"}
+              visible={userProfile?.find((item: any) => item.tagType === "language")?.visible}
+              label="Languages"
+              placeholder="English, Spanish, French, German, Italian"
               onPressIn={() => {
                 navigation.navigate(screenName.LANGUAGES, {
                   currentTagType: "language",
@@ -706,12 +636,9 @@ export const UserProfileEdit = ({ route }: any) => {
                 ?.find((item: any) => item.tagType === "music_genre")
                 ?.userTags.map((item: any) => item.tagName)
                 .join(", ")}
-              visible={
-                userProfile?.find((item: any) => item.tagType === "music_genre")
-                  ?.visible
-              }
-              label={"Music Genres"}
-              placeholder={"Pop, Rock, Hip-Hop, R&B, Country"}
+              visible={userProfile?.find((item: any) => item.tagType === "music_genre")?.visible}
+              label="Music Genres"
+              placeholder="Pop, Rock, Hip-Hop, R&B, Country"
               onPressIn={() => {
                 navigation.navigate(screenName.MUSIC_GENRES, {
                   currentTagType: "music_genre",
@@ -725,12 +652,9 @@ export const UserProfileEdit = ({ route }: any) => {
                 ?.find((item: any) => item.tagType === "book_genre")
                 ?.userTags.map((item: any) => item.tagName)
                 .join(", ")}
-              visible={
-                userProfile?.find((item: any) => item.tagType === "book_genre")
-                  ?.visible
-              }
-              label={"Book Genres"}
-              placeholder={"Fiction, Non-Fiction, Romance, Mystery, Thriller"}
+              visible={userProfile?.find((item: any) => item.tagType === "book_genre")?.visible}
+              label="Book Genres"
+              placeholder="Fiction, Non-Fiction, Romance, Mystery, Thriller"
               onPressIn={() => {
                 navigation.navigate(screenName.BOOK_GENRES, {
                   currentTagType: "book_genre",
@@ -744,12 +668,9 @@ export const UserProfileEdit = ({ route }: any) => {
                 ?.find((item: any) => item.tagType === "pets")
                 ?.userTags.map((item: any) => item.tagName)
                 .join(", ")}
-              visible={
-                userProfile?.find((item: any) => item.tagType === "pets")
-                  ?.visible
-              }
-              label={"Pets"}
-              placeholder={"Dog, Cat, Fish, Bird, Reptile"}
+              visible={userProfile?.find((item: any) => item.tagType === "pets")?.visible}
+              label="Pets"
+              placeholder="Dog, Cat, Fish, Bird, Reptile"
               onPressIn={() => {
                 navigation.navigate(screenName.PETS, {
                   currentTagType: "pets",
@@ -763,12 +684,9 @@ export const UserProfileEdit = ({ route }: any) => {
                 ?.find((item: any) => item.tagType === "creative")
                 ?.userTags.map((item: any) => item.tagName)
                 .join(", ")}
-              visible={
-                userProfile?.find((item: any) => item.tagType === "creative")
-                  ?.visible
-              }
-              label={"Creative Outlet"}
-              placeholder={"Writing, Painting, Photography, Music, Film"}
+              visible={userProfile?.find((item: any) => item.tagType === "creative")?.visible}
+              label="Creative Outlet"
+              placeholder="Writing, Painting, Photography, Music, Film"
               onPressIn={() => {
                 navigation.navigate(screenName.CREATIVE_OUTLET, {
                   currentTagType: "creative",
@@ -782,12 +700,9 @@ export const UserProfileEdit = ({ route }: any) => {
                 ?.find((item: any) => item.tagType === "staying_in")
                 ?.userTags.map((item: any) => item.tagName)
                 .join(", ")}
-              visible={
-                userProfile?.find((item: any) => item.tagType === "staying_in")
-                  ?.visible
-              }
-              label={"Staying In"}
-              placeholder={"Watching TV, Cooking, Reading, Gaming, Bingeing"}
+              visible={userProfile?.find((item: any) => item.tagType === "staying_in")?.visible}
+              label="Staying In"
+              placeholder="Watching TV, Cooking, Reading, Gaming, Bingeing"
               onPressIn={() => {
                 navigation.navigate(screenName.STAYING_IN, {
                   currentTagType: "staying_in",
@@ -801,12 +716,9 @@ export const UserProfileEdit = ({ route }: any) => {
                 ?.find((item: any) => item.tagType === "going_out")
                 ?.userTags.map((item: any) => item.tagName)
                 .join(", ")}
-              visible={
-                userProfile?.find((item: any) => item.tagType === "going_out")
-                  ?.visible
-              }
-              label={"Going Out"}
-              placeholder={"Bars, Clubs, Concerts, Movies, Sports"}
+              visible={userProfile?.find((item: any) => item.tagType === "going_out")?.visible}
+              label="Going Out"
+              placeholder="Bars, Clubs, Concerts, Movies, Sports"
               onPressIn={() => {
                 navigation.navigate(screenName.GOING_OUT, {
                   currentTagType: "going_out",
@@ -820,12 +732,9 @@ export const UserProfileEdit = ({ route }: any) => {
                 ?.find((item: any) => item.tagType === "religion")
                 ?.userTags.map((item: any) => item.tagName)
                 .join(", ")}
-              visible={
-                userProfile?.find((item: any) => item.tagType === "religion")
-                  ?.visible
-              }
-              label={"Religion"}
-              placeholder={"Christianity, Judaism, Islam, Buddhism, Hinduism"}
+              visible={userProfile?.find((item: any) => item.tagType === "religion")?.visible}
+              label="Religion"
+              placeholder="Christianity, Judaism, Islam, Buddhism, Hinduism"
               onPressIn={() => {
                 navigation.navigate(screenName.RELIGIONS, {
                   currentTagType: "religion",
@@ -840,12 +749,10 @@ export const UserProfileEdit = ({ route }: any) => {
                 ?.userTags.map((item: any) => item.tagName)
                 .join(", ")}
               visible={
-                userProfile?.find(
-                  (item: any) => item.tagType === "religious_practice"
-                )?.visible
+                userProfile?.find((item: any) => item.tagType === "religious_practice")?.visible
               }
-              label={"Religious Practice"}
-              placeholder={"Active, Somewhat Active, Not Active"}
+              label="Religious Practice"
+              placeholder="Active, Somewhat Active, Not Active"
               onPressIn={() => {
                 navigation.navigate(screenName.RELIGIOUS_PRACTICES, {
                   currentTagType: "religious_practice",
@@ -859,14 +766,9 @@ export const UserProfileEdit = ({ route }: any) => {
                 ?.find((item: any) => item.tagType === "zodiac")
                 ?.userTags.map((item: any) => item.tagName)
                 .join(", ")}
-              visible={
-                userProfile?.find((item: any) => item.tagType === "zodiac")
-                  ?.visible
-              }
-              label={"Zodiac Sign"}
-              placeholder={
-                "Aries, Taurus, Gemini, Cancer, Leo, Virgo, Libra, Scorpio, Sagittarius, Capricorn, Aquarius, Pisces"
-              }
+              visible={userProfile?.find((item: any) => item.tagType === "zodiac")?.visible}
+              label="Zodiac Sign"
+              placeholder="Aries, Taurus, Gemini, Cancer, Leo, Virgo, Libra, Scorpio, Sagittarius, Capricorn, Aquarius, Pisces"
               onPressIn={() => {
                 navigation.navigate(screenName.ZODIAC, {
                   currentTagType: "zodiac",
@@ -880,15 +782,9 @@ export const UserProfileEdit = ({ route }: any) => {
                 ?.find((item: any) => item.tagType === "meyer_briggs")
                 ?.userTags.map((item: any) => item.tagName)
                 .join(", ")}
-              visible={
-                userProfile?.find(
-                  (item: any) => item.tagType === "meyer_briggs"
-                )?.visible
-              }
-              label={"Meyer Briggs"}
-              placeholder={
-                "ISTJ, ISFJ, INFJ, INTJ, ISTP, ISFP, INFP, INTP, ESTP, ESFP, ENFP, ENTP, ESTJ, ESFJ, ENFJ, ENTP"
-              }
+              visible={userProfile?.find((item: any) => item.tagType === "meyer_briggs")?.visible}
+              label="Meyer Briggs"
+              placeholder="ISTJ, ISFJ, INFJ, INTJ, ISTP, ISFP, INFP, INTP, ESTP, ESFP, ENFP, ENTP, ESTJ, ESFJ, ENFJ, ENTP"
               onPressIn={() => {
                 navigation.navigate(screenName.MEYER_BRIGGS, {
                   currentTagType: "meyer_briggs",
@@ -902,12 +798,9 @@ export const UserProfileEdit = ({ route }: any) => {
                 ?.find((item: any) => item.tagType === "politics")
                 ?.userTags.map((item: any) => item.tagName)
                 .join(", ")}
-              visible={
-                userProfile?.find((item: any) => item.tagType === "politics")
-                  ?.visible
-              }
-              label={"Politics"}
-              placeholder={"Apolitical"}
+              visible={userProfile?.find((item: any) => item.tagType === "politics")?.visible}
+              label="Politics"
+              placeholder="Apolitical"
               onPressIn={() => {
                 navigation.navigate(screenName.POLITICS, {
                   currentTagType: "politics",
@@ -921,13 +814,9 @@ export const UserProfileEdit = ({ route }: any) => {
                 ?.find((item: any) => item.tagType === "parenting_goal")
                 ?.userTags.map((item: any) => item.tagName)
                 .join(", ")}
-              visible={
-                userProfile?.find(
-                  (item: any) => item.tagType === "parenting_goal"
-                )?.visible
-              }
-              label={"Parenting Goals"}
-              placeholder={"Have Kids, Want Kids, Don’t Want Kids"}
+              visible={userProfile?.find((item: any) => item.tagType === "parenting_goal")?.visible}
+              label="Parenting Goals"
+              placeholder="Have Kids, Want Kids, Don’t Want Kids"
               onPressIn={() => {
                 navigation.navigate(screenName.PARENTING_GOALS, {
                   currentTagType: "parenting_goal",
@@ -942,14 +831,10 @@ export const UserProfileEdit = ({ route }: any) => {
                 ?.userTags.map((item: any) => item.tagName)
                 .join(", ")}
               visible={
-                userProfile?.find(
-                  (item: any) => item.tagType === "relationship_goal"
-                )?.visible
+                userProfile?.find((item: any) => item.tagType === "relationship_goal")?.visible
               }
-              label={"Relationship Goals"}
-              placeholder={
-                "Long Term, Short Term, Casual, Friends With Benefits"
-              }
+              label="Relationship Goals"
+              placeholder="Long Term, Short Term, Casual, Friends With Benefits"
               onPressIn={() => {
                 navigation.navigate(screenName.RELATIONSHIP_GOALS, {
                   currentTagType: "relationship_goal",
@@ -963,15 +848,9 @@ export const UserProfileEdit = ({ route }: any) => {
                 ?.find((item: any) => item.tagType === "parenting_type")
                 ?.userTags.map((item: any) => item.tagName)
                 .join(", ")}
-              visible={
-                userProfile?.find(
-                  (item: any) => item.tagType === "parenting_type"
-                )?.visible
-              }
-              label={"Parenting Types"}
-              placeholder={
-                "Authoritarian, Permissive, Uninvolved, Authoritative"
-              }
+              visible={userProfile?.find((item: any) => item.tagType === "parenting_type")?.visible}
+              label="Parenting Types"
+              placeholder="Authoritarian, Permissive, Uninvolved, Authoritative"
               onPressIn={() => {
                 navigation.navigate(screenName.PARENTING_GOALS, {
                   currentTagType: "parenting_type",

@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import { View } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Colors } from "../../../../utils";
 import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
 import {
@@ -9,8 +11,6 @@ import {
   selectUserProfile,
   setUserProfile,
 } from "../../../../store/features/user/userSlice";
-import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { styles } from "./styles";
 import TagScreenHeader from "../../../../components/molecule/TagScreenHeader";
 import { AppInput } from "../../../../components/atoms/AppInput";
@@ -58,8 +58,8 @@ const JobTitle = ({ route }: any) => {
         <View style={styles.input}>
           <AppInput
             value={
-              userProfile?.find((item: any) => item.tagType === currentTagType)
-                ?.userTags?.[0]?.tagName
+              userProfile?.find((item: any) => item.tagType === currentTagType)?.userTags?.[0]
+                ?.tagName
             }
             onChangeText={(text: string) => {
               const _data = userProfile?.map((item: any) => {
@@ -67,9 +67,7 @@ const JobTitle = ({ route }: any) => {
                 if (tagType === currentTagType) {
                   return {
                     ...item,
-                    userTags: [
-                      { userId, tagType: currentTagType, tagName: text },
-                    ],
+                    userTags: [{ userId, tagType: currentTagType, tagName: text }],
                   };
                 }
                 return {

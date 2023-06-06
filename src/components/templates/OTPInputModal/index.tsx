@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, Alert, Pressable } from "react-native";
-import { styles } from "./styles";
 import { useMutation } from "@apollo/client";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import SmoothPinCodeInput from "react-native-smooth-pincode-input";
+import { styles } from "./styles";
 import { useAppDispatch } from "../../../store/hooks";
 import {
   ACTIVATE_ACCOUNT,
@@ -14,9 +15,8 @@ import { Colors } from "../../../utils";
 import { AppButton } from "../../atoms/AppButton";
 import { SlideUpModal } from "../../layouts/SlideUpModal";
 import { storeStringData } from "../../../utils/storage";
-//TODO: replace with a more manged component that doesnt use deprecated ViewPropTypes, breaks web view
-//when removed make sure to delete typings/react-native-smooth-pincode-input.d.ts
-import SmoothPinCodeInput from "react-native-smooth-pincode-input";
+// TODO: replace with a more manged component that doesnt use deprecated ViewPropTypes, breaks web view
+// when removed make sure to delete typings/react-native-smooth-pincode-input.d.ts
 import { setUser } from "../../../store/features/user/userSlice";
 
 type UserData = {
@@ -51,9 +51,7 @@ export const OTPInputModal = ({
 
   const dispatch = useAppDispatch();
 
-  const [resendActivationCode] = useMutation(
-    forgotPass ? FORGOT_PASSWORD : RESEND_ACTIVATION_CODE
-  );
+  const [resendActivationCode] = useMutation(forgotPass ? FORGOT_PASSWORD : RESEND_ACTIVATION_CODE);
   const [activateAccount, { loading }] = useMutation(ACTIVATE_ACCOUNT);
   const [verifyRstPassCode, { loading: verifyRstPassCodeLoading }] =
     useMutation(VERIFY_PASSWORD_CHANGE);
@@ -86,10 +84,7 @@ export const OTPInputModal = ({
       variables: { email: userData.email.toLowerCase() },
     })
       .then((response) => {
-        if (
-          (response && response?.data?.resendActivationCode) ||
-          response?.data?.forgotPassword
-        ) {
+        if ((response && response?.data?.resendActivationCode) || response?.data?.forgotPassword) {
           Alert.alert("Verification OTP was resent");
           setTimer(60);
         }
@@ -144,9 +139,7 @@ export const OTPInputModal = ({
       <KeyboardAwareScrollView>
         <View style={styles.mainContainer}>
           <View style={styles.innerContainer}>
-            <Text style={styles.headerText}>
-              Check your email for a verification code.
-            </Text>
+            <Text style={styles.headerText}>Check your email for a verification code.</Text>
 
             <View style={styles.container}>
               <SmoothPinCodeInput
@@ -189,7 +182,7 @@ export const OTPInputModal = ({
           </View>
 
           <AppButton
-            title={"Verify"}
+            title="Verify"
             txtColor={Colors.BLACK}
             bgColor={Colors.RUST}
             style={{

@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { View } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { styles } from "./styles";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { styles } from "./styles";
 import { Colors } from "../../../../utils";
 import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
 import {
@@ -53,8 +53,8 @@ const School = ({ navigation, route }: any) => {
         <View style={styles.input}>
           <AppInput
             value={
-              userProfile?.find((item: any) => item.tagType === currentTagType)
-                ?.userTags?.[0]?.tagName
+              userProfile?.find((item: any) => item.tagType === currentTagType)?.userTags?.[0]
+                ?.tagName
             }
             onChangeText={(text: string) => {
               const _data = userProfile?.map((item: any) => {
@@ -62,9 +62,7 @@ const School = ({ navigation, route }: any) => {
                 if (tagType === currentTagType) {
                   return {
                     ...item,
-                    userTags: [
-                      { userId, tagType: currentTagType, tagName: text },
-                    ],
+                    userTags: [{ userId, tagType: currentTagType, tagName: text }],
                   };
                 }
                 return {

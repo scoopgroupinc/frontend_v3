@@ -1,11 +1,5 @@
 import React, { Ref, useState } from "react";
-import {
-  TextInput,
-  View,
-  Text,
-  Pressable,
-  TouchableOpacity,
-} from "react-native";
+import { TextInput, View, Text, Pressable, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { styles } from "./styles";
 import { Spacing, Colors } from "../../../utils";
@@ -31,9 +25,7 @@ export const AppInput = React.forwardRef<HTMLInputElement, InputProps>(
       setOpen((open) => !open);
     };
     return (
-      <View
-        style={{ marginTop: Spacing.SCALE_8, marginBottom: Spacing.SCALE_12 }}
-      >
+      <View style={{ marginTop: Spacing.SCALE_8, marginBottom: Spacing.SCALE_12 }}>
         <Text style={styles.label}>{label}</Text>
         <TouchableOpacity onPress={onPressIn}>
           <View pointerEvents="none">

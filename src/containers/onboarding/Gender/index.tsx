@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { useMutation } from "@apollo/client";
-import { styles } from "./styles";
 import { ProgressBar } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { styles } from "./styles";
 import { useAppSelector } from "../../../store/hooks";
 import { SAVE_USER_GENDER } from "../../../services/graphql/profile/mutations";
 import { screenName } from "../../../utils/constants";
@@ -24,7 +24,7 @@ export const GenderScreen = () => {
   const [saveUserProfile, { loading }] = useMutation(SAVE_USER_GENDER);
   const saveUserGender = async () => {
     try {
-      let data = {
+      const data = {
         userId,
         gender,
       };
@@ -58,18 +58,12 @@ export const GenderScreen = () => {
   return (
     <GradientLayout>
       <View style={styles.body}>
-        <ProgressBar progress={0.2} color={"#0E0E2C"} />
+        <ProgressBar progress={0.2} color="#0E0E2C" />
         <View style={styles.btnContainer}>
-          <Text style={styles.genderTitle}>
-            What gender do you identify with?
-          </Text>
+          <Text style={styles.genderTitle}>What gender do you identify with?</Text>
           <SelectButtons titles={["male", "female"]} funk={setGender} />
         </View>
-        <AppButton
-          title={"Next"}
-          disabled={gender === "" ? true : false}
-          onPress={saveUserGender}
-        />
+        <AppButton title="Next" disabled={gender === ""} onPress={saveUserGender} />
       </View>
     </GradientLayout>
   );

@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, ScrollView } from "react-native";
-import { useAppDispatch, useAppSelector } from "../../../store/hooks";
-import { selectUser } from "../../../store/features/user/userSlice";
-import { Colors, Spacing } from "../../../utils";
 import { useMutation, useQuery } from "@apollo/client";
-import { SAVE_GROUP_RATING } from "../../../services/graphql/profile/mutations";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
-import { screenName } from "../../../utils/constants";
-import { GET_PROMPTS_ORDER } from "../../../services/graphql/profile/queries";
-import { URLS } from "../../../utils/constants/apis";
 import { LinearGradient } from "expo-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
+import { selectUser } from "../../../store/features/user/userSlice";
+import { Colors, Spacing } from "../../../utils";
+import { SAVE_GROUP_RATING } from "../../../services/graphql/profile/mutations";
+import { screenName } from "../../../utils/constants";
+import { GET_PROMPTS_ORDER } from "../../../services/graphql/profile/queries";
+import { URLS } from "../../../utils/constants/apis";
 import { QuotedText } from "../../../components/atoms/QuotedText";
 import { styles } from "./style";
 import { AppButton } from "../../../components/atoms/AppButton";
@@ -45,9 +45,7 @@ export const PromptVote = () => {
   const userChoiceId = userChoices[0]?.shownUserId;
   const userChoicePrompt = userChoices[0]?.prompt;
   const promptCriteria = useAppSelector((state) =>
-    state.matches.criterias.filter(
-      (criteria: any) => criteria.type === "user_prompts"
-    )
+    state.matches.criterias.filter((criteria: any) => criteria.type === "user_prompts")
   );
 
   const ratingGroupInput = {
@@ -57,7 +55,7 @@ export const PromptVote = () => {
     comment: [
       {
         ratingGroupId: "",
-        comment: comment,
+        comment,
         startTime: new Date().toISOString(),
         endTime: new Date().toISOString(),
         final: true,
@@ -97,21 +95,18 @@ export const PromptVote = () => {
     userId: userChoiceId,
   };
 
-  const { data: promptsOrderResult, loading: promptsOrderLoading } = useQuery(
-    GET_PROMPTS_ORDER,
-    {
-      variables: {
-        userPromptsOrder,
-      },
-    }
-  );
+  const { data: promptsOrderResult, loading: promptsOrderLoading } = useQuery(GET_PROMPTS_ORDER, {
+    variables: {
+      userPromptsOrder,
+    },
+  });
 
   const quote = {
     title: `${userChoicePrompt?.prompt}...`,
     text: `"${userChoicePrompt?.answer}"`,
   };
 
-  //load images for the next screen
+  // load images for the next screen
   const fetchMatchVisuals = async () => {
     await fetch(`${URLS.FILE_URL}/api/v1/visuals/${userChoiceId}`, {
       method: "GET",
@@ -132,11 +127,11 @@ export const PromptVote = () => {
       .catch((err) => {});
   };
 
-  //load prompts for the profile view screen
+  // load prompts for the profile view screen
   const fetchPromptsOrder = async () => {
     if (promptsOrderLoading) return null;
 
-    let promptsOrder = promptsOrderResult?.getUserPromptsOrder;
+    const promptsOrder = promptsOrderResult?.getUserPromptsOrder;
 
     if (promptsOrder && promptsOrder.length > 0) {
       dispatch(
@@ -178,33 +173,22 @@ export const PromptVote = () => {
               <View style={{ width: "100%" }}>
                 <View style={styles.sliderContainer}>
                   <View style={styles.textContainer}>
-                    <Text style={styles.text}>
-                      {promptCriteria[0]?.title}:{" "}
-                    </Text>
-                    <Text style={styles.smallText}>
-                      {promptCriteria[0]?.description}
-                    </Text>
+                    <Text style={styles.text}>{promptCriteria[0]?.title}: </Text>
+                    <Text style={styles.smallText}>{promptCriteria[0]?.description}</Text>
                   </View>
                   <RatingSlider rating={setType1} />
                 </View>
                 <View style={styles.sliderContainer}>
                   <View style={styles.textContainer}>
-                    <Text style={styles.text}>
-                      {promptCriteria[1]?.title}:{" "}
-                    </Text>
-                    <Text style={styles.smallText}>
-                      Authentic, Glimpse of person
-                    </Text>
+                    <Text style={styles.text}>{promptCriteria[1]?.title}: </Text>
+                    <Text style={styles.smallText}>Authentic, Glimpse of person</Text>
                   </View>
                   <RatingSlider rating={setType2} />
                 </View>
                 <View style={styles.sliderContainer}>
                   <View style={styles.textContainer}>
                     <Text style={styles.text}>{promptCriteria[2]?.title}:</Text>
-                    <Text style={styles.smallText}>
-                      {" "}
-                      Positive, Interesting, Funny{" "}
-                    </Text>
+                    <Text style={styles.smallText}> Positive, Interesting, Funny </Text>
                   </View>
                   <RatingSlider rating={setType3} />
                 </View>
@@ -231,8 +215,7 @@ export const PromptVote = () => {
                   }}
                 />
                 <Text style={styles.smallText}>
-                  Give constructive feedback and help your Scoop friend with his
-                  profile!
+                  Give constructive feedback and help your Scoop friend with his profile!
                 </Text>
               </View>
             </View>

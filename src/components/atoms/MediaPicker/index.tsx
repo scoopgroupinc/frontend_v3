@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { View, Image, Platform, TouchableWithoutFeedback } from "react-native";
+import { Octicons } from "@expo/vector-icons";
+import * as ImagePicker from "expo-image-picker";
 import { styles } from "./styles";
 import { Colors } from "../../../utils";
-import { Octicons } from "@expo/vector-icons";
-
-import * as ImagePicker from "expo-image-picker";
 
 import { imageContainer, ScreenType } from "./types.d";
 
@@ -13,7 +12,7 @@ export const MediaPicker = ({ index, onChangeImage, item }: ScreenType) => {
 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
-    let result = await ImagePicker.launchImageLibraryAsync({
+    const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [4, 3],
@@ -21,7 +20,7 @@ export const MediaPicker = ({ index, onChangeImage, item }: ScreenType) => {
     });
 
     if (!result.canceled) {
-      //handle image type conversion
+      // handle image type conversion
       let imageResponse = result.assets[0].uri;
       if (
         Platform.OS === "ios" &&
@@ -39,7 +38,7 @@ export const MediaPicker = ({ index, onChangeImage, item }: ScreenType) => {
 
   const replaceImage = async (index: number) => {
     // No permissions request is necessary for launching the image library
-    let result = await ImagePicker.launchImageLibraryAsync({
+    const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [4, 3],
@@ -47,7 +46,7 @@ export const MediaPicker = ({ index, onChangeImage, item }: ScreenType) => {
     });
 
     if (!result.canceled) {
-      //handle image type conversion
+      // handle image type conversion
       let imageResponse = result.assets[0].uri;
       if (
         Platform.OS === "ios" &&

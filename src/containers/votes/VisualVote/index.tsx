@@ -2,16 +2,16 @@ import React, { useEffect, useState } from "react";
 import { View, Text, Image, ScrollView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useMutation } from "@apollo/client";
+import { LinearGradient } from "expo-linear-gradient";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { AppButton } from "../../../components/atoms/AppButton";
 import { screenName } from "../../../utils/constants";
 import { useAppSelector } from "../../../store/hooks";
 import { selectUser } from "../../../store/features/user/userSlice";
 import { selectUserChoices } from "../../../store/features/matches/matchSlice";
 import { Colors } from "../../../utils";
-import { useMutation } from "@apollo/client";
 import { SAVE_GROUP_RATING } from "../../../services/graphql/profile/mutations";
-import { LinearGradient } from "expo-linear-gradient";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { styles } from "./style";
 import { RatingSlider } from "../../../components/molecule/RatingSlider";
 import { AppInput } from "../../../components/atoms/AppInput";
@@ -30,11 +30,9 @@ export const VisualVote = () => {
 
   const userChoices = useAppSelector(selectUserChoices);
 
-  const visual = userChoices[0].visual;
+  const { visual } = userChoices[0];
   const photoCriteria = useAppSelector((state) =>
-    state.matches.criterias.filter(
-      (criteria: any) => criteria.type === "user_visuals"
-    )
+    state.matches.criterias.filter((criteria: any) => criteria.type === "user_visuals")
   );
 
   const gradient = [Colors.RUST, Colors.RED, Colors.TEAL];
@@ -46,7 +44,7 @@ export const VisualVote = () => {
     comment: [
       {
         ratingGroupId: "",
-        comment: comment,
+        comment,
         startTime: new Date().toISOString(),
         endTime: new Date().toISOString(),
         final: true,
@@ -111,28 +109,21 @@ export const VisualVote = () => {
             <View style={styles.sliderContainer}>
               <View style={styles.textContainer}>
                 <Text style={styles.text}>{photoCriteria[0]?.title}: </Text>
-                <Text style={styles.smallText}>
-                  {photoCriteria[0]?.description}
-                </Text>
+                <Text style={styles.smallText}>{photoCriteria[0]?.description}</Text>
               </View>
               <RatingSlider rating={setType1} />
             </View>
             <View style={styles.sliderContainer}>
               <View style={styles.textContainer}>
                 <Text style={styles.text}>{photoCriteria[1]?.title}: </Text>
-                <Text style={styles.smallText}>
-                  {photoCriteria[1]?.description}
-                </Text>
+                <Text style={styles.smallText}>{photoCriteria[1]?.description}</Text>
               </View>
               <RatingSlider rating={setType2} />
             </View>
             <View style={styles.sliderContainer}>
               <View style={styles.textContainer}>
                 <Text style={styles.text}>{photoCriteria[2]?.title}:</Text>
-                <Text style={styles.smallText}>
-                  {" "}
-                  {photoCriteria[2]?.description}{" "}
-                </Text>
+                <Text style={styles.smallText}> {photoCriteria[2]?.description} </Text>
               </View>
               <RatingSlider rating={setType3} />
             </View>

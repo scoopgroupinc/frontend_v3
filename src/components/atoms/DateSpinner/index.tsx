@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import moment from "moment";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { styles } from "./styles";
 import { Typography } from "../../../utils";
-import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 export interface DateSpinnerType {
   getAge: (val: number) => void;
@@ -14,7 +14,7 @@ export const DateSpinner = ({ getAge, getDate }: DateSpinnerType) => {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [date, setDate] = useState<Date>(new Date());
   const onDateSelected = (e: Event, selectedDate: Date): void => {
-    let modifiedDate = moment(selectedDate).format("YYYY-MM-DD");
+    const modifiedDate = moment(selectedDate).format("YYYY-MM-DD");
     setDate(new Date(modifiedDate));
   };
 
@@ -25,7 +25,7 @@ export const DateSpinner = ({ getAge, getDate }: DateSpinnerType) => {
   }, [date]);
 
   const handleConfirm = (selectedDate: any) => {
-    let modifiedDate = moment(selectedDate).format("YYYY-MM-DD");
+    const modifiedDate = moment(selectedDate).format("YYYY-MM-DD");
     setDate(new Date(modifiedDate));
     hideDatePicker();
   };

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Alert, View, Text, TextInput } from "react-native";
 import { Entypo } from "@expo/vector-icons";
-import { styles } from "./styles";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { styles } from "./styles";
 import { Colors } from "../../../utils";
 import { FullModalView } from "../../molecule/FullModalView";
 import { useAppSelector } from "../../../store/hooks";
@@ -14,11 +14,7 @@ interface PromptAnswerType {
   prompt: any;
 }
 
-export const PromptAnswerModal = ({
-  close,
-  goBack,
-  prompt,
-}: PromptAnswerType) => {
+export const PromptAnswerModal = ({ close, goBack, prompt }: PromptAnswerType) => {
   const { user } = useAppSelector((state: any) => state.appUser);
   const userId = user?.userId;
 
@@ -34,7 +30,7 @@ export const PromptAnswerModal = ({
       userId,
       promptId: prompt?.id,
       prompt: prompt?.prompt,
-      answer: answer,
+      answer,
     };
     goBack(itemObject);
   };
@@ -61,12 +57,8 @@ export const PromptAnswerModal = ({
           onChangeText={setAnswer}
         />
         <AppButton
-          title={"Done"}
-          disabled={
-            answer === "" || answer === "" || answer === undefined
-              ? true
-              : false
-          }
+          title="Done"
+          disabled={!!(answer === "" || answer === "" || answer === undefined)}
           onPress={handleSavePrompt}
         />
       </KeyboardAwareScrollView>

@@ -1,17 +1,17 @@
 import React, { useState } from "react";
 import { TouchableOpacity, View, Text } from "react-native";
-import AppActivityIndicator from "../../../components/atoms/ActivityIndicator";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { GradientLayout } from "../../../components/layouts/GradientLayout";
-import { styles } from "./styles";
-import FormField from "../../../components/molecule/FormField";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { AppButton } from "../../../components/atoms/AppButton";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useMutation } from "@apollo/client";
+import { AppButton } from "../../../components/atoms/AppButton";
+import FormField from "../../../components/molecule/FormField";
+import { styles } from "./styles";
+import { GradientLayout } from "../../../components/layouts/GradientLayout";
+import AppActivityIndicator from "../../../components/atoms/ActivityIndicator";
 import { LOG_IN_USER } from "../../../services/graphql/auth/mutations";
 import { useAppDispatch } from "../../../store/hooks";
 import { setUser } from "../../../store/features/user/userSlice";
@@ -30,8 +30,7 @@ const LoginScreen = () => {
 
   const dispatch = useAppDispatch();
 
-  const [loginUserMutation, { data: loginData, loading: loginLoading }] =
-    useMutation(LOG_IN_USER);
+  const [loginUserMutation, { data: loginData, loading: loginLoading }] = useMutation(LOG_IN_USER);
 
   const schema = yup.object().shape({
     email: yup.string().email().required("Email is required."),
@@ -104,7 +103,7 @@ const LoginScreen = () => {
                 }}
                 label="Email"
                 placeholder="Email..."
-                autoCaps={"none"}
+                autoCaps="none"
                 inputType="email"
                 msg={errors.email?.message}
               />
@@ -116,7 +115,7 @@ const LoginScreen = () => {
                 }}
                 label="Password"
                 placeholder="Password..."
-                autoCaps={"none"}
+                autoCaps="none"
                 inputType="password"
                 msg={errors.password?.message}
               />
@@ -125,12 +124,10 @@ const LoginScreen = () => {
 
           <View style={styles.btnContainer}>
             <AppButton
-              title={"Submit"}
+              title="Submit"
               onPress={handleSubmit(loginUser)}
               txtColor={Colors.BLACK}
-              disabled={
-                errors.email?.message || errors.password?.message ? true : false
-              }
+              disabled={!!(errors.email?.message || errors.password?.message)}
               bgColor={Colors.ICE_WHITE}
             />
 
@@ -138,9 +135,7 @@ const LoginScreen = () => {
               <Text style={styles.link}>Forgot Password</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity
-              onPress={() => navigation.navigate(screenName.REGISTER)}
-            >
+            <TouchableOpacity onPress={() => navigation.navigate(screenName.REGISTER)}>
               <Text style={styles.link}>Sign Up</Text>
             </TouchableOpacity>
           </View>

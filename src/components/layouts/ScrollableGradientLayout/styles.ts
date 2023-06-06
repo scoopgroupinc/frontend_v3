@@ -1,5 +1,4 @@
-import { StyleSheet } from "react-native";
-import { StatusBar } from "react-native";
+import { StyleSheet, StatusBar } from "react-native";
 import { Spacing } from "../../../utils";
 
 export const styles = StyleSheet.create({

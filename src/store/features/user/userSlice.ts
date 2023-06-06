@@ -1,17 +1,11 @@
 import { createSlice, current } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import {
-  multiRemove,
-  removeData,
-  storeObjectData,
-} from "../../../utils/storage";
+import { multiRemove, removeData, storeObjectData } from "../../../utils/storage";
 import { UserPrompts } from "../../../utils/types";
 import { mapIndexToPrompts } from "../../../utils/helpers";
 
-const counter: number = 6;
-const initialPromptsData: UserPrompts[] = [...Array(counter)].map(
-  mapIndexToPrompts
-);
+const counter = 6;
+const initialPromptsData: UserPrompts[] = [...Array(counter)].map(mapIndexToPrompts);
 
 interface UserState {
   user: any;
@@ -82,23 +76,11 @@ export const UserSlice = createSlice({
         state.userVisuals = null;
         state.userPrompts = initialPromptsData;
         state.userProfile = null;
-        multiRemove([
-          "user",
-          "userToken",
-          "token",
-          "onboardKey",
-          "userVisuals",
-        ]);
+        multiRemove(["user", "userToken", "token", "onboardKey", "userVisuals"]);
       })
       .addCase("appUser/deleteAccount", (state) => {
         Object.assign(state, initialState);
-        multiRemove([
-          "user",
-          "userToken",
-          "token",
-          "onboardKey",
-          "userVisuals",
-        ]);
+        multiRemove(["user", "userToken", "token", "onboardKey", "userVisuals"]);
       });
   },
 });
@@ -108,12 +90,7 @@ export const selectUserProfile = (state: any) => state.appUser.userProfile;
 export const selectUserVisuals = (state: any) => state.appUser.userVisuals;
 export const selectUserPrompts = (state: any) => state.appUser.userPrompts;
 
-export const {
-  setUser,
-  setUserVisuals,
-  updateUser,
-  setUserProfile,
-  setUserPrompts,
-} = UserSlice.actions;
+export const { setUser, setUserVisuals, updateUser, setUserProfile, setUserPrompts } =
+  UserSlice.actions;
 
 export default UserSlice.reducer;

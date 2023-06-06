@@ -1,20 +1,20 @@
 import React, { useEffect } from "react";
 import axios from "axios";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { View } from "react-native";
+import { FontAwesome, Ionicons } from "@expo/vector-icons";
+import { useQuery } from "@apollo/client";
 import VoteNavigator from "./VoteNavigator";
 import { screenName } from "../utils/constants";
 import ProfileNavigator from "./ProfileNavigator";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { View } from "react-native";
 import { Colors } from "../utils";
-import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import Conversations from "../containers/chat/Conversations";
 import VoteOnboardNavigator from "./VoteOnboardNavigator";
 import { setUserVisuals } from "../store/features/user/userSlice";
 import { URLS } from "../utils/constants/apis";
 import { OnboardNavigator } from "./OnboardNavigator";
 import { GET_PROMPTS } from "../services/graphql/profile/queries";
-import { useQuery } from "@apollo/client";
 import { setAllPrompts } from "../store/features/prompts/promptsSlice";
 
 const AppTabStack = createBottomTabNavigator();
@@ -118,56 +118,52 @@ const AppNavigator = () => {
             height: 70,
           },
           tabBarInactiveBackgroundColor: "white",
-          tabBarIcon: ({ focused }) => {
-            return (
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  flex: 1,
-                  borderRadius: 50,
-                  backgroundColor: focused ? Colors.RUST : "white",
-                  padding: 20,
-                  marginVertical: focused ? 5 : 0,
-                }}
-              >
-                <FontAwesome
-                  name="thumbs-o-up"
-                  size={focused ? 22 : 32}
-                  color={focused ? "white" : "black"}
-                />
-              </View>
-            );
-          },
+          tabBarIcon: ({ focused }) => (
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "center",
+                flex: 1,
+                borderRadius: 50,
+                backgroundColor: focused ? Colors.RUST : "white",
+                padding: 20,
+                marginVertical: focused ? 5 : 0,
+              }}
+            >
+              <FontAwesome
+                name="thumbs-o-up"
+                size={focused ? 22 : 32}
+                color={focused ? "white" : "black"}
+              />
+            </View>
+          ),
         }}
       />
       <AppTabStack.Screen
         name={screenName.PROFILE}
         component={ProfileNavigator}
         options={{
-          tabBarIcon: ({ focused }) => {
-            return (
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  backgroundColor: focused ? Colors.RUST : "white",
-                  flex: 1,
-                  borderRadius: 50,
-                  padding: 20,
-                  marginVertical: focused ? 5 : 0,
-                }}
-              >
-                <Ionicons
-                  name="person-outline"
-                  size={focused ? 22 : 32}
-                  color={focused ? "white" : "black"}
-                />
-              </View>
-            );
-          },
+          tabBarIcon: ({ focused }) => (
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "center",
+                backgroundColor: focused ? Colors.RUST : "white",
+                flex: 1,
+                borderRadius: 50,
+                padding: 20,
+                marginVertical: focused ? 5 : 0,
+              }}
+            >
+              <Ionicons
+                name="person-outline"
+                size={focused ? 22 : 32}
+                color={focused ? "white" : "black"}
+              />
+            </View>
+          ),
           tabBarItemStyle: {
             height: 70,
           },
@@ -183,28 +179,26 @@ const AppNavigator = () => {
           tabBarItemStyle: {
             height: 70,
           },
-          tabBarIcon: ({ focused }) => {
-            return (
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  flex: 1,
-                  borderRadius: 50,
-                  backgroundColor: focused ? Colors.RUST : "white",
-                  padding: 20,
-                  marginVertical: focused ? 5 : 0,
-                }}
-              >
-                <Ionicons
-                  name="md-chatbox-ellipses-outline"
-                  size={focused ? 22 : 32}
-                  color={focused ? "white" : "black"}
-                />
-              </View>
-            );
-          },
+          tabBarIcon: ({ focused }) => (
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "center",
+                flex: 1,
+                borderRadius: 50,
+                backgroundColor: focused ? Colors.RUST : "white",
+                padding: 20,
+                marginVertical: focused ? 5 : 0,
+              }}
+            >
+              <Ionicons
+                name="md-chatbox-ellipses-outline"
+                size={focused ? 22 : 32}
+                color={focused ? "white" : "black"}
+              />
+            </View>
+          ),
         }}
       />
     </AppTabStack.Navigator>

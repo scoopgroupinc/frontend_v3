@@ -1,31 +1,31 @@
-import axios from 'axios'
-import { URLS } from '../../utils/constants/apis'
-import { getToken } from '../api/client'
+import axios from "axios";
+import { URLS } from "../../utils/constants/apis";
+import { getToken } from "../api/client";
 
 const instance = axios.create({
   baseURL: `${URLS.CHATSERVICE_BASE_URL}/api/v1/chats/`,
   headers: {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   },
-})
+});
 const requestHandler = async (request: any) => {
-  const token = await getToken()
+  const token = await getToken();
   if (token) {
-    request.headers.Authorization = `Bearer ${token}`
+    request.headers.Authorization = `Bearer ${token}`;
   }
-  return request
-}
+  return request;
+};
 
 const responseHandler = (response: any) => {
   if (response?.status === 401) {
     // signOutUser();//todo:  sign user out
   }
 
-  return response
-}
+  return response;
+};
 
-instance.interceptors.request.use((request) => requestHandler(request))
+instance.interceptors.request.use((request) => requestHandler(request));
 
-instance.interceptors.response.use((response) => responseHandler(response))
+instance.interceptors.response.use((response) => responseHandler(response));
 
-export default instance
+export default instance;

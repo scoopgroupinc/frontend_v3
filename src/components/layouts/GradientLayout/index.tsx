@@ -1,8 +1,9 @@
 import React, { ReactNode } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 
-import { Colors } from "../../../utils";
 import { SafeAreaView, View } from "react-native";
+import { Colors } from "../../../utils";
+
 interface LayoutType {
   children: ReactNode;
   safearea?: boolean;

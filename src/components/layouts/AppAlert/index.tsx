@@ -12,19 +12,17 @@ interface AlertType {
   close: () => void;
 }
 
-export const AppAlert = ({ state, children, close }: AlertType) => {
-  return (
-    <Modal visible={state} transparent animationType="fade">
-      <BlurView intensity={70} tint="dark" style={styles.modalView}>
-        <View style={styles.container}>
-          <View style={styles.iconContainer}>
-            <AppIconButton onPress={close}>
-              <MaterialIcons name="close" size={20} color={Colors.ICON_FILL} />
-            </AppIconButton>
-          </View>
-          {children}
+export const AppAlert = ({ state, children, close }: AlertType) => (
+  <Modal visible={state} transparent animationType="fade">
+    <BlurView intensity={70} tint="dark" style={styles.modalView}>
+      <View style={styles.container}>
+        <View style={styles.iconContainer}>
+          <AppIconButton onPress={close}>
+            <MaterialIcons name="close" size={20} color={Colors.ICON_FILL} />
+          </AppIconButton>
         </View>
-      </BlurView>
-    </Modal>
-  );
-};
+        {children}
+      </View>
+    </BlurView>
+  </Modal>
+);

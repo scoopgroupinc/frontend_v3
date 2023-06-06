@@ -1,14 +1,12 @@
-import React from 'react'
-import {View, Text, StyleSheet} from 'react-native'
-import { Colors } from '../../../utils'
+import React from "react";
+import { View, Text, StyleSheet } from "react-native";
+import { Colors } from "../../../utils";
 
-const Badge = ({value}: {value: string}) => {
-  return (
-    <View style={styles.body}>
-      <Text style={styles.value}>{value}</Text>
-    </View>
-  )
-}
+const Badge = ({ value }: { value: string }) => (
+  <View style={styles.body}>
+    <Text style={styles.value}>{value}</Text>
+  </View>
+);
 
 const styles = StyleSheet.create({
   body: {
@@ -18,11 +16,11 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   value: {
-    textAlign: 'center',
+    textAlign: "center",
     color: Colors.WHITE,
     fontSize: 14,
-    fontFamily: 'Poppins_400Regular',
+    fontFamily: "Poppins_400Regular",
   },
-})
+});
 
-export default Badge
+export default Badge;

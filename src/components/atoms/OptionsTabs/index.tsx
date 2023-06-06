@@ -8,13 +8,11 @@ interface OptionProps {
   btnAction?: () => void;
 }
 
-export const OptionTab = ({ optionName, icon, btnAction }: OptionProps) => {
-  return (
-    <Pressable onPress={btnAction} style={styles.optionContainer}>
-      <Text style={styles.optionText}>{optionName}</Text>
-      {icon}
-    </Pressable>
-  );
-};
+export const OptionTab = ({ optionName, icon, btnAction }: OptionProps) => (
+  <Pressable onPress={btnAction} style={styles.optionContainer}>
+    <Text style={styles.optionText}>{optionName}</Text>
+    {icon}
+  </Pressable>
+);
 
 export default OptionTab;

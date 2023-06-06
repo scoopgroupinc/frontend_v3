@@ -40,9 +40,7 @@ export const MatchSlice = createSlice({
     },
     RemoveActiveMatch: (state, action: PayloadAction<any>) => {
       const { activeMatchId } = action.payload;
-      const resultingMatches = state.userMatches.filter(
-        (match: any) => match.id !== activeMatchId
-      );
+      const resultingMatches = state.userMatches.filter((match: any) => match.id !== activeMatchId);
       state.userMatches = resultingMatches;
     },
     setUserMatchImages: (state, action: PayloadAction<any>) => {
@@ -77,16 +75,11 @@ export const {
   setUserChoices,
 } = MatchSlice.actions;
 
-export const selectUserMatches = (state: RootState) =>
-  state.matches.userMatches;
+export const selectUserMatches = (state: RootState) => state.matches.userMatches;
 export const selectCriterias = (state: RootState) => state.matches.criterias;
-export const selectUserMatchImages = (state: RootState) =>
-  state.matches.userMatchImages;
-export const selectUserMatchPrompts = (state: RootState) =>
-  state.matches.userMatchPrompts;
-export const selectMatchedUsers = (state: RootState) =>
-  state.matches.matchedUsers;
-export const selectUserChoices = (state: RootState) =>
-  state.matches.userChoices;
+export const selectUserMatchImages = (state: RootState) => state.matches.userMatchImages;
+export const selectUserMatchPrompts = (state: RootState) => state.matches.userMatchPrompts;
+export const selectMatchedUsers = (state: RootState) => state.matches.matchedUsers;
+export const selectUserChoices = (state: RootState) => state.matches.userChoices;
 
 export default MatchSlice.reducer;

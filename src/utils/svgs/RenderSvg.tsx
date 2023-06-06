@@ -24,14 +24,23 @@ type SvgProps = {
   origin?: number;
   originX?: number;
   originY?: number;
-  preserveAspectRatio?:string
+  preserveAspectRatio?: string;
 };
 
-export const RenderSvg = ({ fill, viewPortWidth, viewPortHeight, children, width, height, style, originX = 0, originY= 0 }: SvgProps) => {
+export const RenderSvg = ({
+  fill,
+  viewPortWidth,
+  viewPortHeight,
+  children,
+  width,
+  height,
+  style,
+  originX = 0,
+  originY = 0,
+}: SvgProps) => {
   const acutalWidth = width;
   const acutalHeight = height;
-  const aspectRatio =
-    acutalWidth && acutalHeight ? acutalWidth / acutalHeight : 1;
+  const aspectRatio = acutalWidth && acutalHeight ? acutalWidth / acutalHeight : 1;
 
   return (
     <View
