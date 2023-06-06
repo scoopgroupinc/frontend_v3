@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { View, Text, Pressable, Linking, Alert } from "react-native";
 import { ScrollableGradientLayout } from "../../components/layouts/ScrollableGradientLayout";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
@@ -19,14 +19,18 @@ import { useMutation, useQuery } from "@apollo/client";
 import { DELETE_USER_PROFILE } from "../../services/graphql/user/mutations";
 import {
   GET_PROMPTS_ORDER,
+  GET_USER_CHOICES,
   GET_USER_TAGS_TYPE_VISIBLE,
 } from "../../services/graphql/profile/queries";
 import {
   selectUser,
+  selectUserVisuals,
   setUserProfile,
   setUserPrompts,
 } from "../../store/features/user/userSlice";
+import { setUserChoices } from "../../store/features/matches/matchSlice";
 import { styles } from "./styles";
+import { setCriterias } from "../../store/features/matches/matchSlice";
 
 export const Home = () => {
   const { user } = useAppSelector(selectUser);
@@ -36,11 +40,33 @@ export const Home = () => {
 
   const dispatch = useAppDispatch();
 
-  const { userVisuals } = useAppSelector((state) => state.appUser);
+  const userVisuals = useAppSelector(selectUserVisuals);
 
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const [openSettings, setOpenSettings] = useState<boolean>(false);
+
+  const { data: userChoicesResult, loading: userChoicesLoading } = useQuery(
+    GET_USER_CHOICES,
+    {
+      variables: {
+        userId,
+      },
+      notifyOnNetworkStatusChange: true,
+      onCompleted: (data) => {
+        if (data?.getUserChoices && data?.getUserChoices?.length > 0) {
+          dispatch(
+            setUserChoices({
+              userChoices: data?.getUserChoices,
+            })
+          );
+        }
+      },
+      onError: (error) => {
+        console.log("get user choices error: ", error);
+      },
+    }
+  );
 
   const {
     data: userPromptData,
@@ -153,16 +179,63 @@ export const Home = () => {
                 type: "appUser/deleteAccount",
               });
             });
-            navigation.replace(screenName.LAUNCH);
           },
         },
       ]
     );
   };
+  const criteriaData = useMemo(
+    () => [
+      {
+        id: "1",
+        title: "Trustworty",
+        description: "Principled, Reliable",
+        type: "user_visuals",
+      },
+      {
+        id: "2",
+        title: "Smart",
+        description: "Insightful, Perceptive",
+        type: "user_visuals",
+      },
+      {
+        id: "3",
+        title: "Attractive",
+        description: "Pretty/Handsome",
+        type: "user_visuals",
+      },
+      {
+        id: "4",
+        title: "Well Written",
+        description: "Understandable, Concise, Grammatically correct",
+        type: "user_prompts",
+      },
+      {
+        id: "5",
+        title: "Informative",
+        description: "Authentic, Glimpse of person",
+        type: "user_prompts",
+      },
+      {
+        id: "6",
+        title: "Engaging",
+        description: "Positive, Interesting, Funny",
+        type: "user_prompts",
+      },
+    ],
+
+    []
+  );
 
   const componentDidMount = () => {
     userProfileRefetch();
     userPromptRefetch();
+
+    dispatch(
+      setCriterias({
+        criterias: criteriaData,
+      })
+    );
   };
 
   useEffect(() => {
