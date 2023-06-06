@@ -14,6 +14,8 @@ import { Colors } from "../../../utils";
 import { AppButton } from "../../atoms/AppButton";
 import { SlideUpModal } from "../../layouts/SlideUpModal";
 import { storeStringData } from "../../../utils/storage";
+//TODO: replace with a more manged component that doesnt use deprecated ViewPropTypes, breaks web view
+//when removed make sure to delete typings/react-native-smooth-pincode-input.d.ts
 import SmoothPinCodeInput from "react-native-smooth-pincode-input";
 import { setUser } from "../../../store/features/user/userSlice";
 

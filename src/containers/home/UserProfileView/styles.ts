@@ -1,13 +1,12 @@
-import { Dimensions, StyleSheet } from "react-native";
-import { Colors } from "react-native/Libraries/NewAppScreen";
-import { Spacing, Typography } from "../../../utils";
+import { Dimensions, StyleSheet } from 'react-native';
+import { Colors, Spacing, Typography } from '../../../utils';
 
-const windowHeight = Dimensions.get("window").height;
+const windowHeight = Dimensions.get('window').height;
 
 export const styles = StyleSheet.create({
   modal: {
     paddingTop: 44,
-    justifyContent: "flex-end",
+    justifyContent: 'flex-end',
   },
   container: {
     marginTop: windowHeight / 3,
@@ -47,10 +46,10 @@ export const styles = StyleSheet.create({
   },
 
   bottomSheet: {
-    alignItems: "center",
+    alignItems: 'center',
     padding: Spacing.SCALE_12,
-    justifyContent: "space-between",
-    backgroundColor: "transparent",
+    justifyContent: 'space-between',
+    backgroundColor: 'transparent',
   },
   section: { marginBottom: 20, paddingHorizontal: 20 },
   content: {
