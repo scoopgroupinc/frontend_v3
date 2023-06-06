@@ -33,7 +33,9 @@ export const SelectButtons = ({ funk, titles }: any) => {
               },
             ]}
           >
-            {item.charAt(0).toUpperCase() + item.slice(1)}
+            {item === "bisexual"
+              ? "Both"
+              : item.charAt(0).toUpperCase() + item.slice(1)}
           </Text>
         </TouchableOpacity>
       ))}
