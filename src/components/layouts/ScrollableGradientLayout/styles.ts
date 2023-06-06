@@ -7,7 +7,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     paddingTop: StatusBar.currentHeight,
     paddingHorizontal: Spacing.SCALE_12,
-    height: "100%",
+    // height: "100%",
   },
   alignCenter: {
     position: "relative",

@@ -9,6 +9,7 @@ import UserMatchesSlice from './features/user/userMatchesSlice';
 import UserChoicesSlice from './features/user/userChoicesSlice';
 import PromptSlice from "./features/prompts/promptsSlice";
 import MessagesSlice from "./features/messages/messagesSlice";
+import MatchSlice from "./features/matches/matchSlice";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   FLUSH,
@@ -35,6 +36,7 @@ const rootReducer = combineReducers({
   userChoices: UserChoicesSlice,
   appPrompts: PromptSlice,
   messages: MessagesSlice
+  matches: MatchSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
