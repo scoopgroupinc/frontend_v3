@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, Alert, Pressable } from "react-native";
-import { styles } from "./styles";
 import { useMutation } from "@apollo/client";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+
+//TODO: replace with a more manged component that doesnt use deprecated ViewPropTypes, breaks web view
+//when removed make sure to delete typings/react-native-smooth-pincode-input.d.ts
+import SmoothPinCodeInput from "react-native-smooth-pincode-input";
 import { useAppDispatch } from "../../../store/hooks";
 import {
   ACTIVATE_ACCOUNT,
@@ -14,8 +17,8 @@ import { Colors } from "../../../utils";
 import { AppButton } from "../../atoms/AppButton";
 import { SlideUpModal } from "../../layouts/SlideUpModal";
 import { storeStringData } from "../../../utils/storage";
-import SmoothPinCodeInput from "react-native-smooth-pincode-input";
 import { setUser } from "../../../store/features/user/userSlice";
+import { styles } from "./styles";
 
 type UserData = {
   email: string;

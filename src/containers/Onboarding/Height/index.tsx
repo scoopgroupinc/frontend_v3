@@ -11,6 +11,8 @@ import { screenName } from "../../../utils/constants";
 import AppActivityIndicator from "../../../components/atoms/ActivityIndicator";
 import { GradientLayout } from "../../../components/layouts/GradientLayout";
 import { AppButton } from "../../../components/atoms/AppButton";
+
+//TODO: replace with better slider
 import { Slider } from "@miblanchard/react-native-slider";
 
 export const HeightScreen = () => {
