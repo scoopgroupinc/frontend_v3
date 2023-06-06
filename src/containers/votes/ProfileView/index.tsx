@@ -31,7 +31,7 @@ import LikeButtonsView from "../../../components/molecule/LikeButtonsView";
 const screenHeight = Dimensions.get("window").height;
 const onethirdScreenHeight = screenHeight / 3;
 
-export function ProfileView() {
+export const ProfileView = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const dispatch = useAppDispatch();
   const { user } = useAppSelector(selectUser);

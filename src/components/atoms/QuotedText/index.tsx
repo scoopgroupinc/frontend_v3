@@ -3,8 +3,7 @@ import { Image, Text, View } from "react-native";
 import { styles } from "./style";
 import { QuotedTextType } from "./types";
 
-export function QuotedText({ title, text }: QuotedTextType) {
-  return (
+export const QuotedText = ({ title, text }: QuotedTextType) => (
     <View>
       <Image source={require("src/assets/images/quote.png")} style={{ position: "absolute" }} />
       <View style={styles.textContainer}>
@@ -12,5 +11,4 @@ export function QuotedText({ title, text }: QuotedTextType) {
         <Text style={styles.text}>{text}</Text>
       </View>
     </View>
-  );
-}
+  )

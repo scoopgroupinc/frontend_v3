@@ -12,7 +12,7 @@ const TypeOf = {
   ARRAY: "array",
 };
 
-function Languages({ navigation, route }: any) {
+const Languages = ({ navigation, route }: any) => {
   const gradient = [Colors.RUST, Colors.RED, Colors.TEAL];
 
   const { currentTagType } = route?.params;

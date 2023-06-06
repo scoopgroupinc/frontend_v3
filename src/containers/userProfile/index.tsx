@@ -19,7 +19,7 @@ import { screenName } from "../../utils/constants";
 import OptionTab from "../../components/atoms/OptionsTabs";
 import { DELETE_USER_PROFILE } from "../../services/graphql/user/mutations";
 
-export function UserProfile() {
+export const UserProfile = () => {
   const { user } = useAppSelector((state) => state.appUser);
   const firstName = user?.firstName;
   const email = user?.email;

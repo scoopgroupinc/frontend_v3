@@ -13,9 +13,7 @@ const AppForm = ({ initialValues, onSubmit, validationSchema, children }) => {
     mode: "onChange",
     resolver: yupResolver(validationSchema),
   });
-  return function(control) {
-  return <>{children}</>
-};
+  return (control) => <>{children}</>;
 };
 
 export default AppForm;

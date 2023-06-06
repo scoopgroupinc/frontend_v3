@@ -44,7 +44,7 @@ import { UserProfileView } from "../UserProfileView";
 const Tab = createMaterialTopTabNavigator();
 const UserProfileStack = createNativeStackNavigator();
 
-function TopTab() {
+const TopTab = () => {
   const gradient = [Colors.RUST, Colors.RED, Colors.TEAL];
 
   useEffect(() => {
@@ -77,8 +77,7 @@ function TopTab() {
   );
 }
 
-function UserProfile() {
-  return (
+const UserProfile = () => (
     <UserProfileStack.Navigator
       screenOptions={{
         headerShown: false,
@@ -130,7 +129,6 @@ function UserProfile() {
 
       <UserProfileStack.Screen name={screenName.ONBOARD_PROMPT_ANSWER} component={PromptAnswer} />
     </UserProfileStack.Navigator>
-  );
-}
+  )
 
 export default UserProfile;

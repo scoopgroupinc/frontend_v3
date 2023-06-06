@@ -37,7 +37,7 @@ const inputTextProps = {
   editable: false,
 };
 
-export function UserProfileEdit({ route }: any) {
+export const UserProfileEdit = ({ route }: any) => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const [modalState, setModalState] = useState<boolean>(false);
   const [saving, isSaving] = useState<boolean>(false);

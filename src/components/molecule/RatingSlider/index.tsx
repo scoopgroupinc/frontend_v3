@@ -8,7 +8,7 @@ interface RatingSiderType {
   rating: (rate: number) => void;
 }
 
-export function RatingSlider({ rating }: RatingSiderType) {
+export const RatingSlider = ({ rating }: RatingSiderType) => {
   const [ratingValue, setRating] = useState<any>({
     value: 0.5,
     image: require("src/assets/images/cool.png"),

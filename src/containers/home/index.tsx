@@ -31,7 +31,7 @@ import {
 import { setUserChoices , setCriterias } from "../../store/features/matches/matchSlice";
 import { styles } from "./styles";
 
-export function Home() {
+export const Home = () => {
   const { user } = useAppSelector(selectUser);
   const firstName = user?.firstName;
   const email = user?.email;

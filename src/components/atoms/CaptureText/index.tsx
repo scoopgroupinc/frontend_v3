@@ -7,8 +7,7 @@ import { ScreenType, TextContainerType } from "./types";
 import { Colors } from "../../../utils";
 import { AppIconButton } from "../../layouts/AppIconButton";
 
-export function CaptureText({ addPrompt, press, activeState, prompt, change }: ScreenType) {
-  return (
+export const CaptureText = ({ addPrompt, press, activeState, prompt, change }: ScreenType) => (
     <>
       {prompt && prompt?.answer === "" ? (
         <TouchableOpacity
@@ -31,11 +30,9 @@ export function CaptureText({ addPrompt, press, activeState, prompt, change }: S
         />
       )}
     </>
-  );
-}
+  )
 
-function TextContainer({ handlePress, prompt, change }: TextContainerType) {
-  return (
+const TextContainer = ({ handlePress, prompt, change }: TextContainerType) => (
     <View style={styles.textContainer}>
       <AppIconButton onPress={change} style={styles.close}>
         <MaterialCommunityIcons name="refresh" size={20} color={Colors.BLACK} />
@@ -63,5 +60,4 @@ function TextContainer({ handlePress, prompt, change }: TextContainerType) {
         </Text>
       </>
     </View>
-  );
-}
+  )

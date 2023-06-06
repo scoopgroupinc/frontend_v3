@@ -3,8 +3,7 @@ import { Text, View } from "react-native";
 
 // const VoteOnboardStack = createVoteOnboardStack();
 
-function VoteOnboardNavigator() {
-  return (
+const VoteOnboardNavigator = () => (
     <></>
     // <VoteOnboardStack.Navigator
     //   screenOptions={{
@@ -36,7 +35,6 @@ function VoteOnboardNavigator() {
     //     component={OtherOnboardScreenSix}
     //   />
     // </VoteOnboardStack.Navigator>
-  );
-}
+  )
 
 export default VoteOnboardNavigator;

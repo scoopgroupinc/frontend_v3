@@ -12,8 +12,7 @@ interface AlertType {
   close: () => void;
 }
 
-export function AppAlert({ state, children, close }: AlertType) {
-  return (
+export const AppAlert = ({ state, children, close }: AlertType) => (
     <Modal visible={state} transparent animationType="fade">
       <BlurView intensity={70} tint="dark" style={styles.modalView}>
         <View style={styles.container}>
@@ -26,5 +25,4 @@ export function AppAlert({ state, children, close }: AlertType) {
         </View>
       </BlurView>
     </Modal>
-  );
-}
+  )

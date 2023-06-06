@@ -12,7 +12,7 @@ import { selectUserChoices } from "../../../store/features/user/userChoicesSlice
 // import { onScreenView } from '../../../analytics'
 // import { screenClass, screenNames } from '../../../analytics/constants'
 
-function ChatMessage({ route, navigation }: any) {
+const ChatMessage = ({ route, navigation }: any) => {
   const reduxUser = useAppSelector(selectUser);
   const { userId, firstName, token } = reduxUser;
   const dispatch = useAppDispatch();

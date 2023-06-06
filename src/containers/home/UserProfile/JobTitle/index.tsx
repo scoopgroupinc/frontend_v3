@@ -16,7 +16,7 @@ import TagScreenHeader from "../../../../components/molecule/TagScreenHeader";
 import { AppInput } from "../../../../components/atoms/AppInput";
 import TagsView from "../../../../components/molecule/TagsView";
 
-function JobTitle({ route }: any) {
+const JobTitle = ({ route }: any) => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const { user } = useAppSelector(selectUser);
   const userProfile = useAppSelector(selectUserProfile);

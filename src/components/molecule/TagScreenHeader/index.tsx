@@ -11,8 +11,7 @@ interface tagScreenProps {
   close: () => void;
 }
 
-function TagScreenHeader({ title, close }: tagScreenProps) {
-  return (
+const TagScreenHeader = ({ title, close }: tagScreenProps) => (
     <View style={styles.headerContainer}>
       <View>
         <AppIconButton style={{ alignSelf: "flex-start", padding: 0 }} onPress={close}>
@@ -23,7 +22,6 @@ function TagScreenHeader({ title, close }: tagScreenProps) {
         <Text style={styles.text}>{title}</Text>
       </View>
     </View>
-  );
-}
+  )
 
 export default TagScreenHeader;

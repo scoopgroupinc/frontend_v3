@@ -16,7 +16,7 @@ import { styles } from "./style";
 import { RatingSlider } from "../../../components/molecule/RatingSlider";
 import { AppInput } from "../../../components/atoms/AppInput";
 
-export function VisualVote() {
+export const VisualVote = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const { user } = useAppSelector(selectUser);
   const userId = user?.userId;

@@ -20,7 +20,7 @@ type FieldComponentProps = {
   control?: any;
 };
 
-function FieldComponent({
+const FieldComponent = ({
   label,
   placeholder,
   inputType,
@@ -31,7 +31,7 @@ function FieldComponent({
   name,
   control,
   ...props
-}: FieldComponentProps) {
+}: FieldComponentProps) => {
   const [hidePassword, sethidePassword] = useState(inputType === "password");
   return (
     <View style={{ marginTop: Spacing.SCALE_8, marginBottom: Spacing.SCALE_12 }}>

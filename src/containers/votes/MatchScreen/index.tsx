@@ -5,7 +5,7 @@ import { View, Text } from "react-native";
 import { AppButton } from "../../../components/atoms/AppButton";
 import { screenName } from "../../../utils/constants";
 
-export function MatchScreen() {
+export const MatchScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   return (

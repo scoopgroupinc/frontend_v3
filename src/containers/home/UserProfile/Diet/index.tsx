@@ -12,7 +12,7 @@ const TypeOf = {
   ARRAY: "array",
 };
 
-function Diet({ navigation, route }: any) {
+const Diet = ({ navigation, route }: any) => {
   const gradient = [Colors.RUST, Colors.RED, Colors.TEAL];
 
   const { currentTagType } = route?.params;

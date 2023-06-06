@@ -3,14 +3,13 @@ import { View, Image } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { styles } from "./styles";
 
-export function ProfileAvatar({
+export const ProfileAvatar = ({
   displayPhoto,
   settings,
 }: {
   displayPhoto?: string;
   settings?: boolean;
-}) {
-  return (
+}) => (
     <View style={styles.avatarCon}>
       <Image
         source={{
@@ -24,5 +23,4 @@ export function ProfileAvatar({
         </View>
       )}
     </View>
-  );
-}
+  )

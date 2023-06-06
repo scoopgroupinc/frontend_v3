@@ -10,7 +10,7 @@ export interface DateSpinnerType {
   getDate: (val: Date) => void;
 }
 
-export function DateSpinner({ getAge, getDate }: DateSpinnerType) {
+export const DateSpinner = ({ getAge, getDate }: DateSpinnerType) => {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [date, setDate] = useState<Date>(new Date());
   const onDateSelected = (e: Event, selectedDate: Date): void => {

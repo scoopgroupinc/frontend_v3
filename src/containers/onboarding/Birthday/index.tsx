@@ -14,7 +14,7 @@ import { GradientLayout } from "../../../components/layouts/GradientLayout";
 import { AppButton } from "../../../components/atoms/AppButton";
 import { DateSpinner } from "../../../components/atoms/DateSpinner";
 
-export function OnboardBirthdayScreen() {
+export const OnboardBirthdayScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const { user } = useAppSelector((state: any) => state.appUser);

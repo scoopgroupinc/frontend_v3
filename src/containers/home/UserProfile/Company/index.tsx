@@ -15,7 +15,7 @@ import TagsView from "../../../../components/molecule/TagsView";
 import { Colors } from "../../../../utils";
 import { AppInput } from "../../../../components/atoms/AppInput";
 
-function Company({ navigation, route }: any) {
+const Company = ({ navigation, route }: any) => {
   const userProfile = useAppSelector(selectUserProfile);
   const dispatch = useAppDispatch();
   const { user } = useAppSelector(selectUser);

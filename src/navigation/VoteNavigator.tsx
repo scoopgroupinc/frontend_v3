@@ -11,7 +11,7 @@ import { selectUserChoices } from "../store/features/matches/matchSlice";
 
 const VoteStack = createStackNavigator();
 
-function VoteNavigator() {
+const VoteNavigator = () => {
   const userChoices = useAppSelector(selectUserChoices);
   if (userChoices.length === 0) {
     return <ComeBackTomorrow noMatchToday />;

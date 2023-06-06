@@ -27,7 +27,7 @@ const locationObject = {
   speed: 0,
 };
 
-export function GetLocationsScreen({ navigation }: NavigationScreenType) {
+export const GetLocationsScreen = ({ navigation }: NavigationScreenType) => {
   const reduxUser = useAppSelector(selectUser);
   const { userId } = reduxUser;
 

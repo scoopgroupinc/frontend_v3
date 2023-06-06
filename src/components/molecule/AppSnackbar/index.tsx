@@ -3,8 +3,7 @@ import { View, StyleSheet } from "react-native";
 import { Snackbar } from "react-native-paper";
 import { Colors } from "../../../utils";
 
-export function AppSnackbar({ visible, message }: any) {
-  return (
+export const AppSnackbar = ({ visible, message }: any) => (
     <View style={styles.container}>
       <Snackbar
         style={{ backgroundColor: Colors.DARK_GRAY }}
@@ -17,8 +16,7 @@ export function AppSnackbar({ visible, message }: any) {
         {message}
       </Snackbar>
     </View>
-  );
-}
+  )
 
 const styles = StyleSheet.create({
   container: {

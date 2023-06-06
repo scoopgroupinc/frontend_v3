@@ -8,7 +8,7 @@ import { styles } from "./styles";
 import screenName from "../../../utils/constants/screenName";
 import { Colors } from "../../../utils";
 
-function Launch() {
+const Launch = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const onSignUpPress = () => {

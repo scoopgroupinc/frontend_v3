@@ -17,7 +17,7 @@ interface d {
   prompt: string;
 }
 
-function AllPrompts() {
+const AllPrompts = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const { user } = useAppSelector((state: any) => state.appUser);

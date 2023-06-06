@@ -13,7 +13,7 @@ const TypeOf = {
   ARRAY: "array",
 };
 
-function TagsView({ currentTagType, tags, typeOf }: TagsViewProps) {
+const TagsView = ({ currentTagType, tags, typeOf }: TagsViewProps) => {
   const userProfile = useAppSelector(selectUserProfile);
   const dispatch = useAppDispatch();
 

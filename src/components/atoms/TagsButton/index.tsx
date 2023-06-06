@@ -27,7 +27,7 @@ interface Tag {
   name: string;
 }
 
-export function TagsButton({ currentTagType, typeOf, data }: TagButtonProps) {
+export const TagsButton = ({ currentTagType, typeOf, data }: TagButtonProps) => {
   const gradient = [Colors.RUST, Colors.RED, Colors.TEAL];
   const [tags, setTags] = useState<any>([]);
 

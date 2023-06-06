@@ -5,7 +5,7 @@ import { ScreenType } from "./types";
 import { styles } from "./style";
 import { MediaPicker } from "../../atoms/MediaPicker";
 
-export function MediaContainer({ images = [], onAddImage }: ScreenType) {
+export const MediaContainer = ({ images = [], onAddImage }: ScreenType) => {
   const number = 6;
   const initialData = [...Array(number)].map(mapIndexToUserVisuals);
   const [userVisuals, setUserVisuals] = useState(initialData);

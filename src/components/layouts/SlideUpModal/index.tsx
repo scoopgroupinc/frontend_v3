@@ -13,7 +13,7 @@ interface ModalType {
   close: () => void;
 }
 
-export function SlideUpModal({ state, children, close, align }: ModalType) {
+export const SlideUpModal = ({ state, children, close, align }: ModalType) => {
   const insets = useSafeAreaInsets();
 
   return (

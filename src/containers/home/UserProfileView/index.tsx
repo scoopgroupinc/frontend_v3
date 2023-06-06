@@ -16,7 +16,7 @@ import { QuotedText } from "../../../components/atoms/QuotedText";
 const screenHeight = Dimensions.get("window").height;
 const onethirdScreenHeight = screenHeight / 3;
 
-export function UserProfileView() {
+export const UserProfileView = () => {
   const userProfile = useAppSelector(selectUserProfile);
   const userPrompts = useAppSelector(selectUserPrompts);
   const allImages = useAppSelector(selectUserVisuals);

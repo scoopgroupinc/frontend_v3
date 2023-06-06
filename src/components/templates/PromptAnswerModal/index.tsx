@@ -14,7 +14,7 @@ interface PromptAnswerType {
   prompt: any;
 }
 
-export function PromptAnswerModal({ close, goBack, prompt }: PromptAnswerType) {
+export const PromptAnswerModal = ({ close, goBack, prompt }: PromptAnswerType) => {
   const { user } = useAppSelector((state: any) => state.appUser);
   const userId = user?.userId;
 

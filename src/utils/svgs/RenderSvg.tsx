@@ -27,7 +27,7 @@ type SvgProps = {
   preserveAspectRatio?: string;
 };
 
-export function RenderSvg({
+export const RenderSvg = ({
   fill,
   viewPortWidth,
   viewPortHeight,
@@ -37,7 +37,7 @@ export function RenderSvg({
   style,
   originX = 0,
   originY = 0,
-}: SvgProps) {
+}: SvgProps) => {
   const acutalWidth = width;
   const acutalHeight = height;
   const aspectRatio = acutalWidth && acutalHeight ? acutalWidth / acutalHeight : 1;

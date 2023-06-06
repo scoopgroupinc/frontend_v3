@@ -13,7 +13,7 @@ const TypeOf = {
   ARRAY: "array",
 };
 
-function Drink({ navigation, route }: NavigationScreenProps) {
+const Drink = ({ navigation, route }: NavigationScreenProps) => {
   const gradient = [Colors.RUST, Colors.RED, Colors.TEAL];
 
   const { currentTagType } = route?.params;

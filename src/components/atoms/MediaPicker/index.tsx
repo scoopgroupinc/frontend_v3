@@ -8,7 +8,7 @@ import { Colors } from "../../../utils";
 
 import { imageContainer, ScreenType } from "./types.d";
 
-export function MediaPicker({ index, onChangeImage, item }: ScreenType) {
+export const MediaPicker = ({ index, onChangeImage, item }: ScreenType) => {
   const [image, setImage] = useState<string | null>(null);
 
   const pickImage = async () => {

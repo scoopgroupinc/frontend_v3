@@ -13,8 +13,7 @@ interface IDislikeButton {
   fill?: string;
   dislike?: () => void;
 }
-function DislikeButton({ dislike }: IDislikeButton) {
-  return (
+const DislikeButton = ({ dislike }: IDislikeButton) => (
     <View
       style={{
         alignItems: "center",
@@ -48,7 +47,6 @@ function DislikeButton({ dislike }: IDislikeButton) {
         />
       </TouchableOpacity>
     </View>
-  );
-}
+  )
 
 export default DislikeButton;

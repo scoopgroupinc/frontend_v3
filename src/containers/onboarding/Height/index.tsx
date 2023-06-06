@@ -14,7 +14,7 @@ import { GradientLayout } from "../../../components/layouts/GradientLayout";
 import { AppButton } from "../../../components/atoms/AppButton";
 // TODO: replace with better slider
 
-export function HeightScreen() {
+export const HeightScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const { user } = useAppSelector((state: any) => state.appUser);

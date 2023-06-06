@@ -54,7 +54,7 @@ export const getUserConversationList = async (userChoices: any, dispatch: any, u
   } catch (error) {}
 };
 
-function Conversations() {
+const Conversations = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const dispatch = useAppDispatch();
   const reduxUser = useAppSelector(selectUser);

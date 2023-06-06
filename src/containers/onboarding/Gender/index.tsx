@@ -13,7 +13,7 @@ import { Colors, Typography } from "../../../utils";
 import { AppButton } from "../../../components/atoms/AppButton";
 import { SelectButtons } from "../../../components/layouts/SelectButtons";
 
-export function GenderScreen() {
+export const GenderScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const { user } = useAppSelector((state: any) => state.appUser);

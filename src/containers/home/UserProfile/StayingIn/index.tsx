@@ -12,7 +12,7 @@ const TypeOf = {
   ARRAY: "array",
 };
 
-function StayingIn({ navigation, route }: any) {
+const StayingIn = ({ navigation, route }: any) => {
   const gradient = [Colors.RUST, Colors.RED, Colors.TEAL];
 
   const { currentTagType } = route?.params;

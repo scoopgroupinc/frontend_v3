@@ -14,7 +14,7 @@ import { GradientLayout } from "../../../components/layouts/GradientLayout";
 import { Colors } from "../../../utils";
 import AppActivityIndicator from "../../../components/atoms/ActivityIndicator";
 
-export function DateWhoScreen() {
+export const DateWhoScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const { user } = useAppSelector((state: any) => state.appUser);

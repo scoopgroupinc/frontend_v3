@@ -1,8 +1,7 @@
 import React from "react";
 import { View, Text } from "react-native";
 
-export function ProfileView() {
-  return (
+export const ProfileView = () => (
     <View
       style={{
         flex: 1,
@@ -13,5 +12,4 @@ export function ProfileView() {
     >
       <Text>Profile View</Text>
     </View>
-  );
-}
+  )

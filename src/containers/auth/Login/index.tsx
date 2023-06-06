@@ -20,7 +20,7 @@ import { OTPInputModal } from "../../../components/templates/OTPInputModal";
 import { Colors } from "../../../utils";
 import { screenName } from "../../../utils/constants";
 
-function LoginScreen() {
+const LoginScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const [userData, setUserData] = useState<any>();
   const [modalState, setModalState] = useState<boolean>(false);

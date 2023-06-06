@@ -14,7 +14,7 @@ import TagScreenHeader from "../../../../components/molecule/TagScreenHeader";
 import { AppInput } from "../../../../components/atoms/AppInput";
 import TagsView from "../../../../components/molecule/TagsView";
 
-function School({ navigation, route }: any) {
+const School = ({ navigation, route }: any) => {
   const userProfile = useAppSelector(selectUserProfile);
   const dispatch = useAppDispatch();
   const { user } = useAppSelector(selectUser);

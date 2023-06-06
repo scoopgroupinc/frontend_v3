@@ -25,7 +25,7 @@ export type UserData = {
   lastname: string;
 };
 
-export function OnboardName() {
+export const OnboardName = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const { user } = useAppSelector((state: any) => state.appUser);

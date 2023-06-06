@@ -3,7 +3,7 @@ import LottieView from "lottie-react-native";
 import { View, StyleSheet } from "react-native";
 import { Colors } from "../../../utils";
 
-function AppActivityIndicator({ visible = false }) {
+const AppActivityIndicator = ({ visible = false }) => {
   if (!visible) return null;
 
   return (

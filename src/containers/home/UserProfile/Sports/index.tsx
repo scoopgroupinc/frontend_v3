@@ -12,7 +12,7 @@ const TypeOf = {
   ARRAY: "array",
 };
 
-function Sports({ navigation, route }: any) {
+const Sports = ({ navigation, route }: any) => {
   const gradient = [Colors.RUST, Colors.RED, Colors.TEAL];
 
   const { currentTagType } = route?.params;

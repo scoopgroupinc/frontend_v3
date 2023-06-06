@@ -24,7 +24,7 @@ import {
   setUserMatchPrompts,
 } from "../../../store/features/matches/matchSlice";
 
-export function PromptVote() {
+export const PromptVote = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const { user } = useAppSelector(selectUser);
   const userId = user?.userId;

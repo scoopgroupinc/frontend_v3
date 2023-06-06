@@ -15,7 +15,7 @@ import { AppButton } from "../../../components/atoms/AppButton";
 import { MediaContainer } from "../../../components/molecule/MediaContainer";
 import { setUserVisuals } from "../../../store/features/user/userSlice";
 
-export function PhotoVideoScreen() {
+export const PhotoVideoScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const { user } = useAppSelector((state: any) => state.appUser);

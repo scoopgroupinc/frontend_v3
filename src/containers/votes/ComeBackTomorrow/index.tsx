@@ -3,8 +3,7 @@ import { View, Text, Image } from "react-native";
 import { GradientLayout } from "../../../components/layouts/GradientLayout";
 import { styles } from "./styles";
 
-export function ComeBackTomorrow({ outOfMatches, noMatchToday }: any) {
-  return (
+export const ComeBackTomorrow = ({ outOfMatches, noMatchToday }: any) => (
     <GradientLayout>
       <View style={{ flex: 1, alignItems: "center" }}>
         <Image style={styles.noMatchLogo} source={require("src/assets/images/scoop-logo.png")} />
@@ -23,5 +22,4 @@ export function ComeBackTomorrow({ outOfMatches, noMatchToday }: any) {
         </View>
       </View>
     </GradientLayout>
-  );
-}
+  )

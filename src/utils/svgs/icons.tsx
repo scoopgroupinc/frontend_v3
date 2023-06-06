@@ -69,8 +69,7 @@ export const likeBtnSvg = () => (
 
 export const scoopLogoSvg = ({ xml, width, height, viewBox }: SvgProps) => <RenderSvgXml xml={xml} height={height} width={width} viewBox={viewBox} />;
 
-export function SvgComponent(props: any) {
-  return <svg width={16} height={11} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+export const SvgComponent = (props: any) => <svg width={16} height={11} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
     <g filter="url(#a)">
       <path
         d="m14 2.397-6 6.3-6-6.3"
@@ -105,6 +104,5 @@ export function SvgComponent(props: any) {
       </filter>
     </defs>
   </svg>
-}
 
 export default SvgComponent;

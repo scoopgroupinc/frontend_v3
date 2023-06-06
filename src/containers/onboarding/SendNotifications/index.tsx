@@ -20,7 +20,7 @@ Notifications.setNotificationHandler({
   }),
 });
 
-export function SendNotificationScreen({ navigation, route }: NavigationScreenType) {
+export const SendNotificationScreen = ({ navigation, route }: NavigationScreenType) => {
   const [showNotifications, setShowNotifications] = useState<boolean | null>(null);
 
   const screenProgress = COMPLETE_SCREEN.find(

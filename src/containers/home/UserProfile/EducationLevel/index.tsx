@@ -11,7 +11,7 @@ const TypeOf = {
   ARRAY: "array",
 };
 
-function EducationLevel({ navigation, route }: { navigation: any; route: any }) {
+const EducationLevel = ({ navigation, route }: { navigation: any; route: any }) => {
   const gradient = [Colors.RUST, Colors.RED, Colors.TEAL];
 
   const { currentTagType } = route?.params;

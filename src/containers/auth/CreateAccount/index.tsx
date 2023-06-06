@@ -20,7 +20,7 @@ import { useAppDispatch } from "../../../store/hooks";
 import { setUser, updateUser } from "../../../store/features/user/userSlice";
 import { storeStringData } from "../../../utils/storage";
 
-function CreateAccount() {
+const CreateAccount = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const [userData, setUserData] = useState<any>();
   const [modalState, setModalState] = useState<boolean>(false);

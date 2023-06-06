@@ -7,8 +7,7 @@ import CreateAccount from "../containers/auth/CreateAccount";
 
 const AuthStack = createStackNavigator();
 
-function AuthNavigator() {
-  return (
+const AuthNavigator = () => (
     <AuthStack.Navigator
       screenOptions={{
         headerShown: false,
@@ -26,7 +25,6 @@ function AuthNavigator() {
         component={ResetPasswordScreen}
       /> */}
     </AuthStack.Navigator>
-  );
-}
+  )
 
 export default AuthNavigator;

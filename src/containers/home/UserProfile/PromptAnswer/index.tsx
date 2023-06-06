@@ -4,7 +4,7 @@ import { useAppDispatch } from "../../../../store/hooks";
 import { screenName } from "../../../../utils/constants";
 import { PromptAnswerModal } from "../../../../components/templates/PromptAnswerModal";
 
-function PromptAnswer({ route }: any) {
+const PromptAnswer = ({ route }: any) => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const dispatch = useAppDispatch();
 

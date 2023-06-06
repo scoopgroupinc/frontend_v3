@@ -11,7 +11,7 @@ const TypeOf = {
   SINGLE: "single",
   ARRAY: "array",
 };
-function Alcohol({ navigation, route }: any) {
+const Alcohol = ({ navigation, route }: any) => {
   const gradient = [Colors.RUST, Colors.RED, Colors.TEAL];
 
   const { currentTagType } = route?.params;

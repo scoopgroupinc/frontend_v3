@@ -22,7 +22,7 @@ import { CaptureText } from "../../../components/atoms/CaptureText";
 import AppActivityIndicator from "../../../components/atoms/ActivityIndicator";
 import { updateUser } from "../../../store/features/user/userSlice";
 
-export function QuestionPromptScreen({ route }: any) {
+export const QuestionPromptScreen = ({ route }: any) => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const { user } = useAppSelector((state: any) => state.appUser);

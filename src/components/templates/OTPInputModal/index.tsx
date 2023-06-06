@@ -36,7 +36,7 @@ interface ModalType {
   forgotPass?: boolean;
 }
 
-export function OTPInputModal({
+export const OTPInputModal = ({
   state,
   closeModal,
   next,
@@ -44,7 +44,7 @@ export function OTPInputModal({
   revalidate,
   changeValidation,
   forgotPass,
-}: ModalType) {
+}: ModalType) => {
   const [timer, setTimer] = useState<number>(revalidate ? 0 : 60);
   const [showResend, setShowResend] = useState<boolean>(false);
   const [code, setCode] = useState<string>("");

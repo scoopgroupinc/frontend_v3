@@ -12,7 +12,7 @@ const TypeOf = {
   ARRAY: "array",
 };
 
-function RelationshipTypes({ navigation, route }: any) {
+const RelationshipTypes = ({ navigation, route }: any) => {
   const gradient = [Colors.RUST, Colors.RED, Colors.TEAL];
 
   const { currentTagType } = route?.params;

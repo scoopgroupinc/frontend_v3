@@ -19,7 +19,7 @@ import { setAllPrompts } from "../store/features/prompts/promptsSlice";
 
 const AppTabStack = createBottomTabNavigator();
 
-function AppNavigator() {
+const AppNavigator = () => {
   const { user } = useAppSelector((state) => state.appUser);
   const userId = user?.userId;
   const voteOnboard = user?.voteOnboard;
