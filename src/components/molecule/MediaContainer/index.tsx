@@ -20,12 +20,7 @@ export const MediaContainer = ({ images = [], onAddImage }: ScreenType) => {
   return (
     <View style={styles.container}>
       {mergedData.map((el, index) => (
-        <MediaPicker
-          key={index}
-          index={index}
-          onChangeImage={onAddImage}
-          item={el.videoOrPhoto}
-        />
+        <MediaPicker key={index} index={index} onChangeImage={onAddImage} item={el.videoOrPhoto} />
       ))}
     </View>
   );

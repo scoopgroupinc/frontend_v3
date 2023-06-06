@@ -41,11 +41,7 @@ const Alcohol = ({ navigation, route }: any) => {
     <LinearGradient style={styles.container} colors={gradient}>
       <SafeAreaView style={{ flex: 1 }} edges={["left", "right", "top"]}>
         <TagScreenHeader close={goBackHome} title={pageTitle} />
-        <TagsView
-          currentTagType={currentTagType}
-          tags={alcoholTags}
-          typeOf={TypeOf.SINGLE}
-        />
+        <TagsView currentTagType={currentTagType} tags={alcoholTags} typeOf={TypeOf.SINGLE} />
       </SafeAreaView>
     </LinearGradient>
   );

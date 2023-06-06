@@ -26,8 +26,7 @@ export const PromptSlice = createSlice({
   },
 });
 
-export const selectAllPrompts = (state: RootState) =>
-  state.appPrompts.allPrompts;
+export const selectAllPrompts = (state: RootState) => state.appPrompts.allPrompts;
 
 export const { setAllPrompts } = PromptSlice.actions;
 

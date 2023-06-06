@@ -40,11 +40,7 @@ const CreativeOulet = ({ navigation, route }: any) => {
     <LinearGradient style={styles.container} colors={gradient}>
       <SafeAreaView style={{ flex: 1 }} edges={["left", "right", "top"]}>
         <TagScreenHeader close={goBackHome} title="Creative Outlet" />
-        <TagsView
-          currentTagType={currentTagType}
-          tags={creativeOutletTags}
-          typeOf={TypeOf.ARRAY}
-        />
+        <TagsView currentTagType={currentTagType} tags={creativeOutletTags} typeOf={TypeOf.ARRAY} />
       </SafeAreaView>
     </LinearGradient>
   );

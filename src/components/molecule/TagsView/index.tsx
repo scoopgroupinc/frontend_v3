@@ -5,10 +5,7 @@ import { Colors } from "../../../utils";
 import { styles } from "./styles";
 import { TagsViewProps } from "./types";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
-import {
-  selectUserProfile,
-  setUserProfile,
-} from "../../../store/features/user/userSlice";
+import { selectUserProfile, setUserProfile } from "../../../store/features/user/userSlice";
 import { TagsButton } from "../../atoms/TagsButton";
 
 const TypeOf = {
@@ -52,10 +49,7 @@ const TagsView = ({ currentTagType, tags, typeOf }: TagsViewProps) => {
             <Text style={styles.pageTitle}>Choose one</Text>
           )}
 
-          <ScrollView
-            showsVerticalScrollIndicator={false}
-            style={styles.scroll}
-          >
+          <ScrollView showsVerticalScrollIndicator={false} style={styles.scroll}>
             <View>
               {tags?.map((tag: any, index) => (
                 <TagsButton
@@ -71,8 +65,7 @@ const TagsView = ({ currentTagType, tags, typeOf }: TagsViewProps) => {
         </>
       )}
       <View style={styles.switch}>
-        {userProfile?.find((item: any) => item.tagType === currentTagType)
-          ?.visible ? (
+        {userProfile?.find((item: any) => item.tagType === currentTagType)?.visible ? (
           <Text style={{ fontSize: 12 }}>visible</Text>
         ) : (
           <Text style={{ fontSize: 12 }}>not visible</Text>
@@ -82,10 +75,7 @@ const TagsView = ({ currentTagType, tags, typeOf }: TagsViewProps) => {
           thumbColor={Colors.WHITE}
           ios_backgroundColor={Colors.GRAY_BLUE}
           onValueChange={toggleSwitch}
-          value={
-            userProfile?.find((item: any) => item.tagType === currentTagType)
-              ?.visible
-          }
+          value={userProfile?.find((item: any) => item.tagType === currentTagType)?.visible}
         />
       </View>
     </View>

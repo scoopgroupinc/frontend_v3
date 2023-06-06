@@ -35,11 +35,7 @@ export const UserProfile = () => {
 
   const [
     deleteUser,
-    {
-      data: userDeleteResult,
-      loading: userDeleteLoading,
-      error: userDeleteError,
-    },
+    { data: userDeleteResult, loading: userDeleteLoading, error: userDeleteError },
   ] = useMutation(DELETE_USER_PROFILE);
 
   //   methods
@@ -102,39 +98,33 @@ export const UserProfile = () => {
     //     screenClass: screenClass.settings,
     //   },
     // });
-    Alert.alert(
-      "Delete",
-      "Are you sure you want to delete your scoop account?",
-      [
-        {
-          text: "Cancel",
-          onPress: () => {},
-          style: "cancel",
-        },
-        {
-          text: "OK",
-          style: "destructive",
-          onPress: () => {
-            deleteUser({ variables: { email, userId } }).then((res) => {
-              setOpenSettings(false);
-              dispatch({
-                type: "appUser/deleteAccount",
-              });
+    Alert.alert("Delete", "Are you sure you want to delete your scoop account?", [
+      {
+        text: "Cancel",
+        onPress: () => {},
+        style: "cancel",
+      },
+      {
+        text: "OK",
+        style: "destructive",
+        onPress: () => {
+          deleteUser({ variables: { email, userId } }).then((res) => {
+            setOpenSettings(false);
+            dispatch({
+              type: "appUser/deleteAccount",
             });
-            navigation.replace(screenName.LAUNCH);
-          },
+          });
+          navigation.replace(screenName.LAUNCH);
         },
-      ]
-    );
+      },
+    ]);
   };
 
   return (
     <ScrollableGradientLayout>
       <View>
         <View style={styles.topContainer}>
-          <Text style={styles.title}>
-            {firstName ? `${firstName}'s Profile` : "Profile"}
-          </Text>
+          <Text style={styles.title}>{firstName ? `${firstName}'s Profile` : "Profile"}</Text>
           <FontAwesome5
             style={styles.setting}
             onPress={() => setOpenSettings(true)}
@@ -146,27 +136,20 @@ export const UserProfile = () => {
         <Pressable onPress={() => navigation.navigate(screenName.USER_PROFILE)}>
           <ProfileAvatar
             displayPhoto={
-              userVisuals && userVisuals.length > 0
-                ? userVisuals[0]?.videoOrPhoto
-                : null
+              userVisuals && userVisuals.length > 0 ? userVisuals[0]?.videoOrPhoto : null
             }
           />
         </Pressable>
 
         {openSettings ? (
-          <SlideUpModal
-            close={() => setOpenSettings(false)}
-            state={openSettings}
-          >
+          <SlideUpModal close={() => setOpenSettings(false)} state={openSettings}>
             <View style={{ flex: 1 }}>
               <Text style={styles.modalHeading}>Profile Settings</Text>
               <View style={styles.modalContainerHeader}>
                 <ProfileAvatar
                   settings={openSettings}
                   displayPhoto={
-                    userVisuals && userVisuals.length > 0
-                      ? userVisuals[0]?.videoOrPhoto
-                      : null
+                    userVisuals && userVisuals.length > 0 ? userVisuals[0]?.videoOrPhoto : null
                   }
                 />
               </View>
@@ -189,9 +172,7 @@ export const UserProfile = () => {
               <OptionTab
                 optionName="Terms & Conditions"
                 btnAction={openUrlTerms}
-                icon={
-                  <Octicons name="code-of-conduct" size={24} color="black" />
-                }
+                icon={<Octicons name="code-of-conduct" size={24} color="black" />}
               />
               <OptionTab
                 optionName="Product Policies"
@@ -206,13 +187,7 @@ export const UserProfile = () => {
               <OptionTab
                 optionName="Delete Account"
                 btnAction={createDeleteAlert}
-                icon={
-                  <MaterialCommunityIcons
-                    name="delete"
-                    size={24}
-                    color="black"
-                  />
-                }
+                icon={<MaterialCommunityIcons name="delete" size={24} color="black" />}
               />
             </View>
           </SlideUpModal>

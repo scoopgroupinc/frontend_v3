@@ -101,15 +101,11 @@ export const UserProfileEdit = ({ route }: any) => {
   const handleSaveImages = async (img: any) => {
     const postUrl = URLS.FILE_URL;
     if (img.includes("file://")) {
-      await FileSystem.uploadAsync(
-        `${postUrl}/api/v1/visuals/uploadvisuals/${userId}`,
-        img,
-        {
-          httpMethod: "POST",
-          uploadType: FileSystem.FileSystemUploadType.MULTIPART,
-          fieldName: "files",
-        }
-      )
+      await FileSystem.uploadAsync(`${postUrl}/api/v1/visuals/uploadvisuals/${userId}`, img, {
+        httpMethod: "POST",
+        uploadType: FileSystem.FileSystemUploadType.MULTIPART,
+        fieldName: "files",
+      })
         .then((res) => {
           isSaving(false);
         })
@@ -120,9 +116,7 @@ export const UserProfileEdit = ({ route }: any) => {
   const saveVisuals = async () => {
     let imageArray = [...userVisuals];
     await Promise.all(
-      imageArray.map(
-        async (image: any) => await handleSaveImages(image.videoOrPhoto)
-      )
+      imageArray.map(async (image: any) => await handleSaveImages(image.videoOrPhoto))
     )
       .then(() => {
         isSaving(false);
@@ -286,9 +280,7 @@ export const UserProfileEdit = ({ route }: any) => {
     if (route?.params?.item) {
       const { item } = route?.params;
       let newArray: UserPrompts[] = cloneArray(userPrompts);
-      let index = newArray.findIndex(
-        (item) => Number(item.id) === Number(captureId)
-      );
+      let index = newArray.findIndex((item) => Number(item.id) === Number(captureId));
       newArray[index] = {
         ...newArray[index],
         answer: item.answer,
@@ -316,9 +308,7 @@ export const UserProfileEdit = ({ route }: any) => {
         >
           <AppAlert state={modalState} close={() => setModalState(false)}>
             <View style={styles.textContainer}>
-              <Text style={styles.modalText}>
-                Are you sure you want to discard your changes?{" "}
-              </Text>
+              <Text style={styles.modalText}>Are you sure you want to discard your changes? </Text>
               <View style={styles.buttonContainer}>
                 <View style={styles.buttons}>
                   <AppButton
@@ -342,9 +332,7 @@ export const UserProfileEdit = ({ route }: any) => {
 
           <AppAlert state={doneState} close={() => setDoneState(false)}>
             <View style={styles.textContainer}>
-              <Text style={styles.modalText}>
-                Are you sure you want to save your changes?{" "}
-              </Text>
+              <Text style={styles.modalText}>Are you sure you want to save your changes? </Text>
               <View style={styles.buttonContainer}>
                 <View style={styles.buttons}>
                   <AppButton
@@ -383,10 +371,7 @@ export const UserProfileEdit = ({ route }: any) => {
 
           <View style={styles.mediaBox}>
             <Text style={styles.mediaHeader}>Photos</Text>
-            <MediaContainer
-              images={userVisuals}
-              onAddImage={handleUserVisuals}
-            />
+            <MediaContainer images={userVisuals} onAddImage={handleUserVisuals} />
           </View>
 
           <View style={styles.mediaBox}>
@@ -431,13 +416,9 @@ export const UserProfileEdit = ({ route }: any) => {
                 });
               }}
               _typeOf="tag_field"
-              visible={
-                userProfile?.find((item: any) => item.tagType === "job")
-                  ?.visible
-              }
+              visible={userProfile?.find((item: any) => item.tagType === "job")?.visible}
               value={
-                userProfile?.find((item: any) => item.tagType === "job")
-                  ?.userTags?.[0]?.tagName
+                userProfile?.find((item: any) => item.tagType === "job")?.userTags?.[0]?.tagName
               }
               label={"Job Title"}
               placeholder={"Founder & CEO"}
@@ -450,13 +431,9 @@ export const UserProfileEdit = ({ route }: any) => {
             />
             <AppInput
               _typeOf="tag_field"
-              visible={
-                userProfile?.find((item: any) => item.tagType === "company")
-                  ?.visible
-              }
+              visible={userProfile?.find((item: any) => item.tagType === "company")?.visible}
               value={
-                userProfile?.find((item: any) => item.tagType === "company")
-                  ?.userTags[0]?.tagName
+                userProfile?.find((item: any) => item.tagType === "company")?.userTags[0]?.tagName
               }
               label={"Company"}
               placeholder={"Scoop LLC"}
@@ -469,13 +446,9 @@ export const UserProfileEdit = ({ route }: any) => {
             />
             <AppInput
               _typeOf="tag_field"
-              visible={
-                userProfile?.find((item: any) => item.tagType === "homeTown")
-                  ?.visible
-              }
+              visible={userProfile?.find((item: any) => item.tagType === "homeTown")?.visible}
               value={
-                userProfile?.find((item: any) => item.tagType === "homeTown")
-                  ?.userTags[0]?.tagName
+                userProfile?.find((item: any) => item.tagType === "homeTown")?.userTags[0]?.tagName
               }
               label={"Hometown"}
               placeholder={"New York, NY"}
@@ -488,13 +461,9 @@ export const UserProfileEdit = ({ route }: any) => {
             />
             <AppInput
               _typeOf="tag_field"
-              visible={
-                userProfile?.find((item: any) => item.tagType === "school")
-                  ?.visible
-              }
+              visible={userProfile?.find((item: any) => item.tagType === "school")?.visible}
               value={
-                userProfile?.find((item: any) => item.tagType === "school")
-                  ?.userTags[0]?.tagName
+                userProfile?.find((item: any) => item.tagType === "school")?.userTags[0]?.tagName
               }
               label={"School"}
               placeholder={"University of Michigan"}
@@ -511,10 +480,7 @@ export const UserProfileEdit = ({ route }: any) => {
                 ?.find((item: any) => item.tagType === "education")
                 ?.userTags.map((item: any) => item.tagName)
                 .join(", ")}
-              visible={
-                userProfile?.find((item: any) => item.tagType === "education")
-                  ?.visible
-              }
+              visible={userProfile?.find((item: any) => item.tagType === "education")?.visible}
               label={"Education Level"}
               placeholder={"Graduate"}
               onPressIn={() => {
@@ -530,14 +496,9 @@ export const UserProfileEdit = ({ route }: any) => {
                 ?.find((item: any) => item.tagType === "ethnicity")
                 ?.userTags.map((item: any) => item.tagName)
                 .join(", ")}
-              visible={
-                userProfile?.find((item: any) => item.tagType === "ethnicity")
-                  ?.visible
-              }
+              visible={userProfile?.find((item: any) => item.tagType === "ethnicity")?.visible}
               label={"Ethnicity"}
-              placeholder={
-                "Asian, Black/African, Hispanic/Latinx, White/Caucasian"
-              }
+              placeholder={"Asian, Black/African, Hispanic/Latinx, White/Caucasian"}
               onPressIn={() => {
                 navigation.navigate(screenName.ETHNICITY, {
                   currentTagType: "ethnicity",
@@ -552,9 +513,7 @@ export const UserProfileEdit = ({ route }: any) => {
                 ?.userTags.map((item: any) => item.tagName)
                 .join(", ")}
               visible={
-                userProfile?.find(
-                  (item: any) => item.tagType === "physical_activity"
-                )?.visible
+                userProfile?.find((item: any) => item.tagType === "physical_activity")?.visible
               }
               label={"Sports"}
               placeholder={"Basketball, Football, Soccer, Tennis, Volleyball"}
@@ -571,10 +530,7 @@ export const UserProfileEdit = ({ route }: any) => {
                 ?.find((item: any) => item.tagType === "smoking")
                 ?.userTags.map((item: any) => item.tagName)
                 .join(", ")}
-              visible={
-                userProfile?.find((item: any) => item.tagType === "smoking")
-                  ?.visible
-              }
+              visible={userProfile?.find((item: any) => item.tagType === "smoking")?.visible}
               label={"Smoking"}
               placeholder={"Yes"}
               onPressIn={() => {
@@ -590,11 +546,7 @@ export const UserProfileEdit = ({ route }: any) => {
                 ?.find((item: any) => item.tagType === "cannibis_usage")
                 ?.userTags.map((item: any) => item.tagName)
                 .join(", ")}
-              visible={
-                userProfile?.find(
-                  (item: any) => item.tagType === "cannibis_usage"
-                )?.visible
-              }
+              visible={userProfile?.find((item: any) => item.tagType === "cannibis_usage")?.visible}
               label={"Cannabis"}
               placeholder={"Yes"}
               onPressIn={() => {
@@ -610,11 +562,7 @@ export const UserProfileEdit = ({ route }: any) => {
                 ?.find((item: any) => item.tagType === "alcohol_usage")
                 ?.userTags.map((item: any) => item.tagName)
                 .join(", ")}
-              visible={
-                userProfile?.find(
-                  (item: any) => item.tagType === "alcohol_usage"
-                )?.visible
-              }
+              visible={userProfile?.find((item: any) => item.tagType === "alcohol_usage")?.visible}
               label={"Alcohol"}
               placeholder={"Yes"}
               onPressIn={() => {
@@ -630,10 +578,7 @@ export const UserProfileEdit = ({ route }: any) => {
                 ?.find((item: any) => item.tagType === "drug_usage")
                 ?.userTags.map((item: any) => item.tagName)
                 .join(", ")}
-              visible={
-                userProfile?.find((item: any) => item.tagType === "drug_usage")
-                  ?.visible
-              }
+              visible={userProfile?.find((item: any) => item.tagType === "drug_usage")?.visible}
               label={"Drugs"}
               placeholder={"Yes"}
               onPressIn={() => {
@@ -649,10 +594,7 @@ export const UserProfileEdit = ({ route }: any) => {
                 ?.find((item: any) => item.tagType === "drink")
                 ?.userTags.map((item: any) => item.tagName)
                 .join(", ")}
-              visible={
-                userProfile?.find((item: any) => item.tagType === "drink")
-                  ?.visible
-              }
+              visible={userProfile?.find((item: any) => item.tagType === "drink")?.visible}
               label={"Drink"}
               placeholder={"Yes"}
               onPressIn={() => {
@@ -668,10 +610,7 @@ export const UserProfileEdit = ({ route }: any) => {
                 ?.find((item: any) => item.tagType === "diet")
                 ?.userTags.map((item: any) => item.tagName)
                 .join(", ")}
-              visible={
-                userProfile?.find((item: any) => item.tagType === "diet")
-                  ?.visible
-              }
+              visible={userProfile?.find((item: any) => item.tagType === "diet")?.visible}
               label={"Diet"}
               placeholder={"Vegetarian, Vegan, Gluten-Free, Dairy-Free, Kosher"}
               onPressIn={() => {
@@ -687,10 +626,7 @@ export const UserProfileEdit = ({ route }: any) => {
                 ?.find((item: any) => item.tagType === "language")
                 ?.userTags.map((item: any) => item.tagName)
                 .join(", ")}
-              visible={
-                userProfile?.find((item: any) => item.tagType === "language")
-                  ?.visible
-              }
+              visible={userProfile?.find((item: any) => item.tagType === "language")?.visible}
               label={"Languages"}
               placeholder={"English, Spanish, French, German, Italian"}
               onPressIn={() => {
@@ -706,10 +642,7 @@ export const UserProfileEdit = ({ route }: any) => {
                 ?.find((item: any) => item.tagType === "music_genre")
                 ?.userTags.map((item: any) => item.tagName)
                 .join(", ")}
-              visible={
-                userProfile?.find((item: any) => item.tagType === "music_genre")
-                  ?.visible
-              }
+              visible={userProfile?.find((item: any) => item.tagType === "music_genre")?.visible}
               label={"Music Genres"}
               placeholder={"Pop, Rock, Hip-Hop, R&B, Country"}
               onPressIn={() => {
@@ -725,10 +658,7 @@ export const UserProfileEdit = ({ route }: any) => {
                 ?.find((item: any) => item.tagType === "book_genre")
                 ?.userTags.map((item: any) => item.tagName)
                 .join(", ")}
-              visible={
-                userProfile?.find((item: any) => item.tagType === "book_genre")
-                  ?.visible
-              }
+              visible={userProfile?.find((item: any) => item.tagType === "book_genre")?.visible}
               label={"Book Genres"}
               placeholder={"Fiction, Non-Fiction, Romance, Mystery, Thriller"}
               onPressIn={() => {
@@ -744,10 +674,7 @@ export const UserProfileEdit = ({ route }: any) => {
                 ?.find((item: any) => item.tagType === "pets")
                 ?.userTags.map((item: any) => item.tagName)
                 .join(", ")}
-              visible={
-                userProfile?.find((item: any) => item.tagType === "pets")
-                  ?.visible
-              }
+              visible={userProfile?.find((item: any) => item.tagType === "pets")?.visible}
               label={"Pets"}
               placeholder={"Dog, Cat, Fish, Bird, Reptile"}
               onPressIn={() => {
@@ -763,10 +690,7 @@ export const UserProfileEdit = ({ route }: any) => {
                 ?.find((item: any) => item.tagType === "creative")
                 ?.userTags.map((item: any) => item.tagName)
                 .join(", ")}
-              visible={
-                userProfile?.find((item: any) => item.tagType === "creative")
-                  ?.visible
-              }
+              visible={userProfile?.find((item: any) => item.tagType === "creative")?.visible}
               label={"Creative Outlet"}
               placeholder={"Writing, Painting, Photography, Music, Film"}
               onPressIn={() => {
@@ -782,10 +706,7 @@ export const UserProfileEdit = ({ route }: any) => {
                 ?.find((item: any) => item.tagType === "staying_in")
                 ?.userTags.map((item: any) => item.tagName)
                 .join(", ")}
-              visible={
-                userProfile?.find((item: any) => item.tagType === "staying_in")
-                  ?.visible
-              }
+              visible={userProfile?.find((item: any) => item.tagType === "staying_in")?.visible}
               label={"Staying In"}
               placeholder={"Watching TV, Cooking, Reading, Gaming, Bingeing"}
               onPressIn={() => {
@@ -801,10 +722,7 @@ export const UserProfileEdit = ({ route }: any) => {
                 ?.find((item: any) => item.tagType === "going_out")
                 ?.userTags.map((item: any) => item.tagName)
                 .join(", ")}
-              visible={
-                userProfile?.find((item: any) => item.tagType === "going_out")
-                  ?.visible
-              }
+              visible={userProfile?.find((item: any) => item.tagType === "going_out")?.visible}
               label={"Going Out"}
               placeholder={"Bars, Clubs, Concerts, Movies, Sports"}
               onPressIn={() => {
@@ -820,10 +738,7 @@ export const UserProfileEdit = ({ route }: any) => {
                 ?.find((item: any) => item.tagType === "religion")
                 ?.userTags.map((item: any) => item.tagName)
                 .join(", ")}
-              visible={
-                userProfile?.find((item: any) => item.tagType === "religion")
-                  ?.visible
-              }
+              visible={userProfile?.find((item: any) => item.tagType === "religion")?.visible}
               label={"Religion"}
               placeholder={"Christianity, Judaism, Islam, Buddhism, Hinduism"}
               onPressIn={() => {
@@ -840,9 +755,7 @@ export const UserProfileEdit = ({ route }: any) => {
                 ?.userTags.map((item: any) => item.tagName)
                 .join(", ")}
               visible={
-                userProfile?.find(
-                  (item: any) => item.tagType === "religious_practice"
-                )?.visible
+                userProfile?.find((item: any) => item.tagType === "religious_practice")?.visible
               }
               label={"Religious Practice"}
               placeholder={"Active, Somewhat Active, Not Active"}
@@ -859,10 +772,7 @@ export const UserProfileEdit = ({ route }: any) => {
                 ?.find((item: any) => item.tagType === "zodiac")
                 ?.userTags.map((item: any) => item.tagName)
                 .join(", ")}
-              visible={
-                userProfile?.find((item: any) => item.tagType === "zodiac")
-                  ?.visible
-              }
+              visible={userProfile?.find((item: any) => item.tagType === "zodiac")?.visible}
               label={"Zodiac Sign"}
               placeholder={
                 "Aries, Taurus, Gemini, Cancer, Leo, Virgo, Libra, Scorpio, Sagittarius, Capricorn, Aquarius, Pisces"
@@ -880,11 +790,7 @@ export const UserProfileEdit = ({ route }: any) => {
                 ?.find((item: any) => item.tagType === "meyer_briggs")
                 ?.userTags.map((item: any) => item.tagName)
                 .join(", ")}
-              visible={
-                userProfile?.find(
-                  (item: any) => item.tagType === "meyer_briggs"
-                )?.visible
-              }
+              visible={userProfile?.find((item: any) => item.tagType === "meyer_briggs")?.visible}
               label={"Meyer Briggs"}
               placeholder={
                 "ISTJ, ISFJ, INFJ, INTJ, ISTP, ISFP, INFP, INTP, ESTP, ESFP, ENFP, ENTP, ESTJ, ESFJ, ENFJ, ENTP"
@@ -902,10 +808,7 @@ export const UserProfileEdit = ({ route }: any) => {
                 ?.find((item: any) => item.tagType === "politics")
                 ?.userTags.map((item: any) => item.tagName)
                 .join(", ")}
-              visible={
-                userProfile?.find((item: any) => item.tagType === "politics")
-                  ?.visible
-              }
+              visible={userProfile?.find((item: any) => item.tagType === "politics")?.visible}
               label={"Politics"}
               placeholder={"Apolitical"}
               onPressIn={() => {
@@ -921,11 +824,7 @@ export const UserProfileEdit = ({ route }: any) => {
                 ?.find((item: any) => item.tagType === "parenting_goal")
                 ?.userTags.map((item: any) => item.tagName)
                 .join(", ")}
-              visible={
-                userProfile?.find(
-                  (item: any) => item.tagType === "parenting_goal"
-                )?.visible
-              }
+              visible={userProfile?.find((item: any) => item.tagType === "parenting_goal")?.visible}
               label={"Parenting Goals"}
               placeholder={"Have Kids, Want Kids, Don’t Want Kids"}
               onPressIn={() => {
@@ -942,14 +841,10 @@ export const UserProfileEdit = ({ route }: any) => {
                 ?.userTags.map((item: any) => item.tagName)
                 .join(", ")}
               visible={
-                userProfile?.find(
-                  (item: any) => item.tagType === "relationship_goal"
-                )?.visible
+                userProfile?.find((item: any) => item.tagType === "relationship_goal")?.visible
               }
               label={"Relationship Goals"}
-              placeholder={
-                "Long Term, Short Term, Casual, Friends With Benefits"
-              }
+              placeholder={"Long Term, Short Term, Casual, Friends With Benefits"}
               onPressIn={() => {
                 navigation.navigate(screenName.RELATIONSHIP_GOALS, {
                   currentTagType: "relationship_goal",
@@ -963,15 +858,9 @@ export const UserProfileEdit = ({ route }: any) => {
                 ?.find((item: any) => item.tagType === "parenting_type")
                 ?.userTags.map((item: any) => item.tagName)
                 .join(", ")}
-              visible={
-                userProfile?.find(
-                  (item: any) => item.tagType === "parenting_type"
-                )?.visible
-              }
+              visible={userProfile?.find((item: any) => item.tagType === "parenting_type")?.visible}
               label={"Parenting Types"}
-              placeholder={
-                "Authoritarian, Permissive, Uninvolved, Authoritative"
-              }
+              placeholder={"Authoritarian, Permissive, Uninvolved, Authoritative"}
               onPressIn={() => {
                 navigation.navigate(screenName.PARENTING_GOALS, {
                   currentTagType: "parenting_type",

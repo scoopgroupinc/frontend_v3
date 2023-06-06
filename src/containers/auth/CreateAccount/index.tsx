@@ -56,10 +56,8 @@ const CreateAccount = () => {
     resolver: yupResolver(schema),
   });
 
-  const [
-    registerUserMutation,
-    { data: registerData, loading: registerLoading },
-  ] = useMutation(CREATE_USER);
+  const [registerUserMutation, { data: registerData, loading: registerLoading }] =
+    useMutation(CREATE_USER);
 
   const createUserAccount = (formData: any) => {
     setUserData({ ...userData, ...formData });
@@ -155,17 +153,11 @@ const CreateAccount = () => {
             <View style={styles.btnContainer}>
               <AppButton
                 bgColor={Colors.ICE_WHITE}
-                disabled={
-                  errors.email || errors.password || errors.confirmPassword
-                    ? true
-                    : false
-                }
+                disabled={errors.email || errors.password || errors.confirmPassword ? true : false}
                 title={"Submit"}
                 onPress={handleSubmit(createUserAccount)}
               />
-              <TouchableOpacity
-                onPress={() => navigation.navigate(screenName.LOGIN)}
-              >
+              <TouchableOpacity onPress={() => navigation.navigate(screenName.LOGIN)}>
                 <Text style={styles.link}>Sign In</Text>
               </TouchableOpacity>
             </View>
@@ -178,10 +170,7 @@ const CreateAccount = () => {
             closeModal={() => setModalState(false)}
             next={async (dt) => {
               setModalState(false);
-              await storeStringData(
-                "userToken",
-                dt?.data?.activateAccount?.token
-              );
+              await storeStringData("userToken", dt?.data?.activateAccount?.token);
               dispatch(
                 setUser({
                   user: JSON.parse(dt?.data?.activateAccount?.user),

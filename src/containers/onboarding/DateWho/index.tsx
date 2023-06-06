@@ -63,14 +63,9 @@ export const DateWhoScreen = () => {
         <View style={styles.container}>
           <ProgressBar progress={0.3} color={"#0E0E2C"} />
           <View style={styles.genderContainer}>
-            <Text style={styles.genderTitle}>
-              Which gender do you want to be matched with?
-            </Text>
+            <Text style={styles.genderTitle}>Which gender do you want to be matched with?</Text>
             <View style={styles.genderTypesContainer}>
-              <SelectButtons
-                titles={["male", "female", "bisexual"]}
-                funk={setMate}
-              />
+              <SelectButtons titles={["male", "female", "bisexual"]} funk={setMate} />
             </View>
           </View>
           <AppButton

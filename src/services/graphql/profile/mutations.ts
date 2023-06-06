@@ -1,4 +1,4 @@
-import {gql} from '@apollo/client'
+import { gql } from "@apollo/client";
 
 export const SAVE_USER_PROMPT = gql`
   mutation SaveUserPrompt($UserPromptInput: UserPromptsInput!) {
@@ -10,13 +10,13 @@ export const SAVE_USER_PROMPT = gql`
       answer
     }
   }
-`
+`;
 
 export const SAVE_USER_PROMPT_ORDER = gql`
   mutation SaveUserPromptOrder($UserPromptsOrder: UserPromptsOrder!) {
     saveUserPromptsOrder(userPromptsOrder: $UserPromptsOrder)
   }
-`
+`;
 
 export const SAVE_USER_GENDER = gql`
   mutation saveUserProfile($UserProfileInput: UserProfileInput!) {
@@ -25,7 +25,7 @@ export const SAVE_USER_GENDER = gql`
       gender
     }
   }
-`
+`;
 
 export const SAVE_USER_LOCATION = gql`
   mutation saveUserLocation($CreateLocationInput: CreateLocationInput!) {
@@ -36,7 +36,7 @@ export const SAVE_USER_LOCATION = gql`
       zipPostal
     }
   }
-`
+`;
 
 export const SAVE_USER_HEIGHT = gql`
   mutation saveUserProfile($UserProfileInput: UserProfileInput!) {
@@ -45,7 +45,7 @@ export const SAVE_USER_HEIGHT = gql`
       height
     }
   }
-`
+`;
 
 export const SAVE_USER_BIRTHDAY = gql`
   mutation saveUserProfile($UserProfileInput: UserProfileInput!) {
@@ -54,7 +54,7 @@ export const SAVE_USER_BIRTHDAY = gql`
       birthday
     }
   }
-`
+`;
 
 export const SAVE_USER_NAME = gql`
   mutation updateUser($UpdateUserInput: UpdateUserInput!) {
@@ -65,7 +65,7 @@ export const SAVE_USER_NAME = gql`
       email
     }
   }
-`
+`;
 
 export const SAVE_USER_TAGS_TYPE_VISIBLE = gql`
   mutation saveUserTagsTypeVisible($userTagsTypeVisibleInput: [UserTagsTypeVisibleInput!]!) {
@@ -73,7 +73,7 @@ export const SAVE_USER_TAGS_TYPE_VISIBLE = gql`
       emoji
     }
   }
-`
+`;
 
 export const SAVE_USER_PROMPTS = gql`
   mutation saveUserPrompts($UserPromptInput: [UserPromptsInput!]!) {
@@ -85,19 +85,19 @@ export const SAVE_USER_PROMPTS = gql`
       answer
     }
   }
-`
+`;
 
 export const SAVE_ONBOARD_STATUS = gql`
   mutation updateOnBoarding($onboardInput: OnBoardInput!) {
     updateOnBoarding(onboardInput: $onboardInput)
   }
-`
+`;
 
 export const SAVE_GROUP_RATING = gql`
   mutation saveRatingGroup($ratingGroupInput: SaveRatingInput!) {
     saveRatingGroup(ratingGroupInput: $ratingGroupInput)
   }
-`
+`;
 
 export const USER_SWIPER_ACTION = gql`
   mutation userSwipeAction($choice: String!, $matchId: String!) {
@@ -115,4 +115,4 @@ export const USER_SWIPER_ACTION = gql`
       }
     }
   }
-`
+`;

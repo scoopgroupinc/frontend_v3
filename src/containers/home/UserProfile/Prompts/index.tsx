@@ -39,11 +39,7 @@ const AllPrompts = () => {
               style={{ alignSelf: "flex-start", padding: 0 }}
               onPress={() => navigation.goBack()}
             >
-              <MaterialIcons
-                name="keyboard-arrow-left"
-                size={32}
-                color={Colors.ICON_FILL}
-              />
+              <MaterialIcons name="keyboard-arrow-left" size={32} color={Colors.ICON_FILL} />
             </AppIconButton>
           </View>
           <View style={styles.textContainer}>
@@ -54,9 +50,7 @@ const AllPrompts = () => {
           <View style={styles.modalHeader}></View>
           <FlatList
             ItemSeparatorComponent={() => (
-              <View
-                style={{ height: 1, backgroundColor: Colors.ICON_INNER_SHADOW }}
-              />
+              <View style={{ height: 1, backgroundColor: Colors.ICON_INNER_SHADOW }} />
             )}
             showsVerticalScrollIndicator={false}
             data={allPrompts}

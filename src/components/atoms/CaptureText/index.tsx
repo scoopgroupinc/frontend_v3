@@ -7,13 +7,7 @@ import { ScreenType, TextContainerType } from "./types";
 import { Colors } from "../../../utils";
 import { AppIconButton } from "../../layouts/AppIconButton";
 
-export const CaptureText = ({
-  addPrompt,
-  press,
-  activeState,
-  prompt,
-  change,
-}: ScreenType) => {
+export const CaptureText = ({ addPrompt, press, activeState, prompt, change }: ScreenType) => {
   return (
     <>
       {prompt && prompt?.answer === "" ? (
@@ -44,11 +38,7 @@ const TextContainer = ({ handlePress, prompt, change }: TextContainerType) => {
   return (
     <View style={styles.textContainer}>
       <AppIconButton onPress={change} style={styles.close}>
-        <MaterialCommunityIcons
-          name={"refresh"}
-          size={20}
-          color={Colors.BLACK}
-        />
+        <MaterialCommunityIcons name={"refresh"} size={20} color={Colors.BLACK} />
       </AppIconButton>
       <>
         <Text

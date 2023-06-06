@@ -124,11 +124,7 @@ export const OnboardName = () => {
               justifyContent: "space-between",
             }}
           >
-            <ProgressBar
-              style={{ marginTop: "3%" }}
-              progress={0.1}
-              color={"#0E0E2C"}
-            />
+            <ProgressBar style={{ marginTop: "3%" }} progress={0.1} color={"#0E0E2C"} />
             <View>
               <Text style={styles.title}>What's your name?</Text>
               <Text style={styles.subTitle}>This can't be changed later</Text>
@@ -156,9 +152,7 @@ export const OnboardName = () => {
               style={{
                 bottom: 0,
                 backgroundColor:
-                  errors.firstname || errors.lastname
-                    ? "transparent"
-                    : Colors.ICE_WHITE,
+                  errors.firstname || errors.lastname ? "transparent" : Colors.ICE_WHITE,
               }}
               bgColor={Colors.ICE_WHITE}
               onPress={handleSubmit(saveUserNames)}

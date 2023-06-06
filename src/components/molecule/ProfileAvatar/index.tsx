@@ -20,11 +20,7 @@ export const ProfileAvatar = ({
       />
       {!settings && (
         <View style={styles.profileLevel}>
-          <MaterialCommunityIcons
-            name="account-edit-outline"
-            size={20}
-            color={"#fff"}
-          />
+          <MaterialCommunityIcons name="account-edit-outline" size={20} color={"#fff"} />
         </View>
       )}
     </View>

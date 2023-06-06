@@ -1,10 +1,10 @@
 export interface ModalType {
-  children: ReactNode
-  close: () => void
-  done: any
+  children: ReactNode;
+  close: () => void;
+  done: any;
 }
 
 export interface ItemType {
-  question: string
-  answer: string
+  question: string;
+  answer: string;
 }

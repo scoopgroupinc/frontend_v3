@@ -67,9 +67,7 @@ export const PhotoVideoScreen = () => {
     let imageArray = [...allImages];
     //save the image to DB
     await Promise.all(
-      imageArray.map(
-        async (image: any) => await handleSaveImages(image.videoOrPhoto)
-      )
+      imageArray.map(async (image: any) => await handleSaveImages(image.videoOrPhoto))
     )
       .then(async (response) => {
         setIsLoading(false);
@@ -83,15 +81,11 @@ export const PhotoVideoScreen = () => {
 
   const handleSaveImages = async (img: any) => {
     const postUrl = URLS.FILE_URL;
-    await FileSystem.uploadAsync(
-      `${postUrl}/api/v1/visuals/uploadvisuals/${userId}`,
-      img,
-      {
-        httpMethod: "POST",
-        uploadType: FileSystem.FileSystemUploadType.MULTIPART,
-        fieldName: "files",
-      }
-    )
+    await FileSystem.uploadAsync(`${postUrl}/api/v1/visuals/uploadvisuals/${userId}`, img, {
+      httpMethod: "POST",
+      uploadType: FileSystem.FileSystemUploadType.MULTIPART,
+      fieldName: "files",
+    })
       .then(async (response) => {
         if (response.status === 201) {
           await getVisuals();

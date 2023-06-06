@@ -14,11 +14,7 @@ interface PromptAnswerType {
   prompt: any;
 }
 
-export const PromptAnswerModal = ({
-  close,
-  goBack,
-  prompt,
-}: PromptAnswerType) => {
+export const PromptAnswerModal = ({ close, goBack, prompt }: PromptAnswerType) => {
   const { user } = useAppSelector((state: any) => state.appUser);
   const userId = user?.userId;
 
@@ -62,11 +58,7 @@ export const PromptAnswerModal = ({
         />
         <AppButton
           title={"Done"}
-          disabled={
-            answer === "" || answer === "" || answer === undefined
-              ? true
-              : false
-          }
+          disabled={answer === "" || answer === "" || answer === undefined ? true : false}
           onPress={handleSavePrompt}
         />
       </KeyboardAwareScrollView>

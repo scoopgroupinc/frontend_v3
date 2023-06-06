@@ -25,16 +25,10 @@ export const UserProfileView = () => {
   const [merged, setMerged] = useState<any>([]);
 
   const getJobDetails = () => {
-    const company = userProfile?.find(
-      (item: any) => item.tagType === "company"
-    );
-    const companyString = company?.userTags[0]?.tagName
-      ? `@ ${company?.userTags[0]?.tagName}`
-      : "";
+    const company = userProfile?.find((item: any) => item.tagType === "company");
+    const companyString = company?.userTags[0]?.tagName ? `@ ${company?.userTags[0]?.tagName}` : "";
     const job = userProfile?.find((item: any) => item.tagType === "job");
-    const jobString = job?.userTags[0]?.tagName
-      ? `${job?.userTags[0]?.tagName} `
-      : "";
+    const jobString = job?.userTags[0]?.tagName ? `${job?.userTags[0]?.tagName} ` : "";
     if (job?.userTags[0]?.tagName != "" && job?.visible) {
       return (
         <Text style={[styles.descriptionText]}>
@@ -47,9 +41,8 @@ export const UserProfileView = () => {
   };
 
   const getSchoolDetails = () => {
-    const schoolName = userProfile?.find(
-      (item: any) => item.tagType === "school"
-    )?.userTags[0]?.tagName;
+    const schoolName = userProfile?.find((item: any) => item.tagType === "school")?.userTags[0]
+      ?.tagName;
     const school = userProfile?.find((item: any) => item.tagType === "school");
     if (school?.visible && schoolName)
       return (
@@ -60,9 +53,7 @@ export const UserProfileView = () => {
   };
 
   const getLanguagesDetails = () => {
-    const languages = userProfile?.find(
-      (item: any) => item.tagType === "language"
-    );
+    const languages = userProfile?.find((item: any) => item.tagType === "language");
     if (languages?.userTags.length > 0 && languages?.visible) {
       return (
         <Text style={[styles.descriptionText]}>
@@ -81,16 +72,11 @@ export const UserProfileView = () => {
   };
 
   const getMusicGenreDetails = () => {
-    const music = userProfile?.find(
-      (item: any) => item.tagType === "music_genre"
-    );
+    const music = userProfile?.find((item: any) => item.tagType === "music_genre");
     if (music?.userTags.length > 0 && music?.visible) {
       return (
         <Text style={[styles.descriptionText]}>
-          {
-            userProfile?.find((item: any) => item.tagType === "music_genre")
-              ?.emoji
-          }
+          {userProfile?.find((item: any) => item.tagType === "music_genre")?.emoji}
           {music?.userTags.map((item: any, index: any) => {
             return (
               <Text key={index}>
@@ -105,16 +91,11 @@ export const UserProfileView = () => {
   };
 
   const getBookGenreDetails = () => {
-    const book = userProfile?.find(
-      (item: any) => item.tagType === "book_genre"
-    );
+    const book = userProfile?.find((item: any) => item.tagType === "book_genre");
     if (book?.userTags.length > 0 && book?.visible) {
       return (
         <Text style={[styles.descriptionText]}>
-          {
-            userProfile?.find((item: any) => item.tagType === "book_genre")
-              ?.emoji
-          }
+          {userProfile?.find((item: any) => item.tagType === "book_genre")?.emoji}
           {book?.userTags.map((item: any, index: any) => {
             return (
               <Text key={index}>
@@ -148,17 +129,11 @@ export const UserProfileView = () => {
   };
 
   const getSportsDetails = () => {
-    const sports = userProfile?.find(
-      (item: any) => item.tagType === "physical_activity"
-    );
+    const sports = userProfile?.find((item: any) => item.tagType === "physical_activity");
     if (sports?.userTags.length > 0 && sports?.visible) {
       return (
         <Text style={[styles.descriptionText]}>
-          {
-            userProfile?.find(
-              (item: any) => item.tagType === "physical_activity"
-            )?.emoji
-          }
+          {userProfile?.find((item: any) => item.tagType === "physical_activity")?.emoji}
           {sports?.userTags.map((item: any, index: any) => {
             return (
               <Text key={index}>
@@ -173,16 +148,11 @@ export const UserProfileView = () => {
   };
 
   const getGoingOutDetails = () => {
-    const goingOut = userProfile?.find(
-      (item: any) => item.tagType === "going_out"
-    );
+    const goingOut = userProfile?.find((item: any) => item.tagType === "going_out");
     if (goingOut?.userTags.length > 0 && goingOut?.visible) {
       return (
         <Text style={[styles.descriptionText]}>
-          {
-            userProfile?.find((item: any) => item.tagType === "going_out")
-              ?.emoji
-          }
+          {userProfile?.find((item: any) => item.tagType === "going_out")?.emoji}
           {goingOut?.userTags.map((item: any, index: any) => {
             return (
               <Text key={index}>
@@ -197,9 +167,7 @@ export const UserProfileView = () => {
   };
 
   const getCreativeOuletDetails = () => {
-    const creative = userProfile?.find(
-      (item: any) => item.tagType === "creative"
-    );
+    const creative = userProfile?.find((item: any) => item.tagType === "creative");
     if (creative?.userTags.length > 0 && creative?.visible) {
       return (
         <Text style={[styles.descriptionText]}>
@@ -218,16 +186,11 @@ export const UserProfileView = () => {
   };
 
   const getStayingInDetails = () => {
-    const stayingIn = userProfile?.find(
-      (item: any) => item.tagType === "staying_in"
-    );
+    const stayingIn = userProfile?.find((item: any) => item.tagType === "staying_in");
     if (stayingIn?.userTags.length > 0 && stayingIn?.visible) {
       return (
         <Text style={[styles.descriptionText]}>
-          {
-            userProfile?.find((item: any) => item.tagType === "staying_in")
-              ?.emoji
-          }
+          {userProfile?.find((item: any) => item.tagType === "staying_in")?.emoji}
           {stayingIn?.userTags.map((item: any, index: any) => {
             return (
               <Text key={index}>
@@ -273,9 +236,7 @@ export const UserProfileView = () => {
   };
 
   const getPoliticsDetails = () => {
-    const politics = userProfile?.find(
-      (item: any) => item.tagType === "politics"
-    );
+    const politics = userProfile?.find((item: any) => item.tagType === "politics");
     const politicsName = politics?.userTags[0]?.tagName;
     if (politics?.visible && politicsName) {
       return (
@@ -287,9 +248,7 @@ export const UserProfileView = () => {
   };
 
   const getAlcoholDetails = () => {
-    const alcohol = userProfile?.find(
-      (item: any) => item.tagType === "alcohol"
-    );
+    const alcohol = userProfile?.find((item: any) => item.tagType === "alcohol");
     const alcoholName = alcohol?.userTags[0]?.tagName;
     if (alcohol?.visible && alcoholName) {
       return (
@@ -301,9 +260,7 @@ export const UserProfileView = () => {
   };
 
   const getSmokingDetails = () => {
-    const smoking = userProfile?.find(
-      (item: any) => item.tagType === "smoking"
-    );
+    const smoking = userProfile?.find((item: any) => item.tagType === "smoking");
     const smokingName = smoking?.userTags[0]?.tagName;
     if (smoking?.visible && smokingName) {
       return (
@@ -315,9 +272,7 @@ export const UserProfileView = () => {
   };
 
   const getDrugsDetails = () => {
-    const drug = userProfile?.find(
-      (item: any) => item.tagType === "drug_usage"
-    );
+    const drug = userProfile?.find((item: any) => item.tagType === "drug_usage");
     const drugName = drug?.userTags[0]?.tagName;
     if (drug?.visible && drugName) {
       return (
@@ -341,9 +296,7 @@ export const UserProfileView = () => {
   };
 
   const getMeyerBriggsDetails = () => {
-    const meyerBriggs = userProfile?.find(
-      (item: any) => item.tagType === "meyer_briggs"
-    );
+    const meyerBriggs = userProfile?.find((item: any) => item.tagType === "meyer_briggs");
     const meyerBriggsName = meyerBriggs?.userTags[0]?.tagName;
     if (meyerBriggs?.visible && meyerBriggsName) {
       return (
@@ -355,9 +308,7 @@ export const UserProfileView = () => {
   };
 
   const getParentingGoalDetails = () => {
-    const parenting_goal = userProfile?.find(
-      (item: any) => item.tagType === "parenting_goal"
-    );
+    const parenting_goal = userProfile?.find((item: any) => item.tagType === "parenting_goal");
     const parenting_goal_name = parenting_goal?.userTags[0]?.tagName;
     if (parenting_goal?.visible && parenting_goal_name) {
       return (
@@ -369,9 +320,7 @@ export const UserProfileView = () => {
   };
 
   const getEducationLevelDetails = () => {
-    const education = userProfile?.find(
-      (item: any) => item.tagType === "education"
-    );
+    const education = userProfile?.find((item: any) => item.tagType === "education");
     const educationName = education?.userTags[0]?.tagName;
     if (education?.visible && educationName) {
       return (
@@ -383,9 +332,7 @@ export const UserProfileView = () => {
   };
 
   const getHometownDetails = () => {
-    const hometown = userProfile?.find(
-      (item: any) => item.tagType === "homeTown"
-    );
+    const hometown = userProfile?.find((item: any) => item.tagType === "homeTown");
     const hometownName = hometown?.userTags[0]?.tagName;
     if (hometown?.visible && hometownName)
       return (
@@ -396,16 +343,11 @@ export const UserProfileView = () => {
   };
 
   const getEthnicityDetails = () => {
-    const ethnicity = userProfile?.find(
-      (item: any) => item.tagType === "ethnicity"
-    );
+    const ethnicity = userProfile?.find((item: any) => item.tagType === "ethnicity");
     if (ethnicity?.userTags.length > 0 && ethnicity?.visible) {
       return (
         <Text style={[styles.descriptionText]}>
-          {
-            userProfile?.find((item: any) => item.tagType === "ethnicity")
-              ?.emoji
-          }
+          {userProfile?.find((item: any) => item.tagType === "ethnicity")?.emoji}
           {ethnicity?.userTags.map((item: any, index: any) => {
             return (
               <Text key={index}>
@@ -420,9 +362,7 @@ export const UserProfileView = () => {
   };
 
   const getReligionsDetails = () => {
-    const religion = userProfile?.find(
-      (item: any) => item.tagType === "religion"
-    );
+    const religion = userProfile?.find((item: any) => item.tagType === "religion");
     const religionName = religion?.userTags[0]?.tagName;
     if (religion?.visible && religionName) {
       return (
@@ -476,9 +416,7 @@ export const UserProfileView = () => {
   };
 
   const getCannabisDetails = () => {
-    const cannibis_usage = userProfile?.find(
-      (item: any) => item.tagType === "cannibis_usage"
-    );
+    const cannibis_usage = userProfile?.find((item: any) => item.tagType === "cannibis_usage");
     const cannibis_usage_name = cannibis_usage?.userTags[0]?.tagName;
     if (cannibis_usage?.visible && cannibis_usage_name) {
       return (
@@ -500,17 +438,11 @@ export const UserProfileView = () => {
         setMerged([]);
         for (let i = 0; i < maxLength; i++) {
           if (allImages[i]) {
-            setMerged((prev: any) => [
-              ...prev,
-              { type: "image", image: allImages[i] },
-            ]);
+            setMerged((prev: any) => [...prev, { type: "image", image: allImages[i] }]);
           }
           if (userPrompts[i]) {
             if (userPrompts[i].answer !== "") {
-              setMerged((prev: any) => [
-                ...prev,
-                { type: "prompt", prompt: userPrompts[i] },
-              ]);
+              setMerged((prev: any) => [...prev, { type: "prompt", prompt: userPrompts[i] }]);
             }
           }
         }
@@ -519,10 +451,7 @@ export const UserProfileView = () => {
         setMerged([]);
         for (let i = 0; i < userPrompts.length; i++) {
           if (userPrompts[i].answer !== "") {
-            setMerged((prev: any) => [
-              ...prev,
-              { type: "prompt", prompt: userPrompts[i] },
-            ]);
+            setMerged((prev: any) => [...prev, { type: "prompt", prompt: userPrompts[i] }]);
           }
         }
         return merged;
@@ -576,12 +505,8 @@ export const UserProfileView = () => {
                 </View>
               </View> */}
               <View style={styles.section}>
-                <Text style={styles.name}>
-                  {user?.firstName + " " + user?.lastName}
-                </Text>
-                <Text style={styles.age}>
-                  {/* {age} years old, {height} */}
-                </Text>
+                <Text style={styles.name}>{user?.firstName + " " + user?.lastName}</Text>
+                <Text style={styles.age}>{/* {age} years old, {height} */}</Text>
                 <Text style={styles.descriptionHeader}>My Basics</Text>
 
                 <View style={[styles.content, { flexDirection: "column" }]}>
@@ -638,10 +563,7 @@ export const UserProfileView = () => {
                         }}
                       >
                         {/* <Text>{item.prompt.answer}</Text> */}
-                        <QuotedText
-                          title={item.prompt.prompt}
-                          text={item.prompt.answer}
-                        />
+                        <QuotedText title={item.prompt.prompt} text={item.prompt.answer} />
                       </View>
                     );
                   } else {

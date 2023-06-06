@@ -16,18 +16,9 @@ const ProfileNavigator = () => {
       }}
     >
       <HomeStack.Screen name={screenName.HOME} component={Home} />
-      <HomeStack.Screen
-        name={screenName.USER_PROFILE}
-        component={UserProfile}
-      />
-      <HomeStack.Screen
-        name={screenName.USER_PROFILE_EDIT}
-        component={UserProfileEdit}
-      />
-      <HomeStack.Screen
-        name={screenName.USER_PROFILE_VIEW}
-        component={UserProfileView}
-      />
+      <HomeStack.Screen name={screenName.USER_PROFILE} component={UserProfile} />
+      <HomeStack.Screen name={screenName.USER_PROFILE_EDIT} component={UserProfileEdit} />
+      <HomeStack.Screen name={screenName.USER_PROFILE_VIEW} component={UserProfileView} />
     </HomeStack.Navigator>
   );
 };

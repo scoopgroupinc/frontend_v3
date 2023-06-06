@@ -13,10 +13,7 @@ const ChatNavigator = () => {
         headerShown: false,
       }}
     >
-      <ChatStack.Screen
-        name={screenName.CONVERSATIONS}
-        component={Conversations}
-      />
+      <ChatStack.Screen name={screenName.CONVERSATIONS} component={Conversations} />
       <ChatStack.Screen name={screenName.MESSAGES} component={Messages} />
     </ChatStack.Navigator>
   );

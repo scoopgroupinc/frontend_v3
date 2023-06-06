@@ -27,11 +27,7 @@ interface Tag {
   name: string;
 }
 
-export const TagsButton = ({
-  currentTagType,
-  typeOf,
-  data,
-}: TagButtonProps) => {
+export const TagsButton = ({ currentTagType, typeOf, data }: TagButtonProps) => {
   const gradient = [Colors.RUST, Colors.RED, Colors.TEAL];
   const [tags, setTags] = useState<any>([]);
 
@@ -42,44 +38,30 @@ export const TagsButton = ({
   const userProfile = useAppSelector(selectUserProfile);
 
   const handleMulipleBtns = () => {
-    const rst = userProfile?.find(
-      (item: any) => item.tagType === currentTagType
-    );
+    const rst = userProfile?.find((item: any) => item.tagType === currentTagType);
     const isExist = tags?.find((item: any) => item.tagName === data.name);
     if (isExist) {
       setTags([...tags.filter((item: any) => item.tagName !== data.name)]);
       dispatch(
         setUserProfile({
           userProfile: [
-            ...userProfile.filter(
-              (item: any) => item.tagType !== currentTagType
-            ),
+            ...userProfile.filter((item: any) => item.tagType !== currentTagType),
             {
               ...rst,
-              userTags: [
-                ...tags.filter((item: any) => item.tagName !== data.name),
-              ],
+              userTags: [...tags.filter((item: any) => item.tagName !== data.name)],
             },
           ],
         })
       );
     } else {
-      setTags([
-        ...tags,
-        { userId, tagName: data.name, tagType: currentTagType },
-      ]);
+      setTags([...tags, { userId, tagName: data.name, tagType: currentTagType }]);
       dispatch(
         setUserProfile({
           userProfile: [
-            ...userProfile.filter(
-              (item: any) => item.tagType !== currentTagType
-            ),
+            ...userProfile.filter((item: any) => item.tagType !== currentTagType),
             {
               ...rst,
-              userTags: [
-                ...tags,
-                { userId, tagName: data.name, tagType: currentTagType },
-              ],
+              userTags: [...tags, { userId, tagName: data.name, tagType: currentTagType }],
             },
           ],
         })
@@ -88,9 +70,7 @@ export const TagsButton = ({
   };
 
   const handleSingleBtn = () => {
-    const rst = userProfile.find(
-      (item: any) => item.tagType === currentTagType
-    );
+    const rst = userProfile.find((item: any) => item.tagType === currentTagType);
     dispatch(
       setUserProfile({
         userProfile: [
@@ -105,31 +85,20 @@ export const TagsButton = ({
   };
 
   useEffect(() => {
-    const rst = userProfile?.find(
-      (item: any) => item.tagType === currentTagType
-    );
+    const rst = userProfile?.find((item: any) => item.tagType === currentTagType);
     setTags(rst?.userTags);
   }, [userProfile]);
 
   return (
-    <TouchableOpacity
-      onPress={typeOf === TypeOf.ARRAY ? handleMulipleBtns : handleSingleBtn}
-    >
-      <LinearGradient
-        start={[0, 0.5]}
-        end={[1, 0.5]}
-        colors={gradient}
-        style={styles.gradient}
-      >
+    <TouchableOpacity onPress={typeOf === TypeOf.ARRAY ? handleMulipleBtns : handleSingleBtn}>
+      <LinearGradient start={[0, 0.5]} end={[1, 0.5]} colors={gradient} style={styles.gradient}>
         <View
           style={
             typeOf === TypeOf.ARRAY
               ? [
                   styles.circleGradient,
                   {
-                    backgroundColor: tags?.find(
-                      (item: any) => item.tagName === data.name
-                    )
+                    backgroundColor: tags?.find((item: any) => item.tagName === data.name)
                       ? Colors.TRANSPARENT
                       : Colors.WHITE,
                   },
@@ -138,9 +107,7 @@ export const TagsButton = ({
                   styles.circleGradient,
                   {
                     backgroundColor:
-                      tags[0]?.tagName === data.name
-                        ? Colors.TRANSPARENT
-                        : Colors.WHITE,
+                      tags[0]?.tagName === data.name ? Colors.TRANSPARENT : Colors.WHITE,
                   },
                 ]
           }

@@ -54,8 +54,8 @@ const Hometown = ({ navigation, route }: any) => {
         <View style={styles.input}>
           <AppInput
             value={
-              userProfile?.find((item: any) => item.tagType === currentTagType)
-                ?.userTags?.[0]?.tagName
+              userProfile?.find((item: any) => item.tagType === currentTagType)?.userTags?.[0]
+                ?.tagName
             }
             onChangeText={(text: string) => {
               const _data = userProfile?.map((item: any) => {
@@ -63,9 +63,7 @@ const Hometown = ({ navigation, route }: any) => {
                 if (tagType === currentTagType) {
                   return {
                     ...item,
-                    userTags: [
-                      { userId, tagType: currentTagType, tagName: text },
-                    ],
+                    userTags: [{ userId, tagType: currentTagType, tagName: text }],
                   };
                 }
                 return {

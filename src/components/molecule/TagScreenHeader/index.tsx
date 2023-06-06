@@ -15,15 +15,8 @@ const TagScreenHeader = ({ title, close }: tagScreenProps) => {
   return (
     <View style={styles.headerContainer}>
       <View>
-        <AppIconButton
-          style={{ alignSelf: "flex-start", padding: 0 }}
-          onPress={close}
-        >
-          <MaterialIcons
-            name="keyboard-arrow-left"
-            size={32}
-            color={Colors.ICON_FILL}
-          />
+        <AppIconButton style={{ alignSelf: "flex-start", padding: 0 }} onPress={close}>
+          <MaterialIcons name="keyboard-arrow-left" size={32} color={Colors.ICON_FILL} />
         </AppIconButton>
       </View>
       <View style={styles.textContainer}>

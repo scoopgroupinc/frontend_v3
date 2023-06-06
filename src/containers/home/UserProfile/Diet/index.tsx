@@ -40,11 +40,7 @@ const Diet = ({ navigation, route }: any) => {
     <LinearGradient style={styles.container} colors={gradient}>
       <SafeAreaView style={{ flex: 1 }} edges={["left", "right", "top"]}>
         <TagScreenHeader close={goBackHome} title="Diet" />
-        <TagsView
-          currentTagType={currentTagType}
-          tags={dietTags}
-          typeOf={TypeOf.ARRAY}
-        />
+        <TagsView currentTagType={currentTagType} tags={dietTags} typeOf={TypeOf.ARRAY} />
       </SafeAreaView>
     </LinearGradient>
   );

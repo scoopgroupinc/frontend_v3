@@ -45,9 +45,7 @@ export const PromptVote = () => {
   const userChoiceId = userChoices[0]?.shownUserId;
   const userChoicePrompt = userChoices[0]?.prompt;
   const promptCriteria = useAppSelector((state) =>
-    state.matches.criterias.filter(
-      (criteria: any) => criteria.type === "user_prompts"
-    )
+    state.matches.criterias.filter((criteria: any) => criteria.type === "user_prompts")
   );
 
   const ratingGroupInput = {
@@ -97,14 +95,11 @@ export const PromptVote = () => {
     userId: userChoiceId,
   };
 
-  const { data: promptsOrderResult, loading: promptsOrderLoading } = useQuery(
-    GET_PROMPTS_ORDER,
-    {
-      variables: {
-        userPromptsOrder,
-      },
-    }
-  );
+  const { data: promptsOrderResult, loading: promptsOrderLoading } = useQuery(GET_PROMPTS_ORDER, {
+    variables: {
+      userPromptsOrder,
+    },
+  });
 
   const quote = {
     title: `${userChoicePrompt?.prompt}...`,
@@ -178,33 +173,22 @@ export const PromptVote = () => {
               <View style={{ width: "100%" }}>
                 <View style={styles.sliderContainer}>
                   <View style={styles.textContainer}>
-                    <Text style={styles.text}>
-                      {promptCriteria[0]?.title}:{" "}
-                    </Text>
-                    <Text style={styles.smallText}>
-                      {promptCriteria[0]?.description}
-                    </Text>
+                    <Text style={styles.text}>{promptCriteria[0]?.title}: </Text>
+                    <Text style={styles.smallText}>{promptCriteria[0]?.description}</Text>
                   </View>
                   <RatingSlider rating={setType1} />
                 </View>
                 <View style={styles.sliderContainer}>
                   <View style={styles.textContainer}>
-                    <Text style={styles.text}>
-                      {promptCriteria[1]?.title}:{" "}
-                    </Text>
-                    <Text style={styles.smallText}>
-                      Authentic, Glimpse of person
-                    </Text>
+                    <Text style={styles.text}>{promptCriteria[1]?.title}: </Text>
+                    <Text style={styles.smallText}>Authentic, Glimpse of person</Text>
                   </View>
                   <RatingSlider rating={setType2} />
                 </View>
                 <View style={styles.sliderContainer}>
                   <View style={styles.textContainer}>
                     <Text style={styles.text}>{promptCriteria[2]?.title}:</Text>
-                    <Text style={styles.smallText}>
-                      {" "}
-                      Positive, Interesting, Funny{" "}
-                    </Text>
+                    <Text style={styles.smallText}> Positive, Interesting, Funny </Text>
                   </View>
                   <RatingSlider rating={setType3} />
                 </View>
@@ -231,8 +215,7 @@ export const PromptVote = () => {
                   }}
                 />
                 <Text style={styles.smallText}>
-                  Give constructive feedback and help your Scoop friend with his
-                  profile!
+                  Give constructive feedback and help your Scoop friend with his profile!
                 </Text>
               </View>
             </View>

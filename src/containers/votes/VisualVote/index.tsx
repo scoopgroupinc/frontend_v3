@@ -32,9 +32,7 @@ export const VisualVote = () => {
 
   const visual = userChoices[0].visual;
   const photoCriteria = useAppSelector((state) =>
-    state.matches.criterias.filter(
-      (criteria: any) => criteria.type === "user_visuals"
-    )
+    state.matches.criterias.filter((criteria: any) => criteria.type === "user_visuals")
   );
 
   const gradient = [Colors.RUST, Colors.RED, Colors.TEAL];
@@ -111,28 +109,21 @@ export const VisualVote = () => {
             <View style={styles.sliderContainer}>
               <View style={styles.textContainer}>
                 <Text style={styles.text}>{photoCriteria[0]?.title}: </Text>
-                <Text style={styles.smallText}>
-                  {photoCriteria[0]?.description}
-                </Text>
+                <Text style={styles.smallText}>{photoCriteria[0]?.description}</Text>
               </View>
               <RatingSlider rating={setType1} />
             </View>
             <View style={styles.sliderContainer}>
               <View style={styles.textContainer}>
                 <Text style={styles.text}>{photoCriteria[1]?.title}: </Text>
-                <Text style={styles.smallText}>
-                  {photoCriteria[1]?.description}
-                </Text>
+                <Text style={styles.smallText}>{photoCriteria[1]?.description}</Text>
               </View>
               <RatingSlider rating={setType2} />
             </View>
             <View style={styles.sliderContainer}>
               <View style={styles.textContainer}>
                 <Text style={styles.text}>{photoCriteria[2]?.title}:</Text>
-                <Text style={styles.smallText}>
-                  {" "}
-                  {photoCriteria[2]?.description}{" "}
-                </Text>
+                <Text style={styles.smallText}> {photoCriteria[2]?.description} </Text>
               </View>
               <RatingSlider rating={setType3} />
             </View>

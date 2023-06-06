@@ -17,9 +17,7 @@ export const MatchScreen = () => {
         alignItems: "center",
       }}
     >
-      <Text style={{ color: "white", fontSize: 20 }}>
-        This is the MatchScreen screen
-      </Text>
+      <Text style={{ color: "white", fontSize: 20 }}>This is the MatchScreen screen</Text>
       <AppButton
         title="Go to ComeBackTomorrow"
         onPress={() => navigation.navigate(screenName.COME_BACK_LATER)}

@@ -22,15 +22,9 @@ const Navigator = () => {
           }}
         >
           {user ? (
-            <Stack.Screen
-              name={screenName.APP_NAVIGATOR}
-              component={AppNavigator}
-            />
+            <Stack.Screen name={screenName.APP_NAVIGATOR} component={AppNavigator} />
           ) : (
-            <Stack.Screen
-              name={screenName.AUTH_NAVIGATOR}
-              component={AuthNavigator}
-            />
+            <Stack.Screen name={screenName.AUTH_NAVIGATOR} component={AuthNavigator} />
           )}
         </Stack.Navigator>
       </NavigationContainer>

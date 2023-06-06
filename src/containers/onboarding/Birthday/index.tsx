@@ -73,9 +73,7 @@ export const OnboardBirthdayScreen = () => {
     // });
     Alert.alert(
       "Please confirm your info",
-      `Your birthday is ${new Date(
-        date
-      ).toDateString()} and you are ${age} years old`,
+      `Your birthday is ${new Date(date).toDateString()} and you are ${age} years old`,
       [
         {
           text: "Edit birthday",
@@ -99,16 +97,13 @@ export const OnboardBirthdayScreen = () => {
           </View>
           <View style={styles.dateContainer}>
             <View>
-              <Text style={styles.date}>
-                {moment(date).format("YYYY-MM-DD")}
-              </Text>
+              <Text style={styles.date}>{moment(date).format("YYYY-MM-DD")}</Text>
               <DateSpinner getAge={setAge} getDate={setDate} />
             </View>
             <AppButton
               title={"Next"}
               disabled={
-                moment(date).format("YYYY-MM-DD") ===
-                moment(new Date()).format("YYYY-MM-DD")
+                moment(date).format("YYYY-MM-DD") === moment(new Date()).format("YYYY-MM-DD")
                   ? true
                   : false
               }

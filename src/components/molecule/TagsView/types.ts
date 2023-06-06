@@ -1,7 +1,7 @@
-import {TagProps} from 'src/types/globals'
+import { TagProps } from "src/types/globals";
 
 export interface TagsViewProps {
-  currentTagType: string
-  tags?: TagProps[]
-  typeOf?: string
+  currentTagType: string;
+  tags?: TagProps[];
+  typeOf?: string;
 }

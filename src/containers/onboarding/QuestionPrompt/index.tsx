@@ -113,9 +113,7 @@ export const QuestionPromptScreen = ({ route }: any) => {
     if (route?.params?.item) {
       const { item } = route?.params;
       let newArray: UserPrompts[] = cloneArray(items);
-      let index = newArray.findIndex(
-        (item) => Number(item.id) === Number(captureId)
-      );
+      let index = newArray.findIndex((item) => Number(item.id) === Number(captureId));
       newArray[index] = {
         ...newArray[index],
         answer: item.answer,
@@ -146,11 +144,7 @@ export const QuestionPromptScreen = ({ route }: any) => {
       <AppActivityIndicator visible={isLoading} />
       <GradientLayout>
         <View style={styles.container}>
-          <ProgressBar
-            style={styles.progressBar}
-            progress={0.7}
-            color={"#0E0E2C"}
-          />
+          <ProgressBar style={styles.progressBar} progress={0.7} color={"#0E0E2C"} />
           <ScrollView showsVerticalScrollIndicator={false}>
             <View style={styles.mediaContainer}>
               <View style={styles.mediaBox}>

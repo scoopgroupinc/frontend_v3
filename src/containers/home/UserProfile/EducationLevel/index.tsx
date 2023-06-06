@@ -11,13 +11,7 @@ const TypeOf = {
   ARRAY: "array",
 };
 
-const EducationLevel = ({
-  navigation,
-  route,
-}: {
-  navigation: any;
-  route: any;
-}) => {
+const EducationLevel = ({ navigation, route }: { navigation: any; route: any }) => {
   const gradient = [Colors.RUST, Colors.RED, Colors.TEAL];
 
   const { currentTagType } = route?.params;
@@ -44,11 +38,7 @@ const EducationLevel = ({
     <LinearGradient style={{ flex: 1 }} colors={gradient}>
       <SafeAreaView style={{ flex: 1 }} edges={["left", "right", "top"]}>
         <TagScreenHeader close={goBackHome} title={pageTitle} />
-        <TagsView
-          currentTagType={currentTagType}
-          tags={eduTags}
-          typeOf={TypeOf.SINGLE}
-        />
+        <TagsView currentTagType={currentTagType} tags={eduTags} typeOf={TypeOf.SINGLE} />
       </SafeAreaView>
     </LinearGradient>
   );

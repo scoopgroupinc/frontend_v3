@@ -1,36 +1,35 @@
-import React, {useState, useCallback, useEffect} from 'react'
-import {Bubble, GiftedChat } from 'react-native-gifted-chat'
-import moment from 'moment'
-import {SafeAreaView} from 'react-native-safe-area-context'
-import {io, Socket} from 'socket.io-client'
-import ChatHeader from '../../../components/atoms/ChatHeader'
-import {useAppDispatch, useAppSelector} from '../../../store/hooks'
-import {selectUser} from '../../../store/features/user/userProfileSlice'
-import {getUserConversationList} from '../Conversations'
-import {selectUserChoices} from '../../../store/features/user/userChoicesSlice'
+import React, { useState, useCallback, useEffect } from "react";
+import { Bubble, GiftedChat } from "react-native-gifted-chat";
+import moment from "moment";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { io, Socket } from "socket.io-client";
+import ChatHeader from "../../../components/atoms/ChatHeader";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
+import { selectUser } from "../../../store/features/user/userProfileSlice";
+import { getUserConversationList } from "../Conversations";
+import { selectUserChoices } from "../../../store/features/user/userChoicesSlice";
 //TODO: add analytics
 // import { onScreenView } from '../../../analytics'
 // import { screenClass, screenNames } from '../../../analytics/constants'
 
+const ChatMessage = ({ route, navigation }: any) => {
+  const reduxUser = useAppSelector(selectUser);
+  const { userId, firstName, token } = reduxUser;
+  const dispatch = useAppDispatch();
+  const userChoices = useAppSelector(selectUserChoices);
 
-const ChatMessage = ({route, navigation}: any) => {
-  const reduxUser = useAppSelector(selectUser)
-  const {userId, firstName, token} = reduxUser
-  const dispatch = useAppDispatch()
-  const userChoices = useAppSelector(selectUserChoices)
+  const { matchUserId: receiverID, username, photo, msgs }: any = route.params;
 
-  const {matchUserId: receiverID, username, photo, msgs}: any = route.params
-
-  const [messages, setMessages] = useState<any>([])
-  const [isTyping, setIsTyping] = useState<boolean>(false)
-  const [isOnline, setOnline] = useState<string>('')
+  const [messages, setMessages] = useState<any>([]);
+  const [isTyping, setIsTyping] = useState<boolean>(false);
+  const [isOnline, setOnline] = useState<string>("");
 
   const renderBubble = (props: any) => {
-    const message_sender_id = props.currentMessage.user._id
+    const message_sender_id = props.currentMessage.user._id;
     return (
       <Bubble
         {...props}
-        position={message_sender_id == receiverID ? 'left' : 'right'}
+        position={message_sender_id == receiverID ? "left" : "right"}
         containerStyle={{
           right: {
             marginRight: 10,
@@ -38,7 +37,7 @@ const ChatMessage = ({route, navigation}: any) => {
         }}
         wrapperStyle={{
           left: {
-            backgroundColor: '#d3d3d3',
+            backgroundColor: "#d3d3d3",
             marginVertical: 5,
           },
           right: {
@@ -46,8 +45,8 @@ const ChatMessage = ({route, navigation}: any) => {
           },
         }}
       />
-    )
-  }
+    );
+  };
 
   useEffect(() => {
     const getMessages = async () => {
@@ -60,39 +59,39 @@ const ChatMessage = ({route, navigation}: any) => {
             _id: message.senderID == userId ? +message.senderID : +receiverID,
             name: message.senderID == userId ? firstName : username,
           },
-        }
-      })
-      setMessages([])
-      setMessages((previousMessages: any) => GiftedChat.append(previousMessages, modifiedMessage))
-    }
+        };
+      });
+      setMessages([]);
+      setMessages((previousMessages: any) => GiftedChat.append(previousMessages, modifiedMessage));
+    };
 
-    socket.on('isTyping', ({typing, userID}) => {
-      if (userID === userId) setIsTyping(typing)
-    })
-    socket.on('isOnline', (data) => {
-      setOnline(data ? 'online' : '')
-    })
+    socket.on("isTyping", ({ typing, userID }) => {
+      if (userID === userId) setIsTyping(typing);
+    });
+    socket.on("isOnline", (data) => {
+      setOnline(data ? "online" : "");
+    });
     setInterval(() => {
-      socket.emit('online', {userId: userId, checkecUserId: receiverID})
-    }, 18000)
-    getMessages()
+      socket.emit("online", { userId: userId, checkecUserId: receiverID });
+    }, 18000);
+    getMessages();
     // onScreenView({
     //   screenName:screenNames.message,
     //   screenType:screenClass.chat
     // })
-  }, [])
+  }, []);
 
-  const socket: Socket = io('http://scoopchat-dev.eba-cqqr2rky.us-east-1.elasticbeanstalk.com', {
-    transports: ['websocket', 'polling'],
+  const socket: Socket = io("http://scoopchat-dev.eba-cqqr2rky.us-east-1.elasticbeanstalk.com", {
+    transports: ["websocket", "polling"],
     upgrade: false,
     reconnectionAttempts: Infinity,
     extraHeaders: {
       Authorization: `Bearer ${token}`,
     },
-  })
+  });
 
   useEffect(() => {
-    socket.on('receiveMessage', (data) => {
+    socket.on("receiveMessage", (data) => {
       if (data.receiverID === userId && data.senderID === receiverID) {
         setMessages((previousMessages: any) => [
           ...previousMessages,
@@ -105,11 +104,11 @@ const ChatMessage = ({route, navigation}: any) => {
               name: username,
             },
           },
-        ])
-        getUserConversationList(userChoices, dispatch, userId)
+        ]);
+        getUserConversationList(userChoices, dispatch, userId);
       }
-    })
-  }, [socket])
+    });
+  }, [socket]);
 
   const onSend = useCallback((message: any = []) => {
     const payload = {
@@ -119,15 +118,15 @@ const ChatMessage = ({route, navigation}: any) => {
       receiverID: String(receiverID),
       content: message[0].text,
       createdAt: message[0].createdAt,
-    }
-    message[0].createdAt = moment().toISOString()
-    socket.emit('addMessage', payload)
-    setMessages((previousMessages: any) => GiftedChat.append(message, previousMessages))
-    getUserConversationList(userChoices, dispatch)
-  }, [])
+    };
+    message[0].createdAt = moment().toISOString();
+    socket.emit("addMessage", payload);
+    setMessages((previousMessages: any) => GiftedChat.append(message, previousMessages));
+    getUserConversationList(userChoices, dispatch);
+  }, []);
 
   return (
-    <SafeAreaView style={{flex: 1}} edges={['left', 'right', 'top', 'bottom']}>
+    <SafeAreaView style={{ flex: 1 }} edges={["left", "right", "top", "bottom"]}>
       <ChatHeader username={username} photo={photo} />
       <GiftedChat
         scrollToBottom
@@ -145,6 +144,6 @@ const ChatMessage = ({route, navigation}: any) => {
         }}
       />
     </SafeAreaView>
-  )
-}
-export default ChatMessage
+  );
+};
+export default ChatMessage;

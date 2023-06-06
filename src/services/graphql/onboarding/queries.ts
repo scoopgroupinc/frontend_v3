@@ -1,4 +1,4 @@
-import {gql} from '@apollo/client'
+import { gql } from "@apollo/client";
 
 export const GET_USER_GENDER = gql`
   query getUserProfile($userId: String!) {
@@ -6,7 +6,7 @@ export const GET_USER_GENDER = gql`
       gender
     }
   }
-`
+`;
 
 export const GET_PROMPTS_ORDER = gql`
   query GET_PROMPTS_ORDER($userId: String!) {
@@ -19,7 +19,7 @@ export const GET_PROMPTS_ORDER = gql`
       answer
     }
   }
-`
+`;
 
 export const GET_PROMPTS = gql`
   query GET_PROMPTS {
@@ -30,7 +30,7 @@ export const GET_PROMPTS = gql`
       sample_answer
     }
   }
-`
+`;
 
 export const GET_USER_HEIGHT = gql`
   query getUserProfile($userId: String!) {
@@ -38,7 +38,7 @@ export const GET_USER_HEIGHT = gql`
       height
     }
   }
-`
+`;
 
 export const GET_USER_BIRTHDAY = gql`
   query getUserProfile($userId: String!) {
@@ -47,7 +47,7 @@ export const GET_USER_BIRTHDAY = gql`
       birthday
     }
   }
-`
+`;
 
 export const GET_USER_NAMES = gql`
   query getUser($userId: String!) {
@@ -57,7 +57,7 @@ export const GET_USER_NAMES = gql`
       lastName
     }
   }
-`
+`;
 
 export const GET_USER_PROMPTS = gql`
   query GET_USER_PROMPTS($userId: String!) {
@@ -69,4 +69,4 @@ export const GET_USER_PROMPTS = gql`
       answer
     }
   }
-`
+`;

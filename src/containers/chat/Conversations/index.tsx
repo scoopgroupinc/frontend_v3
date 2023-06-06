@@ -1,30 +1,30 @@
 import React, { useEffect, useState } from "react";
 import { View, Image, Text } from "react-native";
-import { List } from 'react-native-paper';
-import moment from 'moment';
-import {useLazyQuery, useQuery} from '@apollo/client';
-import {useNavigation} from '@react-navigation/native'
-import {NativeStackNavigationProp} from '@react-navigation/native-stack'
-import chatAxios from '../../../services/axios/chatAxios';
-import {selectMessages, setMessages} from '../../../store/features/messages/messagesSlice'
-import {useAppDispatch, useAppSelector} from '../../../store/hooks'
-import {selectUser} from '../../../store/features/user/userProfileSlice'
-import {selectUserChoices} from '../../../store/features/user/userChoicesSlice'
-import {setUserMatches} from '../../../store/features/user/userMatchesSlice'
-import Badge from '../../../components/atoms/Badge'
-import {GET_USER_CHOICES} from '../../../services/graphql/profile/queries'
-import {IS_USER_BLOCKED} from '../../../services/graphql/chat/queries'
+import { List } from "react-native-paper";
+import moment from "moment";
+import { useLazyQuery, useQuery } from "@apollo/client";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import chatAxios from "../../../services/axios/chatAxios";
+import { selectMessages, setMessages } from "../../../store/features/messages/messagesSlice";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
+import { selectUser } from "../../../store/features/user/userProfileSlice";
+import { selectUserChoices } from "../../../store/features/user/userChoicesSlice";
+import { setUserMatches } from "../../../store/features/user/userMatchesSlice";
+import Badge from "../../../components/atoms/Badge";
+import { GET_USER_CHOICES } from "../../../services/graphql/profile/queries";
+import { IS_USER_BLOCKED } from "../../../services/graphql/chat/queries";
 import { screenName } from "../../../utils/constants";
 //TODO: add analytics
 // import { onScreenView } from '../../../analytics'
 // import { screenClass, screenNames } from '../../../analytics/constants'
-import {styles} from './styles'
+import { styles } from "./styles";
 
 export const getUserConversationList = async (userChoices: any, dispatch: any, userId: string) => {
   try {
-    const results: any = []
+    const results: any = [];
     await Promise.all(
-      userChoices.map(async ({matchName, matchUserId, visual}: any) => {
+      userChoices.map(async ({ matchName, matchUserId, visual }: any) => {
         await chatAxios
           .get(`${matchUserId}?page=${1}`)
           .then((res: any) => {
@@ -32,42 +32,42 @@ export const getUserConversationList = async (userChoices: any, dispatch: any, u
               matchUserId,
               name: matchName,
               photoUrl: visual.videoOrPhoto,
-              lastActive: moment().subtract(3, 'days').toISOString(),
+              lastActive: moment().subtract(3, "days").toISOString(),
               lstMessage: {
-                text: res.data[res.data.length - 1]?.content.slice(0, 50).concat('...'),
+                text: res.data[res.data.length - 1]?.content.slice(0, 50).concat("..."),
                 timestamp: res.data[res.data.length - 1]?.createdAt,
                 myTurn: res.data[res.data.length - 1]?.receiverID === userId ? true : false,
               },
               mgs: res.data,
-            })
+            });
           })
-          .catch((err: any) => {})
+          .catch((err: any) => {});
       })
-    )
+    );
     //sort results by last message timestamp
     const modifiedResults = results.sort((a: any, b: any) => {
-      return new Date(b.lstMessage.timestamp) - new Date(a.lstMessage.timestamp)
-    })
+      return new Date(b.lstMessage.timestamp) - new Date(a.lstMessage.timestamp);
+    });
     dispatch(
       setMessages({
         messages: modifiedResults,
       })
-    )
+    );
   } catch (error) {}
-}
+};
 
 const Conversations = () => {
-  const navigation = useNavigation<NativeStackNavigationProp<any>>()
-  const dispatch = useAppDispatch()
-  const reduxUser = useAppSelector(selectUser)
-  const { userId } = reduxUser || { userId: null }
-  const userChoices = useAppSelector(selectUserChoices)
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
+  const dispatch = useAppDispatch();
+  const reduxUser = useAppSelector(selectUser);
+  const { userId } = reduxUser || { userId: null };
+  const userChoices = useAppSelector(selectUserChoices);
 
-  const [refreshing, setRefreshing] = useState<boolean>(false)
-  const chatUsers = useAppSelector(selectMessages)
-  const [isUserBlocked, {data: nonBlockedUsers}] = useLazyQuery(IS_USER_BLOCKED)
+  const [refreshing, setRefreshing] = useState<boolean>(false);
+  const chatUsers = useAppSelector(selectMessages);
+  const [isUserBlocked, { data: nonBlockedUsers }] = useLazyQuery(IS_USER_BLOCKED);
 
-  const {data: userChoicesResult, loading: userChoicesLoading} = useQuery(GET_USER_CHOICES, {
+  const { data: userChoicesResult, loading: userChoicesLoading } = useQuery(GET_USER_CHOICES, {
     variables: {
       userId,
     },
@@ -76,10 +76,10 @@ const Conversations = () => {
         setUserMatches({
           userMatches: userChoicesResult.getUserChoices,
         })
-      )
+      );
     },
     onError: (error) => {},
-  })
+  });
 
   // useEffect(() => {
   //   getUserConversationList(userChoices, dispatch, userId)
@@ -95,8 +95,8 @@ const Conversations = () => {
       username,
       photo,
       msgs,
-    })
-  }
+    });
+  };
 
   const renderItem = (item: any) => {
     return (
@@ -107,7 +107,7 @@ const Conversations = () => {
           onPressChat(
             item.matchUserId,
             item.name,
-            item.photoUrl ? item.photoUrl : require('../../../assets/images/logo-small.png'),
+            item.photoUrl ? item.photoUrl : require("../../../assets/images/logo-small.png"),
             item.mgs
           )
         }
@@ -115,10 +115,10 @@ const Conversations = () => {
         description={item.lstMessage.text}
         left={(props) => (
           <Image
-            resizeMode='cover'
-            style={{width: 40, height: 40, borderRadius: 20}}
+            resizeMode="cover"
+            style={{ width: 40, height: 40, borderRadius: 20 }}
             source={{
-              uri: item.photoUrl ? item.photoUrl : require('../../../assets/images/logo-small.png'),
+              uri: item.photoUrl ? item.photoUrl : require("../../../assets/images/logo-small.png"),
             }}
           />
         )}
@@ -126,17 +126,17 @@ const Conversations = () => {
           <View>
             <Text style={styles.lastActive}>{moment(item.lstMessage.timestamp).fromNow()}</Text>
             {item.lstMessage.myTurn === true ? (
-              <View style={{alignSelf: 'flex-end'}}>
-                <Badge value={'Your turn'} />
+              <View style={{ alignSelf: "flex-end" }}>
+                <Badge value={"Your turn"} />
               </View>
             ) : null}
           </View>
         )}
       />
-    )
-  }
+    );
+  };
 
-  return <View></View>
-}
+  return <View></View>;
+};
 
 export default Conversations;

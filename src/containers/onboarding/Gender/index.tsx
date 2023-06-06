@@ -60,9 +60,7 @@ export const GenderScreen = () => {
       <View style={styles.body}>
         <ProgressBar progress={0.2} color={"#0E0E2C"} />
         <View style={styles.btnContainer}>
-          <Text style={styles.genderTitle}>
-            What gender do you identify with?
-          </Text>
+          <Text style={styles.genderTitle}>What gender do you identify with?</Text>
           <SelectButtons titles={["male", "female"]} funk={setGender} />
         </View>
         <AppButton

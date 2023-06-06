@@ -4,10 +4,7 @@ import { Colors } from "../../../utils";
 import { AppIconButton } from "../AppIconButton";
 import { MaterialIcons } from "@expo/vector-icons";
 import { styles } from "./styles";
-import {
-  SafeAreaView,
-  useSafeAreaInsets,
-} from "react-native-safe-area-context";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 
 interface ModalType {
   children: React.ReactNode;
@@ -31,11 +28,7 @@ export const SlideUpModal = ({ state, children, close, align }: ModalType) => {
         ]}
       >
         <AppIconButton style={align ? styles.close : undefined} onPress={close}>
-          <MaterialIcons
-            name="keyboard-arrow-down"
-            size={30}
-            color={Colors.ICON_FILL}
-          />
+          <MaterialIcons name="keyboard-arrow-down" size={30} color={Colors.ICON_FILL} />
         </AppIconButton>
         {children}
       </SafeAreaView>

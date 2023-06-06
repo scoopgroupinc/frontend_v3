@@ -23,20 +23,11 @@ export const OnboardNavigator = () => {
     >
       <OnboardStack.Screen name={screenName.NAME} component={OnboardName} />
       <OnboardStack.Screen name={screenName.GENDER} component={GenderScreen} />
-      <OnboardStack.Screen
-        name={screenName.DATE_WHO}
-        component={DateWhoScreen}
-      />
+      <OnboardStack.Screen name={screenName.DATE_WHO} component={DateWhoScreen} />
 
-      <OnboardStack.Screen
-        name={screenName.BIRTHDAY}
-        component={OnboardBirthdayScreen}
-      />
+      <OnboardStack.Screen name={screenName.BIRTHDAY} component={OnboardBirthdayScreen} />
       <OnboardStack.Screen name={screenName.HEIGHT} component={HeightScreen} />
-      <OnboardStack.Screen
-        name={screenName.PHOTOS}
-        component={PhotoVideoScreen}
-      />
+      <OnboardStack.Screen name={screenName.PHOTOS} component={PhotoVideoScreen} />
       {/* <OnboardStack.Screen
         name={screenName.LOCATION}
         component={GetLocationsScreen}
@@ -45,14 +36,8 @@ export const OnboardNavigator = () => {
         name={screenName.NOTIFICATIONS}
         component={SendNotificationScreen}
       /> */}
-      <OnboardStack.Screen
-        name={screenName.QUESTION_PROMPT}
-        component={QuestionPromptScreen}
-      />
-      <OnboardStack.Screen
-        name={screenName.ALLPROMPTS}
-        component={AllPrompts}
-      />
+      <OnboardStack.Screen name={screenName.QUESTION_PROMPT} component={QuestionPromptScreen} />
+      <OnboardStack.Screen name={screenName.ALLPROMPTS} component={AllPrompts} />
       <OnboardStack.Screen
         name={screenName.ONBOARD_PROMPT_ANSWER}
         component={OnboardPromptAnswer}
