@@ -5,6 +5,7 @@ import {
 } from "@reduxjs/toolkit";
 import UserSlice from "./features/user/userSlice";
 import PromptSlice from "./features/prompts/promptsSlice";
+import MatchSlice from "./features/matches/matchSlice";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   FLUSH,
@@ -26,6 +27,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
   appUser: UserSlice,
   appPrompts: PromptSlice,
+  matches: MatchSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

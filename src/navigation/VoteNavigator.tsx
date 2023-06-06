@@ -6,15 +6,24 @@ import { VisualVote } from "../containers/votes/VisualVote";
 import { ProfileView } from "../containers/votes/ProfileView";
 import { MatchScreen } from "../containers/votes/MatchScreen";
 import { ComeBackTomorrow } from "../containers/votes/ComeBackTomorrow";
+import { useAppSelector } from "../store/hooks";
+import { selectUserChoices } from "../store/features/matches/matchSlice";
+
 
 const VoteStack = createStackNavigator();
 
 const VoteNavigator = () => {
+  const userChoices = useAppSelector(selectUserChoices);
+  if (userChoices.length === 0) {
+    return <ComeBackTomorrow noMatchToday={true} />;
+  }
+
   return (
     <VoteStack.Navigator
       screenOptions={{
         headerShown: false,
       }}
+      initialRouteName={screenName.PROMPT_VOTE}
     >
       <VoteStack.Screen name={screenName.PROMPT_VOTE} component={PromptVote} />
       <VoteStack.Screen name={screenName.VISUAL_VOTE} component={VisualVote} />

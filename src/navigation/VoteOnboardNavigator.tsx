@@ -1,32 +1,41 @@
 import React from "react";
-import { createStackNavigator } from "@react-navigation/stack";
 import { Text, View } from "react-native";
 
-const VoteOnboardStack = createStackNavigator();
+// const VoteOnboardStack = createVoteOnboardStack();
 
 const VoteOnboardNavigator = () => {
   return (
-    <VoteOnboardStack.Navigator
-      screenOptions={{
-        headerShown: false,
-      }}
-    >
-      <VoteOnboardStack.Screen
-        name="VoteScreens"
-        component={() => (
-          <View
-            style={{
-              flex: 1,
-              backgroundColor: "gold",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <Text>VoteScreens</Text>
-          </View>
-        )}
-      />
-    </VoteOnboardStack.Navigator>
+    <></>
+    // <VoteOnboardStack.Navigator
+    //   screenOptions={{
+    //     headerShown: false,
+    //   }}
+    // >
+    //   <VoteOnboardStack.Screen
+    //     name="OtherOnboardScreenOne"
+    //     component={OtherOnboardScreenOne}
+    //   />
+    //   <VoteOnboardStack.Screen
+    //     name="OtherOnboardScreenTwo"
+    //     component={OtherOnboardScreenTwo}
+    //   />
+    //   <VoteOnboardStack.Screen
+    //     name="OtherOnboardScreenThree"
+    //     component={OtherOnboardScreenThree}
+    //   />
+    //   <VoteOnboardStack.Screen
+    //     name="OtherOnboardScreenFour"
+    //     component={OtherOnboardScreenFour}
+    //   />
+    //   <VoteOnboardStack.Screen
+    //     name="OtherOnboardScreenFive"
+    //     component={OtherOnboardScreenFive}
+    //   />
+    //   <VoteOnboardStack.Screen
+    //     name="OtherOnboardScreenSix"
+    //     component={OtherOnboardScreenSix}
+    //   />
+    // </VoteOnboardStack.Navigator>
   );
 };
 

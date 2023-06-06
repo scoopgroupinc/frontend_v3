@@ -1,10 +1,10 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import { View, Text } from "react-native";
-import { ProfileEdit } from "../containers/userProfile/ProfileEdit";
+import { UserProfileEdit } from "../containers/home/UserProfileEdit";
 import { screenName } from "../utils/constants";
-import { ProfileView } from "../containers/userProfile/ProfileView";
-import { UserProfile } from "../containers/userProfile";
+import { UserProfileView } from "../containers/home/UserProfileView";
+import { Home } from "../containers/home";
+import UserProfile from "../containers/home/UserProfile";
 
 const HomeStack = createStackNavigator();
 
@@ -15,17 +15,18 @@ const ProfileNavigator = () => {
         headerShown: false,
       }}
     >
+      <HomeStack.Screen name={screenName.HOME} component={Home} />
       <HomeStack.Screen
         name={screenName.USER_PROFILE}
         component={UserProfile}
       />
       <HomeStack.Screen
         name={screenName.USER_PROFILE_EDIT}
-        component={ProfileEdit}
+        component={UserProfileEdit}
       />
       <HomeStack.Screen
         name={screenName.USER_PROFILE_VIEW}
-        component={ProfileView}
+        component={UserProfileView}
       />
     </HomeStack.Navigator>
   );
