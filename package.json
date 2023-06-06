@@ -6,7 +6,8 @@
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios --simulator=\"iPhone 12 Pro\"",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "lint": "tslint -p tsconfig.json src/**/*.{ts,tsx}"
   },
   "dependencies": {
     "@apollo/client": "^3.7.14",
@@ -39,6 +40,7 @@
     "react-hook-form": "^7.43.9",
     "react-native": "0.71.8",
     "react-native-gesture-handler": "~2.9.0",
+    "react-native-gifted-chat": "^2.1.0",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
     "react-native-modal-datetime-picker": "^15.0.1",
     "react-native-pager-view": "6.1.2",
@@ -52,6 +54,7 @@
     "react-native-tab-view": "^3.5.1",
     "react-redux": "^8.0.5",
     "redux-persist": "^6.0.0",
+    "socket.io-client": "^4.6.2",
     "yup": "^1.1.1"
   },
   "devDependencies": {

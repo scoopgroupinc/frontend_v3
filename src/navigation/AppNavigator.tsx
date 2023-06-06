@@ -23,7 +23,7 @@ const AppNavigator = () => {
   const { user } = useAppSelector((state) => state.appUser);
   const userId = user?.userId;
   const voteOnboard = user?.voteOnboard;
-  const onBoarding = user?.onBoarding;
+  const isOnboarded = user?.onBoarding;
 
   const dispatch = useAppDispatch();
 
@@ -38,7 +38,7 @@ const AppNavigator = () => {
       .then((res) => {
         dispatch(
           setUserVisuals({
-            userVisuals: res.data,
+            userVisuals: JSON.parse(res.data),
           })
         );
       })
@@ -61,7 +61,7 @@ const AppNavigator = () => {
     }
   }, [promptsResult]);
 
-  return onBoarding ? (
+  return isOnboarded ? (
     <AppTabStack.Navigator
       initialRouteName={screenName.PROFILE}
       screenOptions={{

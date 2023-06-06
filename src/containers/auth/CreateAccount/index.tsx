@@ -184,7 +184,7 @@ const CreateAccount = () => {
               );
               dispatch(
                 setUser({
-                  user: dt?.data?.activateAccount?.user,
+                  user: JSON.parse(dt?.data?.activateAccount?.user),
                 })
               );
             }}

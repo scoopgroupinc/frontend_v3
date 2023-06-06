@@ -1,6 +1,5 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
-import { View, Text } from "react-native";
 import { screenName } from "../utils/constants";
 import { OnboardName } from "../containers/onboarding/Name";
 import { GenderScreen } from "../containers/onboarding/Gender";

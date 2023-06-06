@@ -7,7 +7,7 @@ import { Alert } from "react-native";
 import { getStringData } from "../../utils/storage";
 import { setContext } from "@apollo/client/link/context";
 
-const getToken = async () => {
+export const getToken = async () => {
   const token = getStringData("userToken");
   return token;
 };

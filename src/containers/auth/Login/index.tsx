@@ -69,7 +69,7 @@ const LoginScreen = () => {
         await storeStringData("userToken", res?.data?.login?.token);
         dispatch(
           setUser({
-            user: res?.data?.login?.user,
+            user: JSON.parse(res?.data?.login?.user),
           })
         );
       })
@@ -156,7 +156,7 @@ const LoginScreen = () => {
               setModalState(false);
               dispatch(
                 setUser({
-                  user: dt?.data?.activateAccount?.user,
+                  user: JSON.parse(dt?.data?.activateAccount?.user),
                 })
               );
             }}
