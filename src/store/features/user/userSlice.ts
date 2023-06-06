@@ -63,6 +63,7 @@ export const UserSlice = createSlice({
       const { userProfile } = action.payload;
       state.userProfile = userProfile;
     },
+
     // logout: (state) => {
     //   state.user = null;
     //   state.userVisuals = null;
