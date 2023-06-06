@@ -7,7 +7,8 @@ import { GenderScreen } from "../containers/onboarding/Gender";
 import { DateWhoScreen } from "../containers/onboarding/DateWho";
 import { OnboardBirthdayScreen } from "../containers/onboarding/Birthday";
 import { HeightScreen } from "../containers/onboarding/Height";
-import { PhotoVideoScreen } from "../containers/onboarding/photoVideo";
+import { PhotoVideoScreen } from "../containers/onboarding/PhotoVideo";
+
 import { QuestionPromptScreen } from "../containers/onboarding/QuestionPrompt";
 import AllPrompts from "../containers/onboarding/Prompts";
 import OnboardPromptAnswer from "../containers/onboarding/PromptAnswer";
