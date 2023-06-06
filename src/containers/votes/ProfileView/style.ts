@@ -1,6 +1,6 @@
 import { Dimensions, StyleSheet } from "react-native";
 import { Colors } from "react-native/Libraries/NewAppScreen";
-import { Spacing, Typography } from "../../../../utils";
+import { Spacing, Typography } from "../../../utils";
 
 const windowHeight = Dimensions.get("window").height;
 

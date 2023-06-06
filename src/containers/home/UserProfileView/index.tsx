@@ -399,11 +399,21 @@ export const UserProfileView = () => {
     const ethnicity = userProfile?.find(
       (item: any) => item.tagType === "ethnicity"
     );
-    const ethnicityName = ethnicity?.userTags[0]?.tagName;
-    if (ethnicity?.visible && ethnicityName) {
+    if (ethnicity?.userTags.length > 0 && ethnicity?.visible) {
       return (
         <Text style={[styles.descriptionText]}>
-          {ethnicity?.emoji} {ethnicityName}
+          {
+            userProfile?.find((item: any) => item.tagType === "ethnicity")
+              ?.emoji
+          }
+          {ethnicity?.userTags.map((item: any, index: any) => {
+            return (
+              <Text key={index}>
+                {item.tagName}
+                {index === ethnicity.length - 1 ? "" : ", "}
+              </Text>
+            );
+          })}
         </Text>
       );
     }
