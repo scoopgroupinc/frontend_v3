@@ -1,18 +1,31 @@
 module.exports = {
     "env": {
-        "browser": true,
+        "node": true,
         "es2021": true
     },
     "extends": [
-        "standard-with-typescript",
-        "plugin:react/recommended"
-    ],
-    "parserOptions": {
-        "ecmaVersion": "latest",
-        "sourceType": "module"
+      "plugin:@typescript-eslint/recommended",
+      "plugin:react/recommended",
+      "airbnb",
+      "airbnb-typescript",
+      "airbnb/hooks",
+      "prettier",
+      "prettier/react"
+  ],
+  "parserOptions": {
+    "ecmaFeatures": {
+        "jsx": true
+    },
+    "ecmaVersion": "latest",
+    "sourceType": "module"
     },
     "plugins": [
-        "react"
+      "react",
+      "react-native",
+      "react-hooks",
+      "@typescript-eslint",
+      "prettier",
+      "prettier/react",
     ],
     "rules": {
     }
