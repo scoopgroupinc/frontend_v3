@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { View, Text, Pressable, Linking, Alert } from "react-native";
 import {
@@ -15,7 +16,6 @@ import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { SlideUpModal } from "../../components/layouts/SlideUpModal";
 import { ProfileAvatar } from "../../components/molecule/ProfileAvatar";
 import { screenName } from "../../utils/constants";
-import OptionTab from "../../components/atoms/OptionsTabs";
 import { DELETE_USER_PROFILE } from "../../services/graphql/user/mutations";
 import {
   GET_PROMPTS_ORDER,
@@ -30,6 +30,7 @@ import {
 } from "../../store/features/user/userSlice";
 import { setUserChoices, setCriterias } from "../../store/features/matches/matchSlice";
 import { styles } from "./styles";
+import OptionTab from "../../components/atoms/OptionsTabs";
 
 export const Home = () => {
   const { user } = useAppSelector(selectUser);
@@ -45,16 +46,16 @@ export const Home = () => {
 
   const [openSettings, setOpenSettings] = useState<boolean>(false);
 
-  const { data: userChoicesResult, loading: userChoicesLoading } = useQuery(GET_USER_CHOICES, {
+  const { data: userChoicesResult } = useQuery(GET_USER_CHOICES, {
     variables: {
       userId,
     },
     notifyOnNetworkStatusChange: true,
-    onCompleted: (data) => {
-      if (data?.getUserChoices && data?.getUserChoices?.length > 0) {
+    onCompleted: () => {
+      if (userChoicesResult?.getUserChoices && userChoicesResult?.getUserChoices?.length > 0) {
         dispatch(
           setUserChoices({
-            userChoices: data?.getUserChoices,
+            userChoices: userChoicesResult?.getUserChoices,
           })
         );
       }
@@ -68,7 +69,6 @@ export const Home = () => {
     data: userPromptData,
     loading: userPromptLoading,
     refetch: userPromptRefetch,
-    networkStatus: userPromptNetworkStatus,
   } = useQuery(GET_PROMPTS_ORDER, {
     variables: {
       userPromptsOrder: {
@@ -87,10 +87,7 @@ export const Home = () => {
     notifyOnNetworkStatusChange: true,
   });
 
-  const [
-    deleteUser,
-    { data: userDeleteResult, loading: userDeleteLoading, error: userDeleteError },
-  ] = useMutation(DELETE_USER_PROFILE);
+  const [deleteUser] = useMutation(DELETE_USER_PROFILE);
 
   //   methods
   const openUrlTerms = useCallback(async () => {
@@ -162,7 +159,7 @@ export const Home = () => {
         text: "OK",
         style: "destructive",
         onPress: () => {
-          deleteUser({ variables: { email, userId } }).then((res) => {
+          deleteUser({ variables: { email, userId } }).then(() => {
             setOpenSettings(false);
             dispatch({
               type: "appUser/deleteAccount",
@@ -228,7 +225,7 @@ export const Home = () => {
 
   useEffect(() => {
     componentDidMount();
-  }, []);
+  });
 
   useEffect(() => {
     if (userPromptData && !userPromptLoading) {

@@ -11,11 +11,7 @@ import {
   persistStore,
 } from "redux-persist";
 import UserSlice from "./features/user/userSlice";
-import UserProfileSlice from "./features/user/userProfileSlice";
-import UserMatchesSlice from "./features/user/userMatchesSlice";
-import UserChoicesSlice from "./features/user/userChoicesSlice";
 import PromptSlice from "./features/prompts/promptsSlice";
-import MessagesSlice from "./features/messages/messagesSlice";
 import MatchSlice from "./features/matches/matchSlice";
 
 const persistConfig = {
@@ -26,11 +22,7 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   appUser: UserSlice,
-  userProfile: UserProfileSlice,
-  userMatches: UserMatchesSlice,
-  userChoices: UserChoicesSlice,
   appPrompts: PromptSlice,
-  messages: MessagesSlice,
   matches: MatchSlice,
 });
 

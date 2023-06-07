@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 import React, { Ref, useState } from "react";
 import { TextInput, View, Text, Pressable, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";

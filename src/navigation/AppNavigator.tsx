@@ -10,7 +10,7 @@ import ProfileNavigator from "./ProfileNavigator";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { Colors } from "../utils";
 import Conversations from "../containers/chat/Conversations";
-import VoteOnboardNavigator from "./VoteOnboardNavigator";
+// import VoteOnboardNavigator from "./VoteOnboardNavigator";
 import { setUserVisuals } from "../store/features/user/userSlice";
 import { URLS } from "../utils/constants/apis";
 import { OnboardNavigator } from "./OnboardNavigator";
@@ -22,34 +22,33 @@ const AppTabStack = createBottomTabNavigator();
 const AppNavigator = () => {
   const { user } = useAppSelector((state) => state.appUser);
   const userId = user?.userId;
-  const voteOnboard = user?.voteOnboard;
+  // const voteOnboard = user?.voteOnboard;
   const isOnboarded = user?.onBoarding;
 
   const dispatch = useAppDispatch();
 
-  const getVisuals = async () => {
-    axios
-      .get(`${URLS.FILE_URL}/api/v1/visuals/${userId}`, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        method: "GET",
-      })
-      .then((res) => {
-        dispatch(
-          setUserVisuals({
-            userVisuals: JSON.parse(res.data),
-          })
-        );
-      })
-      .catch((err) => {});
-  };
-
   const { data: promptsResult } = useQuery(GET_PROMPTS);
 
   useEffect(() => {
+    const getVisuals = async () => {
+      axios
+        .get(`${URLS.FILE_URL}/api/v1/visuals/${userId}`, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          method: "GET",
+        })
+        .then((res) => {
+          dispatch(
+            setUserVisuals({
+              userVisuals: res.data,
+            })
+          );
+        })
+        .catch(() => {});
+    };
     getVisuals();
-  }, [userId]);
+  }, [userId, dispatch]);
 
   useEffect(() => {
     if (promptsResult) {
@@ -59,7 +58,7 @@ const AppNavigator = () => {
         })
       );
     }
-  }, [promptsResult]);
+  }, [promptsResult, dispatch]);
 
   return isOnboarded ? (
     <AppTabStack.Navigator

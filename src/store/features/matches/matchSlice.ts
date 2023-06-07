@@ -1,6 +1,7 @@
+/* eslint-disable no-param-reassign */
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { RootState } from "../..";
+// import { RootState } from "../..";
 
 interface MatchState {
   userMatches: any[];
@@ -22,7 +23,7 @@ const initialState: MatchState = {
   matchedUsers: [],
 };
 
-export const MatchSlice = createSlice({
+const MatchSlice = createSlice({
   name: "matches",
   initialState,
   reducers: {
@@ -38,10 +39,12 @@ export const MatchSlice = createSlice({
       const { criterias } = action.payload;
       state.criterias = criterias;
     },
-    RemoveActiveMatch: (state, action: PayloadAction<any>) => {
-      const { activeMatchId } = action.payload;
-      const resultingMatches = state.userMatches.filter((match: any) => match.id !== activeMatchId);
-      state.userMatches = resultingMatches;
+    RemoveActiveChoice: (state, action: PayloadAction<any>) => {
+      const { activeChoiceId } = action.payload;
+      const resultingChoices = state.userChoices.filter(
+        (choice: any) => choice.id !== activeChoiceId
+      );
+      state.userChoices = resultingChoices;
     },
     setUserMatchImages: (state, action: PayloadAction<any>) => {
       const { userMatchImages } = action.payload;
@@ -49,7 +52,7 @@ export const MatchSlice = createSlice({
     },
     setUserMatchPrompts: (state, action: PayloadAction<any>) => {
       const { promptsOrder } = action.payload;
-      promptsOrder.forEach((item: any, index: any) => {
+      promptsOrder.forEach((item: any) => {
         state.userMatchPrompts.push({
           answer: item.answer,
           promptId: item.promptId,
@@ -63,11 +66,16 @@ export const MatchSlice = createSlice({
       state.matchedUsers = matchedUsers;
     },
   },
+  extraReducers: (builder) => {
+    builder.addCase("appUser/logout", (state) => {
+      state.userChoices = [];
+    });
+  },
 });
 
 export const {
   setUserMatches,
-  RemoveActiveMatch,
+  RemoveActiveChoice,
   setCriterias,
   setUserMatchImages,
   setUserMatchPrompts,
@@ -75,11 +83,11 @@ export const {
   setUserChoices,
 } = MatchSlice.actions;
 
-export const selectUserMatches = (state: RootState) => state.matches.userMatches;
-export const selectCriterias = (state: RootState) => state.matches.criterias;
-export const selectUserMatchImages = (state: RootState) => state.matches.userMatchImages;
-export const selectUserMatchPrompts = (state: RootState) => state.matches.userMatchPrompts;
-export const selectMatchedUsers = (state: RootState) => state.matches.matchedUsers;
-export const selectUserChoices = (state: RootState) => state.matches.userChoices;
+export const selectUserMatches = (state: any) => state.matches.userMatches;
+export const selectCriterias = (state: any) => state.matches.criterias;
+export const selectUserMatchImages = (state: any) => state.matches.userMatchImages;
+export const selectUserMatchPrompts = (state: any) => state.matches.userMatchPrompts;
+export const selectMatchedUsers = (state: any) => state.matches.matchedUsers;
+export const selectUserChoices = (state: any) => state.matches.userChoices;
 
 export default MatchSlice.reducer;
