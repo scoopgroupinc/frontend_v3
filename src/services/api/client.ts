@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-syntax */
 import { ApolloClient, HttpLink, InMemoryCache, from } from "@apollo/client";
 import { onError } from "@apollo/client/link/error";
 import { Alert } from "react-native";
@@ -17,26 +18,28 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
     for (const err of graphQLErrors) {
       switch (err.extensions?.code) {
         case ErrorCodes.UNAUTHENTICATED:
+          console.log("UNAUTHENTICATED");
           RootNavigation.navigate(screenName.LOGIN);
           // check why it does not redirect to login
           break;
         case ErrorCodes.BAD_USER_INPUT:
-          // show error message
+          console.log("BAD_USER_INPUT");
           break;
         case ErrorCodes.BAD_REQUEST:
-          // show error message
+          console.log("BAD_REQUEST");
           Alert.alert("Error", err.message);
           break;
         case ErrorCodes.INTERNAL_SERVER_ERROR:
-          // show error message
+          console.log("INTERNAL_SERVER_ERROR");
           break;
         case ErrorCodes.GRAPHQL_VALIDATION_FAILED:
-          // show error message
+          console.log("GRAPHQL_VALIDATION_FAILED");
           break;
         case ErrorCodes.GRAPHQL_PARSE_FAILED:
-          // show error message
+          console.log("GRAPHQL_PARSE_FAILED");
           break;
         default:
+          console.log("DEFAULT");
           break;
       }
     }

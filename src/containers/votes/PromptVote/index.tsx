@@ -1,5 +1,6 @@
+/* eslint-disable import/prefer-default-export */
 import React, { useEffect, useState } from "react";
-import { View, Text, ScrollView } from "react-native";
+import { View, Text, ScrollView, TextInput, TouchableOpacity } from "react-native";
 import { useMutation, useQuery } from "@apollo/client";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
@@ -17,15 +18,16 @@ import { QuotedText } from "../../../components/atoms/QuotedText";
 import { styles } from "./style";
 import { AppButton } from "../../../components/atoms/AppButton";
 import { RatingSlider } from "../../../components/molecule/RatingSlider";
-import { AppInput } from "../../../components/atoms/AppInput";
 import {
   selectUserChoices,
   setUserMatchImages,
   setUserMatchPrompts,
 } from "../../../store/features/matches/matchSlice";
+import AppActivityIndicator from "../../../components/atoms/ActivityIndicator";
 
 export const PromptVote = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
+
   const { user } = useAppSelector(selectUser);
   const userId = user?.userId;
 
@@ -81,12 +83,12 @@ export const PromptVote = () => {
 
   const [saveGroupRating] = useMutation(SAVE_GROUP_RATING, {
     variables: { ratingGroupInput },
-    onCompleted: (data) => {
+    onCompleted: () => {
       setLoading(false);
       setComment("");
       navigation.navigate(screenName.VISUAL_VOTE);
     },
-    onError: (error) => {
+    onError: () => {
       setLoading(false);
     },
   });
@@ -107,25 +109,25 @@ export const PromptVote = () => {
   };
 
   // load images for the next screen
-  const fetchMatchVisuals = async () => {
-    await fetch(`${URLS.FILE_URL}/api/v1/visuals/${userChoiceId}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        if (res) {
-          dispatch(
-            setUserMatchImages({
-              userMatchImages: res,
-            })
-          );
-        }
-      })
-      .catch((err) => {});
-  };
+  // const fetchMatchVisuals = async () => {
+  //   await fetch(`${URLS.FILE_URL}/api/v1/visuals/${userChoiceId}`, {
+  //     method: "GET",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //   })
+  //     .then((res) => res.json())
+  //     .then((res) => {
+  //       if (res) {
+  //         dispatch(
+  //           setUserMatchImages({
+  //             userMatchImages: res,
+  //           })
+  //         );
+  //       }
+  //     })
+  //     .catch(() => {});
+  // };
 
   // load prompts for the profile view screen
   const fetchPromptsOrder = async () => {
@@ -142,86 +144,95 @@ export const PromptVote = () => {
     }
   };
 
-  useEffect(() => {
-    fetchMatchVisuals();
-    // onScreenView({
-    //   screenName:screenNames.ratePrompt,
-    //   screenType:screenClass.matches,
-    //  })
-  }, [userChoicePrompt]);
+  // useEffect(() => {
+  //   fetchMatchVisuals();
+  //   // onScreenView({
+  //   //   screenName:screenNames.ratePrompt,
+  //   //   screenType:screenClass.matches,
+  //   //  })
+  // }, [userChoicePrompt]);
 
   useEffect(() => {
     fetchPromptsOrder();
   }, [promptsOrderResult]);
 
-  const [showTip, setTip] = useState(true);
+  // const [showTip, setTip] = useState(true);
 
   return (
-    <LinearGradient style={{ flex: 1 }} colors={gradient}>
-      <SafeAreaView style={{ flex: 1 }} edges={["left", "right", "top"]}>
-        <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
-          <ScrollView style={{ padding: 20 }}>
-            <View
-              style={{
-                marginBottom: 130,
-                flex: 1,
-              }}
-            >
-              <View style={{ marginTop: Spacing.SCALE_8 }} />
-              <Text style={styles.title}>Give Feedback</Text>
-              <QuotedText {...quote} />
-              <View style={{ width: "100%" }}>
-                <View style={styles.sliderContainer}>
-                  <View style={styles.textContainer}>
-                    <Text style={styles.text}>{promptCriteria[0]?.title}: </Text>
-                    <Text style={styles.smallText}>{promptCriteria[0]?.description}</Text>
+    <>
+      <AppActivityIndicator visible={loading} />
+      <LinearGradient style={{ flex: 1 }} colors={gradient}>
+        <SafeAreaView style={{ flex: 1 }} edges={["left", "right", "top"]}>
+          <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
+            <ScrollView style={{ padding: 20 }}>
+              <View
+                style={{
+                  marginBottom: 130,
+                  flex: 1,
+                }}
+              >
+                <View style={{ marginTop: Spacing.SCALE_8 }} />
+                <Text style={styles.title}>Give Feedback</Text>
+                <QuotedText {...quote} />
+                <View style={{ width: "100%" }}>
+                  <View style={styles.sliderContainer}>
+                    <View style={styles.textContainer}>
+                      <Text style={styles.text}>{promptCriteria[0]?.title}: </Text>
+                      <Text style={styles.smallText}>{promptCriteria[0]?.description}</Text>
+                    </View>
+                    <RatingSlider rating={setType1} />
                   </View>
-                  <RatingSlider rating={setType1} />
-                </View>
-                <View style={styles.sliderContainer}>
-                  <View style={styles.textContainer}>
-                    <Text style={styles.text}>{promptCriteria[1]?.title}: </Text>
-                    <Text style={styles.smallText}>Authentic, Glimpse of person</Text>
+                  <View style={styles.sliderContainer}>
+                    <View style={styles.textContainer}>
+                      <Text style={styles.text}>{promptCriteria[1]?.title}: </Text>
+                      <Text style={styles.smallText}>Authentic, Glimpse of person</Text>
+                    </View>
+                    <RatingSlider rating={setType2} />
                   </View>
-                  <RatingSlider rating={setType2} />
-                </View>
-                <View style={styles.sliderContainer}>
-                  <View style={styles.textContainer}>
-                    <Text style={styles.text}>{promptCriteria[2]?.title}:</Text>
-                    <Text style={styles.smallText}> Positive, Interesting, Funny </Text>
+                  <View style={styles.sliderContainer}>
+                    <View style={styles.textContainer}>
+                      <Text style={styles.text}>{promptCriteria[2]?.title}:</Text>
+                      <Text style={styles.smallText}> Positive, Interesting, Funny </Text>
+                    </View>
+                    <RatingSlider rating={setType3} />
                   </View>
-                  <RatingSlider rating={setType3} />
+
+                  {/* Text Input */}
+                  <View style={{ marginTop: Spacing.SCALE_8, marginBottom: Spacing.SCALE_12 }}>
+                    <Text style={styles.label}>Comments</Text>
+                    <TextInput
+                      value={comment}
+                      onChangeText={(e) => setComment(e)}
+                      style={[styles.input]}
+                    />
+                  </View>
+
+                  <AppButton
+                    title="Next"
+                    // disabled={type1 === 0.5 || type2 === 0.5 || type3 === 0.5}
+                    onPress={() => {
+                      navigation.navigate(screenName.VISUAL_VOTE);
+
+                      // setLoading(true);
+                      // saveGroupRating();
+                      // logEvent({
+                      //   eventName: eventNames.submitPromptRatingButton,
+                      //   params:{
+                      //     userId,
+                      //     screenClass:screenClass.matches,
+                      //     ...ratingGroupInput.ratingDetails,}
+                      // })
+                    }}
+                  />
+                  <Text style={styles.smallText}>
+                    Give constructive feedback and help your Scoop friend with his profile!
+                  </Text>
                 </View>
-                <AppInput
-                  placeholder="Comments"
-                  value={comment}
-                  onChangeText={(e) => {
-                    setComment(e);
-                  }}
-                />
-                <AppButton
-                  title="Next"
-                  disabled={type1 === 0.5 || type2 === 0.5 || type3 === 0.5}
-                  onPress={() => {
-                    setLoading(true);
-                    saveGroupRating();
-                    // logEvent({
-                    //   eventName: eventNames.submitPromptRatingButton,
-                    //   params:{
-                    //     userId,
-                    //     screenClass:screenClass.matches,
-                    //     ...ratingGroupInput.ratingDetails,}
-                    // })
-                  }}
-                />
-                <Text style={styles.smallText}>
-                  Give constructive feedback and help your Scoop friend with his profile!
-                </Text>
               </View>
-            </View>
-          </ScrollView>
-        </KeyboardAwareScrollView>
-      </SafeAreaView>
-    </LinearGradient>
+            </ScrollView>
+          </KeyboardAwareScrollView>
+        </SafeAreaView>
+      </LinearGradient>
+    </>
   );
 };
