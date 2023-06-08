@@ -61,6 +61,7 @@ export const FONT_FAMILY = {
   RobotoSerif_900Black_Italic: "RobotoSerif_900Black_Italic",
   Tienne_400Regular: "Tienne_400Regular",
   Tienne_700Bold: "Tienne_700Bold",
+  Tienne_900Black: "Tienne_900Black",
   Capriola_400Regular: "Capriola_400Regular",
 };
 export const FONT_POPPINS_REGULAR = "Poppins_400Regular";
