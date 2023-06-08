@@ -1,4 +1,5 @@
-import { createSlice, current } from "@reduxjs/toolkit";
+/* eslint-disable no-param-reassign */
+import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { multiRemove, removeData, storeObjectData } from "../../../utils/storage";
 import { UserPrompts } from "../../../utils/types";
@@ -21,7 +22,7 @@ const initialState: UserState = {
   userPrompts: initialPromptsData,
 };
 
-export const UserSlice = createSlice({
+const UserSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
@@ -72,10 +73,12 @@ export const UserSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase("appUser/logout", (state) => {
-        state.user = null;
-        state.userVisuals = null;
-        state.userPrompts = initialPromptsData;
-        state.userProfile = null;
+        // state.user = null;
+        // state.userVisuals = null;
+        // state.userPrompts = initialPromptsData;
+        // state.userProfile = null;
+        Object.assign(state, initialState);
+
         multiRemove(["user", "userToken", "token", "onboardKey", "userVisuals"]);
       })
       .addCase("appUser/deleteAccount", (state) => {

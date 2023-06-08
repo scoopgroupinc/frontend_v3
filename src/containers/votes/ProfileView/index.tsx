@@ -1,25 +1,15 @@
+/* eslint-disable import/prefer-default-export */
 import React, { useEffect, useState } from "react";
-import {
-  ImageBackground,
-  SafeAreaView,
-  ScrollView,
-  Text,
-  View,
-  Image,
-  Dimensions,
-} from "react-native";
+import { ImageBackground, ScrollView, Text, View, Image, Dimensions } from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
 import { useMutation } from "@apollo/client";
 import { screenName } from "../../../utils/constants";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
-import { selectUser } from "../../../store/features/user/userSlice";
 import { styles } from "./style";
 import {
-  RemoveActiveMatch,
+  RemoveActiveChoice,
   selectUserChoices,
-  selectUserMatchImages,
-  selectUserMatchPrompts,
   setMatchedUsers,
 } from "../../../store/features/matches/matchSlice";
 import { USER_SWIPER_ACTION } from "../../../services/graphql/profile/mutations";
@@ -33,13 +23,11 @@ const onethirdScreenHeight = screenHeight / 3;
 export const ProfileView = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const dispatch = useAppDispatch();
-  const { user } = useAppSelector(selectUser);
-  const userId = user?.userId;
 
   const userChoices = useAppSelector(selectUserChoices);
   const userProfile = userChoices[0].profile;
-  const userPrompts = useAppSelector(selectUserMatchPrompts);
-  const allImages = useAppSelector(selectUserMatchImages);
+  const userPrompts = userChoices[0].prompt;
+  const allImages = userChoices[0].visual;
 
   const [handleLikeDislike] = useMutation(USER_SWIPER_ACTION);
 
@@ -54,10 +42,11 @@ export const ProfileView = () => {
     handleLikeDislike({
       variables: {
         choice,
-        matchId: userChoices[0].id,
+        matchId: userChoices[0]?.id,
       },
       onCompleted: (data) => {
         const { message, user1, user2 } = data.userSwipeAction;
+
         if (message === "match created") {
           dispatch(
             setMatchedUsers({
@@ -67,14 +56,16 @@ export const ProfileView = () => {
           navigation.navigate(screenName.MATCH_VIEW);
         } else {
           dispatch(
-            RemoveActiveMatch({
-              activeMatchId: userChoices[0].id,
+            RemoveActiveChoice({
+              activeChoiceId: userChoices[0]?.id,
             })
           );
           navigation.popToTop();
         }
       },
-      onError: (error) => {},
+      onError: (e) => {
+        console.log("error", e);
+      },
     });
   };
 
@@ -91,15 +82,15 @@ export const ProfileView = () => {
         choice,
         matchId: userChoices[0].id,
       },
-      onCompleted: (data) => {
+      onCompleted: () => {
         dispatch(
-          RemoveActiveMatch({
-            activeMatchId: userChoices[0].id,
+          RemoveActiveChoice({
+            activeChoiceId: userChoices[0].id,
           })
         );
         navigation.popToTop();
       },
-      onError: (error) => {},
+      onError: () => {},
     });
   };
 
@@ -490,7 +481,7 @@ export const ProfileView = () => {
 
   useEffect(() => {
     const mergeData = () => {
-      if (allImages.length > 0) {
+      if (allImages && allImages.length > 0) {
         setMerged([]);
         for (let i = 0; i < allImages.length; i++) {
           setMerged((prev: any) => [...prev, { type: "image", image: allImages[i] }]);
@@ -515,36 +506,35 @@ export const ProfileView = () => {
     //   screenName:screenNames.profileView,
     //   screenType:screenClass.matches,
     // })
-  }, []);
+  }, [allImages, userPrompts]);
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <ImageBackground
-        style={{ flex: 1 }}
-        resizeMode="cover"
-        source={{
-          uri: allImages[0]?.videoOrPhoto,
+    <ImageBackground
+      style={{ flex: 1 }}
+      resizeMode="cover"
+      source={{
+        uri: allImages && allImages[0]?.videoOrPhoto,
+      }}
+    >
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        style={{
+          flex: 1,
         }}
       >
-        <ScrollView
-          showsVerticalScrollIndicator={false}
+        <View
           style={{
-            flex: 1,
+            width: "100%",
+            height: "100%",
+            marginTop: onethirdScreenHeight,
+            marginBottom: 70,
+            backgroundColor: "white",
+            borderTopRightRadius: 110,
+            padding: 20,
           }}
         >
-          <View
-            style={{
-              width: "100%",
-              height: "100%",
-              marginTop: onethirdScreenHeight,
-              marginBottom: 70,
-              backgroundColor: "white",
-              borderTopRightRadius: 110,
-              padding: 20,
-            }}
-          >
-            <View style={styles.descriptionContainer}>
-              {/* <View style={styles.section}>
+          <View style={styles.descriptionContainer}>
+            {/* <View style={styles.section}>
                 <Text style={styles.descriptionHeader}>Prompts</Text>
                 <View style={styles.content}>
                   {prompts.map((item: any) => {
@@ -557,102 +547,101 @@ export const ProfileView = () => {
                   })}
                 </View>
               </View> */}
-              <View style={styles.section}>
-                <Text style={styles.name}>{userChoices[0].choiceName}</Text>
-                <Text style={styles.age}>{/* {age} years old, {height} */}</Text>
-                <Text style={styles.descriptionHeader}>My Basics</Text>
+            <View style={styles.section}>
+              <Text style={styles.name}>{userChoices[0].choiceName}</Text>
+              <Text style={styles.age}>{/* {age} years old, {height} */}</Text>
+              <Text style={styles.descriptionHeader}>My Basics</Text>
 
-                <View style={[styles.content, { flexDirection: "column" }]}>
-                  {getJobDetails()}
-                  {getSchoolDetails()}
-                  {getHometownDetails()}
-                  {getEducationLevelDetails()}
-                  {getEthnicityDetails()}
-                  {getReligionsDetails()}
-                  {getReligiousPracticeDetails()}
-                </View>
+              <View style={[styles.content, { flexDirection: "column" }]}>
+                {getJobDetails()}
+                {getSchoolDetails()}
+                {getHometownDetails()}
+                {getEducationLevelDetails()}
+                {getEthnicityDetails()}
+                {getReligionsDetails()}
+                {getReligiousPracticeDetails()}
               </View>
+            </View>
 
-              <View style={styles.section}>
-                <Text style={styles.descriptionHeader}>My Interests</Text>
-                <View style={styles.content}>
-                  {getMusicGenreDetails()}
-                  {getBookGenreDetails()}
-                  {getPetsDetails()}
-                  {getSportsDetails()}
-                  {getGoingOutDetails()}
-                  {getStayingInDetails()}
-                  {getDrinkDetails()}
-                  {getDietDetails()}
-                  {getPoliticsDetails()}
-                  {getAlcoholDetails()}
-                  {getSmokingDetails()}
-                  {getDrugsDetails()}
-                  {getCreativeOuletDetails()}
-                  {getZodiacDetails()}
-                  {getMeyerBriggsDetails()}
-                  {getParentingGoalDetails()}
-                  {getRelationshipGoalsDetails()}
-                  {getRelationshipTypesDetails()}
-                  {getCannabisDetails()}
-                </View>
-              </View>
-              <View>
-                <View style={styles.section}>
-                  <Text style={styles.descriptionHeader}>Languages I know</Text>
-                  {getLanguagesDetails()}
-                </View>
-              </View>
-              {/* alternate prompts and images */}
+            <View style={styles.section}>
+              <Text style={styles.descriptionHeader}>My Interests</Text>
               <View style={styles.content}>
-                {merged.map((item: any, index: any) => {
-                  if (item?.type === "prompt") {
-                    return (
-                      <View
-                        key={index}
-                        style={{
-                          // backgroundColor: 'red',
-                          padding: Spacing.SCALE_20,
-                        }}
-                      >
-                        {/* <Text>{item.prompt.answer}</Text> */}
-                        <QuotedText title={item.prompt.prompt} text={item.prompt.answer} />
-                      </View>
-                    );
-                  }
+                {getMusicGenreDetails()}
+                {getBookGenreDetails()}
+                {getPetsDetails()}
+                {getSportsDetails()}
+                {getGoingOutDetails()}
+                {getStayingInDetails()}
+                {getDrinkDetails()}
+                {getDietDetails()}
+                {getPoliticsDetails()}
+                {getAlcoholDetails()}
+                {getSmokingDetails()}
+                {getDrugsDetails()}
+                {getCreativeOuletDetails()}
+                {getZodiacDetails()}
+                {getMeyerBriggsDetails()}
+                {getParentingGoalDetails()}
+                {getRelationshipGoalsDetails()}
+                {getRelationshipTypesDetails()}
+                {getCannabisDetails()}
+              </View>
+            </View>
+            <View>
+              <View style={styles.section}>
+                <Text style={styles.descriptionHeader}>Languages I know</Text>
+                {getLanguagesDetails()}
+              </View>
+            </View>
+            {/* alternate prompts and images */}
+            <View style={styles.content}>
+              {merged.map((item: any, index: any) => {
+                if (item?.type === "prompt") {
                   return (
                     <View
                       key={index}
                       style={{
-                        flex: 1,
+                        // backgroundColor: 'red',
+                        padding: Spacing.SCALE_20,
                       }}
                     >
-                      <Image
-                        // resizeMode='cover'
-                        source={{
-                          uri: item?.image?.videoOrPhoto,
-                        }}
-                        style={{
-                          width: "100%",
-                          height: 300,
-                          resizeMode: "cover",
-                        }}
-                      />
+                      {/* <Text>{item.prompt.answer}</Text> */}
+                      <QuotedText title={item.prompt.prompt} text={item.prompt.answer} />
                     </View>
                   );
-                })}
-              </View>
-              <View
-                style={{
-                  paddingHorizontal: 40,
-                }}
-              >
-                <LikeButtonsView like={handleLike} dislike={handleDislike} />
-              </View>
+                }
+                return (
+                  <View
+                    key={index}
+                    style={{
+                      flex: 1,
+                    }}
+                  >
+                    <Image
+                      // resizeMode='cover'
+                      source={{
+                        uri: item?.image?.videoOrPhoto,
+                      }}
+                      style={{
+                        width: "100%",
+                        height: 300,
+                        resizeMode: "cover",
+                      }}
+                    />
+                  </View>
+                );
+              })}
+            </View>
+            <View
+              style={{
+                paddingHorizontal: 40,
+              }}
+            >
+              <LikeButtonsView like={handleLike} dislike={handleDislike} />
             </View>
           </View>
-        </ScrollView>
-      </ImageBackground>
-    </SafeAreaView>
+        </View>
+      </ScrollView>
+    </ImageBackground>
   );
 };

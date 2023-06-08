@@ -69,11 +69,12 @@ const LoginScreen = () => {
         await storeStringData("userToken", res?.data?.login?.token);
         dispatch(
           setUser({
-            user: JSON.parse(res?.data?.login?.user),
+            user: res?.data?.login?.user,
           })
         );
       })
       .catch((err) => {
+        console.log("login error", err.message);
         if (err.message === "Kindly activate your account") {
           setModalState(true);
         }

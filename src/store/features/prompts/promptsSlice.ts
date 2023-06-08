@@ -1,5 +1,6 @@
+/* eslint-disable no-param-reassign */
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { RootState } from "../..";
+// import { RootState } from "../..";
 
 export interface Prompt {
   id: string;
@@ -15,7 +16,7 @@ const initialState: PromptState = {
   allPrompts: [],
 };
 
-export const PromptSlice = createSlice({
+const PromptSlice = createSlice({
   name: "prompt",
   initialState,
   reducers: {
@@ -26,7 +27,7 @@ export const PromptSlice = createSlice({
   },
 });
 
-export const selectAllPrompts = (state: RootState) => state.appPrompts.allPrompts;
+export const selectAllPrompts = (state: any) => state.appPrompts.allPrompts;
 
 export const { setAllPrompts } = PromptSlice.actions;
 

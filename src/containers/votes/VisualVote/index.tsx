@@ -1,5 +1,6 @@
+/* eslint-disable import/prefer-default-export */
 import React, { useEffect, useState } from "react";
-import { View, Text, Image, ScrollView } from "react-native";
+import { View, Text, Image, ScrollView, TextInput } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useMutation } from "@apollo/client";
@@ -10,11 +11,13 @@ import { screenName } from "../../../utils/constants";
 import { useAppSelector } from "../../../store/hooks";
 import { selectUser } from "../../../store/features/user/userSlice";
 import { selectUserChoices } from "../../../store/features/matches/matchSlice";
-import { Colors } from "../../../utils";
+import { Colors, Spacing } from "../../../utils";
 import { SAVE_GROUP_RATING } from "../../../services/graphql/profile/mutations";
 import { styles } from "./style";
 import { RatingSlider } from "../../../components/molecule/RatingSlider";
-import { AppInput } from "../../../components/atoms/AppInput";
+import AppActivityIndicator from "../../../components/atoms/ActivityIndicator";
+
+const gradient = [Colors.RUST, Colors.RED, Colors.TEAL];
 
 export const VisualVote = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
@@ -32,10 +35,8 @@ export const VisualVote = () => {
 
   const { visual } = userChoices[0];
   const photoCriteria = useAppSelector((state) =>
-    state.matches.criterias.filter((criteria: any) => criteria.type === "user_visuals")
+    state.matches.criterias.filter((criteria) => criteria.type === "user_visuals")
   );
-
-  const gradient = [Colors.RUST, Colors.RED, Colors.TEAL];
 
   const ratingGroupInput = {
     raterId: userId,
@@ -76,91 +77,68 @@ export const VisualVote = () => {
   }, []);
   const [saveGroupRating] = useMutation(SAVE_GROUP_RATING, {
     variables: { ratingGroupInput },
-    onCompleted: (data) => {
+    onCompleted: () => {
       setLoading(false);
       navigation.navigate(screenName.PROFILE_VIEW);
     },
-    onError: (error) => {
+    onError: () => {
       setLoading(false);
     },
   });
 
   return (
-    <LinearGradient style={{ flex: 1 }} colors={gradient}>
-      <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
-        <Image
-          style={{
-            width: "100%",
-            height: 400,
-            resizeMode: "cover",
-          }}
-          source={{
-            uri: visual?.videoOrPhoto,
-          }}
-        />
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <View
+    <>
+      <AppActivityIndicator visible={loading} />
+      <LinearGradient style={{ flex: 1 }} colors={gradient}>
+        <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
+          <Image
             style={{
-              paddingHorizontal: 20,
-              marginBottom: 130,
-              flex: 1,
+              width: "100%",
+              height: 400,
+              resizeMode: "cover",
             }}
-          >
-            <View style={styles.sliderContainer}>
-              <View style={styles.textContainer}>
-                <Text style={styles.text}>{photoCriteria[0]?.title}: </Text>
-                <Text style={styles.smallText}>{photoCriteria[0]?.description}</Text>
-              </View>
-              <RatingSlider rating={setType1} />
-            </View>
-            <View style={styles.sliderContainer}>
-              <View style={styles.textContainer}>
-                <Text style={styles.text}>{photoCriteria[1]?.title}: </Text>
-                <Text style={styles.smallText}>{photoCriteria[1]?.description}</Text>
-              </View>
-              <RatingSlider rating={setType2} />
-            </View>
-            <View style={styles.sliderContainer}>
-              <View style={styles.textContainer}>
-                <Text style={styles.text}>{photoCriteria[2]?.title}:</Text>
-                <Text style={styles.smallText}> {photoCriteria[2]?.description} </Text>
-              </View>
-              <RatingSlider rating={setType3} />
-            </View>
-            {/* <Input
-            label='Comments'
-            onChangeText={(e) => {
-              setComment(e)
+            source={{
+              uri: visual?.videoOrPhoto,
             }}
-          /> */}
-            <AppInput
-              placeholder="Comments"
-              // style={{
-              //   borderWidth: 4,
-              //   width: '100%',
-              //   borderRadius: Spacing.SCALE_8,
-              //   padding: Spacing.SCALE_12,
-              //   borderColor: Colors.INPUT_BORDER,
-              //   backgroundColor: Colors.INPUT_BG,
-              //   fontFamily: Typography.FONT_POPPINS_REGULAR,
-              //   fontSize: Typography.FONT_SIZE_16,
-              //   marginTop: Spacing.SCALE_8,
-              //   overflow: 'hidden',
-              //   shadowColor: 'black',
-              //   shadowOffset: {
-              //     width: 9,
-              //     height: 1,
-              //   },
-              //   shadowOpacity: 0.15,
-              //   shadowRadius: 14,
-
-              //   elevation: -8,
-              // }}
-              value={comment}
-              onChangeText={(e) => {
-                setComment(e);
+          />
+          <ScrollView showsVerticalScrollIndicator={false}>
+            <View
+              style={{
+                paddingHorizontal: 20,
+                marginBottom: 130,
+                flex: 1,
               }}
-            />
+            >
+              <View style={styles.sliderContainer}>
+                <View style={styles.textContainer}>
+                  <Text style={styles.text}>{photoCriteria[0]?.title}: </Text>
+                  <Text style={styles.smallText}>{photoCriteria[0]?.description}</Text>
+                </View>
+                <RatingSlider rating={setType1} />
+              </View>
+              <View style={styles.sliderContainer}>
+                <View style={styles.textContainer}>
+                  <Text style={styles.text}>{photoCriteria[1]?.title}: </Text>
+                  <Text style={styles.smallText}>{photoCriteria[1]?.description}</Text>
+                </View>
+                <RatingSlider rating={setType2} />
+              </View>
+              <View style={styles.sliderContainer}>
+                <View style={styles.textContainer}>
+                  <Text style={styles.text}>{photoCriteria[2]?.title}:</Text>
+                  <Text style={styles.smallText}> {photoCriteria[2]?.description} </Text>
+                </View>
+                <RatingSlider rating={setType3} />
+              </View>
+              {/* Text Input */}
+              <View style={{ marginTop: Spacing.SCALE_8, marginBottom: Spacing.SCALE_12 }}>
+                <Text style={styles.label}>Comments</Text>
+                <TextInput
+                  value={comment}
+                  onChangeText={(e) => setComment(e)}
+                  style={[styles.input]}
+                />
+              </View>
             <AppButton
               // isDisabled={type1 === 0.5 || type2 === 0.5 || type3 === 0.5}
               onPress={() => {
@@ -182,5 +160,6 @@ export const VisualVote = () => {
         </ScrollView>
       </KeyboardAwareScrollView>
     </LinearGradient>
+    </>
   );
 };

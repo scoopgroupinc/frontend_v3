@@ -2,6 +2,11 @@ import { StyleSheet } from "react-native";
 import { Typography, Colors, Spacing } from "../../../utils";
 
 export const styles = StyleSheet.create({
+  label: {
+    fontFamily: Typography.FONT_POPPINS_REGULAR,
+    fontSize: Typography.FONT_SIZE_16,
+    color: Colors.WHITE,
+  },
   sliderContainer: {
     paddingVertical: 16,
     display: "flex",
