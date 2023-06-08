@@ -1,3 +1,3 @@
-const ChatMessage = () => {};
+const ChatMessage = () => <> </>;
 
 export default ChatMessage;

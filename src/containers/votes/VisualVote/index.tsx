@@ -40,7 +40,7 @@ export const VisualVote = () => {
 
   const ratingGroupInput = {
     raterId: userId,
-    contentId: visual?.id,
+    contentId: visual !== null ? visual?.id : "",
     type: "user_visual",
     comment: [
       {
@@ -78,6 +78,7 @@ export const VisualVote = () => {
   const [saveGroupRating] = useMutation(SAVE_GROUP_RATING, {
     variables: { ratingGroupInput },
     onCompleted: () => {
+      setComment("");
       setLoading(false);
       navigation.navigate(screenName.PROFILE_VIEW);
     },
@@ -143,10 +144,8 @@ export const VisualVote = () => {
                 // disabled={type1 === 0.5 || type2 === 0.5 || type3 === 0.5}
                 title="Next"
                 onPress={() => {
-                  navigation.navigate(screenName.PROFILE_VIEW);
-
-                  // setLoading(true);
-                  // saveGroupRating();
+                  setLoading(true);
+                  saveGroupRating();
                   // logEvent({
                   //   eventName: eventNames.submit_photo_rating_button,
                   //   params: {

@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 import React, { useState } from "react";
 import { Slider } from "@miblanchard/react-native-slider";
 import { styles } from "./styles";

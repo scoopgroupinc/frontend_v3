@@ -60,9 +60,7 @@ export const Home = () => {
         );
       }
     },
-    onError: (error) => {
-      console.log("get user choices error: ", error);
-    },
+    onError: () => {},
   });
 
   const {
@@ -225,7 +223,7 @@ export const Home = () => {
 
   useEffect(() => {
     componentDidMount();
-  });
+  }, []);
 
   useEffect(() => {
     if (userPromptData && !userPromptLoading) {
@@ -235,7 +233,7 @@ export const Home = () => {
         })
       );
     }
-  }, [userPromptData, userPromptLoading]);
+  }, [userPromptData, userPromptLoading, dispatch]);
 
   useEffect(() => {
     if (userProfileResult && !userProfileLoading) {
@@ -260,7 +258,7 @@ export const Home = () => {
         })
       );
     }
-  }, [userProfileResult, userProfileLoading]);
+  }, [userProfileResult, userProfileLoading, dispatch]);
 
   return (
     <ScrollableGradientLayout>

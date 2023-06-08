@@ -1,6 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 import React, { useEffect, useState } from "react";
-import { View, Text, ScrollView, TextInput, TouchableOpacity } from "react-native";
+import { View, Text, ScrollView, TextInput } from "react-native";
 import { useMutation, useQuery } from "@apollo/client";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
@@ -20,8 +20,8 @@ import { AppButton } from "../../../components/atoms/AppButton";
 import { RatingSlider } from "../../../components/molecule/RatingSlider";
 import {
   selectUserChoices,
-  setUserMatchImages,
-  setUserMatchPrompts,
+  setUserChoiceImages,
+  setUserChoicePrompts,
 } from "../../../store/features/matches/matchSlice";
 import AppActivityIndicator from "../../../components/atoms/ActivityIndicator";
 
@@ -84,8 +84,8 @@ export const PromptVote = () => {
   const [saveGroupRating] = useMutation(SAVE_GROUP_RATING, {
     variables: { ratingGroupInput },
     onCompleted: () => {
-      setLoading(false);
       setComment("");
+      setLoading(false);
       navigation.navigate(screenName.VISUAL_VOTE);
     },
     onError: () => {
@@ -108,55 +108,52 @@ export const PromptVote = () => {
     text: `"${userChoicePrompt?.answer}"`,
   };
 
-  // load images for the next screen
-  // const fetchMatchVisuals = async () => {
-  //   await fetch(`${URLS.FILE_URL}/api/v1/visuals/${userChoiceId}`, {
-  //     method: "GET",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //   })
-  //     .then((res) => res.json())
-  //     .then((res) => {
-  //       if (res) {
-  //         dispatch(
-  //           setUserMatchImages({
-  //             userMatchImages: res,
-  //           })
-  //         );
-  //       }
-  //     })
-  //     .catch(() => {});
-  // };
-
-  // load prompts for the profile view screen
-  const fetchPromptsOrder = async () => {
-    if (promptsOrderLoading) return null;
-
-    const promptsOrder = promptsOrderResult?.getUserPromptsOrder;
-
-    if (promptsOrder && promptsOrder.length > 0) {
-      dispatch(
-        setUserMatchPrompts({
-          promptsOrder,
+  useEffect(() => {
+    // load images for the next screen
+    const fetchMatchVisuals = async () => {
+      await fetch(`${URLS.FILE_URL}/api/v1/visuals/${userChoiceId}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          if (res) {
+            dispatch(
+              setUserChoiceImages({
+                userChoiceImages: res,
+              })
+            );
+          }
         })
-      );
-    }
-  };
+        .catch(() => {});
+    };
 
-  // useEffect(() => {
-  //   fetchMatchVisuals();
-  //   // onScreenView({
-  //   //   screenName:screenNames.ratePrompt,
-  //   //   screenType:screenClass.matches,
-  //   //  })
-  // }, [userChoicePrompt]);
+    fetchMatchVisuals();
+    // onScreenView({
+    //   screenName:screenNames.ratePrompt,
+    //   screenType:screenClass.matches,
+    //  })
+  }, [userChoicePrompt, dispatch, userChoiceId]);
 
   useEffect(() => {
-    fetchPromptsOrder();
-  }, [promptsOrderResult]);
+    // load prompts for the profile view screen
+    const fetchPromptsOrder = async () => {
+      if (promptsOrderLoading) return null;
 
-  // const [showTip, setTip] = useState(true);
+      const promptsOrder = promptsOrderResult?.getUserPromptsOrder;
+
+      if (promptsOrder && promptsOrder.length > 0) {
+        dispatch(
+          setUserChoicePrompts({
+            promptsOrder,
+          })
+        );
+      }
+    };
+    fetchPromptsOrder();
+  }, [promptsOrderResult, dispatch, promptsOrderLoading]);
 
   return (
     <>
@@ -211,10 +208,8 @@ export const PromptVote = () => {
                     title="Next"
                     // disabled={type1 === 0.5 || type2 === 0.5 || type3 === 0.5}
                     onPress={() => {
-                      navigation.navigate(screenName.VISUAL_VOTE);
-
-                      // setLoading(true);
-                      // saveGroupRating();
+                      setLoading(true);
+                      saveGroupRating();
                       // logEvent({
                       //   eventName: eventNames.submitPromptRatingButton,
                       //   params:{

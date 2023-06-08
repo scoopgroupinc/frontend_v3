@@ -4,7 +4,7 @@ import { Spacing, Typography } from "../../../utils";
 
 const windowHeight = Dimensions.get("window").height;
 
-export const styles = StyleSheet.create({
+const styles = StyleSheet.create({
   modal: {
     paddingTop: 44,
     justifyContent: "flex-end",
@@ -58,3 +58,5 @@ export const styles = StyleSheet.create({
     // padding: 5,
   },
 });
+
+export default styles;

@@ -11,6 +11,7 @@ const ChatNavigator = () => (
     screenOptions={{
       headerShown: false,
     }}
+    initialRouteName={screenName.CONVERSATIONS}
   >
     <ChatStack.Screen name={screenName.CONVERSATIONS} component={Conversations} />
     <ChatStack.Screen name={screenName.MESSAGES} component={Messages} />

@@ -8,8 +8,8 @@ interface MatchState {
   userChoices: any[];
   activeMatch: any;
   criterias: any[];
-  userMatchImages: any[];
-  userMatchPrompts: any[];
+  userChoiceImages: any[];
+  userChoicePrompts: any[];
   matchedUsers: any[];
 }
 
@@ -18,8 +18,8 @@ const initialState: MatchState = {
   userChoices: [],
   activeMatch: null,
   criterias: [],
-  userMatchImages: [],
-  userMatchPrompts: [],
+  userChoiceImages: [],
+  userChoicePrompts: [],
   matchedUsers: [],
 };
 
@@ -46,14 +46,14 @@ const MatchSlice = createSlice({
       );
       state.userChoices = resultingChoices;
     },
-    setUserMatchImages: (state, action: PayloadAction<any>) => {
-      const { userMatchImages } = action.payload;
-      state.userMatchImages = userMatchImages;
+    setUserChoiceImages: (state, action: PayloadAction<any>) => {
+      const { userChoiceImages } = action.payload;
+      state.userChoiceImages = userChoiceImages;
     },
-    setUserMatchPrompts: (state, action: PayloadAction<any>) => {
+    setUserChoicePrompts: (state, action: PayloadAction<any>) => {
       const { promptsOrder } = action.payload;
       promptsOrder.forEach((item: any) => {
-        state.userMatchPrompts.push({
+        state.userChoicePrompts.push({
           answer: item.answer,
           promptId: item.promptId,
           userId: item.userId,
@@ -77,16 +77,16 @@ export const {
   setUserMatches,
   RemoveActiveChoice,
   setCriterias,
-  setUserMatchImages,
-  setUserMatchPrompts,
+  setUserChoiceImages,
+  setUserChoicePrompts,
   setMatchedUsers,
   setUserChoices,
 } = MatchSlice.actions;
 
 export const selectUserMatches = (state: any) => state.matches.userMatches;
 export const selectCriterias = (state: any) => state.matches.criterias;
-export const selectUserMatchImages = (state: any) => state.matches.userMatchImages;
-export const selectUserMatchPrompts = (state: any) => state.matches.userMatchPrompts;
+export const selectUserChoiceImages = (state: any) => state.matches.userMatchImages;
+export const selectUserChoicePrompts = (state: any) => state.matches.userMatchPrompts;
 export const selectMatchedUsers = (state: any) => state.matches.matchedUsers;
 export const selectUserChoices = (state: any) => state.matches.userChoices;
 
