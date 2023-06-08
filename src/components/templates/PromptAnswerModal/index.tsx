@@ -57,10 +57,9 @@ export const PromptAnswerModal = ({ close, goBack, prompt }: PromptAnswerType) =
           onChangeText={setAnswer}
         />
         <AppButton
-          title="Done"
-          disabled={!!(answer === "" || answer === "" || answer === undefined)}
+          isDisabled={!!(answer === "" || answer === "" || answer === undefined)}
           onPress={handleSavePrompt}
-        />
+        >Done</AppButton>
       </KeyboardAwareScrollView>
     </FullModalView>
   );

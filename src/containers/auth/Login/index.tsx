@@ -19,6 +19,7 @@ import { storeStringData } from "../../../utils/storage";
 import { OTPInputModal } from "../../../components/templates/OTPInputModal";
 import { Colors } from "../../../utils";
 import { screenName } from "../../../utils/constants";
+import { Heading, VStack } from "native-base";
 
 const LoginScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
@@ -90,55 +91,56 @@ const LoginScreen = () => {
       <GradientLayout>
         <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
           <View>
-            <View>
-              <Text style={styles.title}>Sign In</Text>
-            </View>
+            <VStack>
+              <Heading>Sign In</Heading>
 
-            <View>
-              <FormField
-                control={control}
-                name="email"
-                rules={{
-                  required: true,
-                }}
-                label="Email"
-                placeholder="Email..."
-                autoCaps="none"
-                inputType="email"
-                msg={errors.email?.message}
-              />
-              <FormField
-                control={control}
-                name="password"
-                rules={{
-                  required: true,
-                }}
-                label="Password"
-                placeholder="Password..."
-                autoCaps="none"
-                inputType="password"
-                msg={errors.password?.message}
-              />
-            </View>
+              <View>
+                <FormField
+                  control={control}
+                  name="email"
+                  rules={{
+                    required: true,
+                  }}
+                  label="Email"
+                  placeholder="Email..."
+                  autoCaps="none"
+                  inputType="email"
+                  msg={errors.email?.message}
+                />
+                <FormField
+                  control={control}
+                  name="password"
+                  rules={{
+                    required: true,
+                  }}
+                  label="Password"
+                  placeholder="Password..."
+                  autoCaps="none"
+                  inputType="password"
+                  msg={errors.password?.message}
+                />
+              </View>
+            </VStack>
           </View>
 
-          <View style={styles.btnContainer}>
+          <VStack>
             <AppButton
-              title="Submit"
               onPress={handleSubmit(loginUser)}
-              txtColor={Colors.BLACK}
-              disabled={!!(errors.email?.message || errors.password?.message)}
-              bgColor={Colors.ICE_WHITE}
-            />
+              isDisabled={!!(errors.email?.message || errors.password?.message)}
+              marginTop={8}
+              marginBottom={4}
+            >
+              Submit
+            </AppButton>
 
-            <TouchableOpacity onPress={() => onForgotPasswordPress()}>
-              <Text style={styles.link}>Forgot Password</Text>
-            </TouchableOpacity>
+            <AppButton variant="ghost" onPress={() => onForgotPasswordPress()}>
+              Forgot Password
+            </AppButton>
 
-            <TouchableOpacity onPress={() => navigation.navigate(screenName.REGISTER)}>
-              <Text style={styles.link}>Sign Up</Text>
-            </TouchableOpacity>
-          </View>
+            <AppButton variant="ghost" onPress={() => navigation.navigate(screenName.REGISTER)}>
+              Sign Up
+            </AppButton>
+          </VStack>
         </KeyboardAwareScrollView>
         {modalState === true && (
           <OTPInputModal

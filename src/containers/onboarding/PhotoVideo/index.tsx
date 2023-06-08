@@ -108,11 +108,9 @@ export const PhotoVideoScreen = () => {
             <Text style={styles.text}>Photos & Videos</Text>
             <MediaContainer images={allImages} onAddImage={handleImages} />
           </View>
-          <AppButton
-            title="Upload Photos"
-            disabled={allImages.length < 1}
-            onPress={() => saveImages()}
-          />
+          <AppButton isDisabled={allImages.length < 1} onPress={() => saveImages()}>
+            "Upload Photos"
+          </AppButton>
         </View>
       </GradientLayout>
     </>

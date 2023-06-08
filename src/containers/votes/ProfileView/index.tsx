@@ -11,7 +11,6 @@ import {
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
 import { useMutation } from "@apollo/client";
-import { AppButton } from "../../../components/atoms/AppButton";
 import { screenName } from "../../../utils/constants";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { selectUser } from "../../../store/features/user/userSlice";

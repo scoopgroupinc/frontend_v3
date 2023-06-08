@@ -1,6 +1,7 @@
 import React from "react";
 import { Pressable, Text, ViewStyle } from "react-native";
-import { Colors } from "../../../utils";
+import { Button, IButtonProps } from "native-base";
+import { FONT_FAMILY } from "../../../utils/typography/fonts";
 import { styles } from "./styles";
 
 export interface ButtonType {
@@ -12,25 +13,29 @@ export interface ButtonType {
   style?: ViewStyle;
 }
 
-export const AppButton = ({
-  title,
-  onPress,
-  txtColor = Colors.DARK_GRAY_BLUE,
-  disabled = false,
-  bgColor,
-  style,
-}: ButtonType) => (
-  <Pressable
-    disabled={disabled}
-    onPress={onPress}
-    style={[
-      styles.button,
-      style,
-      // {
-      //   backgroundColor: disabled ? "transparent" : bgColor,
-      // },
-    ]}
-  >
-    <Text style={[{ color: txtColor }, styles.text]}>{title}</Text>
-  </Pressable>
-);
+export const AppButton = ({ children, variant, ...props }: IButtonProps) => {
+  let button;
+  if (variant === "ghost") {
+    button = (
+      <Button
+        {...props}
+        variant={variant}
+        _light={{
+          _text: {
+            color: "white",
+            fontSize: "md",
+          },
+        }}
+      >
+        {children}
+      </Button>
+    );
+  } else {
+    button = (
+      <Button {...props} variant={variant}>
+        {children}
+      </Button>
+    );
+  }
+  return <>{button}</>;
+};

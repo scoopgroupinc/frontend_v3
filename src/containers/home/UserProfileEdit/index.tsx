@@ -308,19 +308,15 @@ export const UserProfileEdit = ({ route }: any) => {
               <View style={styles.buttonContainer}>
                 <View style={styles.buttons}>
                   <AppButton
-                    title="Cancel"
                     style={styles.editButton}
-                    bgColor={Colors.WHITE}
                     onPress={() => setModalState(false)}
-                  />
+                  >Cancel</AppButton>
                 </View>
                 <View style={styles.buttons}>
                   <AppButton
-                    title="Confirm"
                     style={styles.confirmButton}
-                    bgColor={Colors.WHITE}
                     onPress={() => cancelChanges()}
-                  />
+                  >Confirm</AppButton>
                 </View>
               </View>
             </View>
@@ -332,19 +328,16 @@ export const UserProfileEdit = ({ route }: any) => {
               <View style={styles.buttonContainer}>
                 <View style={styles.buttons}>
                   <AppButton
-                    title="Cancel"
                     style={styles.editButton}
-                    bgColor={Colors.WHITE}
                     onPress={() => setDoneState(false)}
-                  />
+                  >Cancel</AppButton>
                 </View>
                 <View style={styles.buttons}>
                   <AppButton
-                    title="Confirm"
                     style={styles.confirmButton}
                     bgColor={Colors.WHITE}
                     onPress={() => saveChanges()}
-                  />
+                  >Confirm</AppButton>
                 </View>
               </View>
             </View>
@@ -352,15 +345,13 @@ export const UserProfileEdit = ({ route }: any) => {
 
           <View style={styles.topContainer}>
             <AppButton
-              title="Cancel"
               style={styles.topButton}
               onPress={() => setModalState(true)}
-            />
+            >Cancel</AppButton>
             <AppButton
-              title={saving ? "Saving..." : "Done"}
               style={styles.topButton}
               onPress={() => saveChanges()}
-            />
+            >{saving ? "Saving..." : "Done"}</AppButton>
           </View>
 
           {/* media box  */}

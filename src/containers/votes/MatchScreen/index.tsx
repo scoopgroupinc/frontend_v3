@@ -18,10 +18,9 @@ export const MatchScreen = () => {
       }}
     >
       <Text style={{ color: "white", fontSize: 20 }}>This is the MatchScreen screen</Text>
-      <AppButton
-        title="Go to ComeBackTomorrow"
-        onPress={() => navigation.navigate(screenName.COME_BACK_LATER)}
-      />
+      <AppButton onPress={() => navigation.navigate(screenName.COME_BACK_LATER)}>
+        "Go to ComeBackTomorrow"
+      </AppButton>
     </View>
   );
 };
