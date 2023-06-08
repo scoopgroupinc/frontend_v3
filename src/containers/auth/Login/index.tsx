@@ -53,7 +53,6 @@ const LoginScreen = () => {
     resolver: yupResolver(schema),
   });
 
-  const onForgotPasswordPress = () => {};
   const loginUser = (formData: any) => {
     setUserData(formData);
     loginUserMutation({
@@ -134,7 +133,7 @@ const LoginScreen = () => {
               bgColor={Colors.ICE_WHITE}
             />
 
-            <TouchableOpacity onPress={() => onForgotPasswordPress()}>
+            <TouchableOpacity onPress={() => navigation.navigate(screenName.FORGOT_PASSWORD)}>
               <Text style={styles.link}>Forgot Password</Text>
             </TouchableOpacity>
 
