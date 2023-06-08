@@ -171,19 +171,15 @@ export const OTPInputModal = ({
                   : `We’ve sent a code to ${userData.email}. You can send another in ${timer} seconds.`}
               </Text>
               <AppButton
-                title="Resend code"
-                txtColor={Colors.BLACK}
-                // disabled={!showResend}
+                isDisabled={!showResend}
                 bgColor={Colors.TEAL}
                 style={styles.buttonResend}
                 onPress={handleResend}
-              />
+              >Resend code</AppButton>
             </View>
           </View>
 
           <AppButton
-            title="Verify"
-            txtColor={Colors.BLACK}
             bgColor={Colors.RUST}
             style={{
               borderWidth: 1,
@@ -192,7 +188,7 @@ export const OTPInputModal = ({
             }}
             disabled={code === ""}
             onPress={forgotPass ? verifyRstPassOtp : verifyOtp}
-          />
+          >Verify</AppButton>
         </View>
       </KeyboardAwareScrollView>
     </SlideUpModal>

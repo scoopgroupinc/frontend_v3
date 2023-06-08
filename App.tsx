@@ -2,7 +2,7 @@ import "react-native-gesture-handler";
 import React, { useEffect, useCallback } from "react";
 import { View, Alert } from "react-native";
 import { NativeBaseProvider, extendTheme } from "native-base";
-import Navigator from "./src/navigation/Navigator";
+import Navigator from "./src/navigation";
 import { useFonts } from "expo-font";
 import * as splashScreen from "expo-splash-screen";
 import {
@@ -55,6 +55,8 @@ import { ApolloProvider } from "@apollo/client";
 import { client } from "./src/services/api/client";
 import { PersistGate } from "redux-persist/integration/react";
 import { PaperProvider } from "react-native-paper";
+import { FONT_FAMILY } from "./src/utils/typography/fonts";
+
 
 const fonts = {
   Poppins: {
@@ -164,7 +166,7 @@ const customTheme = extendTheme({
     Heading: {
       defaultProps: {
         color: "white",
-        fontFamily: "Capriola_400Regular",
+        fontFamily: FONT_FAMILY.Capriola_400Regular,
         
       },
     },
@@ -177,7 +179,7 @@ const customTheme = extendTheme({
         colorScheme: "primary",
         _text: {
           color: "light.700",
-          fontFamily: "Capriola_400Regular",
+          fontFamily: FONT_FAMILY.Capriola_400Regular,
         },
       },
     },
@@ -224,6 +226,7 @@ export default function App() {
     RobotoSerif_900Black_Italic,
     Tienne_400Regular,
     Tienne_700Bold,
+    Tienne_900Black,
     Capriola_400Regular,
   });
 
