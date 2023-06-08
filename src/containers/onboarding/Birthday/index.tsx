@@ -106,7 +106,9 @@ export const OnboardBirthdayScreen = () => {
                 moment(date).format("YYYY-MM-DD") === moment(new Date()).format("YYYY-MM-DD")
               }
               onPress={() => DateAlert()}
-            >Next</AppButton>
+            >
+              Next
+            </AppButton>
           </View>
         </View>
       </GradientLayout>

@@ -135,7 +135,10 @@ const LoginScreen = () => {
               Submit
             </AppButton>
 
-            <AppButton variant="ghost" onPress={() => navigation.navigate(screenName.FORGOT_PASSWORD)}>
+            <AppButton
+              variant="ghost"
+              onPress={() => navigation.navigate(screenName.FORGOT_PASSWORD)}
+            >
               Forgot Password
             </AppButton>
 

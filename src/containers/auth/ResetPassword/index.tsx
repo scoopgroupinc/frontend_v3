@@ -126,8 +126,7 @@ const ResetPassword = ({ route }: any) => {
           >
             Reset Password
           </AppButton>
-          <AppButton variant="ghost"
-            onPress={() => navigation.navigate(screenName.LOGIN)}>
+          <AppButton variant="ghost" onPress={() => navigation.navigate(screenName.LOGIN)}>
             Cancel
           </AppButton>
         </VStack>

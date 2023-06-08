@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     flex: 1,
     justifyContent: "flex-end",
-    width: "100%"
+    width: "100%",
   },
   title: {
     color: Colors.WHITE,

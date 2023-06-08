@@ -12,14 +12,14 @@ export const styles = StyleSheet.create({
     width: "100%",
     height: 40,
     color: Colors.WHITE,
-   // fontFamily: Typography.FONT_POPPINS_REGULAR,
+    // fontFamily: Typography.FONT_POPPINS_REGULAR,
     fontSize: Typography.FONT_SIZE_12,
     textAlign: "center",
     justifyContent: "center",
     alignItems: "center",
   },
   text: {
-  //  fontFamily: Typography.FONT_CAPRIOLA_REGULAR,
+    //  fontFamily: Typography.FONT_CAPRIOLA_REGULAR,
     fontSize: Typography.FONT_SIZE_16,
   },
 });

@@ -151,6 +151,18 @@ const customTheme = extendTheme({
       800: "#d4d4d4",
       900: "#a3a3a3",
     },
+    orange: {
+      50: '#FFE7DF',
+      100: '#FFD6C9',
+      200: '#FFC5B1',
+      300: '#FFB69C',
+      400: '#FFA88A',
+      500: '#FF926F',
+      600: '#FF7648',
+      700: '#FF6A38',
+      800: '#FF5B24',
+      900: '#FF4E13',
+    },
   },
   fontConfig: {
     Poppins: fonts.Poppins,

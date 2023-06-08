@@ -155,7 +155,9 @@ export const VisualVote = () => {
                   //   },
                   // });
                 }}
-              >Next</AppButton>
+              >
+                Next
+              </AppButton>
             </View>
           </ScrollView>
         </KeyboardAwareScrollView>

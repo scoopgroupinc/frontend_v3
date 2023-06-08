@@ -115,12 +115,14 @@ const MatchScreen = () => {
             <View style={{ marginTop: Spacing.SCALE_8, marginBottom: Spacing.SCALE_12 }}>
               <TextInput value={msg} onChangeText={(e) => setMsg(e)} style={[styles.input]} />
             </View>
-            <AppButton isDisabled={msg.length === 0} onPress={sendChatMessage}>Submit</AppButton>
+            <AppButton isDisabled={msg.length === 0} onPress={sendChatMessage}>
+              Submit
+            </AppButton>
           </View>
         </View>
       </SafeAreaView>
     </LinearGradient>
-);
+  );
 };
 
 export default MatchScreen;

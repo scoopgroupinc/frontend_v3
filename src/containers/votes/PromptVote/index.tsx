@@ -219,7 +219,9 @@ export const PromptVote = () => {
                       //     ...ratingGroupInput.ratingDetails,}
                       // })
                     }}
-                  >Next</AppButton>
+                  >
+                    Next
+                  </AppButton>
                   <Text style={styles.smallText}>
                     Give constructive feedback and help your Scoop friend with his profile!
                   </Text>

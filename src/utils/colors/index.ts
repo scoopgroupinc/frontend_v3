@@ -1,6 +1,8 @@
 export const WHITE = "#fff";
-export const WHITE_30 = "rgba(255,255,255,0.5)";
-export const WHITE_50 = "rgba(255,255,255,0.3)";
+export const WHITE_30 = "rgba(255,255,255,0.3)";
+export const WHITE_50 = "rgba(255,255,255,0.5)";
+export const WHITE_60 = "rgba(255,255,255,0.6)";
+export const WHITE_70 = "rgba(255,255,255,0.7)";
 export const ICE_WHITE = "#F8FBFF";
 export const ICE_WHITE_46 = "rgba(248,251,255,0.46)";
 export const BLACK = "#000";
@@ -13,7 +15,6 @@ export const TEAL = "#47C5B6";
 export const GRAY_BLUE = "#8C9FB1";
 export const DARK_GRAY_BLUE = "#5A6571";
 export const SLATE = "#4A4A68";
-const WHITE_70 = "rgba(0, 0, 0, 0.2)";
 export const TRANSPARENT = "transparent";
 
 export const ICON_FILL = GRAY_BLUE;
