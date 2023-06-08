@@ -1,5 +1,5 @@
-import React from "react";
-import { StyleSheet, View } from "react-native";
+import React, { useEffect } from "react";
+import { Alert, StyleSheet, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useAppSelector } from "../store/hooks";
@@ -12,6 +12,12 @@ const Stack = createNativeStackNavigator();
 const Navigator = () => {
   // because of persistGate, we can fetch the user from the store
   const { user } = useAppSelector((state) => state.appUser);
+
+  useEffect(() => {
+    if (user) {
+      Alert.alert(user);
+    }
+  }, [user]);
 
   return (
     <View style={{ flex: 1 }}>
