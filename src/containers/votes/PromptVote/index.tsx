@@ -15,7 +15,7 @@ import { screenName } from "../../../utils/constants";
 import { GET_PROMPTS_ORDER } from "../../../services/graphql/profile/queries";
 import { URLS } from "../../../utils/constants/apis";
 import { QuotedText } from "../../../components/atoms/QuotedText";
-import { styles } from "./style";
+import styles from "./style";
 import { AppButton } from "../../../components/atoms/AppButton";
 import { RatingSlider } from "../../../components/molecule/RatingSlider";
 import {
@@ -110,7 +110,7 @@ export const PromptVote = () => {
 
   useEffect(() => {
     // load images for the next screen
-    const fetchMatchVisuals = async () => {
+    const fetchChoiceVisuals = async () => {
       await fetch(`${URLS.FILE_URL}/api/v1/visuals/${userChoiceId}`, {
         method: "GET",
         headers: {
@@ -130,7 +130,7 @@ export const PromptVote = () => {
         .catch(() => {});
     };
 
-    fetchMatchVisuals();
+    fetchChoiceVisuals();
     // onScreenView({
     //   screenName:screenNames.ratePrompt,
     //   screenType:screenClass.matches,
@@ -209,7 +209,8 @@ export const PromptVote = () => {
                     // disabled={type1 === 0.5 || type2 === 0.5 || type3 === 0.5}
                     onPress={() => {
                       setLoading(true);
-                      saveGroupRating();
+                      // saveGroupRating();
+                      navigation.navigate(screenName.VISUAL_VOTE);
                       // logEvent({
                       //   eventName: eventNames.submitPromptRatingButton,
                       //   params:{

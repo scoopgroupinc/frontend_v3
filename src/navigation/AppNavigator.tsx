@@ -175,7 +175,6 @@ const AppNavigator = () => {
         component={ChatNavigator}
         options={{
           title: "Conversations",
-          headerShown: true,
           tabBarItemStyle: {
             height: 70,
           },

@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
-import { Colors, Spacing, Typography } from "../../../../utils";
+import { Colors, Spacing, Typography } from "../../../utils";
 
-export const styles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
@@ -14,7 +14,7 @@ export const styles = StyleSheet.create({
     alignSelf: "center",
     color: Colors.WHITE,
     fontSize: Typography.FONT_SIZE_24,
-    fontFamily: Typography.FONT_POPPINS_REGULAR,
+    fontFamily: Typography.FONT_CAPRIOLA_REGULAR,
     fontWeight: Typography.FONT_WEIGHT_BOLD,
   },
   image: {
@@ -68,3 +68,5 @@ export const styles = StyleSheet.create({
     marginTop: 20,
   },
 });
+
+export default styles;

@@ -4,7 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Image, Text, TouchableWithoutFeedback, View } from "react-native";
 
-import { styles } from "./styles";
+import styles from "./styles";
 
 const ChatHeader = ({ username, photo }: { username: string; photo: string }) => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
