@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import { Typography, Colors, Spacing } from "../../../utils";
 
-export const styles = StyleSheet.create({
+const styles = StyleSheet.create({
   label: {
     fontFamily: Typography.FONT_POPPINS_REGULAR,
     fontSize: Typography.FONT_SIZE_16,
@@ -68,3 +68,5 @@ export const styles = StyleSheet.create({
     elevation: -8,
   },
 });
+
+export default styles;

@@ -145,7 +145,8 @@ export const VisualVote = () => {
                 title="Next"
                 onPress={() => {
                   setLoading(true);
-                  saveGroupRating();
+                  // saveGroupRating();
+                  navigation.navigate(screenName.PROFILE_VIEW);
                   // logEvent({
                   //   eventName: eventNames.submit_photo_rating_button,
                   //   params: {

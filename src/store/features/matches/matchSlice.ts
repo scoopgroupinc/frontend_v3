@@ -69,6 +69,8 @@ const MatchSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase("appUser/logout", (state) => {
       state.userChoices = [];
+      state.userChoiceImages = [];
+      state.userChoicePrompts = [];
     });
   },
 });
@@ -85,8 +87,8 @@ export const {
 
 export const selectUserMatches = (state: any) => state.matches.userMatches;
 export const selectCriterias = (state: any) => state.matches.criterias;
-export const selectUserChoiceImages = (state: any) => state.matches.userMatchImages;
-export const selectUserChoicePrompts = (state: any) => state.matches.userMatchPrompts;
+export const selectUserChoiceImages = (state: any) => state.matches.userChoiceImages;
+export const selectUserChoicePrompts = (state: any) => state.matches.userChoicePrompts;
 export const selectMatchedUsers = (state: any) => state.matches.matchedUsers;
 export const selectUserChoices = (state: any) => state.matches.userChoices;
 

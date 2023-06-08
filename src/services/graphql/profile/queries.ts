@@ -143,23 +143,6 @@ export const GET_USER_CHOICES = gql`
   }
 `;
 
-export const GET_USER_MATCHES = gql`
-  query getUserMatches($userId: String!) {
-    getUserMatches(userId: $userId) {
-      id
-      matchUserId
-      userId
-      matchName
-      gender
-      visual {
-        id
-        userId
-        videoOrPhoto
-      }
-    }
-  }
-`;
-
 export const GET_RATING_BY_CONTENT = gql`
   query getRatingByContent($RatingInput: [IGetRatingInput!]!) {
     getRatingByContent(ratingInput: $RatingInput) {

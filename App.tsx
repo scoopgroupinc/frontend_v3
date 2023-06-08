@@ -2,23 +2,20 @@ import "react-native-gesture-handler";
 import React, { useEffect, useCallback } from "react";
 import { View } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import Navigator from "./src/navigation";
 import { useFonts } from "expo-font";
 import * as splashScreen from "expo-splash-screen";
-import {
-  Poppins_400Regular,
-  Poppins_700Bold,
-} from "@expo-google-fonts/poppins";
+import { Poppins_400Regular, Poppins_700Bold } from "@expo-google-fonts/poppins";
 import { Tienne_400Regular, Tienne_700Bold } from "@expo-google-fonts/tienne";
 import { Capriola_400Regular } from "@expo-google-fonts/capriola";
 import { Provider } from "react-redux";
-import { persistor, store } from "./src/store";
 import { ApolloProvider } from "@apollo/client";
-import { client } from "./src/services/api/client";
 import { PersistGate } from "redux-persist/integration/react";
 import { PaperProvider } from "react-native-paper";
+import { client } from "./src/services/api/client";
+import { persistor, store } from "./src/store";
+import Navigator from "./src/navigation";
 
-export default function App() {
+const App = () => {
   const [fontsLoaded] = useFonts({
     Poppins_400Regular,
     Poppins_700Bold,
@@ -74,4 +71,6 @@ export default function App() {
       </ApolloProvider>
     </SafeAreaProvider>
   );
-}
+};
+
+export default App;

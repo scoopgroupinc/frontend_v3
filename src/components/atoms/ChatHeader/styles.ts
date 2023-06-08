@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import { Colors } from "../../../utils";
 
-export const styles = StyleSheet.create({
+const styles = StyleSheet.create({
   backBtn: {
     flexDirection: "row",
     justifyContent: "flex-start",
@@ -22,3 +22,5 @@ export const styles = StyleSheet.create({
   },
   chatImage: { width: 40, height: 40, borderRadius: 20 },
 });
+
+export default styles;

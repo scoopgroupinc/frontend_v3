@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import { Typography } from "../../../utils";
 
-export const styles = StyleSheet.create({
+const styles = StyleSheet.create({
   subHeader: {
     backgroundColor: "#ff7648",
     color: "white",
@@ -39,3 +39,5 @@ export const styles = StyleSheet.create({
     backgroundColor: "white",
   },
 });
+
+export default styles;

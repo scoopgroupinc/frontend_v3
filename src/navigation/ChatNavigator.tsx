@@ -1,21 +1,60 @@
-import React from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect } from "react";
 import { createStackNavigator } from "@react-navigation/stack";
+import { useQuery } from "@apollo/client";
 import { screenName } from "../utils/constants";
 import Conversations from "../containers/chat/Conversations";
-import Messages from "../containers/chat/Messages";
+import { GET_USER_MATCHES } from "../services/graphql/chat/queries";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { setUserMatches } from "../store/features/matches/matchSlice";
+import { selectUser } from "../store/features/user/userSlice";
 
 const ChatStack = createStackNavigator();
 
-const ChatNavigator = () => (
-  <ChatStack.Navigator
-    screenOptions={{
-      headerShown: false,
-    }}
-    initialRouteName={screenName.CONVERSATIONS}
-  >
-    <ChatStack.Screen name={screenName.CONVERSATIONS} component={Conversations} />
-    <ChatStack.Screen name={screenName.MESSAGES} component={Messages} />
-  </ChatStack.Navigator>
-);
+const ChatNavigator = () => {
+  const { user } = useAppSelector(selectUser);
+  const dispatch = useAppDispatch();
+
+  const { data: userMatchesData, refetch: userMatchesRefetch } = useQuery(GET_USER_MATCHES, {
+    variables: {
+      userId: user?.userId,
+    },
+  });
+
+  const componentDidMount = () => {
+    userMatchesRefetch();
+  };
+
+  useEffect(() => {
+    componentDidMount();
+  }, []);
+
+  useEffect(() => {
+    if (userMatchesData) {
+      dispatch(
+        setUserMatches({
+          userMatches: userMatchesData.getUserMatches,
+        })
+      );
+    }
+  }, [userMatchesData, dispatch]);
+
+  return (
+    <ChatStack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+      initialRouteName={screenName.CONVERSATIONS}
+    >
+      <ChatStack.Screen
+        options={{
+          headerShown: true,
+        }}
+        name={screenName.CONVERSATIONS}
+        component={Conversations}
+      />
+    </ChatStack.Navigator>
+  );
+};
 
 export default ChatNavigator;

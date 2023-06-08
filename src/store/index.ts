@@ -1,18 +1,10 @@
 import { combineReducers, configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {
-  FLUSH,
-  PAUSE,
-  PERSIST,
-  PURGE,
-  REGISTER,
-  REHYDRATE,
-  persistReducer,
-  persistStore,
-} from "redux-persist";
+import { persistReducer, persistStore } from "redux-persist";
 import UserSlice from "./features/user/userSlice";
 import PromptSlice from "./features/prompts/promptsSlice";
 import MatchSlice from "./features/matches/matchSlice";
+import MessagesSlice from "./features/messages/MessagesSlice";
 
 const persistConfig = {
   key: "root",
@@ -24,6 +16,7 @@ const rootReducer = combineReducers({
   appUser: UserSlice,
   appPrompts: PromptSlice,
   matches: MatchSlice,
+  messages: MessagesSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -31,9 +24,10 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 export const store = configureStore({
   reducer: persistedReducer,
   middleware: getDefaultMiddleware({
-    serializableCheck: {
-      ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-    },
+    serializableCheck: false,
+    // {
+    //   ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+    // },
   }),
 });
 

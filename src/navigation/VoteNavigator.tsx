@@ -4,7 +4,7 @@ import { screenName } from "../utils/constants";
 import { PromptVote } from "../containers/votes/PromptVote";
 import { VisualVote } from "../containers/votes/VisualVote";
 import { ProfileView } from "../containers/votes/ProfileView";
-import { MatchScreen } from "../containers/votes/MatchScreen";
+import MatchScreen from "../containers/votes/MatchScreen";
 import { ComeBackTomorrow } from "../containers/votes/ComeBackTomorrow";
 import { useAppSelector } from "../store/hooks";
 import { selectUserChoices } from "../store/features/matches/matchSlice";

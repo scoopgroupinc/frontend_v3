@@ -1,6 +1,6 @@
 const URLS = {
   CLIENT_URL: "http://54.242.81.114:4000",
-  CHATSERVICE_BASE_URL: "http://scoopchat-prod.eba-h4ysimb3.us-east-1.elasticbeanstalk.com",
+  CHATSERVICE_BASE_URL: "http://scoopchat-dev.eba-cqqr2rky.us-east-1.elasticbeanstalk.com",
   FILE_URL: "http://3.86.224.191:4040",
   // NOTIFICATION_URL: 'http://scoopnotification-dev.eba-imimithn.us-east-1.elasticbeanstalk.com',
 };
