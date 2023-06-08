@@ -42,14 +42,6 @@ const styles = StyleSheet.create({
     color: Colors.WHITE_30,
     marginBottom: "-10%",
   },
-  title: {
-    color: Colors.WHITE,
-    fontSize: Typography.FONT_SIZE_30,
-    fontFamily: Typography.FONT_CAPRIOLA_REGULAR,
-    marginTop: Spacing.SCALE_8,
-    marginBottom: Spacing.SCALE_18,
-    letterSpacing: Spacing.SCALE_2,
-  },
 });
 
 export default styles;

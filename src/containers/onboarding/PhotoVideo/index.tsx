@@ -5,6 +5,7 @@ import * as FileSystem from "expo-file-system";
 import { ProgressBar } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { Heading, VStack } from "native-base";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { styles } from "./styles";
 import AppActivityIndicator from "../../../components/atoms/ActivityIndicator";
@@ -14,7 +15,6 @@ import { screenName } from "../../../utils/constants";
 import { AppButton } from "../../../components/atoms/AppButton";
 import { MediaContainer } from "../../../components/molecule/MediaContainer";
 import { setUserVisuals } from "../../../store/features/user/userSlice";
-import { Heading, VStack } from "native-base";
 
 export const PhotoVideoScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();

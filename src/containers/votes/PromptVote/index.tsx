@@ -7,6 +7,7 @@ import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { Heading } from "native-base";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { selectUser } from "../../../store/features/user/userSlice";
 import { Colors, Spacing } from "../../../utils";
@@ -24,7 +25,6 @@ import {
   setUserChoicePrompts,
 } from "../../../store/features/matches/matchSlice";
 import AppActivityIndicator from "../../../components/atoms/ActivityIndicator";
-import { Heading } from "native-base";
 
 export const PromptVote = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();

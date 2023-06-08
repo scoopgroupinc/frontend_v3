@@ -4,6 +4,7 @@ import { ProgressBar } from "react-native-paper";
 import { useMutation } from "@apollo/client";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { Heading, VStack } from "native-base";
 import { styles } from "./styles";
 import { SelectButtons } from "../../../components/layouts/SelectButtons";
 import { AppButton } from "../../../components/atoms/AppButton";
@@ -13,7 +14,6 @@ import { screenName } from "../../../utils/constants";
 import { GradientLayout } from "../../../components/layouts/GradientLayout";
 import { Colors } from "../../../utils";
 import AppActivityIndicator from "../../../components/atoms/ActivityIndicator";
-import { Heading, VStack } from "native-base";
 
 export const DateWhoScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();

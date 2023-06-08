@@ -4,6 +4,7 @@ import { useMutation } from "@apollo/client";
 import { ProgressBar } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { Heading, VStack } from "native-base";
 import { styles } from "./styles";
 import { useAppSelector } from "../../../store/hooks";
 import { SAVE_USER_GENDER } from "../../../services/graphql/profile/mutations";
@@ -11,7 +12,6 @@ import { screenName } from "../../../utils/constants";
 import { GradientLayout } from "../../../components/layouts/GradientLayout";
 import { AppButton } from "../../../components/atoms/AppButton";
 import { SelectButtons } from "../../../components/layouts/SelectButtons";
-import { Heading, VStack } from "native-base";
 
 export const GenderScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();

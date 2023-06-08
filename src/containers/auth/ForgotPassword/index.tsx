@@ -6,6 +6,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
+import { Heading, VStack } from "native-base";
 import { FORGOT_PASSWORD } from "../../../services/graphql/auth/mutations";
 import { GradientLayout } from "../../../components/layouts/GradientLayout";
 import FormField from "../../../components/molecule/FormField";
@@ -13,7 +14,6 @@ import { AppButton } from "../../../components/atoms/AppButton";
 import { OTPInputModal } from "../../../components/templates/OTPInputModal";
 import AppActivityIndicator from "../../../components/atoms/ActivityIndicator";
 import { screenName } from "../../../utils/constants";
-import { Heading, VStack } from "native-base";
 
 const ForgotPassword = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();

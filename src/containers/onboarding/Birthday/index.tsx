@@ -5,6 +5,7 @@ import { useMutation } from "@apollo/client";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import moment from "moment";
+import { Heading, VStack } from "native-base";
 import { useAppSelector } from "../../../store/hooks";
 import { styles } from "./styles";
 import { SAVE_USER_BIRTHDAY } from "../../../services/graphql/onboarding/mutations";
@@ -13,7 +14,6 @@ import AppActivityIndicator from "../../../components/atoms/ActivityIndicator";
 import { GradientLayout } from "../../../components/layouts/GradientLayout";
 import { AppButton } from "../../../components/atoms/AppButton";
 import { DateSpinner } from "../../../components/atoms/DateSpinner";
-import { Heading, VStack } from "native-base";
 
 export const OnboardBirthdayScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View } from "react-native";
-import { Heading } from "native-base";
+import { Heading , VStack } from "native-base";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -20,7 +20,6 @@ import { OTPInputModal } from "../../../components/templates/OTPInputModal";
 import { useAppDispatch } from "../../../store/hooks";
 import { setUser, updateUser } from "../../../store/features/user/userSlice";
 import { storeStringData } from "../../../utils/storage";
-import { VStack } from "native-base";
 
 const CreateAccount = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();

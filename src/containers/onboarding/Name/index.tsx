@@ -8,6 +8,7 @@ import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { Heading, VStack } from "native-base";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { SAVE_USER_NAME } from "../../../services/graphql/onboarding/mutations";
 import { screenName } from "../../../utils/constants";
@@ -19,7 +20,6 @@ import { AppButton } from "../../../components/atoms/AppButton";
 import { Colors } from "../../../utils";
 import AppActivityIndicator from "../../../components/atoms/ActivityIndicator";
 import { updateUser } from "../../../store/features/user/userSlice";
-import { Heading, VStack } from "native-base";
 
 export type UserData = {
   firstname: string;

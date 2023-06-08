@@ -7,6 +7,7 @@ import * as yup from "yup";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useMutation } from "@apollo/client";
+import { Heading, VStack } from "native-base";
 import { AppButton } from "../../../components/atoms/AppButton";
 import FormField from "../../../components/molecule/FormField";
 import { styles } from "./styles";
@@ -19,7 +20,6 @@ import { storeStringData } from "../../../utils/storage";
 import { OTPInputModal } from "../../../components/templates/OTPInputModal";
 import { Colors } from "../../../utils";
 import { screenName } from "../../../utils/constants";
-import { Heading, VStack } from "native-base";
 
 const LoginScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
