@@ -10,6 +10,7 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     flex: 1,
     justifyContent: "flex-end",
+    width: "100%"
   },
   title: {
     color: Colors.WHITE,
@@ -24,13 +25,5 @@ export const styles = StyleSheet.create({
     fontSize: Typography.FONT_SIZE_18,
     fontFamily: Typography.FONT_POPPINS_REGULAR,
     letterSpacing: Spacing.SCALE_2,
-  },
-  link: {
-    fontFamily: Typography.FONT_CAPRIOLA_REGULAR,
-    color: Colors.WHITE,
-    textDecorationLine: "none",
-    fontSize: Typography.FONT_SIZE_16,
-    paddingTop: Spacing.SCALE_12,
-    paddingBottom: Spacing.SCALE_12,
   },
 });

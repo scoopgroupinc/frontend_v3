@@ -101,12 +101,11 @@ export const OnboardBirthdayScreen = () => {
               <DateSpinner getAge={setAge} getDate={setDate} />
             </View>
             <AppButton
-              title="Next"
-              disabled={
+              isDisabled={
                 moment(date).format("YYYY-MM-DD") === moment(new Date()).format("YYYY-MM-DD")
               }
               onPress={() => DateAlert()}
-            />
+            >Next</AppButton>
           </View>
         </View>
       </GradientLayout>

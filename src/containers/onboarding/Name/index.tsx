@@ -148,15 +148,16 @@ export const OnboardName = () => {
               />
             </View>
             <AppButton
-              title="Next"
               style={{
                 bottom: 0,
                 backgroundColor:
                   errors.firstname || errors.lastname ? "transparent" : Colors.ICE_WHITE,
               }}
-              bgColor={Colors.ICE_WHITE}
+              isDisabled={errors.firstname || errors.lastname}
               onPress={handleSubmit(saveUserNames)}
-            />
+            >
+              Next
+            </AppButton>
           </View>
         </KeyboardAwareScrollView>
       </GradientLayout>

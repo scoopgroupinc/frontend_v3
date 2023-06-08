@@ -141,8 +141,7 @@ export const VisualVote = () => {
                 />
               </View>
               <AppButton
-                // disabled={type1 === 0.5 || type2 === 0.5 || type3 === 0.5}
-                title="Next"
+                // isDisabled={type1 === 0.5 || type2 === 0.5 || type3 === 0.5}
                 onPress={() => {
                   setLoading(true);
                   // saveGroupRating();
@@ -156,7 +155,7 @@ export const VisualVote = () => {
                   //   },
                   // });
                 }}
-              />
+              >Next</AppButton>
             </View>
           </ScrollView>
         </KeyboardAwareScrollView>

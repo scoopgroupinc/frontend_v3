@@ -103,11 +103,9 @@ export const HeightScreen = () => {
               }}
             />
           </View>
-          <AppButton
-            title="Next"
-            disabled={!!(heightFt && heightCm === 5.1)}
-            onPress={saveUserHeight}
-          />
+          <AppButton isDisabled={!!(heightFt && heightCm === 5.1)} onPress={saveUserHeight}>
+            Next
+          </AppButton>
         </View>
       </GradientLayout>
     </>

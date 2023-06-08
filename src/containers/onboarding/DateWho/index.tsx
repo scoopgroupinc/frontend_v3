@@ -68,7 +68,9 @@ export const DateWhoScreen = () => {
               <SelectButtons titles={["male", "female", "bisexual"]} funk={setMate} />
             </View>
           </View>
-          <AppButton title="Next" disabled={mate === ""} onPress={saveGenderPreference} />
+          <AppButton isDisabled={mate === ""} onPress={saveGenderPreference}>
+            Next
+          </AppButton>
         </View>
       </GradientLayout>
     </>

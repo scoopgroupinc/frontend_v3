@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity, Alert } from "react-native";
+import { View } from "react-native";
+import { Heading } from "native-base";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -19,6 +20,7 @@ import { OTPInputModal } from "../../../components/templates/OTPInputModal";
 import { useAppDispatch } from "../../../store/hooks";
 import { setUser, updateUser } from "../../../store/features/user/userSlice";
 import { storeStringData } from "../../../utils/storage";
+import { VStack } from "native-base";
 
 const CreateAccount = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
@@ -100,7 +102,7 @@ const CreateAccount = () => {
         <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
           <View style={{ flex: 1, marginBottom: "3%" }}>
             <View>
-              <Text style={styles.title}>Sign Up</Text>
+              <Heading>Sign Up</Heading>
             </View>
             <FormField
               control={control}
@@ -150,17 +152,18 @@ const CreateAccount = () => {
               inputType="password"
               msg={errors?.confirmPassword?.message}
             />
-            <View style={styles.btnContainer}>
+            <VStack style={styles.btnContainer} space={4}>
               <AppButton
                 bgColor={Colors.ICE_WHITE}
-                disabled={!!(errors.email || errors.password || errors.confirmPassword)}
-                title="Submit"
+                isDisabled={!!(errors.email || errors.password || errors.confirmPassword)}
                 onPress={handleSubmit(createUserAccount)}
-              />
-              <TouchableOpacity onPress={() => navigation.navigate(screenName.LOGIN)}>
-                <Text style={styles.link}>Sign In</Text>
-              </TouchableOpacity>
-            </View>
+              >
+                Submit
+              </AppButton>
+              <AppButton variant="ghost" onPress={() => navigation.navigate(screenName.LOGIN)}>
+                Sign In
+              </AppButton>
+            </VStack>
           </View>
         </KeyboardAwareScrollView>
         {modalState === true && (

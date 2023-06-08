@@ -205,8 +205,7 @@ export const PromptVote = () => {
                   </View>
 
                   <AppButton
-                    title="Next"
-                    // disabled={type1 === 0.5 || type2 === 0.5 || type3 === 0.5}
+                    isDisabled={type1 === 0.5 || type2 === 0.5 || type3 === 0.5}
                     onPress={() => {
                       setLoading(true);
                       // saveGroupRating();
@@ -219,7 +218,7 @@ export const PromptVote = () => {
                       //     ...ratingGroupInput.ratingDetails,}
                       // })
                     }}
-                  />
+                  >Next</AppButton>
                   <Text style={styles.smallText}>
                     Give constructive feedback and help your Scoop friend with his profile!
                   </Text>
