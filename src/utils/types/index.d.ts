@@ -51,3 +51,5 @@ export interface PromptsOrder {
 export interface GetUserPrompts {
   getAllUserPrompts: UserPrompts[];
 }
+
+declare module 'react-native-smooth-pincode-input';
