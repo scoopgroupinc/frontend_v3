@@ -177,20 +177,23 @@ export const OTPInputModal = ({
                 bgColor={Colors.TEAL}
                 style={styles.buttonResend}
                 onPress={handleResend}
-              >Resend code</AppButton>
+              >
+                Resend code
+              </AppButton>
             </View>
           </View>
 
           <AppButton
-            bgColor={Colors.RUST}
             style={{
               borderWidth: 1,
               borderColor: Colors.RUST,
               backgroundColor: Colors.RUST,
             }}
-            disabled={code === ""}
+            isDisabled={code === ""}
             onPress={forgotPass ? verifyRstPassOtp : verifyOtp}
-          >Verify</AppButton>
+          >
+            Verify
+          </AppButton>
         </View>
       </KeyboardAwareScrollView>
     </SlideUpModal>
