@@ -3,11 +3,19 @@ import { Colors, Spacing, Typography } from "../../../utils";
 
 export const styles = StyleSheet.create({
   textContainer: {
+    width: "100%",
     marginTop: Spacing.SCALE_24,
-    borderWidth: 1,
-    borderColor: Colors.BLACK,
     padding: Spacing.SCALE_20,
     borderRadius: Spacing.SCALE_16,
+  },
+  textContainerBg: {
+    position: "absolute",
+    width: "100%",
+    marginTop: Spacing.SCALE_24,
+    padding: Spacing.SCALE_20,
+    backgroundColor: Colors.WHITE_30,
+    borderRadius: Spacing.SCALE_16,
+    opacity: 0.8,
   },
   title: {
     color: Colors.BLACK,

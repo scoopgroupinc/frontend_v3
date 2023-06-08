@@ -13,6 +13,7 @@ import { screenName } from "../../../utils/constants";
 import { GradientLayout } from "../../../components/layouts/GradientLayout";
 import { Colors } from "../../../utils";
 import AppActivityIndicator from "../../../components/atoms/ActivityIndicator";
+import { Heading, VStack } from "native-base";
 
 export const DateWhoScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
@@ -62,12 +63,12 @@ export const DateWhoScreen = () => {
       <GradientLayout>
         <View style={styles.container}>
           <ProgressBar progress={0.3} color="#0E0E2C" />
-          <View style={styles.genderContainer}>
-            <Text style={styles.genderTitle}>Which gender do you want to be matched with?</Text>
+          <VStack space={24} style={styles.genderContainer}>
+            <Heading>Which gender do you want to be matched with?</Heading>
             <View style={styles.genderTypesContainer}>
               <SelectButtons titles={["male", "female", "bisexual"]} funk={setMate} />
             </View>
-          </View>
+          </VStack>
           <AppButton isDisabled={mate === ""} onPress={saveGenderPreference}>
             Next
           </AppButton>

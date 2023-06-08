@@ -15,12 +15,6 @@ export const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "space-between",
   },
-  dobTitle: {
-    fontFamily: Typography.FONT_CAPRIOLA_REGULAR,
-    fontSize: Typography.FONT_SIZE_30,
-    color: Colors.WHITE,
-    marginBottom: Spacing.SCALE_16,
-  },
   dobSubTitle: {
     fontFamily: Typography.FONT_CAPRIOLA_REGULAR,
     fontSize: Typography.FONT_SIZE_16,

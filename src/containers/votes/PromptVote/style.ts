@@ -40,12 +40,6 @@ const styles = StyleSheet.create({
     fontSize: Typography.FONT_SIZE_16,
     paddingBottom: Spacing.SCALE_2,
   },
-  title: {
-    color: Colors.WHITE,
-    alignSelf: "flex-start",
-    fontFamily: Typography.FONT_CAPRIOLA_REGULAR,
-    fontSize: Typography.FONT_SIZE_24,
-  },
   input: {
     borderWidth: 4,
     width: "100%",

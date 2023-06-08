@@ -1,8 +1,7 @@
 import "react-native-gesture-handler";
 import React, { useEffect, useCallback } from "react";
-import { View, Alert } from "react-native";
+import { View } from "react-native";
 import { NativeBaseProvider, extendTheme } from "native-base";
-import Navigator from "./src/navigation";
 import { useFonts } from "expo-font";
 import * as splashScreen from "expo-splash-screen";
 import {

@@ -19,6 +19,7 @@ import { AppButton } from "../../../components/atoms/AppButton";
 import { Colors } from "../../../utils";
 import AppActivityIndicator from "../../../components/atoms/ActivityIndicator";
 import { updateUser } from "../../../store/features/user/userSlice";
+import { Heading, VStack } from "native-base";
 
 export type UserData = {
   firstname: string;
@@ -125,10 +126,10 @@ export const OnboardName = () => {
             }}
           >
             <ProgressBar style={{ marginTop: "3%" }} progress={0.1} color="#0E0E2C" />
-            <View>
-              <Text style={styles.title}>What's your name?</Text>
+            <VStack space={8}>
+              <Heading>What's your name?</Heading>
               <Text style={styles.subTitle}>This can't be changed later</Text>
-            </View>
+            </VStack>
             <View style={styles.fieldContainer}>
               <FieldComponent
                 control={control}
@@ -148,12 +149,7 @@ export const OnboardName = () => {
               />
             </View>
             <AppButton
-              style={{
-                bottom: 0,
-                backgroundColor:
-                  errors.firstname || errors.lastname ? "transparent" : Colors.ICE_WHITE,
-              }}
-              isDisabled={errors.firstname || errors.lastname}
+              isDisabled={!!(errors.firstname || errors.lastname)}
               onPress={handleSubmit(saveUserNames)}
             >
               Next

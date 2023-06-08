@@ -14,6 +14,7 @@ import { screenName } from "../../../utils/constants";
 import { AppButton } from "../../../components/atoms/AppButton";
 import { MediaContainer } from "../../../components/molecule/MediaContainer";
 import { setUserVisuals } from "../../../store/features/user/userSlice";
+import { Heading, VStack } from "native-base";
 
 export const PhotoVideoScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
@@ -102,16 +103,14 @@ export const PhotoVideoScreen = () => {
     <>
       <AppActivityIndicator visible={isLoading} />
       <GradientLayout>
-        <View style={styles.container}>
-          <ProgressBar progress={0.6} color="#0E0E2C" />
-          <View style={styles.photoContainer}>
-            <Text style={styles.text}>Photos & Videos</Text>
+          <VStack space={12}>
+            <ProgressBar progress={0.6} color="#0E0E2C" />
+            <Heading>Photos & Videos</Heading>
             <MediaContainer images={allImages} onAddImage={handleImages} />
-          </View>
-          <AppButton isDisabled={allImages.length < 1} onPress={() => saveImages()}>
-            "Upload Photos"
-          </AppButton>
-        </View>
+            <AppButton isDisabled={allImages.length < 1} onPress={() => saveImages()}>
+              Upload Photos
+            </AppButton>
+          </VStack>
       </GradientLayout>
     </>
   );

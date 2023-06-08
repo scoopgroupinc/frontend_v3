@@ -24,6 +24,7 @@ import {
   setUserChoicePrompts,
 } from "../../../store/features/matches/matchSlice";
 import AppActivityIndicator from "../../../components/atoms/ActivityIndicator";
+import { Heading } from "native-base";
 
 export const PromptVote = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
@@ -169,7 +170,7 @@ export const PromptVote = () => {
                 }}
               >
                 <View style={{ marginTop: Spacing.SCALE_8 }} />
-                <Text style={styles.title}>Give Feedback</Text>
+                <Heading>Give Feedback</Heading>
                 <QuotedText {...quote} />
                 <View style={{ width: "100%" }}>
                   <View style={styles.sliderContainer}>
