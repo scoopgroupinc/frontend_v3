@@ -1,5 +1,6 @@
+/* eslint-disable import/prefer-default-export */
 import React, { useState, useEffect } from "react";
-import { View, Text, Alert, Pressable } from "react-native";
+import { View, Text, Alert } from "react-native";
 import { useMutation } from "@apollo/client";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import SmoothPinCodeInput from "react-native-smooth-pincode-input";
@@ -49,12 +50,9 @@ export const OTPInputModal = ({
   const [showResend, setShowResend] = useState<boolean>(false);
   const [code, setCode] = useState<string>("");
 
-  const dispatch = useAppDispatch();
-
   const [resendActivationCode] = useMutation(forgotPass ? FORGOT_PASSWORD : RESEND_ACTIVATION_CODE);
-  const [activateAccount, { loading }] = useMutation(ACTIVATE_ACCOUNT);
-  const [verifyRstPassCode, { loading: verifyRstPassCodeLoading }] =
-    useMutation(VERIFY_PASSWORD_CHANGE);
+  const [activateAccount] = useMutation(ACTIVATE_ACCOUNT);
+  const [verifyRstPassCode] = useMutation(VERIFY_PASSWORD_CHANGE);
 
   useEffect(() => {
     // onScreenView({
@@ -97,21 +95,23 @@ export const OTPInputModal = ({
     //   eventName: eventNames.submitOtpButton,
     //   params: {email: userData.email},
     // })
-    // try {
-    //   await verifyRstPassCode({
-    //     variables: {
-    //       email: userData.email,
-    //       code: Number(code),
-    //     },
-    //   })
-    //     .then(async (res) => {
-    //       if (res?.data?.verifyPasswordResetCode?.message === "Code verified") {
-    //         await storeStringData("userToken", res?.data?.login?.token);
-    //         return next();
-    //       }
-    //     })
-    //     .catch((err) => {});
-    // } catch (error) {}
+    try {
+      await verifyRstPassCode({
+        variables: {
+          email: userData.email,
+          code: Number(code),
+        },
+      })
+        .then(async (res) => {
+          if (res?.data?.verifyPasswordResetCode?.message === "Code verified") {
+            await storeStringData("userToken", res?.data?.verifyPasswordResetCode?.token);
+            return next();
+          }
+        })
+        .catch(() => {});
+    } catch (e) {
+      /**  */
+    }
   };
 
   const verifyOtp = async () => {
@@ -131,7 +131,9 @@ export const OTPInputModal = ({
           return next(res);
         }
       });
-    } catch (err) {}
+    } catch (err) {
+      /**  */
+    }
   };
 
   return (
