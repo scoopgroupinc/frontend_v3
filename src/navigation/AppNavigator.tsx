@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unstable-nested-components */
 import React, { useEffect } from "react";
 import axios from "axios";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -6,16 +7,16 @@ import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import { useQuery } from "@apollo/client";
 import VoteNavigator from "./VoteNavigator";
 import { screenName } from "../utils/constants";
-import ProfileNavigator from "./ProfileNavigator";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { Colors } from "../utils";
-import Conversations from "../containers/chat/Conversations";
 // import VoteOnboardNavigator from "./VoteOnboardNavigator";
 import { setUserVisuals } from "../store/features/user/userSlice";
 import { URLS } from "../utils/constants/apis";
 import { OnboardNavigator } from "./OnboardNavigator";
 import { GET_PROMPTS } from "../services/graphql/profile/queries";
 import { setAllPrompts } from "../store/features/prompts/promptsSlice";
+import { Home } from "../containers/home";
+import ChatNavigator from "./ChatNavigator";
 
 const AppTabStack = createBottomTabNavigator();
 
@@ -140,8 +141,8 @@ const AppNavigator = () => {
         }}
       />
       <AppTabStack.Screen
-        name={screenName.PROFILE}
-        component={ProfileNavigator}
+        name={screenName.HOME}
+        component={Home}
         options={{
           tabBarIcon: ({ focused }) => (
             <View
@@ -170,8 +171,8 @@ const AppNavigator = () => {
       />
 
       <AppTabStack.Screen
-        name={screenName.CONVERSATIONS}
-        component={Conversations}
+        name={screenName.CHAT_NAVIGATOR}
+        component={ChatNavigator}
         options={{
           title: "Conversations",
           headerShown: true,
