@@ -14,6 +14,7 @@ const screenName = {
   HOME_NAVIGATOR: "HomeNavigator",
   ONBOARD_NAVIGATOR: "OnboardNavigator",
   VOTE_ONBOARD_NAVIGATOR: "VoteOnboardNavigator",
+  PROFILE_NAVIGATOR: "ProfileNavigator",
 
   // ONBOARD_NAVIGATION
   NAME: "OnboardName",

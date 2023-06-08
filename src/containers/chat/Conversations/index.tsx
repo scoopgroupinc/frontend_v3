@@ -1,3 +1,3 @@
-const Conversations = () => {};
+const Conversations = () => <></>;
 
 export default Conversations;

@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 /* eslint-disable import/prefer-default-export */
 import React, { useEffect, useState } from "react";
 import { ImageBackground, ScrollView, Text, View, Image, Dimensions } from "react-native";
@@ -6,9 +7,11 @@ import { useNavigation } from "@react-navigation/native";
 import { useMutation } from "@apollo/client";
 import { screenName } from "../../../utils/constants";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
-import { styles } from "./style";
+import styles from "./style";
 import {
   RemoveActiveChoice,
+  selectUserChoiceImages,
+  selectUserChoicePrompts,
   selectUserChoices,
   setMatchedUsers,
 } from "../../../store/features/matches/matchSlice";
@@ -26,8 +29,8 @@ export const ProfileView = () => {
 
   const userChoices = useAppSelector(selectUserChoices);
   const userProfile = userChoices[0].profile;
-  const userPrompts = userChoices[0].prompt;
-  const allImages = userChoices[0].visual;
+  const userPrompts = useAppSelector(selectUserChoicePrompts);
+  const allImages = useAppSelector(selectUserChoiceImages);
 
   const [handleLikeDislike] = useMutation(USER_SWIPER_ACTION);
 
@@ -63,9 +66,7 @@ export const ProfileView = () => {
           navigation.popToTop();
         }
       },
-      onError: (e) => {
-        console.log("error", e);
-      },
+      onError: () => {},
     });
   };
 
@@ -101,7 +102,7 @@ export const ProfileView = () => {
     const companyString = company?.userTags[0]?.tagName ? `@ ${company?.userTags[0]?.tagName}` : "";
     const job = userProfile?.find((item: any) => item.tagType === "job");
     const jobString = job?.userTags[0]?.tagName ? `${job?.userTags[0]?.tagName} ` : "";
-    if (job?.userTags[0]?.tagName != "" && job?.visible) {
+    if (job?.userTags[0]?.tagName !== "" && job?.visible) {
       return (
         <Text style={[styles.descriptionText]}>
           {userProfile?.find((item: any) => item.tagType === "job")?.emoji}
@@ -362,12 +363,12 @@ export const ProfileView = () => {
   };
 
   const getParentingGoalDetails = () => {
-    const parenting_goal = userProfile?.find((item: any) => item.tagType === "parenting_goal");
-    const parenting_goal_name = parenting_goal?.userTags[0]?.tagName;
-    if (parenting_goal?.visible && parenting_goal_name) {
+    const parentingGoal = userProfile?.find((item: any) => item.tagType === "parentingGoal");
+    const parentingGoalName = parentingGoal?.userTags[0]?.tagName;
+    if (parentingGoal?.visible && parentingGoalName) {
       return (
         <Text style={[styles.descriptionText]}>
-          {parenting_goal?.emoji} {parenting_goal_name}
+          {parentingGoal?.emoji} {parentingGoalName}
         </Text>
       );
     }
@@ -440,40 +441,36 @@ export const ProfileView = () => {
   };
 
   const getRelationshipGoalsDetails = () => {
-    const relationship_goal = userProfile?.find(
-      (item: any) => item.tagType === "relationship_goal"
-    );
-    const relationship_goal_name = relationship_goal?.userTags[0]?.tagName;
-    if (relationship_goal?.visible && relationship_goal_name) {
+    const relationshipGoal = userProfile?.find((item: any) => item.tagType === "relationship_goal");
+    const relationshipGoalName = relationshipGoal?.userTags[0]?.tagName;
+    if (relationshipGoal?.visible && relationshipGoalName) {
       return (
         <Text style={[styles.descriptionText]}>
-          {relationship_goal?.emoji} {relationship_goal_name}
+          {relationshipGoal?.emoji} {relationshipGoalName}
         </Text>
       );
     }
   };
 
   const getRelationshipTypesDetails = () => {
-    const relationship_type = userProfile?.find(
-      (item: any) => item.tagType === "relationship_type"
-    );
-    const relationship_type_name = relationship_type?.userTags[0]?.tagName;
-    if (relationship_type?.visible && relationship_type_name) {
+    const relationshipType = userProfile?.find((item: any) => item.tagType === "relationship_type");
+    const relationshipTypeName = relationshipType?.userTags[0]?.tagName;
+    if (relationshipType?.visible && relationshipTypeName) {
       return (
         <Text style={[styles.descriptionText]}>
-          {relationship_type?.emoji} {relationship_type_name}
+          {relationshipType?.emoji} {relationshipTypeName}
         </Text>
       );
     }
   };
 
   const getCannabisDetails = () => {
-    const cannibis_usage = userProfile?.find((item: any) => item.tagType === "cannibis_usage");
-    const cannibis_usage_name = cannibis_usage?.userTags[0]?.tagName;
-    if (cannibis_usage?.visible && cannibis_usage_name) {
+    const cannibisUsage = userProfile?.find((item: any) => item.tagType === "cannibis_usage");
+    const cannibisUsageName = cannibisUsage?.userTags[0]?.tagName;
+    if (cannibisUsage?.visible && cannibisUsageName) {
       return (
         <Text style={[styles.descriptionText]}>
-          {cannibis_usage?.emoji} {cannibis_usage_name}
+          {cannibisUsage?.emoji} {cannibisUsageName}
         </Text>
       );
     }
@@ -481,10 +478,18 @@ export const ProfileView = () => {
 
   useEffect(() => {
     const mergeData = () => {
-      if (allImages && allImages.length > 0) {
+      if (userPrompts.length > 0 && allImages.length > 0) {
+        // get the max length of the two arrays
+        const maxLength = Math.max(
+          userPrompts.filter((x: any) => x.answer !== "").length,
+          allImages.length
+        );
+
         setMerged([]);
-        for (let i = 0; i < allImages.length; i++) {
-          setMerged((prev: any) => [...prev, { type: "image", image: allImages[i] }]);
+        for (let i = 0; i < maxLength; i++) {
+          if (allImages[i]) {
+            setMerged((prev: any) => [...prev, { type: "image", image: allImages[i] }]);
+          }
           if (userPrompts[i]) {
             if (userPrompts[i].answer !== "") {
               setMerged((prev: any) => [...prev, { type: "prompt", prompt: userPrompts[i] }]);
@@ -503,9 +508,9 @@ export const ProfileView = () => {
     };
     mergeData();
     // onScreenView({
-    //   screenName:screenNames.profileView,
-    //   screenType:screenClass.matches,
-    // })
+    //   screenName: screenNames.profileView,
+    //   screenType: screenClass.profile,
+    // });
   }, [allImages, userPrompts]);
 
   return (
