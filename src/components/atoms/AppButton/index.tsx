@@ -1,8 +1,6 @@
 import React from "react";
-import { Pressable, Text, ViewStyle } from "react-native";
+import { ViewStyle } from "react-native";
 import { Button, IButtonProps } from "native-base";
-import { FONT_FAMILY } from "../../../utils/typography/fonts";
-import { styles } from "./styles";
 
 export interface ButtonType {
   title: string;
