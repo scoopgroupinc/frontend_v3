@@ -17,7 +17,7 @@ import { AppButton } from "../../atoms/AppButton";
 import { SlideUpModal } from "../../layouts/SlideUpModal";
 import { storeStringData } from "../../../utils/storage";
 // TODO: replace with a more manged component that doesnt use deprecated ViewPropTypes, breaks web view
-// when removed make sure to delete typings/react-native-smooth-pincode-input.d.ts
+// when removed make sure to delete src/types/index.d.tx declare of react-native-smooth-pincode-input
 import { setUser } from "../../../store/features/user/userSlice";
 
 type UserData = {
@@ -173,28 +173,23 @@ export const OTPInputModal = ({
                   : `We’ve sent a code to ${userData.email}. You can send another in ${timer} seconds.`}
               </Text>
               <AppButton
-                title="Resend code"
-                txtColor={Colors.BLACK}
-                // disabled={!showResend}
-                bgColor={Colors.TEAL}
-                style={styles.buttonResend}
+                colorScheme="teal"
+                isDisabled={!showResend}
                 onPress={handleResend}
-              />
+                style={styles.buttonResend}
+              >
+                Resend code
+              </AppButton>
             </View>
           </View>
 
           <AppButton
-            title="Verify"
-            txtColor={Colors.BLACK}
-            bgColor={Colors.RUST}
-            style={{
-              borderWidth: 1,
-              borderColor: Colors.RUST,
-              backgroundColor: Colors.RUST,
-            }}
-            disabled={code === ""}
+            colorScheme="orange"
+            isDisabled={code === ""}
             onPress={forgotPass ? verifyRstPassOtp : verifyOtp}
-          />
+          >
+            Verify
+          </AppButton>
         </View>
       </KeyboardAwareScrollView>
     </SlideUpModal>

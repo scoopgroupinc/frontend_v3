@@ -3,11 +3,11 @@ import { Colors, Spacing, Typography } from "../../../utils";
 
 export const styles = StyleSheet.create({
   textContainer: {
+    width: "100%",
     marginTop: Spacing.SCALE_24,
-    borderWidth: 1,
-    borderColor: Colors.BLACK,
     padding: Spacing.SCALE_20,
     borderRadius: Spacing.SCALE_16,
+    backgroundColor: Colors.WHITE_60,
   },
   title: {
     color: Colors.BLACK,

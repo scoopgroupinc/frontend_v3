@@ -24,13 +24,6 @@ export const styles = StyleSheet.create({
     padding: 20,
     border: "2px solid #fff",
   },
-  genderTitle: {
-    flex: 1,
-    fontFamily: Typography.FONT_CAPRIOLA_REGULAR,
-    fontSize: Typography.FONT_SIZE_28,
-    color: Colors.WHITE,
-    padding: 20,
-  },
   progresBar: {
     flex: 1,
     width: "100%",

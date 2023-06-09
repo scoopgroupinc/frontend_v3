@@ -5,6 +5,7 @@ import * as FileSystem from "expo-file-system";
 import { ProgressBar } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { Heading, VStack } from "native-base";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { styles } from "./styles";
 import AppActivityIndicator from "../../../components/atoms/ActivityIndicator";
@@ -102,18 +103,14 @@ export const PhotoVideoScreen = () => {
     <>
       <AppActivityIndicator visible={isLoading} />
       <GradientLayout>
-        <View style={styles.container}>
+        <VStack space={12}>
           <ProgressBar progress={0.6} color="#0E0E2C" />
-          <View style={styles.photoContainer}>
-            <Text style={styles.text}>Photos & Videos</Text>
-            <MediaContainer images={allImages} onAddImage={handleImages} />
-          </View>
-          <AppButton
-            title="Upload Photos"
-            disabled={allImages.length < 1}
-            onPress={() => saveImages()}
-          />
-        </View>
+          <Heading>Photos & Videos</Heading>
+          <MediaContainer images={allImages} onAddImage={handleImages} />
+          <AppButton isDisabled={allImages.length < 1} onPress={() => saveImages()}>
+            Upload Photos
+          </AppButton>
+        </VStack>
       </GradientLayout>
     </>
   );

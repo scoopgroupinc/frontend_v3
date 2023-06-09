@@ -4,7 +4,6 @@
     "strict": true
   },
   "filesGlob": [
-    "typings/index.d.ts",
     "src/**/*.ts",
     "src/**/*.tsx",
     "node_modules/typescript/lib/lib.es6.d.ts"
@@ -14,4 +13,9 @@
     "react-dom",
     "react-native"
   ],
+  "exclude": [
+    "src/**/*.js",
+    "src/**/*.jsx",
+    "src/**/*.json",
+  ]
 }

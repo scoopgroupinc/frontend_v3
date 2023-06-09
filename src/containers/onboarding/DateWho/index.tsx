@@ -4,6 +4,7 @@ import { ProgressBar } from "react-native-paper";
 import { useMutation } from "@apollo/client";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { Heading, VStack } from "native-base";
 import { styles } from "./styles";
 import { SelectButtons } from "../../../components/layouts/SelectButtons";
 import { AppButton } from "../../../components/atoms/AppButton";
@@ -62,13 +63,15 @@ export const DateWhoScreen = () => {
       <GradientLayout>
         <View style={styles.container}>
           <ProgressBar progress={0.3} color="#0E0E2C" />
-          <View style={styles.genderContainer}>
-            <Text style={styles.genderTitle}>Which gender do you want to be matched with?</Text>
+          <VStack space={24} style={styles.genderContainer}>
+            <Heading>Which gender do you want to be matched with?</Heading>
             <View style={styles.genderTypesContainer}>
               <SelectButtons titles={["male", "female", "bisexual"]} funk={setMate} />
             </View>
-          </View>
-          <AppButton title="Next" disabled={mate === ""} onPress={saveGenderPreference} />
+          </VStack>
+          <AppButton isDisabled={mate === ""} onPress={saveGenderPreference}>
+            Next
+          </AppButton>
         </View>
       </GradientLayout>
     </>

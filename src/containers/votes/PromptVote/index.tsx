@@ -7,6 +7,7 @@ import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { Heading } from "native-base";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { selectUser } from "../../../store/features/user/userSlice";
 import { Colors, Spacing } from "../../../utils";
@@ -169,7 +170,7 @@ export const PromptVote = () => {
                 }}
               >
                 <View style={{ marginTop: Spacing.SCALE_8 }} />
-                <Text style={styles.title}>Give Feedback</Text>
+                <Heading>Give Feedback</Heading>
                 <QuotedText {...quote} />
                 <View style={{ width: "100%" }}>
                   <View style={styles.sliderContainer}>
@@ -205,8 +206,7 @@ export const PromptVote = () => {
                   </View>
 
                   <AppButton
-                    title="Next"
-                    // disabled={type1 === 0.5 || type2 === 0.5 || type3 === 0.5}
+                    isDisabled={type1 === 0.5 || type2 === 0.5 || type3 === 0.5}
                     onPress={() => {
                       setLoading(true);
                       // saveGroupRating();
@@ -219,7 +219,9 @@ export const PromptVote = () => {
                       //     ...ratingGroupInput.ratingDetails,}
                       // })
                     }}
-                  />
+                  >
+                    Next
+                  </AppButton>
                   <Text style={styles.smallText}>
                     Give constructive feedback and help your Scoop friend with his profile!
                   </Text>

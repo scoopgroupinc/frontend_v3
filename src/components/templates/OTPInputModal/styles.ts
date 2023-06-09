@@ -32,6 +32,7 @@ export const styles = StyleSheet.create({
     textAlign: "center",
     color: Colors.GRAY_BLUE,
     marginTop: 50,
+    marginBottom: 16,
   },
   buttonResend: {
     borderWidth: 1,
