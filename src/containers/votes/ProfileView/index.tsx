@@ -19,6 +19,9 @@ import { USER_SWIPER_ACTION } from "../../../services/graphql/profile/mutations"
 import { Spacing } from "../../../utils";
 import { QuotedText } from "../../../components/atoms/QuotedText";
 import LikeButtonsView from "../../../components/molecule/LikeButtonsView";
+import { logEvent, onScreenView } from "../../../analytics";
+import { analyticScreenNames, eventNames, screenClass } from "../../../analytics/constants";
+import { selectUser } from "../../../store/features/user/userSlice";
 
 const screenHeight = Dimensions.get("window").height;
 const onethirdScreenHeight = screenHeight / 3;
@@ -27,6 +30,8 @@ export const ProfileView = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const dispatch = useAppDispatch();
 
+  const { user } = useAppSelector(selectUser);
+  const userId = user?.id;
   const userChoices = useAppSelector(selectUserChoices);
   const userProfile = userChoices[0].profile;
   const userPrompts = useAppSelector(selectUserChoicePrompts);
@@ -35,12 +40,13 @@ export const ProfileView = () => {
   const [handleLikeDislike] = useMutation(USER_SWIPER_ACTION);
 
   const handleLike = () => {
-    // logEvent({
-    //   eventName: eventNames.acceptMatchButton,
-    //   params:{
-    //     userId,
-    //     screenClass:screenClass.matches}
-    // })
+    logEvent({
+      eventName: eventNames.acceptMatchButton,
+      params: {
+        userId,
+        screenClass: screenClass.matches,
+      },
+    });
     const choice = "yes";
     handleLikeDislike({
       variables: {
@@ -71,12 +77,13 @@ export const ProfileView = () => {
   };
 
   const handleDislike = () => {
-    // logEvent({
-    //   eventName: eventNames.declineMatchButton,
-    //   params:{
-    //     userId,
-    //     screenClass:screenClass.matches,}
-    // })
+    logEvent({
+      eventName: eventNames.declineMatchButton,
+      params: {
+        userId,
+        screenClass: screenClass.matches,
+      },
+    });
     const choice = "no";
     handleLikeDislike({
       variables: {
@@ -507,10 +514,10 @@ export const ProfileView = () => {
       return merged;
     };
     mergeData();
-    // onScreenView({
-    //   screenName: screenNames.profileView,
-    //   screenType: screenClass.profile,
-    // });
+    onScreenView({
+      screenName: analyticScreenNames.profileView,
+      screenType: screenClass.profile,
+    });
   }, [allImages, userPrompts]);
 
   return (

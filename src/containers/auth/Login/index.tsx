@@ -20,6 +20,8 @@ import { storeStringData } from "../../../utils/storage";
 import { OTPInputModal } from "../../../components/templates/OTPInputModal";
 import { Colors } from "../../../utils";
 import { screenName } from "../../../utils/constants";
+import { eventNames } from "../../../analytics/constants";
+import { logEvent } from "../../../analytics";
 
 const LoginScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
@@ -31,7 +33,7 @@ const LoginScreen = () => {
 
   const dispatch = useAppDispatch();
 
-  const [loginUserMutation, { data: loginData, loading: loginLoading }] = useMutation(LOG_IN_USER);
+  const [loginUserMutation, { loading: loginLoading }] = useMutation(LOG_IN_USER);
 
   const schema = yup.object().shape({
     email: yup.string().email().required("Email is required."),
@@ -79,11 +81,10 @@ const LoginScreen = () => {
         if (err.message === "Kindly activate your account") {
           setModalState(true);
         }
-        // logEvent({
-        //   eventName: eventNames.submitSignInButtonResponse,
-        //   params: { error: err.message },
-        // });
-        // loading = false;
+        logEvent({
+          eventName: eventNames.submitSignInButtonResponse,
+          params: { error: err.message },
+        });
       });
   };
 

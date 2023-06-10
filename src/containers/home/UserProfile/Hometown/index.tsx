@@ -14,6 +14,8 @@ import { Colors } from "../../../../utils";
 import TagScreenHeader from "../../../../components/molecule/TagScreenHeader";
 import { AppInput } from "../../../../components/atoms/AppInput";
 import TagsView from "../../../../components/molecule/TagsView";
+import { logEvent, onScreenView } from "../../../../analytics";
+import { analyticScreenNames, eventNames, screenClass } from "../../../../analytics/constants";
 
 const Hometown = ({ navigation, route }: any) => {
   const userProfile = useAppSelector(selectUserProfile);
@@ -30,10 +32,10 @@ const Hometown = ({ navigation, route }: any) => {
   const pageTitle = "Hometown";
 
   const goBackHome = () => {
-    // logEvent({
-    //   eventName: eventNames.backEditProfileButton,
-    //   params:{screenClass:screenClass.profile,}
-    // })
+    logEvent({
+      eventName: eventNames.backEditProfileButton,
+      params: { screenClass: screenClass.profile },
+    });
     navigation.goBack();
   };
 
@@ -41,10 +43,10 @@ const Hometown = ({ navigation, route }: any) => {
     if (input.current) {
       input.current.focus();
     }
-    // onScreenView({
-    //   screenName:screenNames.homeTown,
-    //   screenType:screenClass.profile
-    // })
+    onScreenView({
+      screenName: analyticScreenNames.homeTown,
+      screenType: screenClass.profile,
+    });
   }, []);
 
   return (

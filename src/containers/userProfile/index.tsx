@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 import React, { useCallback, useState } from "react";
 import { View, Text, Pressable, Linking, Alert } from "react-native";
 import {
@@ -18,6 +19,8 @@ import { ProfileAvatar } from "../../components/molecule/ProfileAvatar";
 import { screenName } from "../../utils/constants";
 import OptionTab from "../../components/atoms/OptionsTabs";
 import { DELETE_USER_PROFILE } from "../../services/graphql/user/mutations";
+import { logEvent } from "../../analytics";
+import { eventNames, screenClass } from "../../analytics/constants";
 
 export const UserProfile = () => {
   const { user } = useAppSelector((state) => state.appUser);
@@ -33,19 +36,16 @@ export const UserProfile = () => {
 
   const [openSettings, setOpenSettings] = useState<boolean>(false);
 
-  const [
-    deleteUser,
-    { data: userDeleteResult, loading: userDeleteLoading, error: userDeleteError },
-  ] = useMutation(DELETE_USER_PROFILE);
+  const [deleteUser] = useMutation(DELETE_USER_PROFILE);
 
   //   methods
   const openUrlTerms = useCallback(async () => {
-    //    logEvent({
-    //      eventName: eventNames.redirectTermsButton,
-    //      params: {
-    //        screenClass: screenClass.settings,
-    //      },
-    //    });
+    logEvent({
+      eventName: eventNames.redirectTermsButton,
+      params: {
+        screenClass: screenClass.settings,
+      },
+    });
     const url = "https://scoop.love/terms";
     const supported = await Linking.canOpenURL(url);
 
@@ -53,12 +53,12 @@ export const UserProfile = () => {
   }, []);
 
   const openUrlPolicy = useCallback(async () => {
-    //  logEvent({
-    //    eventName: eventNames.redirectPrivacyButton,
-    //    params: {
-    //      screenClass: screenClass.settings,
-    //    },
-    //  });
+    logEvent({
+      eventName: eventNames.redirectPrivacyButton,
+      params: {
+        screenClass: screenClass.settings,
+      },
+    });
     const url = "https://scoop.love/privacy-policy/";
     const supported = await Linking.canOpenURL(url);
 
@@ -66,12 +66,12 @@ export const UserProfile = () => {
   }, []);
 
   const createLogoutAlert = () => {
-    //   logEvent({
-    //     eventName: eventNames.logoutAccountButton,
-    //     params: {
-    //       screenClass: screenClass.settings,
-    //     },
-    //   });
+    logEvent({
+      eventName: eventNames.logoutAccountButton,
+      params: {
+        screenClass: screenClass.settings,
+      },
+    });
     Alert.alert("Log out", "Are you sure you want to log out?", [
       {
         text: "Cancel",
@@ -92,12 +92,12 @@ export const UserProfile = () => {
   };
 
   const createDeleteAlert = () => {
-    // logEvent({
-    //   eventName: eventNames.deldeleteAccountButton,
-    //   params: {
-    //     screenClass: screenClass.settings,
-    //   },
-    // });
+    logEvent({
+      eventName: eventNames.deleteAccountButton,
+      params: {
+        screenClass: screenClass.settings,
+      },
+    });
     Alert.alert("Delete", "Are you sure you want to delete your scoop account?", [
       {
         text: "Cancel",
@@ -108,7 +108,7 @@ export const UserProfile = () => {
         text: "OK",
         style: "destructive",
         onPress: () => {
-          deleteUser({ variables: { email, userId } }).then((res) => {
+          deleteUser({ variables: { email, userId } }).then(() => {
             setOpenSettings(false);
             dispatch({
               type: "appUser/deleteAccount",

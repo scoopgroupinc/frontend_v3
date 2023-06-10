@@ -1,5 +1,5 @@
 import { Alert, View } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useMutation } from "@apollo/client";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -14,6 +14,8 @@ import { AppButton } from "../../../components/atoms/AppButton";
 import { OTPInputModal } from "../../../components/templates/OTPInputModal";
 import AppActivityIndicator from "../../../components/atoms/ActivityIndicator";
 import { screenName } from "../../../utils/constants";
+import { analyticScreenNames, eventNames, screenClass } from "../../../analytics/constants";
+import { logEvent, onScreenView } from "../../../analytics";
 
 const ForgotPassword = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
@@ -40,20 +42,20 @@ const ForgotPassword = () => {
 
   const [verify] = useMutation(FORGOT_PASSWORD);
 
-  //   useEffect(() => {
-  //     onScreenView({
-  //       screenName: screenNames.forgetPassword,
-  //       screenType: screenClass.auth,
-  //     });
-  //   }, []);
+  useEffect(() => {
+    onScreenView({
+      screenName: analyticScreenNames.forgetPassword,
+      screenType: screenClass.auth,
+    });
+  }, []);
   const forgotPasswordEvent = (formData: any) => {
     setLoading(true);
     setUserEmail(formData.email);
     try {
-      //   logEvent({
-      //     eventName: eventNames.submitOtpButton,
-      //     params: {},
-      //   });
+      logEvent({
+        eventName: eventNames.submitOtpButton,
+        params: {},
+      });
       verify({
         variables: {
           email: formData.email,

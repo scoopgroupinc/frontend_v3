@@ -5,6 +5,8 @@ import { Colors } from "../../../../utils";
 import TagScreenHeader from "../../../../components/molecule/TagScreenHeader";
 import TagsView from "../../../../components/molecule/TagsView";
 import { EDUCATION_LEVEL } from "../../../../utils/types/TAGS";
+import { logEvent, onScreenView } from "../../../../analytics";
+import { analyticScreenNames, eventNames, screenClass } from "../../../../analytics/constants";
 
 const TypeOf = {
   SINGLE: "single",
@@ -21,18 +23,18 @@ const EducationLevel = ({ navigation, route }: { navigation: any; route: any }) 
   const pageTitle = "Education Level";
 
   const goBackHome = () => {
-    // logEvent({
-    //   eventName: eventNames.backEditProfileButton,
-    //   params:{screenClass:screenClass.profile,}
-    // })
+    logEvent({
+      eventName: eventNames.backEditProfileButton,
+      params: { screenClass: screenClass.profile },
+    });
     navigation.goBack();
   };
 
   useEffect(() => {
-    // onScreenView({
-    //   screenName:screenNames.educationLevel,
-    //   screenType:screenClass.profile
-    // })
+    onScreenView({
+      screenName: analyticScreenNames.educationLevel,
+      screenType: screenClass.profile,
+    });
   }, []);
   return (
     <LinearGradient style={{ flex: 1 }} colors={gradient}>

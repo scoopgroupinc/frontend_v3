@@ -25,6 +25,8 @@ import {
   setUserChoicePrompts,
 } from "../../../store/features/matches/matchSlice";
 import AppActivityIndicator from "../../../components/atoms/ActivityIndicator";
+import { analyticScreenNames, eventNames, screenClass } from "../../../analytics/constants";
+import { logEvent, onScreenView } from "../../../analytics";
 
 export const PromptVote = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
@@ -132,10 +134,10 @@ export const PromptVote = () => {
     };
 
     fetchChoiceVisuals();
-    // onScreenView({
-    //   screenName:screenNames.ratePrompt,
-    //   screenType:screenClass.matches,
-    //  })
+    onScreenView({
+      screenName: analyticScreenNames.ratePrompt,
+      screenType: screenClass.matches,
+    });
   }, [userChoicePrompt, dispatch, userChoiceId]);
 
   useEffect(() => {
@@ -209,15 +211,15 @@ export const PromptVote = () => {
                     isDisabled={type1 === 0.5 || type2 === 0.5 || type3 === 0.5}
                     onPress={() => {
                       setLoading(true);
-                      // saveGroupRating();
-                      navigation.navigate(screenName.VISUAL_VOTE);
-                      // logEvent({
-                      //   eventName: eventNames.submitPromptRatingButton,
-                      //   params:{
-                      //     userId,
-                      //     screenClass:screenClass.matches,
-                      //     ...ratingGroupInput.ratingDetails,}
-                      // })
+                      saveGroupRating();
+                      logEvent({
+                        eventName: eventNames.submitPromptRatingButton,
+                        params: {
+                          userId,
+                          screenClass: screenClass.matches,
+                          ...ratingGroupInput.ratingDetails,
+                        },
+                      });
                     }}
                   >
                     Next

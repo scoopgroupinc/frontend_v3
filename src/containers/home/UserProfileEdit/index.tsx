@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 import React, { useEffect, useState } from "react";
 import { View, Text, Alert } from "react-native";
 import { useMutation } from "@apollo/client";
@@ -32,6 +33,8 @@ import { UserPrompts } from "../../../utils/types";
 import { cloneArray, mapIndexToPrompts } from "../../../utils/helpers";
 import { URLS } from "../../../utils/constants/apis";
 import AppActivityIndicator from "../../../components/atoms/ActivityIndicator";
+import { logEvent, onScreenView } from "../../../analytics";
+import { analyticScreenNames, eventNames, screenClass } from "../../../analytics/constants";
 
 const inputTextProps = {
   editable: false,
@@ -73,17 +76,17 @@ export const UserProfileEdit = ({ route }: any) => {
   const saveChanges = async () => {
     isSaving(true);
     saveUserProfile();
-    // logEvent({
-    //   eventName: eventNames.editMainProfileButton,
-    //   params: {},
-    // });
+    logEvent({
+      eventName: eventNames.editMainProfileButton,
+      params: {},
+    });
   };
 
   const cancelChanges = () => {
-    // logEvent({
-    //   eventName: eventNames.cancelProfileButton,
-    //   params: {},
-    // });
+    logEvent({
+      eventName: eventNames.cancelProfileButton,
+      params: {},
+    });
     setModalState(false);
     navigation.goBack();
   };
@@ -287,10 +290,10 @@ export const UserProfileEdit = ({ route }: any) => {
 
       dispatch(setUserPrompts({ userPrompts: newArray }));
     }
-    // onScreenView({
-    //   screenName:screenNames.onBoardSelectPrompt,
-    //   screenType:screenClass.onBoarding,
-    // })
+    onScreenView({
+      screenName: analyticScreenNames.onBoardSelectPrompt,
+      screenType: screenClass.onBoarding,
+    });
   }, [route?.params?.item]);
 
   return (

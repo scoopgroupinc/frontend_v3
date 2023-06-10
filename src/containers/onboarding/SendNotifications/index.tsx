@@ -8,7 +8,7 @@ import { ONBOARD_NAVIGATION } from "src/navigations/utils/CONSTANTS";
 import { Colors } from "src/styles";
 import { SubmissionBtn } from "src/components/atoms/SubmissionButton";
 import { logEvent, onScreenView } from "src/analytics";
-import { eventNames, screenClass, screenNames } from "src/analytics/constants";
+import { eventNames, screenClass, analyticScreenNames } from "src/analytics/constants";
 import { completeScreen, COMPLETE_SCREEN } from "../../onboardHandler/utils";
 import { styles } from "./styles";
 
@@ -29,7 +29,7 @@ export const SendNotificationScreen = ({ navigation, route }: NavigationScreenTy
 
   useEffect(() => {
     onScreenView({
-      screenName: screenNames.onBoardNotification,
+      screenName: analyticScreenNames.onBoardNotification,
       screenType: screenClass.onBoarding,
     });
   }, []);

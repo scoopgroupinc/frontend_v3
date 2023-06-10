@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 import React, { useState, useEffect } from "react";
 import { View, Text, Alert } from "react-native";
 import { ProgressBar } from "react-native-paper";
@@ -14,6 +15,8 @@ import AppActivityIndicator from "../../../components/atoms/ActivityIndicator";
 import { GradientLayout } from "../../../components/layouts/GradientLayout";
 import { AppButton } from "../../../components/atoms/AppButton";
 import { DateSpinner } from "../../../components/atoms/DateSpinner";
+import { logEvent, onScreenView } from "../../../analytics";
+import { analyticScreenNames, eventNames, screenClass } from "../../../analytics/constants";
 
 export const OnboardBirthdayScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
@@ -33,10 +36,10 @@ export const OnboardBirthdayScreen = () => {
       const age = moment().diff(date, "years");
       setAge(age);
     }
-    // onScreenView({
-    //   screenName: screenNames.onBoardBirthday,
-    //   screenType: screenClass.onBoarding,
-    // });
+    onScreenView({
+      screenName: analyticScreenNames.onBoardBirthday,
+      screenType: screenClass.onBoarding,
+    });
   }, [date]);
 
   const [saveUserProfile, { loading }] = useMutation(SAVE_USER_BIRTHDAY);
@@ -46,32 +49,30 @@ export const OnboardBirthdayScreen = () => {
         userId,
         birthday: moment(date).format("YYYY-MM-DD"),
       };
-      // logEvent({
-      //   eventName: eventNames.confirmOnBoardBirthdayButton,
-      //   params: { ...data, screenClass: screenClass.onBoarding },
-      // });
+      logEvent({
+        eventName: eventNames.confirmOnBoardBirthdayButton,
+        params: { ...data, screenClass: screenClass.onBoarding },
+      });
       await saveUserProfile({
         variables: {
           UserProfileInput: data,
         },
       })
-        .then(async (res) => {
+        .then(async () => {
           setModalState(false);
           navigation.navigate(screenName.HEIGHT);
         })
-        .catch((err) => {
-          console.error(err);
-        });
+        .catch(() => {});
     } catch (err) {
-      console.error(err);
+      /* eslint-disable no-console */
     }
   };
 
   const DateAlert = () => {
-    // logEvent({
-    //   eventName: eventNames.submitOnBoardBirthdayButton,
-    //   params: { birthday: moment(date).format("YYYY-MM-DD") },
-    // });
+    logEvent({
+      eventName: eventNames.submitOnBoardBirthdayButton,
+      params: { birthday: moment(date).format("YYYY-MM-DD") },
+    });
     Alert.alert(
       "Please confirm your info",
       `Your birthday is ${new Date(date).toDateString()} and you are ${age} years old`,

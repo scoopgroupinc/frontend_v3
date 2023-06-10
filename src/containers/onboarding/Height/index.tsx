@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+/* eslint-disable import/prefer-default-export */
+import React, { useEffect, useState } from "react";
 import { View, Text } from "react-native";
 import { ProgressBar } from "react-native-paper";
 import { useMutation } from "@apollo/client";
@@ -13,6 +14,8 @@ import { screenName } from "../../../utils/constants";
 import AppActivityIndicator from "../../../components/atoms/ActivityIndicator";
 import { GradientLayout } from "../../../components/layouts/GradientLayout";
 import { AppButton } from "../../../components/atoms/AppButton";
+import { logEvent, onScreenView } from "../../../analytics";
+import { analyticScreenNames, eventNames, screenClass } from "../../../analytics/constants";
 
 // TODO: replace with better slider
 
@@ -32,16 +35,16 @@ export const HeightScreen = () => {
         userId,
         height: `${heightFt}'${heightInches}"`,
       };
-      // logEvent({
-      //   eventName: eventNames.nextOnBoardNotificationButton,
-      //   params: {...data, screenClass: screenClass.onBoarding},
-      // })
+      logEvent({
+        eventName: eventNames.nextOnBoardNotificationButton,
+        params: { ...data, screenClass: screenClass.onBoarding },
+      });
       await saveUserProfile({
         variables: {
           UserProfileInput: data,
         },
       })
-        .then((res) => {
+        .then(() => {
           navigation.navigate(screenName.PHOTOS);
         })
         .catch((err) => {
@@ -51,12 +54,12 @@ export const HeightScreen = () => {
       console.error(error);
     }
   };
-  // useEffect(() => {
-  //   onScreenView({
-  //     screenName: screenNames.onBoardHeight,
-  //     screenType: screenClass.onBoarding,
-  //   })
-  // }, [])
+  useEffect(() => {
+    onScreenView({
+      screenName: analyticScreenNames.onBoardHeight,
+      screenType: screenClass.onBoarding,
+    });
+  }, []);
 
   return (
     <>
@@ -89,7 +92,7 @@ export const HeightScreen = () => {
             />
             <View style={styles.titleContainer}>
               <Text style={styles.value}>
-                {Array.isArray(heightInches) ? heightInches.join(" - ") : heightInches} "
+                {Array.isArray(heightInches) ? heightInches.join(" - ") : heightInches}
               </Text>
             </View>
             <Slider

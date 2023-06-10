@@ -16,6 +16,8 @@ import { SAVE_GROUP_RATING } from "../../../services/graphql/profile/mutations";
 import { styles } from "./style";
 import { RatingSlider } from "../../../components/molecule/RatingSlider";
 import AppActivityIndicator from "../../../components/atoms/ActivityIndicator";
+import { logEvent, onScreenView } from "../../../analytics";
+import { analyticScreenNames, eventNames, screenClass } from "../../../analytics/constants";
 
 const gradient = [Colors.RUST, Colors.RED, Colors.TEAL];
 
@@ -70,10 +72,10 @@ export const VisualVote = () => {
   };
 
   useEffect(() => {
-    // onScreenView({
-    //   screenName:screenNames.ratePhoto,
-    //   screenType:screenClass.matches,
-    //  })
+    onScreenView({
+      screenName: analyticScreenNames.ratePhoto,
+      screenType: screenClass.matches,
+    });
   }, []);
   const [saveGroupRating] = useMutation(SAVE_GROUP_RATING, {
     variables: { ratingGroupInput },
@@ -82,7 +84,7 @@ export const VisualVote = () => {
       setLoading(false);
       navigation.navigate(screenName.PROFILE_VIEW);
     },
-    onError: () => {
+    onError: (e) => {
       setLoading(false);
     },
   });
@@ -144,16 +146,15 @@ export const VisualVote = () => {
                 // isDisabled={type1 === 0.5 || type2 === 0.5 || type3 === 0.5}
                 onPress={() => {
                   setLoading(true);
-                  // saveGroupRating();
-                  navigation.navigate(screenName.PROFILE_VIEW);
-                  // logEvent({
-                  //   eventName: eventNames.submit_photo_rating_button,
-                  //   params: {
-                  //     userId,
-                  //     screenClass: screenClass.matches,
-                  //     ...ratingGroupInput.ratingDetails,
-                  //   },
-                  // });
+                  saveGroupRating();
+                  logEvent({
+                    eventName: eventNames.submitPhotoRatingButton,
+                    params: {
+                      userId,
+                      screenClass: screenClass.matches,
+                      ...ratingGroupInput.ratingDetails,
+                    },
+                  });
                 }}
               >
                 Next

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { styles } from "./styles";
@@ -6,6 +6,8 @@ import { Colors } from "../../../../utils";
 import { BOOK_GENRE } from "../../../../utils/types/TAGS";
 import TagScreenHeader from "../../../../components/molecule/TagScreenHeader";
 import TagsView from "../../../../components/molecule/TagsView";
+import { logEvent } from "../../../../analytics";
+import { eventNames, screenClass } from "../../../../analytics/constants";
 
 const TypeOf = {
   SINGLE: "single",
@@ -22,10 +24,10 @@ const BookGenre = ({ navigation, route }: any) => {
   const booksTag = BOOK_GENRE;
 
   const goBackHome = () => {
-    // logEvent({
-    //   eventName: eventNames.backEditProfileButton,
-    //   params: { screenClass: screenClass.profile },
-    // });
+    logEvent({
+      eventName: eventNames.backEditProfileButton,
+      params: { screenClass: screenClass.profile },
+    });
     navigation.goBack();
   };
 

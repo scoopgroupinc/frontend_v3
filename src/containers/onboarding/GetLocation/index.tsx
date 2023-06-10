@@ -13,7 +13,7 @@ import { useAppSelector } from "src/store/hooks";
 import { selectUser } from "src/store/features/UserProfileSlice";
 import { Colors } from "src/styles";
 import { logEvent, onScreenView } from "src/analytics";
-import { eventNames, screenClass, screenNames } from "src/analytics/constants";
+import { eventNames, screenClass, analyticScreenNames } from "src/analytics/constants";
 import { completeScreen, COMPLETE_SCREEN } from "../../onboardHandler/utils";
 import { styles } from "./styles";
 
@@ -76,7 +76,7 @@ export const GetLocationsScreen = ({ navigation }: NavigationScreenType) => {
       setLocation(location.coords);
     })();
     onScreenView({
-      screenName: screenNames.onBoardLocation,
+      screenName: analyticScreenNames.onBoardLocation,
       screenType: screenClass.onBoarding,
     });
   }, []);

@@ -14,6 +14,8 @@ import TagScreenHeader from "../../../../components/molecule/TagScreenHeader";
 import TagsView from "../../../../components/molecule/TagsView";
 import { Colors } from "../../../../utils";
 import { AppInput } from "../../../../components/atoms/AppInput";
+import { analyticScreenNames, screenClass } from "../../../../analytics/constants";
+import { onScreenView } from "../../../../analytics";
 
 const Company = ({ navigation, route }: any) => {
   const userProfile = useAppSelector(selectUserProfile);
@@ -70,10 +72,10 @@ const Company = ({ navigation, route }: any) => {
     if (input.current) {
       input.current.focus();
     }
-    // onScreenView({
-    //   screenName:screenNames.company,
-    //   screenType:screenClass.profile
-    // })
+    onScreenView({
+      screenName: analyticScreenNames.company,
+      screenType: screenClass.profile,
+    });
   }, []);
 
   return (

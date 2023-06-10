@@ -40,6 +40,8 @@ import StayingIn from "./StayingIn";
 import GoingOut from "./GoingOut";
 import Drink from "./Drink";
 import { UserProfileView } from "../UserProfileView";
+import { analyticScreenNames, screenClass } from "../../../analytics/constants";
+import { onScreenView } from "../../../analytics";
 
 const Tab = createMaterialTopTabNavigator();
 const UserProfileStack = createNativeStackNavigator();
@@ -48,10 +50,10 @@ const TopTab = () => {
   const gradient = [Colors.RUST, Colors.RED, Colors.TEAL];
 
   useEffect(() => {
-    // onScreenView({
-    //   screenName: screenNames.profile,
-    //   screenType: screenClass.profile,
-    // });
+    onScreenView({
+      screenName: analyticScreenNames.profile,
+      screenType: screenClass.profile,
+    });
   }, []);
 
   return (

@@ -1,12 +1,11 @@
-import React, { useState } from "react";
-import { View, Text, Alert, Pressable } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, Alert } from "react-native";
 import * as yup from "yup";
 import { useMutation } from "@apollo/client";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Colors } from "react-native/Libraries/NewAppScreen";
 import { Heading, VStack } from "native-base";
 import { RESET_PASSWORD } from "../../../services/graphql/auth/mutations";
 import { GradientLayout } from "../../../components/layouts/GradientLayout";
@@ -15,7 +14,8 @@ import styles from "./style";
 import { screenName } from "../../../utils/constants";
 import FormField from "../../../components/molecule/FormField";
 import { AppButton } from "../../../components/atoms/AppButton";
-import { AppIconButton } from "../../../components/layouts/AppIconButton";
+import { onScreenView } from "../../../analytics";
+import { analyticScreenNames, screenClass } from "../../../analytics/constants";
 
 const ResetPassword = ({ route }: any) => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
@@ -34,7 +34,7 @@ const ResetPassword = ({ route }: any) => {
       .string()
       .min(4, " Password must be at least 4 characters")
       .required("Password is required")
-      .oneOf([yup.ref("password"), null], "Passwords must match"),
+      .oneOf([yup.ref("password")], "Passwords must match"),
   });
 
   const {
@@ -50,12 +50,12 @@ const ResetPassword = ({ route }: any) => {
     resolver: yupResolver(schema),
   });
 
-  //   useEffect(() => {
-  //     onScreenView({
-  //       screenName: screenNames.resetPassword,
-  //       screenType: screenClass.auth,
-  //     });
-  //   }, []);
+  useEffect(() => {
+    onScreenView({
+      screenName: analyticScreenNames.resetPassword,
+      screenType: screenClass.auth,
+    });
+  }, []);
 
   const resetPassword = async (formData: any) => {
     setLoading(true);

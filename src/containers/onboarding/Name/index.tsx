@@ -20,6 +20,8 @@ import { AppButton } from "../../../components/atoms/AppButton";
 import { Colors } from "../../../utils";
 import AppActivityIndicator from "../../../components/atoms/ActivityIndicator";
 import { updateUser } from "../../../store/features/user/userSlice";
+import { logEvent, onScreenView } from "../../../analytics";
+import { analyticScreenNames, eventNames, screenClass } from "../../../analytics/constants";
 
 export type UserData = {
   firstname: string;
@@ -67,14 +69,14 @@ export const OnboardName = () => {
 
   const [updateUserNames, { loading }] = useMutation(SAVE_USER_NAME);
   const saveUserNames = async (formData: any) => {
-    // logEvent({
-    //   eventName: eventNames.submitOnBoardNameButton,
-    //   params: {
-    //     screenName: screenNames.onBoardName,
-    //     screenType: screenClass.onBoarding,
-    //     ...formData,
-    //   },
-    // });
+    logEvent({
+      eventName: eventNames.submitOnBoardNameButton,
+      params: {
+        screenName: analyticScreenNames.onBoardName,
+        screenType: screenClass.onBoarding,
+        ...formData,
+      },
+    });
     try {
       const data = {
         firstName: formData.firstname,
@@ -107,12 +109,12 @@ export const OnboardName = () => {
     }
   };
 
-  // useEffect(() => {
-  //   onScreenView({
-  //     screenName: screenNames.onBoardName,
-  //     screenType: screenClass.onBoarding,
-  //   });
-  // }, []);
+  useEffect(() => {
+    onScreenView({
+      screenName: analyticScreenNames.onBoardName,
+      screenType: screenClass.onBoarding,
+    });
+  }, []);
 
   return (
     <>

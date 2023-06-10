@@ -1,13 +1,18 @@
-
 ## What?
-- [x] bug fix 
+
+- [x] bug fix
 - [ ] feature
 - [ ] enhancement
 - [ ] refactor
-- description
-- Scoop-#
+
+## description - Scoop -
+
 ## Why?
+
 ## How?
+
 ## Testing?
+
 ## Screenshots (optional)
+
 ## Anything Else?
