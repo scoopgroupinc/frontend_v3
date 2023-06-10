@@ -1,7 +1,6 @@
 import React from "react";
-import { Pressable, Text, ViewStyle } from "react-native";
-import { Colors } from "../../../utils";
-import { styles } from "./styles";
+import { ViewStyle } from "react-native";
+import { Button, IButtonProps } from "native-base";
 
 export interface ButtonType {
   title: string;
@@ -12,25 +11,30 @@ export interface ButtonType {
   style?: ViewStyle;
 }
 
-export const AppButton = ({
-  title,
-  onPress,
-  txtColor = Colors.DARK_GRAY_BLUE,
-  disabled = false,
-  bgColor,
-  style,
-}: ButtonType) => (
-  <Pressable
-    disabled={disabled}
-    onPress={onPress}
-    style={[
-      styles.button,
-      style,
-      // {
-      //   backgroundColor: disabled ? "transparent" : bgColor,
-      // },
-    ]}
-  >
-    <Text style={[{ color: txtColor }, styles.text]}>{title}</Text>
-  </Pressable>
-);
+export const AppButton = ({ children, variant, colorScheme, ...props }: IButtonProps) => {
+  let button;
+  if (variant === "ghost" || colorScheme === "orange") {
+    button = (
+      <Button
+        {...props}
+        variant={variant}
+        colorScheme={colorScheme}
+        _light={{
+          _text: {
+            color: "white",
+            fontSize: "md",
+          },
+        }}
+      >
+        {children}
+      </Button>
+    );
+  } else {
+    button = (
+      <Button {...props} variant={variant} colorScheme={colorScheme}>
+        {children}
+      </Button>
+    );
+  }
+  return <>{button}</>;
+};

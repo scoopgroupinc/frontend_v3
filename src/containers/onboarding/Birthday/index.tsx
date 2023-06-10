@@ -6,6 +6,7 @@ import { useMutation } from "@apollo/client";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import moment from "moment";
+import { Heading, VStack } from "native-base";
 import { useAppSelector } from "../../../store/hooks";
 import { styles } from "./styles";
 import { SAVE_USER_BIRTHDAY } from "../../../services/graphql/onboarding/mutations";
@@ -92,22 +93,23 @@ export const OnboardBirthdayScreen = () => {
       <GradientLayout>
         <View style={styles.container}>
           <ProgressBar progress={0.4} color="#0E0E2C" />
-          <View style={styles.textContainer}>
-            <Text style={styles.dobTitle}>What's your date of birth?</Text>
+          <VStack space={4} style={styles.textContainer}>
+            <Heading>What's your date of birth?</Heading>
             <Text style={styles.dobSubTitle}>This can't be changed later</Text>
-          </View>
+          </VStack>
           <View style={styles.dateContainer}>
             <View>
               <Text style={styles.date}>{moment(date).format("YYYY-MM-DD")}</Text>
               <DateSpinner getAge={setAge} getDate={setDate} />
             </View>
             <AppButton
-              title="Next"
-              disabled={
+              isDisabled={
                 moment(date).format("YYYY-MM-DD") === moment(new Date()).format("YYYY-MM-DD")
               }
               onPress={() => DateAlert()}
-            />
+            >
+              Next
+            </AppButton>
           </View>
         </View>
       </GradientLayout>

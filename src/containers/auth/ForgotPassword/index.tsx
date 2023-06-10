@@ -1,4 +1,4 @@
-import { View, Text, Pressable, Alert } from "react-native";
+import { Alert, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useMutation } from "@apollo/client";
 import { useForm } from "react-hook-form";
@@ -6,12 +6,11 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
+import { Heading, VStack } from "native-base";
 import { FORGOT_PASSWORD } from "../../../services/graphql/auth/mutations";
 import { GradientLayout } from "../../../components/layouts/GradientLayout";
-import styles from "./style";
 import FormField from "../../../components/molecule/FormField";
 import { AppButton } from "../../../components/atoms/AppButton";
-import { Colors } from "../../../utils";
 import { OTPInputModal } from "../../../components/templates/OTPInputModal";
 import AppActivityIndicator from "../../../components/atoms/ActivityIndicator";
 import { screenName } from "../../../utils/constants";
@@ -79,36 +78,34 @@ const ForgotPassword = () => {
     <>
       <AppActivityIndicator visible={loading} />
       <GradientLayout>
-        <View>
-          <View>
-            <Text style={styles.title}>Forgot Password</Text>
+        <VStack space={24}>
+          <Heading>Forgot Password</Heading>
+          <View style={{ marginBottom: 24 }}>
+            <FormField
+              control={control}
+              name="email"
+              rules={{
+                required: true,
+              }}
+              label="Email"
+              placeholder="Email..."
+              autoCaps="none"
+              inputType="email"
+              msg={errors.email?.message}
+            />
           </View>
-          <FormField
-            control={control}
-            name="email"
-            rules={{
-              required: true,
-            }}
-            label="Email"
-            placeholder="Email..."
-            autoCaps="none"
-            inputType="email"
-            msg={errors.email?.message}
-          />
-        </View>
-        <View style={styles.btnContainer}>
+        </VStack>
+        <VStack space={4}>
           <AppButton
-            title="Forgot Password"
-            txtColor={Colors.BLACK}
-            disabled={!!(errors.email?.message || errors.password?.message)}
-            bgColor={Colors.ICE_WHITE}
+            isDisabled={!!(errors.email?.message || errors.password?.message)}
             onPress={handleSubmit(forgotPasswordEvent)}
-          />
-
-          <Pressable onPress={() => navigation.navigate(screenName.LOGIN)}>
-            <Text style={styles.link}>Sign In</Text>
-          </Pressable>
-        </View>
+          >
+            Forgot Password
+          </AppButton>
+          <AppButton variant="ghost" onPress={() => navigation.navigate(screenName.LOGIN)}>
+            Sign In
+          </AppButton>
+        </VStack>
         {modalState === true && (
           <OTPInputModal
             userData={{

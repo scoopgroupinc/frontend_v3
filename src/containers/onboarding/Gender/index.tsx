@@ -5,6 +5,7 @@ import { useMutation } from "@apollo/client";
 import { ProgressBar } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { Heading, VStack } from "native-base";
 import { styles } from "./styles";
 import { useAppSelector } from "../../../store/hooks";
 import { SAVE_USER_GENDER } from "../../../services/graphql/profile/mutations";
@@ -59,11 +60,13 @@ export const GenderScreen = () => {
     <GradientLayout>
       <View style={styles.body}>
         <ProgressBar progress={0.2} color="#0E0E2C" />
-        <View style={styles.btnContainer}>
-          <Text style={styles.genderTitle}>What gender do you identify with?</Text>
+        <VStack space={24} style={styles.btnContainer}>
+          <Heading>What gender do you identify with?</Heading>
           <SelectButtons titles={["male", "female"]} funk={setGender} />
-        </View>
-        <AppButton title="Next" disabled={gender === ""} onPress={saveUserGender} />
+        </VStack>
+        <AppButton isDisabled={gender === ""} onPress={saveUserGender}>
+          Next
+        </AppButton>
       </View>
     </GradientLayout>
   );

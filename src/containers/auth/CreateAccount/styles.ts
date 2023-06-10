@@ -6,6 +6,7 @@ export const styles = StyleSheet.create({
     padding: Spacing.SCALE_18,
     flex: 1,
     alignItems: "center",
+    width: "100%",
   },
   link: {
     color: Colors.WHITE,

@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, Alert, Pressable } from "react-native";
+import { View, Alert } from "react-native";
 import * as yup from "yup";
 import { useMutation } from "@apollo/client";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Colors } from "react-native/Libraries/NewAppScreen";
+import { Heading, VStack } from "native-base";
 import { RESET_PASSWORD } from "../../../services/graphql/auth/mutations";
 import { GradientLayout } from "../../../components/layouts/GradientLayout";
 import AppActivityIndicator from "../../../components/atoms/ActivityIndicator";
@@ -34,7 +34,7 @@ const ResetPassword = ({ route }: any) => {
       .string()
       .min(4, " Password must be at least 4 characters")
       .required("Password is required")
-      .oneOf([yup.ref("password"), null], "Passwords must match"),
+      .oneOf([yup.ref("password")], "Passwords must match"),
   });
 
   const {
@@ -81,9 +81,9 @@ const ResetPassword = ({ route }: any) => {
       <AppActivityIndicator visible={loading} />
       <GradientLayout>
         <View>
-          <View>
-            <Text style={styles.title}>Reset Password</Text>
-          </View>
+          <VStack space={24}>
+            <Heading>Reset Password</Heading>
+          </VStack>
           <View>
             <FormField
               control={control}
@@ -119,19 +119,17 @@ const ResetPassword = ({ route }: any) => {
             />
           </View>
         </View>
-        <View style={styles.btnContainer}>
+        <VStack space={4} style={styles.btnContainer}>
           <AppButton
-            title="Reset Password"
             onPress={handleSubmit(resetPassword)}
-            txtColor={Colors.BLACK}
-            disabled={!!(errors.password || errors.confirmPassword || loading)}
-            bgColor={Colors.ICE_WHITE}
-          />
-
-          <Pressable onPress={() => navigation.navigate(screenName.LOGIN)}>
-            <Text style={styles.link}>Cancel</Text>
-          </Pressable>
-        </View>
+            isDisabled={!!(errors.password || errors.confirmPassword || loading)}
+          >
+            Reset Password
+          </AppButton>
+          <AppButton variant="ghost" onPress={() => navigation.navigate(screenName.LOGIN)}>
+            Cancel
+          </AppButton>
+        </VStack>
       </GradientLayout>
     </>
   );

@@ -169,11 +169,9 @@ export const QuestionPromptScreen = ({ route }: any) => {
             </View>
           </ScrollView>
           <View style={{ paddingHorizontal: 20 }}>
-            <AppButton
-              disabled={UserPromptInput.length < 1}
-              title={isLoading ? "Saving Prompts..." : "Complete"}
-              onPress={completeOnboard}
-            />
+            <AppButton isDisabled={UserPromptInput.length < 1} onPress={completeOnboard}>
+              {isLoading ? "Saving Prompts..." : "Complete"}
+            </AppButton>
           </View>
         </View>
       </GradientLayout>

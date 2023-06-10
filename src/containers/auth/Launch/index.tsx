@@ -1,12 +1,12 @@
 import React from "react";
-import { View, Text, Image, TouchableOpacity } from "react-native";
+import { View, Text, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { VStack } from "native-base";
 import { AppButton } from "../../../components/atoms/AppButton";
 import { GradientLayout } from "../../../components/layouts/GradientLayout";
 import { styles } from "./styles";
-import screenName from "../../../utils/constants/screenName";
-import { Colors } from "../../../utils";
+import { screenName } from "../../../utils/constants";
 
 const Launch = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
@@ -28,13 +28,12 @@ const Launch = () => {
         <Text style={styles.title}>SCOOP UPDATE</Text>
         <Text style={styles.blur}>Date Smarter. Live Fuller.</Text>
       </View>
-      <View style={[styles.btnContainer]}>
-        <AppButton onPress={onSignUpPress} title="Create Account" bgColor={Colors.ICE_WHITE} />
-
-        <TouchableOpacity onPress={onSignInPress}>
-          <Text style={styles.link}>Sign In</Text>
-        </TouchableOpacity>
-      </View>
+      <VStack space={4} style={[styles.btnContainer]}>
+        <AppButton onPress={onSignUpPress}>Create Account</AppButton>
+        <AppButton onPress={onSignInPress} variant="ghost">
+          Sign In
+        </AppButton>
+      </VStack>
     </GradientLayout>
   );
 };
