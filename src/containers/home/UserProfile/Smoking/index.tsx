@@ -6,6 +6,8 @@ import { Colors } from "../../../../utils";
 import { SMOKING } from "../../../../utils/types/TAGS";
 import TagScreenHeader from "../../../../components/molecule/TagScreenHeader";
 import TagsView from "../../../../components/molecule/TagsView";
+import { logEvent, onScreenView } from "../../../../analytics";
+import { analyticScreenNames, eventNames, screenClass } from "../../../../analytics/constants";
 
 const TypeOf = {
   SINGLE: "single",
@@ -22,19 +24,19 @@ const Smoking = ({ navigation, route }: any) => {
   const smokingTags = SMOKING;
 
   const goBackHome = () => {
-    // logEvent({
-    //   eventName: eventNames.backEditProfileButton,
-    //   params: { screenClass: screenClass.profile },
-    // });
+    logEvent({
+      eventName: eventNames.backEditProfileButton,
+      params: { screenClass: screenClass.profile },
+    });
     navigation.goBack();
   };
 
-  // useEffect(() => {
-  //   onScreenView({
-  //     screenName: screenNames.smoking,
-  //     screenType: screenClass.profile,
-  //   });
-  // }, []);
+  useEffect(() => {
+    onScreenView({
+      screenName: analyticScreenNames.smoking,
+      screenType: screenClass.profile,
+    });
+  }, []);
 
   return (
     <LinearGradient style={styles.container} colors={gradient}>

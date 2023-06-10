@@ -62,10 +62,10 @@ const CreateAccount = () => {
   const createUserAccount = (formData: any) => {
     setUserData({ ...userData, ...formData });
 
-    // logEvent({
-    //   eventName: eventNames.submitSignUpButtonClick,
-    //   params: { email: userData.email },
-    // });
+    logEvent({
+      eventName: eventNames.submitSignUpButtonClick,
+      params: { email: userData.email },
+    });
     try {
       const data = {
         email: formData.email,
@@ -79,16 +79,16 @@ const CreateAccount = () => {
           if (response && response?.data?.createUser) {
             setModalState(true);
           }
-          // logEvent({
-          //   eventName: eventNames.submitSignUpButtonResponse,
-          //   params: { success: response?.data?.createUser },
-          // });
+          logEvent({
+            eventName: eventNames.submitSignUpButtonResponse,
+            params: { success: response?.data?.createUser },
+          });
         })
         .catch((err) => {
-          // logEvent({
-          //   eventName: eventNames.submitSignUpButtonResponse,
-          //   params: { error: err.message },
-          // });
+          logEvent({
+            eventName: eventNames.submitSignUpButtonResponse,
+            params: { error: err.message },
+          });
         });
     } catch (err) {}
   };

@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 import React, { useState, useEffect } from "react";
 import { View, Text, Alert } from "react-native";
 import { useMutation } from "@apollo/client";
@@ -21,6 +22,8 @@ import { AppButton } from "../../../components/atoms/AppButton";
 import { CaptureText } from "../../../components/atoms/CaptureText";
 import AppActivityIndicator from "../../../components/atoms/ActivityIndicator";
 import { updateUser } from "../../../store/features/user/userSlice";
+import { analyticScreenNames } from "../../../analytics/constants";
+import { onScreenView } from "../../../analytics";
 
 export const QuestionPromptScreen = ({ route }: any) => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
@@ -121,10 +124,11 @@ export const QuestionPromptScreen = ({ route }: any) => {
       };
       setItems(newArray);
     }
-    // onScreenView({
-    //   screenName:screenNames.onBoardSelectPrompt,
-    //   screenType:screenClass.onBoarding,
-    // })
+
+    onScreenView({
+      screenName: analyticScreenNames.onBoardSelectPrompt,
+      screenType: screenClass.onBoarding,
+    });
   }, [route?.params?.item]);
 
   const handlePromptChange = (id: string) => {

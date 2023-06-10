@@ -6,6 +6,8 @@ import { Colors } from "../../../../utils";
 import { GOING_OUT } from "../../../../utils/types/TAGS";
 import TagScreenHeader from "../../../../components/molecule/TagScreenHeader";
 import TagsView from "../../../../components/molecule/TagsView";
+import { eventNames, screenClass } from "../../../../analytics/constants";
+import { logEvent } from "../../../../analytics";
 
 const TypeOf = {
   SINGLE: "single",
@@ -22,10 +24,10 @@ const GoingOut = ({ navigation, route }: any) => {
   const goingOutTag = GOING_OUT;
 
   const goBackHome = () => {
-    // logEvent({
-    //   eventName: eventNames.backEditProfileButton,
-    //   params: { screenClass: screenClass.profile },
-    // });
+    logEvent({
+      eventName: eventNames.backEditProfileButton,
+      params: { screenClass: screenClass.profile },
+    });
     navigation.goBack();
   };
 

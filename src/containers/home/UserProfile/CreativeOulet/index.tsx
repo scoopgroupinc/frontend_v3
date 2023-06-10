@@ -6,6 +6,8 @@ import { Colors } from "../../../../utils";
 import { CREATIVE } from "../../../../utils/types/TAGS";
 import TagScreenHeader from "../../../../components/molecule/TagScreenHeader";
 import TagsView from "../../../../components/molecule/TagsView";
+import { logEvent, onScreenView } from "../../../../analytics";
+import { analyticScreenNames, eventNames, screenClass } from "../../../../analytics/constants";
 
 const TypeOf = {
   SINGLE: "single",
@@ -17,24 +19,22 @@ const CreativeOulet = ({ navigation, route }: any) => {
 
   const { currentTagType } = route?.params;
 
-  const pageTitle = "Creative Outlet";
-
   const creativeOutletTags = CREATIVE;
 
   const goBackHome = () => {
-    // logEvent({
-    //   eventName: eventNames.backEditProfileButton,
-    //   params: { screenClass: screenClass.profile },
-    // });
+    logEvent({
+      eventName: eventNames.backEditProfileButton,
+      params: { screenClass: screenClass.profile },
+    });
     navigation.goBack();
   };
 
-  // useEffect(() => {
-  //   onScreenView({
-  //     screenName: screenNames.creativeOulet,
-  //     screenType: screenClass.profile,
-  //   });
-  // }, []);
+  useEffect(() => {
+    onScreenView({
+      screenName: analyticScreenNames.creativeOulet,
+      screenType: screenClass.profile,
+    });
+  }, []);
 
   return (
     <LinearGradient style={styles.container} colors={gradient}>

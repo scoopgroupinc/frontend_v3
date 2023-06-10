@@ -13,6 +13,8 @@ import styles from "./styles";
 import chatAxios from "../../../services/axios/chatAxios";
 import { selectMessages, setMessages } from "../../../store/features/messages/MessagesSlice";
 import { screenName } from "../../../utils/constants";
+import { onScreenView } from "../../../analytics";
+import { analyticScreenNames, screenClass } from "../../../analytics/constants";
 
 export const getUserConversationList = async (userChoices: any, dispatch: any, userId: string) => {
   try {
@@ -65,10 +67,10 @@ const Conversations = () => {
 
   useEffect(() => {
     getUserConversationList(userMatches, dispatch, userId);
-    // onScreenView({
-    //   screenName: screenNames.chatList,
-    //   screenType: screenClass.chat,
-    // });
+    onScreenView({
+      screenName: analyticScreenNames.chatList,
+      screenType: screenClass.chat,
+    });
   }, [userMatches, dispatch, userId]);
 
   const onPressChat = (matchUserId: string, username: string, photo: string, msgs: any) => {

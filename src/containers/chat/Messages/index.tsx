@@ -11,6 +11,8 @@ import { selectUser } from "../../../store/features/user/userSlice";
 import { selectUserMatches } from "../../../store/features/matches/matchSlice";
 import { getUserConversationList } from "../Conversations";
 import ChatHeader from "../../../components/atoms/ChatHeader";
+import { analyticScreenNames, screenClass } from "../../../analytics/constants";
+import { onScreenView } from "../../../analytics";
 
 const ChatMessage = ({ route }: any) => {
   const user = useAppSelector(selectUser);
@@ -74,10 +76,10 @@ const ChatMessage = ({ route }: any) => {
       socket.emit("online", { userId: user?.userId, checkecUserId: receiverID });
     }, 18000);
     getMessages();
-    // onScreenView({
-    //   screenName: screenNames.message,
-    //   screenType: screenClass.chat,
-    // });
+    onScreenView({
+      screenName: analyticScreenNames.message,
+      screenType: screenClass.chat,
+    });
   }, []);
 
   useEffect(() => {

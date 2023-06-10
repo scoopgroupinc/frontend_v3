@@ -19,6 +19,8 @@ import { storeStringData } from "../../../utils/storage";
 // TODO: replace with a more manged component that doesnt use deprecated ViewPropTypes, breaks web view
 // when removed make sure to delete typings/react-native-smooth-pincode-input.d.ts
 import { setUser } from "../../../store/features/user/userSlice";
+import { analyticScreenNames, eventNames, screenClass } from "../../../analytics/constants";
+import { logEvent, onScreenView } from "../../../analytics";
 
 type UserData = {
   email: string;
@@ -55,10 +57,12 @@ export const OTPInputModal = ({
   const [verifyRstPassCode] = useMutation(VERIFY_PASSWORD_CHANGE);
 
   useEffect(() => {
-    // onScreenView({
-    //   screenName: forgotPass ? screenNames.forgotPasswordOTP : screenNames.signUpOTP,
-    //   screenType: screenClass.auth,
-    // })
+    onScreenView({
+      screenName: forgotPass
+        ? analyticScreenNames.forgotPasswordOTP
+        : analyticScreenNames.signUpOTP,
+      screenType: screenClass.auth,
+    });
     if (timer === 0) {
       setShowResend(true);
     }
@@ -74,10 +78,10 @@ export const OTPInputModal = ({
   const handleResend = () => {
     if (changeValidation) changeValidation(false);
     setShowResend(false);
-    // logEvent({
-    //   eventName: eventNames.submitResendOtpButton,
-    //   params: {},
-    // })
+    logEvent({
+      eventName: eventNames.submitResendOtpButton,
+      params: {},
+    });
     resendActivationCode({
       variables: { email: userData.email.toLowerCase() },
     })
@@ -91,10 +95,10 @@ export const OTPInputModal = ({
   };
 
   const verifyRstPassOtp = async () => {
-    // logEvent({
-    //   eventName: eventNames.submitOtpButton,
-    //   params: {email: userData.email},
-    // })
+    logEvent({
+      eventName: eventNames.submitOtpButton,
+      params: { email: userData.email },
+    });
     try {
       await verifyRstPassCode({
         variables: {
@@ -115,10 +119,10 @@ export const OTPInputModal = ({
   };
 
   const verifyOtp = async () => {
-    // logEvent({
-    //   eventName: eventNames.submitOtpButton,
-    //   params: {email: userData.email},
-    // })
+    logEvent({
+      eventName: eventNames.submitOtpButton,
+      params: { email: userData.email },
+    });
 
     try {
       await activateAccount({

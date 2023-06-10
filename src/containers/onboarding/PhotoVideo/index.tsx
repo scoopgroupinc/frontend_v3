@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+/* eslint-disable import/prefer-default-export */
+import React, { useEffect, useState } from "react";
 import { View, Text, Alert } from "react-native";
 import axios from "axios";
 import * as FileSystem from "expo-file-system";
@@ -14,6 +15,8 @@ import { screenName } from "../../../utils/constants";
 import { AppButton } from "../../../components/atoms/AppButton";
 import { MediaContainer } from "../../../components/molecule/MediaContainer";
 import { setUserVisuals } from "../../../store/features/user/userSlice";
+import { logEvent, onScreenView } from "../../../analytics";
+import { analyticScreenNames, eventNames, screenClass } from "../../../analytics/constants";
 
 export const PhotoVideoScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
@@ -25,12 +28,12 @@ export const PhotoVideoScreen = () => {
   const [allImages, setImages] = useState<object[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  // useEffect(() => {
-  //   onScreenView({
-  //     screenName: screenNames.onBoardPhotos,
-  //     screenType: screenClass.onBoarding,
-  //   })
-  // }, [])
+  useEffect(() => {
+    onScreenView({
+      screenName: analyticScreenNames.onBoardPhotos,
+      screenType: screenClass.onBoarding,
+    });
+  }, []);
 
   const getVisuals = async () => {
     axios
@@ -47,7 +50,7 @@ export const PhotoVideoScreen = () => {
           })
         );
       })
-      .catch((err) => {});
+      .catch(() => {});
   };
 
   const handleImages = (image: any) => {
@@ -56,25 +59,6 @@ export const PhotoVideoScreen = () => {
       videoOrPhoto: image.imageUri,
     };
     setImages(newImages);
-  };
-
-  const saveImages = async () => {
-    setIsLoading(true);
-    // // logEvent({
-    // //   eventName: eventNames.addOnBoardPhotosButton,
-    // //   params: {},
-    // // })
-    const imageArray = [...allImages];
-    // save the image to DB
-    await Promise.all(imageArray.map(async (image: any) => handleSaveImages(image.videoOrPhoto)))
-      .then(async (response) => {
-        setIsLoading(false);
-        navigation.navigate(screenName.QUESTION_PROMPT);
-      })
-      .catch((error) => {
-        setIsLoading(false);
-        Alert.alert(`Error: ${error}`);
-      });
   };
 
   const handleSaveImages = async (img: any) => {
@@ -92,10 +76,29 @@ export const PhotoVideoScreen = () => {
       .catch((error) => {
         Alert.alert(`Error: ${error}`);
       });
-    // logEvent({
-    //   eventName: eventNames.editOnBoardPhotosButton,
-    //   params: {screenClass: screenClass.onBoarding},
-    // })
+    logEvent({
+      eventName: eventNames.editOnBoardPhotosButton,
+      params: { screenClass: screenClass.onBoarding },
+    });
+  };
+
+  const saveImages = async () => {
+    setIsLoading(true);
+    logEvent({
+      eventName: eventNames.addOnBoardPhotosButton,
+      params: {},
+    });
+    const imageArray = [...allImages];
+    // save the image to DB
+    await Promise.all(imageArray.map(async (image: any) => handleSaveImages(image.videoOrPhoto)))
+      .then(async () => {
+        setIsLoading(false);
+        navigation.navigate(screenName.QUESTION_PROMPT);
+      })
+      .catch((error) => {
+        setIsLoading(false);
+        Alert.alert(`Error: ${error}`);
+      });
   };
 
   return (

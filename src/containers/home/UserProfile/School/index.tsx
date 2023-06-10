@@ -13,6 +13,8 @@ import {
 import TagScreenHeader from "../../../../components/molecule/TagScreenHeader";
 import { AppInput } from "../../../../components/atoms/AppInput";
 import TagsView from "../../../../components/molecule/TagsView";
+import { analyticScreenNames, eventNames, screenClass } from "../../../../analytics/constants";
+import { logEvent, onScreenView } from "../../../../analytics";
 
 const School = ({ navigation, route }: any) => {
   const userProfile = useAppSelector(selectUserProfile);
@@ -29,10 +31,10 @@ const School = ({ navigation, route }: any) => {
   const pageTitle = "School";
 
   const goBackHome = () => {
-    // logEvent({
-    //   eventName: eventNames.backEditProfileButton,
-    //   params:{screenClass:screenClass.profile,}
-    // })
+    logEvent({
+      eventName: eventNames.backEditProfileButton,
+      params: { screenClass: screenClass.profile },
+    });
     navigation.goBack();
   };
 
@@ -40,10 +42,10 @@ const School = ({ navigation, route }: any) => {
     if (input.current) {
       input.current.focus();
     }
-    // onScreenView({
-    //   screenName: screenNames.school,
-    //   screenType: screenClass.profile,
-    // });
+    onScreenView({
+      screenName: analyticScreenNames.school,
+      screenType: screenClass.profile,
+    });
   }, []);
 
   return (

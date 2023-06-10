@@ -15,6 +15,8 @@ import { styles } from "./styles";
 import TagScreenHeader from "../../../../components/molecule/TagScreenHeader";
 import { AppInput } from "../../../../components/atoms/AppInput";
 import TagsView from "../../../../components/molecule/TagsView";
+import { logEvent, onScreenView } from "../../../../analytics";
+import { analyticScreenNames, eventNames, screenClass } from "../../../../analytics/constants";
 
 const JobTitle = ({ route }: any) => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
@@ -34,10 +36,10 @@ const JobTitle = ({ route }: any) => {
   const pageTitle = "Job Title";
 
   const goBackHome = () => {
-    // logEvent({
-    //   eventName: eventNames.backEditProfileButton,
-    //   params: { screenClass: screenClass.profile },
-    // });
+    logEvent({
+      eventName: eventNames.backEditProfileButton,
+      params: { screenClass: screenClass.profile },
+    });
     navigation.goBack();
   };
 
@@ -45,10 +47,10 @@ const JobTitle = ({ route }: any) => {
     if (input.current) {
       input.current.focus();
     }
-    // onScreenView({
-    //   screenName: screenNames.jobTitle,
-    //   screenType: screenClass.profile,
-    // });
+    onScreenView({
+      screenName: analyticScreenNames.jobTitle,
+      screenType: screenClass.profile,
+    });
   }, []);
 
   return (

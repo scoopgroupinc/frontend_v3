@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 import React, { useEffect, useState } from "react";
 import { View, Text, ImageBackground, Image, Dimensions } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
@@ -12,6 +13,8 @@ import {
 } from "../../../store/features/user/userSlice";
 import { Spacing } from "../../../utils";
 import { QuotedText } from "../../../components/atoms/QuotedText";
+import { analyticScreenNames, screenClass } from "../../../analytics/constants";
+import { onScreenView } from "../../../analytics";
 
 const screenHeight = Dimensions.get("window").height;
 const onethirdScreenHeight = screenHeight / 3;
@@ -437,10 +440,11 @@ export const UserProfileView = () => {
       return merged;
     };
     mergeData();
-    // onScreenView({
-    //   screenName: screenNames.profileView,
-    //   screenType: screenClass.profile,
-    // });
+
+    onScreenView({
+      screenName: analyticScreenNames.profileView,
+      screenType: screenClass.profile,
+    });
   }, [allImages, userPrompts]);
 
   return (

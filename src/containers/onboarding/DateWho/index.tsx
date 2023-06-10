@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+/* eslint-disable import/prefer-default-export */
+import React, { useEffect, useState } from "react";
 import { View, Text } from "react-native";
 import { ProgressBar } from "react-native-paper";
 import { useMutation } from "@apollo/client";
@@ -11,8 +12,9 @@ import { useAppSelector } from "../../../store/hooks";
 import { SAVE_GENDER_PREFENCE } from "../../../services/graphql/onboarding/mutations";
 import { screenName } from "../../../utils/constants";
 import { GradientLayout } from "../../../components/layouts/GradientLayout";
-import { Colors } from "../../../utils";
 import AppActivityIndicator from "../../../components/atoms/ActivityIndicator";
+import { logEvent, onScreenView } from "../../../analytics";
+import { analyticScreenNames, eventNames, screenClass } from "../../../analytics/constants";
 
 export const DateWhoScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
@@ -29,32 +31,32 @@ export const DateWhoScreen = () => {
         userId,
         gender: mate,
       };
-      // logEvent({
-      //   eventName: eventNames.submitOnBoardGenderPreferenceButton,
-      //   params: {...data, screenClass: screenClass.onBoarding},
-      // })
+      logEvent({
+        eventName: eventNames.submitOnBoardGenderPreferenceButton,
+        params: { ...data, screenClass: screenClass.onBoarding },
+      });
       await saveUserProfile({
         variables: {
           userPreferenceInput: data,
         },
       })
-        .then(async (res) => {
+        .then(async () => {
           navigation.navigate(screenName.BIRTHDAY);
         })
-        .catch((err) => {
-          console.error(err);
+        .catch(() => {
+          /* eslint-disable no-console */
         });
     } catch (err) {
-      console.error(err);
+      /* eslint-disable no-console */
     }
   };
 
-  // useEffect(() => {
-  //   onScreenView({
-  //     screenName: screenNames.onBoardGenderPreference,
-  //     screenType: screenClass.onBoarding,
-  //   })
-  // }, [])
+  useEffect(() => {
+    onScreenView({
+      screenName: analyticScreenNames.onBoardGenderPreference,
+      screenType: screenClass.onBoarding,
+    });
+  }, []);
 
   return (
     <>

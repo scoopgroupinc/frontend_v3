@@ -31,6 +31,8 @@ import {
 import { setUserChoices, setCriterias } from "../../store/features/matches/matchSlice";
 import { styles } from "./styles";
 import OptionTab from "../../components/atoms/OptionsTabs";
+import { eventNames, screenClass } from "../../analytics/constants";
+import { logEvent } from "../../analytics";
 
 export const Home = () => {
   const { user } = useAppSelector(selectUser);
@@ -141,12 +143,12 @@ export const Home = () => {
   };
 
   const createDeleteAlert = () => {
-    // logEvent({
-    //   eventName: eventNames.deldeleteAccountButton,
-    //   params: {
-    //     screenClass: screenClass.settings,
-    //   },
-    // });
+    logEvent({
+      eventName: eventNames.deleteAccountButton,
+      params: {
+        screenClass: screenClass.settings,
+      },
+    });
     Alert.alert("Delete", "Are you sure you want to delete your scoop account?", [
       {
         text: "Cancel",

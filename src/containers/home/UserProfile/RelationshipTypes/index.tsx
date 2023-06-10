@@ -6,6 +6,8 @@ import { Colors } from "../../../../utils";
 import { RELATIONSHIP_TYPE } from "../../../../utils/types/TAGS";
 import TagScreenHeader from "../../../../components/molecule/TagScreenHeader";
 import TagsView from "../../../../components/molecule/TagsView";
+import { logEvent, onScreenView } from "../../../../analytics";
+import { analyticScreenNames, eventNames, screenClass } from "../../../../analytics/constants";
 
 const TypeOf = {
   SINGLE: "single",
@@ -22,19 +24,19 @@ const RelationshipTypes = ({ navigation, route }: any) => {
   const relationshipTypesTags = RELATIONSHIP_TYPE;
 
   const goBackHome = () => {
-    // logEvent({
-    //   eventName: eventNames.backEditProfileButton,
-    //   params: { screenClass: screenClass.profile },
-    // });
+    logEvent({
+      eventName: eventNames.backEditProfileButton,
+      params: { screenClass: screenClass.profile },
+    });
     navigation.goBack();
   };
 
-  // useEffect(() => {
-  //   onScreenView({
-  //     screenName: screenNames.relationshipTypes,
-  //     screenType: screenClass.profile,
-  //   });
-  // }, []);
+  useEffect(() => {
+    onScreenView({
+      screenName: analyticScreenNames.relationshipTypes,
+      screenType: screenClass.profile,
+    });
+  }, []);
 
   return (
     <LinearGradient style={styles.container} colors={gradient}>
