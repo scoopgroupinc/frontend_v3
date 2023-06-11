@@ -1,30 +1,41 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import React, { useEffect, useState } from "react";
 import { View, Text, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { VStack } from "native-base";
-import * as AuthSession from "expo-auth-session";
+// import * as AuthSession from "expo-auth-session";
 import * as Facebook from "expo-auth-session/providers/facebook";
+import * as Google from "expo-auth-session/providers/google";
+
 import * as WebBrowser from "expo-web-browser";
+
+import axios from "axios";
 import { AppButton } from "../../../components/atoms/AppButton";
 import { GradientLayout } from "../../../components/layouts/GradientLayout";
 import { styles } from "./styles";
 import { screenName } from "../../../utils/constants";
+import { OAUTH } from "../../../utils/constants/apis";
 
 WebBrowser.maybeCompleteAuthSession();
 
 const Launch = () => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<any>(null);
   const [request, response, promptAsync] = Facebook.useAuthRequest({
     clientId: "136276392801515",
   });
 
-  if (request) {
-    console.log(
-      "You need to add this url to your authorized redirect urls on your Facebook app: " +
-        request.redirectUri
-    );
-  }
+  const [googleRequest, googleResponse, googlePromptAsync] = Google.useAuthRequest({
+    expoClientId: OAUTH.EXPO_CLIENT_ID,
+    androidClientId: OAUTH.ANDROID_GOOGLE_GUID,
+    iosClientId: OAUTH.IOS_GOOGLE_GUID,
+  });
+
+  // if (request) {
+  //   console.log(
+  //     `You need to add this url to your authorized redirect urls on your Facebook app: ${request.redirectUri}`
+  //   );
+  // }
 
   useEffect(() => {
     if (response && response.type === "success" && response.authentication) {
@@ -38,11 +49,26 @@ const Launch = () => {
     }
   }, [response]);
 
+  useEffect(() => {
+    if (googleResponse && googleResponse.type === "success") {
+      (async () => {
+        const userInfoResponse = await axios
+          .get("https://www.googleapis.com/userinfo/v2/me", {
+            headers: {
+              Authorization: `Bearer ${googleResponse?.authentication?.accessToken}`,
+            },
+          })
+          .then((res) => res.data)
+          .catch((err) => console.log(err));
+        setUser(userInfoResponse);
+      })();
+    }
+  }, [googleResponse]);
+
   const handlePressAsync = async () => {
     const result = await promptAsync();
     if (result.type !== "success") {
       alert("Uh oh, something went wrong");
-      return;
     }
   };
 
@@ -81,15 +107,26 @@ const Launch = () => {
                 fontSize: 20,
               }}
             >
-              {user.name}
+              {user?.name}
             </Text>
-            <Text>ID: {user.id}</Text>
+            <Text>ID: {user?.id}</Text>
             <AppButton onPress={() => {}}>Logout</AppButton>
           </VStack>
         ) : (
-          <AppButton isDisabled={!request} onPress={handlePressAsync} colorScheme="blue">
-            Sign in with Facebook
-          </AppButton>
+          <>
+            <AppButton isDisabled={!request} onPress={handlePressAsync} colorScheme="blue">
+              Sign in with Facebook
+            </AppButton>
+            <AppButton
+              isDisabled={!googleRequest}
+              onPress={() => {
+                googlePromptAsync();
+              }}
+              colorScheme="blue"
+            >
+              Sign in with Google
+            </AppButton>
+          </>
         )}
         <AppButton onPress={onSignUpPress}>Create Account</AppButton>
         <AppButton onPress={onSignInPress} variant="ghost">

@@ -833,22 +833,6 @@ export const UserProfileEdit = ({ route }: any) => {
               }}
               {...inputTextProps}
             />
-            <AppInput
-              _typeOf="tag_field"
-              value={userProfile
-                ?.find((item: any) => item.tagType === "parenting_type")
-                ?.userTags.map((item: any) => item.tagName)
-                .join(", ")}
-              visible={userProfile?.find((item: any) => item.tagType === "parenting_type")?.visible}
-              label="Parenting Types"
-              placeholder="Authoritarian, Permissive, Uninvolved, Authoritative"
-              onPressIn={() => {
-                navigation.navigate(screenName.PARENTING_GOALS, {
-                  currentTagType: "parenting_type",
-                });
-              }}
-              {...inputTextProps}
-            />
           </View>
         </View>
       </ScrollableGradientLayout>

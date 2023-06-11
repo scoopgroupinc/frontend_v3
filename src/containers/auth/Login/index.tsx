@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { TouchableOpacity, View, Text } from "react-native";
+import { View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -10,7 +10,6 @@ import { useMutation } from "@apollo/client";
 import { Heading, VStack } from "native-base";
 import { AppButton } from "../../../components/atoms/AppButton";
 import FormField from "../../../components/molecule/FormField";
-import { styles } from "./styles";
 import { GradientLayout } from "../../../components/layouts/GradientLayout";
 import AppActivityIndicator from "../../../components/atoms/ActivityIndicator";
 import { LOG_IN_USER } from "../../../services/graphql/auth/mutations";
@@ -18,7 +17,6 @@ import { useAppDispatch } from "../../../store/hooks";
 import { setUser } from "../../../store/features/user/userSlice";
 import { storeStringData } from "../../../utils/storage";
 import { OTPInputModal } from "../../../components/templates/OTPInputModal";
-import { Colors } from "../../../utils";
 import { screenName } from "../../../utils/constants";
 import { eventNames } from "../../../analytics/constants";
 import { logEvent } from "../../../analytics";
@@ -28,8 +26,6 @@ const LoginScreen = () => {
   const [userData, setUserData] = useState<any>();
   const [modalState, setModalState] = useState<boolean>(false);
   const [revalidate, setRevalidate] = useState<boolean>(true);
-  const [showModal, setShowModal] = useState<boolean>(false);
-  const [details, setDetails] = useState<any>();
 
   const dispatch = useAppDispatch();
 
@@ -165,17 +161,6 @@ const LoginScreen = () => {
             }}
           />
         )}
-        {/* {showModal && (
-          <UpdateModal
-            onClose={() => setShowModal(false)}
-            state={showModal}
-            details={details}
-            updateAndroid={updateAndroid}
-            updateIOS={updateIOS}
-            forceUpdateAndroid={forceUpdateAndroid}
-            forceUpdateIOS={forceUpdateIOS}
-          />
-        )} */}
       </GradientLayout>
     </>
   );
