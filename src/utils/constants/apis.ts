@@ -14,4 +14,11 @@ const ErrorCodes = {
   INTERNAL_SERVER_ERROR: "INTERNAL_SERVER_ERROR",
 };
 
-export { URLS, ErrorCodes };
+const OAUTH = {
+  EXPO_CLIENT_ID: "940409374508-hcup1882g47q25umcm0o1oi4knfavqtj.apps.googleusercontent.com",
+  EXPO_CLIENT_SECRET: "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",
+  ANDROID_GOOGLE_GUID: "940409374508-0jevmiaibarhubm4s1kjeqr5ih3jd003.apps.googleusercontent.com",
+  IOS_GOOGLE_GUID: "940409374508-06csan9ad1ed1vbboo81fbcdajnu62g7.apps.googleusercontent.com",
+};
+
+export { URLS, ErrorCodes, OAUTH };
