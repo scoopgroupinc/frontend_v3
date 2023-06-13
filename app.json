@@ -18,9 +18,11 @@
       "supportsTablet": true,
       "buildNumber": "1.0.0",
       "bundleIdentifier": "com.scoop.love",
-      "icon": "src/assets/apple-touch-icon.png"
+      "icon": "src/assets/icon.png",
+      "googleServicesFile": "src/services/firebase/GoogleService-Info.plist"
     },
     "android": {
+      "googleServicesFile": "src/services/firebase/google-services.json",
       "adaptiveIcon": {
         "foregroundImage": "src/assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF",
@@ -40,6 +42,15 @@
     "scheme": ["scoop", "fb136276392801515"],
     "owner": "scoopgroup",
     "plugins": [
+      "@react-native-firebase/app",
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "useFrameworks": "static"
+          }
+        }
+      ],
       [
         "expo-image-picker",
         {

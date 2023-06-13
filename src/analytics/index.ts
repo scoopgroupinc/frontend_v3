@@ -12,35 +12,35 @@ interface IScreen {
 }
 
 export const logEvent = async (data: IEvent) => {
-  // await analytics().logEvent(data.eventName, { ...data.params });
+  await analytics().logEvent(data.eventName, { ...data.params });
 };
 
 export const onLogin = async () => {
-  // await analytics().logLogin({
-  //   method: methods.scoopLogin,
-  // });
+  await analytics().logLogin({
+    method: methods.scoopLogin,
+  });
 };
 
 export const onSignUp = async () => {
-  // await analytics().logSignUp({
-  //   method: methods.scoopSignup,
-  // });
+  await analytics().logSignUp({
+    method: methods.scoopSignup,
+  });
 };
 
 export const onSelectContent = async (data: IEvent) => {
-  // await analytics().logSelectContent({
-  //   content_type: data.eventName,
-  //   item_id: data.params,
-  // });
+  await analytics().logSelectContent({
+    content_type: data.eventName,
+    item_id: data.params,
+  });
 };
 
 export const onAppOpen = async () => {
-  // await analytics().logAppOpen();
+  await analytics().logAppOpen();
 };
 
 export const onScreenView = async (event: IScreen) => {
-  // await analytics().logScreenView({
-  //   screen_name: event.screenName,
-  //   screen_class: event.screenType,
-  // });
+  await analytics().logScreenView({
+    screen_name: event.screenName,
+    screen_class: event.screenType,
+  });
 };
