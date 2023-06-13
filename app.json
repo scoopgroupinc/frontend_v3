@@ -41,8 +41,15 @@
     },
     "scheme": ["scoop", "fb136276392801515"],
     "owner": "scoopgroup",
+    "notification": {
+      "icon": "src/assets/icon.png",
+      "color": "#002C56"
+    },
     "plugins": [
       "@react-native-firebase/app",
+      "@react-native-firebase/crashlytics",
+      "@react-native-firebase/perf",
+      "expo-notifications",
       [
         "expo-build-properties",
         {
