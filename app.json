@@ -18,11 +18,11 @@
       "supportsTablet": true,
       "buildNumber": "1.0.0",
       "bundleIdentifier": "com.scoop.love",
-      "icon": "src/assets/apple-touch-icon.png",
-      "googleServicesFile": "./GoogleService-Info.plist"
+      "icon": "src/assets/icon.png",
+      "googleServicesFile": "src/services/firebase/GoogleService-Info.plist"
     },
     "android": {
-      "googleServicesFile": "./google-services.json",
+      "googleServicesFile": "src/services/firebase/google-services.json",
       "adaptiveIcon": {
         "foregroundImage": "src/assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF",
