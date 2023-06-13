@@ -12,7 +12,7 @@ interface IScreen {
 }
 
 export const logEvent = async (data: IEvent) => {
-   await analytics().logEvent(data.eventName, { ...data.params });
+  await analytics().logEvent(data.eventName, { ...data.params });
 };
 
 export const onLogin = async () => {
