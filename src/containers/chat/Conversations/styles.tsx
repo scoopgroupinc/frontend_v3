@@ -30,6 +30,7 @@ const styles = StyleSheet.create({
   },
 
   content: {
+    paddingVertical: 10,
     paddingHorizontal: 10,
     backgroundColor: "white",
   },

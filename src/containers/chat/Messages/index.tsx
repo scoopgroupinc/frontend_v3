@@ -9,13 +9,13 @@ import { io, Socket } from "socket.io-client";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { selectUser } from "../../../store/features/user/userSlice";
 import { selectUserMatches } from "../../../store/features/matches/matchSlice";
-import { getUserConversationList } from "../Conversations";
 import ChatHeader from "../../../components/atoms/ChatHeader";
 import { analyticScreenNames, screenClass } from "../../../analytics/constants";
 import { onScreenView } from "../../../analytics";
+import { getUserConversationList } from "../../../utils/helpers";
 
 const ChatMessage = ({ route }: any) => {
-  const user = useAppSelector(selectUser);
+  const { user } = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
   const userMatches = useAppSelector(selectUserMatches);
 
@@ -32,14 +32,12 @@ const ChatMessage = ({ route }: any) => {
     },
   });
 
-  console.log("socket", socket);
-
   const renderBubble = (props: any) => {
     const messageSenderId = props.currentMessage.user._id;
     return (
       <Bubble
         {...props}
-        position={messageSenderId === receiverID ? "left" : "right"}
+        position={messageSenderId.toString() === receiverID.toString() ? "left" : "right"}
         containerStyle={{
           right: {
             marginRight: 10,
@@ -84,7 +82,7 @@ const ChatMessage = ({ route }: any) => {
 
   useEffect(() => {
     socket.on("receiveMessage", (data) => {
-      if (data.receiverID === user?.userId && data.senderID === receiverID) {
+      if (data.receiverID === user?.userId && data.senderID === data.userID) {
         setMessages((previousMessages: any) => [
           ...previousMessages,
           {
@@ -103,19 +101,18 @@ const ChatMessage = ({ route }: any) => {
   }, [socket, receiverID, username, user?.userId, userMatches, dispatch]);
 
   const onSend = useCallback((message: any = []) => {
-    console.log("socket", socket);
-    // const payload = {
-    //   ...message,
-    //   userID: message[0].user._id,
-    //   name: message[0].user.name,
-    //   receiverID: String(receiverID),
-    //   content: message[0].text,
-    //   createdAt: message[0].createdAt,
-    // };
-    // message[0].createdAt = moment().toISOString();
-    // socket.emit("addMessage", payload);
-    // setMessages((previousMessages: any) => GiftedChat.append(message, previousMessages));
-    // getUserConversationList(userMatches, dispatch, user?.userId);
+    const payload = {
+      ...message,
+      userID: message[0].user._id,
+      name: message[0].user.name,
+      receiverID: String(receiverID),
+      content: message[0].text,
+      createdAt: message[0].createdAt,
+    };
+    message[0].createdAt = moment().toISOString();
+    socket.emit("addMessage", payload);
+    setMessages((previousMessages: any) => GiftedChat.append(message, previousMessages));
+    getUserConversationList(userMatches, dispatch, user?.userId);
   }, []);
 
   return (
@@ -126,7 +123,6 @@ const ChatMessage = ({ route }: any) => {
         alwaysShowSend
         inverted={false}
         renderBubble={renderBubble}
-        wrapInSafeArea={false}
         renderUsernameOnMessage={false}
         showUserAvatar={false}
         messages={messages}
