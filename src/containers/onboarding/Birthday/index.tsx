@@ -26,7 +26,7 @@ export const OnboardBirthdayScreen = () => {
 
   const [age, setAge] = useState<number>(0);
   const [date, setDate] = useState<Date>(new Date());
-  const [modalState, setModalState] = useState<boolean>(false);
+  const [ , setModalState] = useState<boolean>(false);
   const close = () => {
     setModalState(false);
   };
@@ -94,8 +94,8 @@ export const OnboardBirthdayScreen = () => {
         <View style={styles.container}>
           <ProgressBar progress={0.4} color="#0E0E2C" />
           <VStack space={4} style={styles.textContainer}>
-            <Heading>What's your date of birth?</Heading>
-            <Text style={styles.dobSubTitle}>This can't be changed later</Text>
+            <Heading>What&apos;s your date of birth?</Heading>
+            <Text style={styles.dobSubTitle}>This can&apos;t be changed later</Text>
           </VStack>
           <View style={styles.dateContainer}>
             <View>

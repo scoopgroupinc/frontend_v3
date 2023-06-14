@@ -1,21 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, Platform, Alert } from "react-native";
-import { GradientLayout } from "src/components/layout/GradientLayout";
 import * as Location from "expo-location";
-import Constants from "expo-constants";
+import * as Device from 'expo-device';
 import { ProgressBar } from "react-native-paper";
-import { NavigationScreenType } from "src/types/globals";
 import { useMutation } from "@apollo/client";
-import { SubmissionBtn } from "src/components/atoms/SubmissionButton";
-import { ONBOARD_NAVIGATION, STORAGE } from "src/navigations/utils/CONSTANTS";
-import { SAVE_USER_LOCATION } from "src/graphql/onboarding/mutations";
-import { useAppSelector } from "src/store/hooks";
-import { selectUser } from "src/store/features/UserProfileSlice";
-import { Colors } from "src/styles";
-import { logEvent, onScreenView } from "src/analytics";
-import { eventNames, screenClass, analyticScreenNames } from "src/analytics/constants";
-import { completeScreen, COMPLETE_SCREEN } from "../../onboardHandler/utils";
+import { GradientLayout } from "../../../components/layouts/GradientLayout";
+import { SAVE_USER_LOCATION } from "../../../services/graphql/onboarding/mutations";
+import { useAppSelector } from "../../../store/hooks";
+import { selectUser } from "../../../store/features/user/userSlice";
+import { logEvent, onScreenView } from "../../../analytics";
+import { eventNames, screenClass, analyticScreenNames } from "../../../analytics/constants";
 import { styles } from "./styles";
+import { AppButton } from "../../../components/atoms/AppButton";
+import { NavigationScreenType } from "../../../types/globals";
+import { screenName } from "../../../utils/constants";
 
 const locationObject = {
   latitude: 0,
@@ -32,11 +30,7 @@ export const GetLocationsScreen = ({ navigation }: NavigationScreenType) => {
   const { userId } = reduxUser;
 
   const [location, setLocation] = useState<any>(null);
-  const [errorMsg, setErrorMsg] = useState<string | null>(null);
-
-  const screenProgress = COMPLETE_SCREEN.find(
-    (item) => item.name === ONBOARD_NAVIGATION.LOCATION
-  )?.progress;
+  const [ , setErrorMsg] = useState<string | null>(null);
 
   const [saveUserLocation, { loading }] = useMutation(SAVE_USER_LOCATION);
   const saveUserLocationMutation = async () => {
@@ -52,15 +46,14 @@ export const GetLocationsScreen = ({ navigation }: NavigationScreenType) => {
           CreateLocationInput: data,
         },
       });
-      completeScreen(ONBOARD_NAVIGATION.LOCATION);
-      navigation.navigate(ONBOARD_NAVIGATION.NOTIFICATIONS);
+      navigation.navigate(screenName.NOTIFICATIONS);
     } catch (err) {
       console.error(err);
     }
   };
   useEffect(() => {
     (async () => {
-      if (Platform.OS === "android" && !Constants.isDevice) {
+      if (Platform.OS === "android" && !Device.isDevice) {
         setErrorMsg(
           "Oops, this will not work on Snack in an Android emulator. Try it on your device!"
         );
@@ -72,8 +65,8 @@ export const GetLocationsScreen = ({ navigation }: NavigationScreenType) => {
         return;
       }
 
-      const location = await Location.getCurrentPositionAsync({});
-      setLocation(location.coords);
+      const currLocation = await Location.getCurrentPositionAsync({});
+      setLocation(currLocation.coords);
     })();
     onScreenView({
       screenName: analyticScreenNames.onBoardLocation,
@@ -100,6 +93,16 @@ export const GetLocationsScreen = ({ navigation }: NavigationScreenType) => {
     }
   };
 
+  const dontAllow = () => {
+    Alert.alert("Sorry", "You need to allow location to use Scoop", [
+      {
+        text: "Don't Allow",
+        style: "cancel",
+      },
+      { text: "Allow", onPress: allowLocation },
+    ]);
+  };
+
   const requestLocation = () => {
     if (location === null) {
       Alert.alert(
@@ -120,35 +123,22 @@ export const GetLocationsScreen = ({ navigation }: NavigationScreenType) => {
     }
   };
 
-  const dontAllow = () => {
-    Alert.alert("Sorry", "You need to allow location to use Scoop", [
-      {
-        text: "Don't Allow",
-        style: "cancel",
-      },
-      { text: "Allow", onPress: allowLocation },
-    ]);
-  };
-
+  //TODO: set progress amount
   return (
     <GradientLayout>
       <View style={styles.container}>
-        <ProgressBar progress={screenProgress} color="#0E0E2C" />
+        <ProgressBar progress={0.8} color="#0E0E2C" />
         <View style={styles.textContainer}>
           <Text style={[styles.text, styles.textHeader]}>Where do you live?</Text>
           <Text style={[styles.text, styles.textMinor]}>
             The best way to get to know someone is to meet them in person.
           </Text>
         </View>
-        <SubmissionBtn
-          title="Add my location"
-          style={{
-            backgroundColor: location === null ? "transparent" : Colors.WHITE,
-          }}
-          disabled={location === null}
-          spinner={!!loading}
+        <AppButton
+          isDisabled={location === null}
+          isLoading={!!loading}
           onPress={() => requestLocation()}
-        />
+        >Add my location</AppButton>
       </View>
     </GradientLayout>
   );

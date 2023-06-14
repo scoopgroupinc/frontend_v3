@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, Alert } from "react-native";
-import { GradientLayout } from "src/components/layout/GradientLayout";
 import * as Notifications from "expo-notifications";
 import { ProgressBar } from "react-native-paper";
-import { NavigationScreenType } from "src/types/globals";
-import { ONBOARD_NAVIGATION } from "src/navigations/utils/CONSTANTS";
-import { Colors } from "src/styles";
-import { SubmissionBtn } from "src/components/atoms/SubmissionButton";
-import { logEvent, onScreenView } from "src/analytics";
-import { eventNames, screenClass, analyticScreenNames } from "src/analytics/constants";
-import { completeScreen, COMPLETE_SCREEN } from "../../onboardHandler/utils";
+import { GradientLayout } from "../../../components/layouts/GradientLayout";
+import { logEvent, onScreenView } from "../../../analytics";
+import { eventNames, screenClass, analyticScreenNames } from "../../../analytics/constants";
+import { AppButton } from "../../../components/atoms/AppButton";
+import { screenName } from "../../../utils/constants";
 import { styles } from "./styles";
+import { NavigationScreenType } from "../../../types/globals";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -20,12 +18,8 @@ Notifications.setNotificationHandler({
   }),
 });
 
-export const SendNotificationScreen = ({ navigation, route }: NavigationScreenType) => {
+const SendNotificationScreen = ({ navigation, route }: NavigationScreenType) => {
   const [showNotifications, setShowNotifications] = useState<boolean | null>(null);
-
-  const screenProgress = COMPLETE_SCREEN.find(
-    (item) => item.name === ONBOARD_NAVIGATION.NOTIFICATIONS
-  )?.progress;
 
   useEffect(() => {
     onScreenView({
@@ -43,8 +37,7 @@ export const SendNotificationScreen = ({ navigation, route }: NavigationScreenTy
 
   // check why navigation is not working
   const fixMeLater = () => {
-    completeScreen(ONBOARD_NAVIGATION.NOTIFICATIONS);
-    navigation.navigate(ONBOARD_NAVIGATION.QUESTION_PROMPT);
+    navigation.navigate(screenName.QUESTION_PROMPT);
   };
 
   const requestNotifications = () => {
@@ -53,8 +46,7 @@ export const SendNotificationScreen = ({ navigation, route }: NavigationScreenTy
         eventName: eventNames.allowOnBoardNotificationButton,
         params: {},
       });
-      completeScreen(ONBOARD_NAVIGATION.NOTIFICATIONS);
-      navigation.navigate(ONBOARD_NAVIGATION.QUESTION_PROMPT);
+      navigation.navigate(screenName.QUESTION_PROMPT);
       next(true);
     };
     const isNotAllowed = async () => {
@@ -63,7 +55,6 @@ export const SendNotificationScreen = ({ navigation, route }: NavigationScreenTy
         params: {},
       });
       next(false);
-      completeScreen(ONBOARD_NAVIGATION.NOTIFICATIONS);
     };
 
     Notifications.requestPermissionsAsync({
@@ -89,24 +80,23 @@ export const SendNotificationScreen = ({ navigation, route }: NavigationScreenTy
     });
   };
 
+  // TODO: set progress
   return (
     <GradientLayout>
       <View style={styles.container}>
-        <ProgressBar progress={screenProgress} color="#0E0E2C" />
+        <ProgressBar progress={0.9} color="#0E0E2C" />
         <View style={styles.textContainer}>
           <Text style={[styles.text, styles.textHeader]}>Never miss a message</Text>
           <Text style={[styles.text, styles.textMinor]}>
             Allow notifications so you know when your received a message and a new match!
           </Text>
         </View>
-        <SubmissionBtn
-          title="Next"
-          style={{
-            backgroundColor: Colors.WHITE,
-          }}
+        <AppButton
           onPress={fixMeLater}
-        />
+        >Next</AppButton>
       </View>
     </GradientLayout>
   );
 };
+
+export default SendNotificationScreen;
