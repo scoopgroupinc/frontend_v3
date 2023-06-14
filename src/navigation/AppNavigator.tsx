@@ -63,7 +63,7 @@ const AppNavigator = () => {
 
   return isOnboarded ? (
     <AppTabStack.Navigator
-      initialRouteName={screenName.PROFILE}
+      initialRouteName={screenName.HOME}
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: false,

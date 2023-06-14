@@ -28,11 +28,16 @@ import {
   setUserProfile,
   setUserPrompts,
 } from "../../store/features/user/userSlice";
-import { setUserChoices, setCriterias } from "../../store/features/matches/matchSlice";
+import {
+  setUserChoices,
+  setCriterias,
+  selectUserMatches,
+} from "../../store/features/matches/matchSlice";
 import { styles } from "./styles";
 import OptionTab from "../../components/atoms/OptionsTabs";
 import { eventNames, screenClass } from "../../analytics/constants";
 import { logEvent } from "../../analytics";
+import { getUserConversationList } from "../../utils/helpers";
 
 export const Home = () => {
   const { user } = useAppSelector(selectUser);
@@ -261,6 +266,10 @@ export const Home = () => {
       );
     }
   }, [userProfileResult, userProfileLoading, dispatch]);
+
+  const userMatches = useAppSelector(selectUserMatches);
+
+  getUserConversationList(userMatches, dispatch, userId);
 
   return (
     <ScrollableGradientLayout>

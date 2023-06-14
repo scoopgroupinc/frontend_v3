@@ -10,51 +10,10 @@ import { selectUser } from "../../../store/features/user/userSlice";
 import { selectUserMatches } from "../../../store/features/matches/matchSlice";
 import Badge from "../../../components/atoms/Badge";
 import styles from "./styles";
-import chatAxios from "../../../services/axios/chatAxios";
-import { selectMessages, setMessages } from "../../../store/features/messages/MessagesSlice";
+import { selectMessages } from "../../../store/features/messages/MessagesSlice";
 import { screenName } from "../../../utils/constants";
 import { onScreenView } from "../../../analytics";
 import { analyticScreenNames, screenClass } from "../../../analytics/constants";
-
-export const getUserConversationList = async (userChoices: any, dispatch: any, userId: string) => {
-  try {
-    const results: any = [];
-    await Promise.all(
-      userChoices.map(async ({ matchName, matchUserId, visual }: any) => {
-        await chatAxios
-          .get(`${matchUserId}?page=${1}`)
-          .then((res: any) => {
-            results.push({
-              matchUserId,
-              name: matchName,
-              photoUrl: visual.videoOrPhoto,
-              lastActive: moment().subtract(3, "days").toISOString(),
-              lstMessage: {
-                text: res.data[res.data.length - 1]?.content.slice(0, 50).concat("..."),
-                timestamp: res.data[res.data.length - 1]?.createdAt,
-                myTurn: res.data[res.data.length - 1]?.receiverID === userId,
-              },
-              mgs: res.data,
-            });
-          })
-          .catch(() => {
-            /* empty */
-          });
-      })
-    );
-    const modifiedResults = results.sort(
-      (a: any, b: any) => new Date(b.lstMessage.timestamp) - new Date(a.lstMessage.timestamp)
-    );
-
-    dispatch(
-      setMessages({
-        messages: modifiedResults,
-      })
-    );
-  } catch (error) {
-    /* empty */
-  }
-};
 
 const Conversations = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
@@ -66,7 +25,6 @@ const Conversations = () => {
   const chatUsers = useAppSelector(selectMessages);
 
   useEffect(() => {
-    getUserConversationList(userMatches, dispatch, userId);
     onScreenView({
       screenName: analyticScreenNames.chatList,
       screenType: screenClass.chat,
@@ -108,7 +66,7 @@ const Conversations = () => {
       right={() => (
         <View>
           <Text style={styles.lastActive}>{moment(item.lstMessage.timestamp).fromNow()}</Text>
-          {item.lstMessage.myTurn === true ? (
+          {item?.lstMessage?.myTurn === true ? (
             <View style={{ alignSelf: "flex-end" }}>
               <Badge value="Your turn" />
             </View>

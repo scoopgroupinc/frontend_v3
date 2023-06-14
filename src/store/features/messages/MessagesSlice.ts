@@ -43,7 +43,7 @@ export const messagesSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase("appUser/logout", (state) => {
-      state.userMessages = null;
+      state.userMessages = [];
     });
   },
 });
