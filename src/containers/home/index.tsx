@@ -11,6 +11,8 @@ import {
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
 import { useMutation, useQuery } from "@apollo/client";
+import crashlytics from "@react-native-firebase/crashlytics";
+import { Switch } from "native-base";
 import { ScrollableGradientLayout } from "../../components/layouts/ScrollableGradientLayout";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { SlideUpModal } from "../../components/layouts/SlideUpModal";
@@ -33,9 +35,36 @@ import { styles } from "./styles";
 import OptionTab from "../../components/atoms/OptionsTabs";
 import { eventNames, screenClass } from "../../analytics/constants";
 import { logEvent } from "../../analytics";
+import { AppButton } from "../../components/atoms/AppButton";
+import { useCrashState } from "../../services/crashlytics/hooks/useCrashState";
+
+const CrashTab = () => {
+  const [enabled, setEnabled] = useCrashState();
+  const [text, setText] = useState(enabled ? "Crashlytics Enabled" : "Crashlytics Disabled");
+
+  useEffect(() => {
+    setText(enabled ? "Crash Reporting Enabled" : "Crash Reporting Disabled");
+  }, [enabled]);
+
+  return (
+    <OptionTab
+      optionName={text}
+      icon={
+        <Switch
+          size="lg"
+          offTrackColor="red.100"
+          onTrackColor="teal.600"
+          value={!!enabled}
+          onToggle={() => setEnabled(!enabled)}
+        />
+      }
+    />
+  );
+};
 
 export const Home = () => {
   const { user } = useAppSelector(selectUser);
+
   const firstName = user?.firstName;
   const email = user?.email;
   const userId = user?.userId;
@@ -91,12 +120,12 @@ export const Home = () => {
 
   //   methods
   const openUrlTerms = useCallback(async () => {
-    //    logEvent({
-    //      eventName: eventNames.redirectTermsButton,
-    //      params: {
-    //        screenClass: screenClass.settings,
-    //      },
-    //    });
+    logEvent({
+      eventName: eventNames.redirectTermsButton,
+      params: {
+        screenClass: screenClass.settings,
+      },
+    });
     const url = "https://scoop.love/terms";
     const supported = await Linking.canOpenURL(url);
 
@@ -104,12 +133,12 @@ export const Home = () => {
   }, []);
 
   const openUrlPolicy = useCallback(async () => {
-    //  logEvent({
-    //    eventName: eventNames.redirectPrivacyButton,
-    //    params: {
-    //      screenClass: screenClass.settings,
-    //    },
-    //  });
+    logEvent({
+      eventName: eventNames.redirectPrivacyButton,
+      params: {
+        screenClass: screenClass.settings,
+      },
+    });
     const url = "https://scoop.love/privacy-policy/";
     const supported = await Linking.canOpenURL(url);
 
@@ -117,12 +146,12 @@ export const Home = () => {
   }, []);
 
   const createLogoutAlert = () => {
-    //   logEvent({
-    //     eventName: eventNames.logoutAccountButton,
-    //     params: {
-    //       screenClass: screenClass.settings,
-    //     },
-    //   });
+    logEvent({
+      eventName: eventNames.logoutAccountButton,
+      params: {
+        screenClass: screenClass.settings,
+      },
+    });
     Alert.alert("Log out", "Are you sure you want to log out?", [
       {
         text: "Cancel",
@@ -212,7 +241,7 @@ export const Home = () => {
     []
   );
 
-  const componentDidMount = () => {
+  useEffect(() => {
     userProfileRefetch();
     userPromptRefetch();
 
@@ -221,11 +250,7 @@ export const Home = () => {
         criterias: criteriaData,
       })
     );
-  };
-
-  useEffect(() => {
-    componentDidMount();
-  }, []);
+  }, [criteriaData, dispatch, userPromptRefetch, userProfileRefetch]);
 
   useEffect(() => {
     if (userPromptData && !userPromptLoading) {
@@ -298,7 +323,7 @@ export const Home = () => {
                   }
                 />
               </View>
-
+              <CrashTab />
               <OptionTab
                 optionName="Terms & Conditions"
                 btnAction={openUrlTerms}
@@ -319,6 +344,8 @@ export const Home = () => {
                 btnAction={createDeleteAlert}
                 icon={<MaterialCommunityIcons name="delete" size={24} color="black" />}
               />
+
+              <AppButton onPress={() => crashlytics().crash()}>Crash</AppButton>
             </View>
           </SlideUpModal>
         ) : (

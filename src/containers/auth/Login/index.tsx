@@ -20,12 +20,16 @@ import { OTPInputModal } from "../../../components/templates/OTPInputModal";
 import { screenName } from "../../../utils/constants";
 import { eventNames } from "../../../analytics/constants";
 import { logEvent } from "../../../analytics";
+import { crashLogin } from "../../../services/crashlytics";
+import { useCrashLog } from "../../../services/crashlytics/hooks/useCrashLog";
 
 const LoginScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const [userData, setUserData] = useState<any>();
   const [modalState, setModalState] = useState<boolean>(false);
   const [revalidate, setRevalidate] = useState<boolean>(true);
+
+  useCrashLog("LoginScreen mounted.");
 
   const dispatch = useAppDispatch();
 
@@ -72,6 +76,8 @@ const LoginScreen = () => {
             },
           })
         );
+
+        crashLogin(res?.data?.login?.user);
       })
       .catch((err) => {
         if (err.message === "Kindly activate your account") {

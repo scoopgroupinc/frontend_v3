@@ -23,7 +23,11 @@ const App = () => {
       await splashScreen.preventAutoHideAsync();
     };
     prepare();
+
+    crashlytics().log('App mounted.');
   }, []);
+
+
 
   const onLayoutRootView = useCallback(async () => {
     if (fontsLoaded) {
