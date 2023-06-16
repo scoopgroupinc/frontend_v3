@@ -54,8 +54,8 @@ export const QuestionPromptScreen = ({ route }: any) => {
     variables: {
       onboardInput: {
         userId,
-        onBoarding: true,
-        voteOnboard: false,
+        isOnboarded: true,
+        isVoteOnboarded: false,
       },
     },
     onCompleted: () => {
@@ -63,7 +63,7 @@ export const QuestionPromptScreen = ({ route }: any) => {
       dispatch(
         updateUser({
           value: {
-            onBoarding: true,
+            isOnboarded: true,
           },
         })
       );

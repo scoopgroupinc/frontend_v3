@@ -61,8 +61,8 @@ export const LOG_IN_USER = gql`
         firstName
         lastName
         email
-        onBoarding
-        voteOnboard
+        isOnboarded
+        isVoteOnboarded
       }
       message
     }
