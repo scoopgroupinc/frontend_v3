@@ -30,10 +30,10 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
           Alert.alert("Error", err.message);
           break;
         case ErrorCodes.INTERNAL_SERVER_ERROR:
-          console.log("INTERNAL_SERVER_ERROR");
+          console.log("INTERNAL_SERVER_ERROR", err);
           break;
         case ErrorCodes.GRAPHQL_VALIDATION_FAILED:
-          console.log("GRAPHQL_VALIDATION_FAILED");
+          console.log("GRAPHQL_VALIDATION_FAILED", err);
           break;
         case ErrorCodes.GRAPHQL_PARSE_FAILED:
           console.log("GRAPHQL_PARSE_FAILED");

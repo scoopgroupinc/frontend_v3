@@ -23,11 +23,10 @@
     },
     "android": {
       "googleServicesFile": "src/services/firebase/google-services.json",
+      "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "src/assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF",
-        "package": "com.scoop.love",
-        "versionCode": 1
+        "backgroundColor": "#FFFFFF"
       },
       "package": "com.scoop.love"
     },
@@ -51,7 +50,6 @@
           }
         }
       ],
-
       "expo-apple-authentication",
       [
         "expo-image-picker",

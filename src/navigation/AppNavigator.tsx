@@ -23,8 +23,8 @@ const AppTabStack = createBottomTabNavigator();
 const AppNavigator = () => {
   const { user } = useAppSelector((state) => state.appUser);
   const userId = user?.userId;
-  // const voteOnboard = user?.voteOnboard;
-  const isOnboarded = user?.onBoarding;
+  // const isVoteOnboarded = user?.isVoteOnboarded;
+  const isOnboarded = user?.isOnboarded;
 
   const dispatch = useAppDispatch();
 
@@ -90,7 +90,7 @@ const AppNavigator = () => {
     >
       <AppTabStack.Screen
         name={screenName.VOTE}
-        // component={voteOnboard ? VoteNavigator : VoteOnboardNavigator}
+        // component={isVoteOnboarded ? VoteNavigator : VoteOnboardNavigator}
         component={VoteNavigator}
         options={{
           // tabBarStyle: voteOnboard
