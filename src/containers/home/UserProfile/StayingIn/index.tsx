@@ -17,7 +17,7 @@ const TypeOf = {
 const StayingIn = ({ navigation, route }: any) => {
   const gradient = [Colors.RUST, Colors.RED, Colors.TEAL];
 
-  const { currentTagType } = route?.params;
+  const { currentTagType } = route?.params || {};
 
   const pageTitle = "Staying In";
 
