@@ -1,5 +1,5 @@
 import { Dimensions, StyleSheet } from "react-native";
-import { Colors, Spacing, Typography } from "../../../utils";
+import { Colors, Spacing, Typography } from "../../utils";
 
 const windowHeight = Dimensions.get("window").height;
 
@@ -9,6 +9,7 @@ export const styles = StyleSheet.create({
     justifyContent: "flex-end",
   },
   container: {
+    // flex: 1,
     marginTop: windowHeight / 3,
     borderTopRightRadius: 100,
     backgroundColor: Colors.SLIDE_UP_MODAL_BG,
@@ -19,7 +20,7 @@ export const styles = StyleSheet.create({
     marginBottom: Spacing.SCALE_40,
   },
   descriptionContainer: {
-    marginTop: Spacing.SCALE_10,
+    marginTop: Spacing.SCALE_30,
     marginBottom: Spacing.SCALE_30,
   },
   descriptionHeader: {

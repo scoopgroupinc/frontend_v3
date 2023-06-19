@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, Platform, Alert } from "react-native";
 import * as Location from "expo-location";
-import * as Device from 'expo-device';
+import * as Device from "expo-device";
 import { ProgressBar } from "react-native-paper";
 import { useMutation } from "@apollo/client";
 import { GradientLayout } from "../../../components/layouts/GradientLayout";
@@ -30,7 +30,7 @@ export const GetLocationsScreen = ({ navigation }: NavigationScreenType) => {
   const { userId } = reduxUser;
 
   const [location, setLocation] = useState<any>(null);
-  const [ , setErrorMsg] = useState<string | null>(null);
+  const [, setErrorMsg] = useState<string | null>(null);
 
   const [saveUserLocation, { loading }] = useMutation(SAVE_USER_LOCATION);
   const saveUserLocationMutation = async () => {
@@ -123,7 +123,7 @@ export const GetLocationsScreen = ({ navigation }: NavigationScreenType) => {
     }
   };
 
-  //TODO: set progress amount
+  // TODO: set progress amount
   return (
     <GradientLayout>
       <View style={styles.container}>
@@ -138,7 +138,9 @@ export const GetLocationsScreen = ({ navigation }: NavigationScreenType) => {
           isDisabled={location === null}
           isLoading={!!loading}
           onPress={() => requestLocation()}
-        >Add my location</AppButton>
+        >
+          Add my location
+        </AppButton>
       </View>
     </GradientLayout>
   );
