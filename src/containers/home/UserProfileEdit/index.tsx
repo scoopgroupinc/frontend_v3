@@ -277,7 +277,7 @@ export const UserProfileEdit = ({ route }: any) => {
 
   useEffect(() => {
     if (route?.params?.item) {
-      const { item } = route?.params;
+      const { item } = route.params;
       const newArray: UserPrompts[] = cloneArray(userPrompts);
       const index = newArray.findIndex((item) => Number(item.id) === Number(captureId));
       newArray[index] = {
@@ -294,7 +294,7 @@ export const UserProfileEdit = ({ route }: any) => {
       screenName: analyticScreenNames.onBoardSelectPrompt,
       screenType: screenClass.onBoarding,
     });
-  }, [route?.params?.item]);
+  }, [route?.params, dispatch, captureId, userPrompts]);
 
   return (
     <>
