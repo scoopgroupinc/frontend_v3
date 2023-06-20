@@ -23,8 +23,7 @@ const AppTabStack = createBottomTabNavigator();
 const AppNavigator = () => {
   const { user } = useAppSelector((state) => state.appUser);
   const userId = user?.userId;
-  // const voteOnboard = user?.voteOnboard;
-  const isOnboarded = user?.onBoarding;
+  const { isOnboarded } = user;
 
   const dispatch = useAppDispatch();
 
