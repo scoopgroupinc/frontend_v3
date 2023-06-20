@@ -6,6 +6,7 @@
     "start-build": "expo start --dev-client",
     "android": "expo run:android",
     "ios": "expo run:ios",
+    "eas-ios-build": "eas build --profile development --platform ios ",
     "web": "expo start --web",
     "lint": "npx eslint src/ --fix --quiet",
     "format": "npx prettier --write ./src",
