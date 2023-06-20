@@ -31,12 +31,6 @@ const LoginScreen = () => {
   const dispatch = useAppDispatch();
 
   const { registerForPushNotificationsAsync } = useNotifications();
-  console.log("token", registerForPushNotificationsAsync);
-  const tokenUser = getObjectData("user");
-  console.log(
-    "tokenUser",
-    tokenUser.then((res) => console.log(res))
-  );
 
   const [loginUserMutation, { loading: loginLoading }] = useMutation(LOG_IN_USER);
 
@@ -86,7 +80,6 @@ const LoginScreen = () => {
       },
     })
       .then(async (res) => {
-        await saveDeviceToken();
         await storeStringData("userToken", res?.data?.login?.token);
         dispatch(
           setUser({
@@ -96,7 +89,7 @@ const LoginScreen = () => {
             },
           })
         );
-        saveDeviceToken();
+        await saveDeviceToken();
       })
       .catch((err) => {
         if (err.message === "Kindly activate your account") {
