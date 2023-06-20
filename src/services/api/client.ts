@@ -23,20 +23,20 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
           // check why it does not redirect to login
           break;
         case ErrorCodes.BAD_USER_INPUT:
-          console.log("BAD_USER_INPUT");
+          console.log("BAD_USER_INPUT", err.message);
           break;
         case ErrorCodes.BAD_REQUEST:
           console.log("BAD_REQUEST");
           Alert.alert("Error", err.message);
           break;
         case ErrorCodes.INTERNAL_SERVER_ERROR:
-          console.log("INTERNAL_SERVER_ERROR");
+          console.log("INTERNAL_SERVER_ERROR", err.message);
           break;
         case ErrorCodes.GRAPHQL_VALIDATION_FAILED:
-          console.log("GRAPHQL_VALIDATION_FAILED");
+          console.log("GRAPHQL_VALIDATION_FAILED", err.message);
           break;
         case ErrorCodes.GRAPHQL_PARSE_FAILED:
-          console.log("GRAPHQL_PARSE_FAILED");
+          console.log("GRAPHQL_PARSE_FAILED", err.message);
           break;
         default:
           console.log("DEFAULT");
