@@ -38,6 +38,10 @@
         "projectId": "c7bc250b-d451-49fd-b042-5a9fae365906"
       }
     },
+    "notification": {
+      "icon": "./assets/apple-touch-icon.png",
+      "color": "#002C56"
+    },
     "scheme": ["scoop", "fb136276392801515"],
     "owner": "scoopgroup",
     "plugins": [

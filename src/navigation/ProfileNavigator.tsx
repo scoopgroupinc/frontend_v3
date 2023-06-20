@@ -1,89 +1,36 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect } from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
-import { Platform } from "react-native";
 import { UserProfileEdit } from "../containers/home/UserProfileEdit";
 import { screenName } from "../utils/constants";
 import { UserProfileView } from "../containers/home/UserProfileView";
 import UserProfile from "../containers/home/UserProfile";
 import AppNavigator from "./AppNavigator";
 import Messages from "../containers/chat/Messages";
-import { storeStringData } from "../utils/storage";
+import { useNotifications } from "../hooks/useNotification";
 
 const HomeStack = createStackNavigator();
 
-Notifications.setNotificationHandler({
-  handleNotification: async () => ({
-    shouldShowAlert: true,
-    shouldPlaySound: true,
-    shouldSetBadge: true,
-  }),
-});
-
-async function registerForPushNotificationsAsync() {
-  let token;
-  if (Device.isDevice) {
-    const { status: existingStatus } = await Notifications.getPermissionsAsync();
-    let finalStatus = existingStatus;
-    if (existingStatus !== "granted") {
-      const { status } = await Notifications.requestPermissionsAsync();
-      finalStatus = status;
-    }
-    if (finalStatus !== "granted") {
-      alert("Failed to get push token for push notification!");
-      return;
-    }
-    token = (await Notifications.getExpoPushTokenAsync()).data;
-    console.log(token);
-  } else {
-    alert("Must use physical device for Push Notifications");
-  }
-
-  if (Platform.OS === "android") {
-    Notifications.setNotificationChannelAsync("default", {
-      name: "default",
-      importance: Notifications.AndroidImportance.MAX,
-      vibrationPattern: [0, 250, 250, 250],
-      lightColor: "#FF231F7C",
-    });
-  }
-
-  return token;
-}
-
 const ProfileNavigator = () => {
-  const [expoPushToken, setExpoPushToken] = useState<string | undefined>("");
-  const [notification, setNotification] = useState(false);
-  const notificationListener = useRef<any>();
-  const responseListener = useRef<any>();
+  const { handleNotificationResponse } = useNotifications();
 
   useEffect(() => {
-    registerForPushNotificationsAsync().then(async (token) => {
-      await storeStringData("expoPushToken", token);
-      setExpoPushToken(token);
+    Notifications.setNotificationHandler({
+      handleNotification: async () => ({
+        shouldShowAlert: true,
+        shouldPlaySound: true,
+        shouldSetBadge: true,
+      }),
     });
 
-    notificationListener.current = Notifications.addNotificationReceivedListener((nots) => {
-      setNotification(nots);
-    });
-
-    responseListener.current = Notifications.addNotificationResponseReceivedListener((response) => {
-      console.log(response);
-    });
+    const responseListener = Notifications.addNotificationResponseReceivedListener(
+      handleNotificationResponse
+    );
 
     return () => {
-      Notifications.removeNotificationSubscription(notificationListener.current);
-      Notifications.removeNotificationSubscription(responseListener.current);
+      if (responseListener) Notifications.removeNotificationSubscription(responseListener);
     };
   }, []);
-
-  useEffect(() => {
-    if (notification) {
-      console.log("notification", notification);
-    }
-  }, [notification]);
-
   return (
     <HomeStack.Navigator
       screenOptions={{
