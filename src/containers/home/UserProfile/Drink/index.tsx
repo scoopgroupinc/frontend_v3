@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { styles } from "./styles";
@@ -18,7 +18,7 @@ const TypeOf = {
 const Drink = ({ navigation, route }: NavigationScreenProps) => {
   const gradient = [Colors.RUST, Colors.RED, Colors.TEAL];
 
-  const { currentTagType } = route?.params;
+  const { currentTagType } = route?.params || {};
 
   const pageTitle = "Drinks";
 

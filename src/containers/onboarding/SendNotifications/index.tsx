@@ -91,9 +91,7 @@ const SendNotificationScreen = ({ navigation, route }: NavigationScreenType) => 
             Allow notifications so you know when your received a message and a new match!
           </Text>
         </View>
-        <AppButton
-          onPress={fixMeLater}
-        >Next</AppButton>
+        <AppButton onPress={fixMeLater}>Next</AppButton>
       </View>
     </GradientLayout>
   );

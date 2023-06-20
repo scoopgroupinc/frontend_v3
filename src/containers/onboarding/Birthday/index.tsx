@@ -26,7 +26,7 @@ export const OnboardBirthdayScreen = () => {
 
   const [age, setAge] = useState<number>(0);
   const [date, setDate] = useState<Date>(new Date());
-  const [ , setModalState] = useState<boolean>(false);
+  const [, setModalState] = useState<boolean>(false);
   const close = () => {
     setModalState(false);
   };
