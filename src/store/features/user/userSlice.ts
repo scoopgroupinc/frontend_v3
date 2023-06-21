@@ -80,7 +80,7 @@ const UserSlice = createSlice({
       } else {
         state.isDirty = false;
       }
-      state.userPrompts = cloneDeep(userPrompts);
+      state.userPrompts = prompts;
     },
     updateUser: (state, action: PayloadAction<any>) => {
       const { value } = action.payload;
