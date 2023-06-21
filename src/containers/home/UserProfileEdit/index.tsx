@@ -26,6 +26,7 @@ import {
   copyUserData,
   clearCopyData,
   resetToCopyData,
+  selectIsDirty,
 } from "../../../store/features/user/userSlice";
 import { CaptureText } from "../../../features/Prompt/components/CaptureText";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
@@ -52,6 +53,7 @@ export const UserProfileEdit = () => {
   const userPrompts = useAppSelector(selectUserPrompts);
   const userVisuals = useAppSelector(selectUserVisuals);
   const userProfile = useAppSelector(selectUserProfile);
+  const isDirty = useAppSelector(selectIsDirty);
 
   const dispatch = useAppDispatch();
 
@@ -318,7 +320,7 @@ export const UserProfileEdit = () => {
             <AppButton style={styles.topButton} onPress={() => setModalState(true)}>
               Cancel
             </AppButton>
-            <AppButton style={styles.topButton} onPress={() => saveChanges()}>
+            <AppButton style={styles.topButton} isDisabled={!isDirty} onPress={() => saveChanges()}>
               {saving ? "Saving..." : "Done"}
             </AppButton>
           </View>

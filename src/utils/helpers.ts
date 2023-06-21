@@ -1,4 +1,4 @@
-import cloneDeep from "lodash.clonedeep";
+import { cloneDeep } from "lodash";
 import moment from "moment";
 import chatAxios from "../services/axios/chatAxios";
 import { setMessages } from "../store/features/messages/MessagesSlice";

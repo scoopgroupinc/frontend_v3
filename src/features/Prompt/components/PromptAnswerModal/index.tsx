@@ -14,7 +14,7 @@ import {
   selectEditPrompt,
   selectEditPromptAnswer,
   setEditPrompt,
-  setTempProfilePromptOfEditIndex,
+  setPromptOfEditIndex,
 } from "../../../../store/features/user/userSlice";
 import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
 
@@ -38,7 +38,7 @@ export const PromptAnswerModal = ({ close, goBack }: PromptAnswerType) => {
   const handleSavePrompt = () => {
     const prompt = { promptId: editPrompt.id, answer, prompt: editPrompt.prompt, userId };
     dispatch(setEditPrompt({ editPrompt: prompt }));
-    dispatch(setTempProfilePromptOfEditIndex(prompt));
+    dispatch(setPromptOfEditIndex(prompt));
     goBack();
   };
 
