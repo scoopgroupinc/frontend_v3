@@ -1,13 +1,13 @@
 export interface ScreenType {
-  addPrompt: () => void;
-  press?: () => void;
   activeState?: boolean;
   prompt: PromptsOrder;
-  change: any;
+  onAdd: () => void;
+  onEdit: () => void;
+  onSwap: () => void;
 }
 export interface TextContainerType {
-  handlePress: () => void;
   active?: boolean;
   prompt: PromptsOrder;
-  change: any;
+  onEdit: () => void;
+  onSwap: () => void;
 }

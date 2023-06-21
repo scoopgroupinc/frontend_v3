@@ -4,7 +4,6 @@ import { View, Text, Alert } from "react-native";
 import { useMutation } from "@apollo/client";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
-import { useSelector } from "react-redux";
 import * as FileSystem from "expo-file-system";
 import { ScrollableGradientLayout } from "../../../components/layouts/ScrollableGradientLayout";
 import { AppAlert } from "../../../components/layouts/AppAlert";
@@ -21,16 +20,18 @@ import {
   selectUserProfile,
   selectUserPrompts,
   selectUserVisuals,
-  setUserPrompts,
   setUserVisuals,
+  setEditPrompt,
+  setEditPromptIndex,
+  copyUserData,
+  clearCopyData,
+  resetToCopyData,
 } from "../../../store/features/user/userSlice";
-import { CaptureText } from "../../../components/atoms/CaptureText";
-import { useAppDispatch } from "../../../store/hooks";
+import { CaptureText } from "../../../features/Prompt/components/CaptureText";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { screenName } from "../../../utils/constants";
 import { styles } from "./styles";
 import { AppInput } from "../../../components/atoms/AppInput";
-import { UserPrompts } from "../../../utils/types";
-import { cloneArray } from "../../../utils/helpers";
 import { URLS } from "../../../utils/constants/apis";
 import AppActivityIndicator from "../../../components/atoms/ActivityIndicator";
 import { logEvent, onScreenView } from "../../../analytics";
@@ -40,22 +41,24 @@ const inputTextProps = {
   editable: false,
 };
 
-export const UserProfileEdit = ({ route }: any) => {
+export const UserProfileEdit = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const [modalState, setModalState] = useState<boolean>(false);
   const [saving, isSaving] = useState<boolean>(false);
   const [doneState, setDoneState] = useState<boolean>(false);
 
-  const [captureId, setCaptureId] = useState<string>("");
-
-  const userPrompts = useSelector(selectUserPrompts);
-  const userVisuals = useSelector(selectUserVisuals);
-  const userProfile = useSelector(selectUserProfile);
-
-  const { user } = useSelector(selectUser);
+  const { user } = useAppSelector(selectUser);
   const userId = user?.userId;
+  const userPrompts = useAppSelector(selectUserPrompts);
+  const userVisuals = useAppSelector(selectUserVisuals);
+  const userProfile = useAppSelector(selectUserProfile);
 
   const dispatch = useAppDispatch();
+
+  // make copy to allow for undoing of changes
+  useEffect(() => {
+    dispatch(copyUserData());
+  }, [dispatch]);
 
   const handleUserVisuals = (image: any) => {
     const newImages = [...userVisuals];
@@ -76,11 +79,6 @@ export const UserProfileEdit = ({ route }: any) => {
       promptId: item.promptId,
       userId,
     }));
-
-  const handlePromptChange = (id: string) => {
-    setCaptureId(id);
-    navigation.navigate(screenName.ALLPROMPTS);
-  };
 
   const handleSaveImages = async (img: any) => {
     const postUrl = URLS.FILE_URL;
@@ -248,6 +246,7 @@ export const UserProfileEdit = ({ route }: any) => {
   });
 
   const saveChanges = async () => {
+    dispatch(clearCopyData());
     isSaving(true);
     saveUserProfile();
     logEvent({
@@ -257,6 +256,7 @@ export const UserProfileEdit = ({ route }: any) => {
   };
 
   const cancelChanges = () => {
+    dispatch(resetToCopyData());
     logEvent({
       eventName: eventNames.cancelProfileButton,
       params: {},
@@ -264,27 +264,6 @@ export const UserProfileEdit = ({ route }: any) => {
     setModalState(false);
     navigation.goBack();
   };
-
-  useEffect(() => {
-    if (route?.params?.item) {
-      const { item } = route?.params || {};
-      const newArray: UserPrompts[] = cloneArray(userPrompts);
-      const index = newArray.findIndex((item) => Number(item.id) === Number(captureId));
-      newArray[index] = {
-        ...newArray[index],
-        answer: item.answer,
-        prompt: item.prompt,
-        promptId: item.promptId,
-        userId: item.userId,
-      };
-
-      dispatch(setUserPrompts({ userPrompts: newArray }));
-    }
-    onScreenView({
-      screenName: analyticScreenNames.onBoardSelectPrompt,
-      screenType: screenClass.onBoarding,
-    });
-  }, [route?.params?.item]);
 
   return (
     <>
@@ -315,7 +294,7 @@ export const UserProfileEdit = ({ route }: any) => {
 
           <AppAlert state={doneState} close={() => setDoneState(false)}>
             <View style={styles.textContainer}>
-              <Text style={styles.modalText}>Are you sure you want to save your changes? </Text>
+              <Text style={styles.modalText}>Are you sure you want to save your changes?</Text>
               <View style={styles.buttonContainer}>
                 <View style={styles.buttons}>
                   <AppButton style={styles.editButton} onPress={() => setDoneState(false)}>
@@ -355,15 +334,20 @@ export const UserProfileEdit = ({ route }: any) => {
             <Text style={styles.mediaHeader}>Prompts</Text>
             {userPrompts?.map((item: any, index: any) => (
               <CaptureText
-                key={index}
-                addPrompt={() => {
-                  setCaptureId(index);
+                key={item.id}
+                onAdd={() => {
+                  dispatch(setEditPromptIndex({ editPromptIndex: index }));
                   navigation.navigate(screenName.ALLPROMPTS);
                 }}
+                onEdit={() => {
+                  dispatch(setEditPromptIndex({ editPromptIndex: index }));
+                  dispatch(setEditPrompt({ editPrompt: item }));
+                  navigation.navigate(screenName.PROMPT_ANSWER, { prompt: item });
+                }}
                 prompt={item}
-                change={() => {
-                  setCaptureId(index);
-                  handlePromptChange(item.id);
+                onSwap={() => {
+                  dispatch(setEditPromptIndex({ editPromptIndex: index }));
+                  navigation.navigate(screenName.ALLPROMPTS);
                 }}
               />
             ))}

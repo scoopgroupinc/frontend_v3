@@ -2,19 +2,17 @@ import React, { useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { screenName } from "../../../utils/constants";
-import { PromptAnswerModal } from "../../../components/templates/PromptAnswerModal";
+import { PromptAnswerModal } from "../../../features/Prompt/components/PromptAnswerModal";
 import { analyticScreenNames, screenClass } from "../../../analytics/constants";
 import { onScreenView } from "../../../analytics";
 
-const OnboardPromptAnswer = ({ route }: any) => {
+const OnboardPromptAnswer = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
-  const { prompt } = route?.params;
-
-  const goBack = (item: any) => {
+  const goBack = (answer: string) => {
     navigation.navigate({
       name: screenName.QUESTION_PROMPT,
-      params: { item },
+      params: { ...prompt, answer },
       merge: true,
     });
   };
@@ -29,7 +27,7 @@ const OnboardPromptAnswer = ({ route }: any) => {
     });
   }, []);
 
-  return <PromptAnswerModal prompt={prompt} goBack={goBack} close={close} />;
+  return <PromptAnswerModal goBack={goBack} close={close} />;
 };
 
 export default OnboardPromptAnswer;
