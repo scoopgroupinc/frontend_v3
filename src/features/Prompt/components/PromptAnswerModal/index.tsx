@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, TextInput, Pressable } from "react-native";
-import { useDispatch, useAppSelector } from "react-redux";
 import { Entypo } from "@expo/vector-icons";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useNavigation } from "@react-navigation/native";
@@ -17,9 +16,10 @@ import {
   setEditPrompt,
   setTempProfilePromptOfEditIndex,
 } from "../../../../store/features/user/userSlice";
+import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
 
 interface PromptAnswerType {
-  goBack: (item: any) => void;
+  goBack: () => void;
   close: () => void;
 }
 
