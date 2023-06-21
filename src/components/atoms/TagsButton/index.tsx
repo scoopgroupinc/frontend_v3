@@ -39,35 +39,22 @@ export const TagsButton = ({ currentTagType, typeOf, data }: TagButtonProps) => 
   const userProfile = useAppSelector(selectUserProfile);
 
   const handleMulipleBtns = () => {
+    const index = userProfile.findIndex((item: any) => item.tagType === currentTagType);
     const rst = userProfile?.find((item: any) => item.tagType === currentTagType);
+    const profile = [...userProfile];
     const isExist = tags?.find((item: any) => item.tagName === data.name);
+    let userTags = [];
     if (isExist) {
-      setTags([...tags.filter((item: any) => item.tagName !== data.name)]);
-      dispatch(
-        setUserProfile({
-          userProfile: [
-            ...userProfile.filter((item: any) => item.tagType !== currentTagType),
-            {
-              ...rst,
-              userTags: [...tags.filter((item: any) => item.tagName !== data.name)],
-            },
-          ],
-        })
-      );
+      userTags = [...tags.filter((item: any) => item.tagName !== data.name)];
     } else {
-      setTags([...tags, { userId, tagName: data.name, tagType: currentTagType }]);
-      dispatch(
-        setUserProfile({
-          userProfile: [
-            ...userProfile.filter((item: any) => item.tagType !== currentTagType),
-            {
-              ...rst,
-              userTags: [...tags, { userId, tagName: data.name, tagType: currentTagType }],
-            },
-          ],
-        })
-      );
+      userTags = [...tags, { userId, tagName: data.name, tagType: currentTagType }];
     }
+    setTags(userTags);
+    profile[index] = {
+      ...rst,
+      userTags,
+    };
+    dispatch(setUserProfile({ userProfile: profile }));
   };
 
   const handleSingleBtn = () => {
@@ -88,7 +75,7 @@ export const TagsButton = ({ currentTagType, typeOf, data }: TagButtonProps) => 
   useEffect(() => {
     const rst = userProfile?.find((item: any) => item.tagType === currentTagType);
     setTags(rst?.userTags);
-  }, [userProfile]);
+  }, [userProfile, currentTagType]);
 
   return (
     <TouchableOpacity onPress={typeOf === TypeOf.ARRAY ? handleMulipleBtns : handleSingleBtn}>

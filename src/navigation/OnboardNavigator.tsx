@@ -9,7 +9,7 @@ import { HeightScreen } from "../containers/onboarding/Height";
 import { PhotoVideoScreen } from "../containers/onboarding/PhotoVideo";
 
 import { QuestionPromptScreen } from "../containers/onboarding/QuestionPrompt";
-import AllPrompts from "../containers/onboarding/Prompts";
+import AllPrompts from "../features/Prompt/AllPrompts";
 import OnboardPromptAnswer from "../containers/onboarding/PromptAnswer";
 
 const OnboardStack = createNativeStackNavigator();
@@ -37,6 +37,6 @@ export const OnboardNavigator = () => (
       /> */}
     <OnboardStack.Screen name={screenName.QUESTION_PROMPT} component={QuestionPromptScreen} />
     <OnboardStack.Screen name={screenName.ALLPROMPTS} component={AllPrompts} />
-    <OnboardStack.Screen name={screenName.ONBOARD_PROMPT_ANSWER} component={OnboardPromptAnswer} />
+    <OnboardStack.Screen name={screenName.PROMPT_ANSWER} component={OnboardPromptAnswer} />
   </OnboardStack.Navigator>
 );

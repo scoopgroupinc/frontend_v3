@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FlatList, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
@@ -6,11 +6,12 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { styles } from "./styles";
-import { useAppSelector } from "../../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { Colors } from "../../../utils";
 import { screenName } from "../../../utils/constants";
 import { AppIconButton } from "../../../components/layouts/AppIconButton";
 import { selectAllPrompts } from "../../../store/features/prompts/promptsSlice";
+import { selectUserPrompts, setEditPrompt } from "../../../store/features/user/userSlice";
 
 interface d {
   id: string;
@@ -20,16 +21,39 @@ interface d {
 const AllPrompts = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
-  const { user } = useAppSelector((state: any) => state.appUser);
+  const [promptMap, setPromptMap] = useState(new Map());
   const allPrompts = useAppSelector(selectAllPrompts);
+  const userPrompts = useAppSelector(selectUserPrompts);
+  const [selectablePrompts, setSelectablePrompts] = useState(allPrompts);
 
   const gradient = [Colors.RUST, Colors.RED, Colors.TEAL];
 
+  const dispatch = useAppDispatch();
+
   const choosePrompt = async (prompt: any) => {
-    navigation.navigate(screenName.ONBOARD_PROMPT_ANSWER, {
-      prompt,
-    });
+    dispatch(setEditPrompt({ editPrompt: { ...prompt, answer: "" } }));
+    navigation.navigate(screenName.PROMPT_ANSWER);
   };
+
+  useEffect(() => {
+    if ((userPrompts || []).length > 0) {
+      const map = new Map();
+      userPrompts.forEach((prompt) => {
+        map.set(prompt.promptId, prompt);
+      });
+      setPromptMap(map);
+    }
+  }, [userPrompts]);
+
+  useEffect(() => {
+    if (allPrompts.length > 0) {
+      setSelectablePrompts(allPrompts.filter((prompt: any) => !promptMap.has(prompt.id)));
+    }
+  }, [promptMap, allPrompts]);
+
+  useEffect(() => {
+    console.log("selectablePrompts", selectablePrompts);
+  }, [selectablePrompts]);
 
   return (
     <LinearGradient style={styles.container} colors={gradient}>
@@ -54,7 +78,7 @@ const AllPrompts = () => {
               <View style={{ height: 1, backgroundColor: Colors.ICON_INNER_SHADOW }} />
             )}
             showsVerticalScrollIndicator={false}
-            data={allPrompts}
+            data={selectablePrompts}
             renderItem={({ item }) => (
               <TouchableOpacity
                 style={{

@@ -18,7 +18,7 @@ const TagsView = ({ currentTagType, tags, typeOf }: TagsViewProps) => {
   const dispatch = useAppDispatch();
 
   const toggleSwitch = () => {
-    const _data = userProfile?.map((item: any) => {
+    const data = [...userProfile]?.map((item: any) => {
       const { tagType, visible } = item;
       if (tagType === currentTagType) {
         return {
@@ -34,7 +34,7 @@ const TagsView = ({ currentTagType, tags, typeOf }: TagsViewProps) => {
     });
     dispatch(
       setUserProfile({
-        userProfile: _data,
+        userProfile: data,
       })
     );
   };
