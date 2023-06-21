@@ -51,10 +51,6 @@ const AllPrompts = () => {
     }
   }, [promptMap, allPrompts]);
 
-  useEffect(() => {
-    console.log("selectablePrompts", selectablePrompts);
-  }, [selectablePrompts]);
-
   return (
     <LinearGradient style={styles.container} colors={gradient}>
       <SafeAreaView style={{ flex: 1 }} edges={["left", "right", "top"]}>
