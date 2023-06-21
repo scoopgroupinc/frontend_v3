@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import clonedeep from "lodash.clonedeep";
+import { cloneDeep } from "lodash";
 import { multiRemove, removeData, storeObjectData } from "../../../utils/storage";
 import { UserPrompts } from "../../../utils/types";
 import { mapIndexToPrompts } from "../../../utils/helpers";
@@ -51,7 +51,7 @@ const UserSlice = createSlice({
     },
     setUserPrompts: (state, action: PayloadAction<any>) => {
       const { userPrompts } = action.payload;
-      state.userPrompts = clonedeep(userPrompts);
+      state.userPrompts = cloneDeep(userPrompts);
     },
     updateUser: (state, action: PayloadAction<any>) => {
       const { value } = action.payload;
@@ -75,16 +75,16 @@ const UserSlice = createSlice({
     //   multiRemove(["user", "userToken", "token", "onboardKey", "userVisuals"]);
     // },
     copyUserData: (state) => {
-      state.originalUser = clonedeep(state.user);
-      state.originalVisuals = clonedeep(state.userVisuals);
-      state.originalProfile = clonedeep(state.userProfile);
-      state.originalPrompts = clonedeep(state.userPrompts);
+      state.originalUser = cloneDeep(state.user);
+      state.originalVisuals = cloneDeep(state.userVisuals);
+      state.originalProfile = cloneDeep(state.userProfile);
+      state.originalPrompts = cloneDeep(state.userPrompts);
     },
     resetToCopyData: (state) => {
-      state.user = clonedeep(state.originalUser);
-      state.userVisuals = clonedeep(state.originalVisuals);
-      state.userProfile = clonedeep(state.originalProfile);
-      state.userPrompts = clonedeep(state.originalPrompts);
+      state.user = cloneDeep(state.originalUser);
+      state.userVisuals = cloneDeep(state.originalVisuals);
+      state.userProfile = cloneDeep(state.originalProfile);
+      state.userPrompts = cloneDeep(state.originalPrompts);
       state.originalVisuals = null;
       state.originalProfile = null;
       state.originalPrompts = null;
@@ -103,8 +103,8 @@ const UserSlice = createSlice({
       const { editPrompt } = action.payload;
       state.editPrompt = { ...editPrompt };
     },
-    setTempProfilePromptOfEditIndex: (state, action: PayloadAction<any>) => {
-      const userPrompts = clonedeep(state.userPrompts);
+    setPromptOfEditIndex: (state, action: PayloadAction<any>) => {
+      const userPrompts = cloneDeep(state.userPrompts);
       userPrompts[state.editPromptIndex] = {
         id: state.editPromptIndex.toString(),
         ...action.payload,
@@ -147,7 +147,7 @@ export const {
   setUserPrompts,
   setEditPromptIndex,
   setEditPrompt,
-  setTempProfilePromptOfEditIndex,
+  setPromptOfEditIndex,
   copyUserData,
   clearCopyData,
   resetToCopyData,
