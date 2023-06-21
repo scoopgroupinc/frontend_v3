@@ -183,3 +183,17 @@ export const GET_ARCHIVED_USER_PROMPTS = gql`
     }
   }
 `;
+
+export const GET_USER_LOCATION = gql`
+query getUserLocation($userId: String!) {
+  getUserLocation(userId: $userId) {
+    userId
+    latitude
+    longitude
+    addressLine1
+    addressLine2
+    stateProvince
+    country
+    zipCode
+  }
+`;
