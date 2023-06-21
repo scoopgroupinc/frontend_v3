@@ -27,7 +27,7 @@ const Hometown = ({ navigation, route }: any) => {
 
   const input = React.useRef<HTMLInputElement>(null);
 
-  const { currentTagType } = route?.params;
+  const { currentTagType } = route?.params || {};
 
   const pageTitle = "Hometown";
 

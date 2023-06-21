@@ -1,10 +1,10 @@
 import React from "react";
-import { View, Text, Pressable, TouchableOpacity } from "react-native";
+import { View, Text, Pressable } from "react-native";
 import { styles } from "./styles";
 import { ModalType } from "./types";
-import { GradientLayout } from "../../layouts/GradientLayout";
+import { GradientLayout } from "../../../../components/layouts/GradientLayout";
 
-export const FullModalView = ({ children, close, done }: ModalType) => (
+export const FullModalView = ({ children, close }: ModalType) => (
   <GradientLayout>
     <View
       style={{
@@ -12,16 +12,8 @@ export const FullModalView = ({ children, close, done }: ModalType) => (
       }}
     >
       <View style={styles.textContainer}>
-        {/* <Pressable onPress={close}>
-            <Text style={[styles.text, styles.textSmall]}>Cancel</Text>
-          </Pressable> */}
-
         <Text style={[styles.text, styles.textBig]}>Write an Answer</Text>
-        {/* <TouchableOpacity>
-            <Text style={[styles.text, styles.textSmall]} onPress={done}>
-              Done
-            </Text>
-          </TouchableOpacity> */}
+
         <Pressable onPress={close}>
           <Text style={[styles.text, styles.textSmall]}>Cancel</Text>
         </Pressable>

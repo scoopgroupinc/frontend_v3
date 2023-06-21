@@ -14,8 +14,8 @@ import JobTitle from "./JobTitle";
 import EducationLevel from "./EducationLevel";
 import Hometown from "./Hometown";
 import Company from "./Company";
-import Prompts from "./Prompts";
-import PromptAnswer from "./PromptAnswer";
+import AllPrompts from "../../../features/Prompt/AllPrompts";
+import EditPromptAnswer from "./EditPromptAnswer";
 import Ethnicity from "./Ethnicity";
 import Sports from "./Sports";
 import Smoking from "./Smoking";
@@ -121,9 +121,9 @@ const UserProfile = () => (
       <UserProfileStack.Screen name={screenName.DRINK} component={Drink} />
     </UserProfileStack.Group>
 
-    <UserProfileStack.Screen name={screenName.ALLPROMPTS} component={Prompts} />
+    <UserProfileStack.Screen name={screenName.ALLPROMPTS} component={AllPrompts} />
 
-    <UserProfileStack.Screen name={screenName.ONBOARD_PROMPT_ANSWER} component={PromptAnswer} />
+    <UserProfileStack.Screen name={screenName.PROMPT_ANSWER} component={EditPromptAnswer} />
   </UserProfileStack.Navigator>
 );
 
