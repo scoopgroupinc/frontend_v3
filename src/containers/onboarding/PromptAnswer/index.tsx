@@ -9,12 +9,8 @@ import { onScreenView } from "../../../analytics";
 const OnboardPromptAnswer = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
-  const goBack = (answer: string) => {
-    navigation.navigate({
-      name: screenName.QUESTION_PROMPT,
-      params: { ...prompt, answer },
-      merge: true,
-    });
+  const goBack = () => {
+    navigation.navigate(screenName.QUESTION_PROMPT);
   };
 
   const close = () => {
