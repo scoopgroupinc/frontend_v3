@@ -9,9 +9,7 @@ const EditPromptAnswer = () => {
 
   // UserProfileEdit -> PromptAnswer -> PromptAnswerModal -> UserProfileEdit
   const goBack = () => {
-    navigation.navigate({
-      name: screenName.EDIT_PROFILE,
-    });
+    navigation.navigate(screenName.EDIT_PROFILE);
   };
 
   const close = () => {

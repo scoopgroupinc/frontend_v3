@@ -26,6 +26,7 @@ import {
   copyUserData,
   clearCopyData,
   resetToCopyData,
+  selectIsDirty,
 } from "../../../store/features/user/userSlice";
 import { CaptureText } from "../../../features/Prompt/components/CaptureText";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
@@ -52,6 +53,7 @@ export const UserProfileEdit = () => {
   const userPrompts = useAppSelector(selectUserPrompts);
   const userVisuals = useAppSelector(selectUserVisuals);
   const userProfile = useAppSelector(selectUserProfile);
+  const isDirty = useAppSelector(selectIsDirty);
 
   const dispatch = useAppDispatch();
 
@@ -265,6 +267,14 @@ export const UserProfileEdit = () => {
     navigation.goBack();
   };
 
+  const handleCancelButton = () => {
+    if (isDirty) {
+      setModalState(true);
+    } else {
+      cancelChanges();
+    }
+  };
+
   return (
     <>
       <AppActivityIndicator visible={saving} />
@@ -315,10 +325,10 @@ export const UserProfileEdit = () => {
           </AppAlert>
 
           <View style={styles.topContainer}>
-            <AppButton style={styles.topButton} onPress={() => setModalState(true)}>
+            <AppButton style={styles.topButton} onPress={() => handleCancelButton()}>
               Cancel
             </AppButton>
-            <AppButton style={styles.topButton} onPress={() => saveChanges()}>
+            <AppButton isDisabled={!isDirty} style={styles.topButton} onPress={() => saveChanges()}>
               {saving ? "Saving..." : "Done"}
             </AppButton>
           </View>
