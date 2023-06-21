@@ -63,20 +63,22 @@ export const PhotoVideoScreen = () => {
   };
 
   const handleSaveImages = async (img: any) => {
-    const postUrl = URLS.FILE_URL;
-    await FileSystem.uploadAsync(`${postUrl}/api/v1/visuals/uploadvisuals/${userId}`, img, {
-      httpMethod: "POST",
-      uploadType: FileSystem.FileSystemUploadType.MULTIPART,
-      fieldName: "files",
-    })
-      .then(async (response) => {
-        if (response.status === 201) {
-          await getVisuals();
-        }
+    if (img) {
+      const postUrl = URLS.FILE_URL;
+      await FileSystem.uploadAsync(`${postUrl}/api/v1/visuals/uploadvisuals/${userId}`, img, {
+        httpMethod: "POST",
+        uploadType: FileSystem.FileSystemUploadType.MULTIPART,
+        fieldName: "files",
       })
-      .catch((error) => {
-        Alert.alert(`Error: ${error}`);
-      });
+        .then(async (response) => {
+          if (response.status === 201) {
+            await getVisuals();
+          }
+        })
+        .catch((error) => {
+          Alert.alert(`Error: ${error}`);
+        });
+    }
     logEvent({
       eventName: eventNames.editOnBoardPhotosButton,
       params: { screenClass: screenClass.onBoarding },
@@ -91,7 +93,7 @@ export const PhotoVideoScreen = () => {
     });
     const imageArray = [...allImages];
     // save the image to DB
-    await Promise.all(imageArray.map(async (image: any) => handleSaveImages(image.videoOrPhoto)))
+    await Promise.all(imageArray.map(async (image: any) => handleSaveImages(image?.videoOrPhoto)))
       .then(async () => {
         setIsLoading(false);
         navigation.navigate(screenName.QUESTION_PROMPT);

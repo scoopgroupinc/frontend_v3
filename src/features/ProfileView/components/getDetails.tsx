@@ -262,11 +262,16 @@ const getMeyerBriggsDetails = (userProfile: any) => {
 
 const getParentingGoalDetails = (userProfile: any) => {
   const parentingGoal = userProfile?.find((item: any) => item.tagType === "parenting_goal");
-  const parentingGoalName = parentingGoal?.userTags[0]?.tagName;
-  if (parentingGoal?.visible && parentingGoalName) {
+  if (parentingGoal?.visible && parentingGoal?.userTags.length > 0) {
     return (
       <Text style={[styles.descriptionText]}>
-        {parentingGoal?.emoji} {parentingGoalName}
+        {parentingGoal?.emoji}&nbsp;
+        {parentingGoal?.userTags.map((item: any, index: any) => (
+          <Text key={index}>
+            {item.tagName}
+            {index === parentingGoal.userTags.length - 1 ? "" : ", "}
+          </Text>
+        ))}
       </Text>
     );
   }
@@ -352,11 +357,17 @@ const getReligionsDetails = (userProfile: any) => {
 
 const getRelationshipGoalsDetails = (userProfile: any) => {
   const relationshipGoal = userProfile?.find((item: any) => item.tagType === "relationship_goal");
-  const relationshipGoalName = relationshipGoal?.userTags[0]?.tagName;
-  if (relationshipGoal?.visible && relationshipGoalName) {
+  const relationshipTags = relationshipGoal?.userTags;
+  if (relationshipGoal?.visible && relationshipTags.length > 0) {
     return (
       <Text style={[styles.descriptionText]}>
-        {relationshipGoal?.emoji} Looking for {relationshipGoalName}
+        {relationshipGoal?.emoji} Looking for&nbsp;
+        {relationshipTags.map((item: any, index: any) => (
+          <Text key={index}>
+            {item.tagName}
+            {index === relationshipTags.length - 1 ? "" : ", "}
+          </Text>
+        ))}
       </Text>
     );
   }

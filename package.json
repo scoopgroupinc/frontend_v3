@@ -54,7 +54,7 @@
     "expo-splash-screen": "~0.18.2",
     "expo-status-bar": "~1.4.4",
     "expo-web-browser": "~12.1.1",
-    "lodash": "^4.17.21",
+    "lodash.clonedeep": "^4.5.0",
     "lottie-react-native": "5.1.4",
     "moment": "^2.29.4",
     "native-base": "^3.4.28",
