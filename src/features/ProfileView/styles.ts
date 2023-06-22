@@ -48,7 +48,7 @@ export const styles = StyleSheet.create({
 
   city: {
     fontFamily: Typography.FONT_CAPRIOLA_REGULAR,
-    fontSize: Typography.FONT_SIZE_24,
+    fontSize: Typography.FONT_SIZE_20,
     color: Colors.DARK_GRAY_BLUE,
     marginBottom: Spacing.SCALE_10,
   },

@@ -132,7 +132,7 @@ export const UserProfileView = () => {
               {/* <Text style={styles.age}>
                 {age} years old, {height}
               </Text> */}
-              <Text style={styles.city}>{user?.location?.city}</Text>
+              <Text style={styles.city}> {user?.location?.city}</Text>
 
               <Text style={styles.descriptionHeader}>My Basics</Text>
 
