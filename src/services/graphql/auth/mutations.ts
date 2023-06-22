@@ -23,8 +23,8 @@ export const ACTIVATE_ACCOUNT = gql`
         firstName
         lastName
         email
-        onBoarding
-        voteOnboard
+        isOnboarded
+        isVoteOnboarded
       }
       message
     }

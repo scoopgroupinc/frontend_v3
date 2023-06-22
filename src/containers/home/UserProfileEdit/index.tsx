@@ -102,26 +102,11 @@ export const UserProfileEdit = () => {
     await Promise.all(imageArray.map(async (image: any) => handleSaveImages(image.videoOrPhoto)))
       .then(() => {
         isSaving(false);
-        // Toast.show("User profile has been saved successfully!", {
-        //   duration: Toast.durations.LONG,
-        //   position: Toast.positions.BOTTOM,
-        //   shadow: true,
-        //   animation: true,
-        //   hideOnPress: true,
-        //   delay: 0,
-        // });
+      
         navigation.goBack();
       })
       .catch((err) => {
         isSaving(false);
-        // Toast.show("Error saving Photos", {
-        //   duration: Toast.durations.LONG,
-        //   position: Toast.positions.BOTTOM,
-        //   shadow: true,
-        //   animation: true,
-        //   hideOnPress: true,
-        //   delay: 0,
-        // });
       });
   };
 
@@ -169,27 +154,11 @@ export const UserProfileEdit = () => {
               })
               .catch((err) => {
                 isSaving(false);
-                //  Toast.show("Error saving photos", {
-                //    duration: Toast.durations.LONG,
-                //    position: Toast.positions.BOTTOM,
-                //    shadow: true,
-                //    animation: true,
-                //    hideOnPress: true,
-                //    delay: 0,
-                //  });
                 // navigation.goBack()
               });
           },
           onError: (e: any) => {
             isSaving(false);
-            //  Toast.show("Error saving prompts order", {
-            //    duration: Toast.durations.LONG,
-            //    position: Toast.positions.BOTTOM,
-            //    shadow: true,
-            //    animation: true,
-            //    hideOnPress: true,
-            //    delay: 0,
-            //  });
           },
         });
       } else {
@@ -210,28 +179,12 @@ export const UserProfileEdit = () => {
             );
           })
           .catch((err) => {
-            //  Toast.show("Error saving photos", {
-            //    duration: Toast.durations.LONG,
-            //    position: Toast.positions.BOTTOM,
-            //    shadow: true,
-            //    animation: true,
-            //    hideOnPress: true,
-            //    delay: 0,
-            //  });
             // navigation.goBack()
           });
       }
     },
     onError: (error) => {
       isSaving(false);
-      //  Toast.show("Error saving prompts", {
-      //    duration: Toast.durations.LONG,
-      //    position: Toast.positions.BOTTOM,
-      //    shadow: true,
-      //    animation: true,
-      //    hideOnPress: true,
-      //    delay: 0,
-      //  });
     },
   });
 
