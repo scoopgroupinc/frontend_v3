@@ -12,16 +12,21 @@ import UserProfile from "../containers/home/UserProfile";
 import AppNavigator from "./AppNavigator";
 import Messages from "../containers/chat/Messages";
 import { SAVE_USER_LOCATION } from "../services/graphql/profile/mutations";
-import { selectUser } from "../store/features/user/userSlice";
-import { useAppSelector } from "../store/hooks";
+import { selectUser, updateUser } from "../store/features/user/userSlice";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { GET_USER_LOCATION } from "../services/graphql/profile/queries";
 
 const HomeStack = createStackNavigator();
 
 const ProfileNavigator = () => {
   const { user } = useAppSelector(selectUser);
+  const dispatch = useAppDispatch();
 
-  const { data: userLocationData } = useQuery(GET_USER_LOCATION);
+  const { data: userLocationData } = useQuery(GET_USER_LOCATION, {
+    variables: {
+      userId: user?.userId,
+    },
+  });
 
   const [saveUserLocation] = useMutation(SAVE_USER_LOCATION);
   const saveUserLocationMutation = useCallback(
@@ -46,14 +51,20 @@ const ProfileNavigator = () => {
   );
 
   const getCityFromLatLong = useCallback(async (cordinates: any) => {
-    const city = await Location.reverseGeocodeAsync({
+    const geoCity = await Location.reverseGeocodeAsync({
       latitude: cordinates?.coords?.latitude,
       longitude: cordinates?.coords?.longitude,
     });
 
-    if (city && city[0]) {
-      const cityData = city[0];
-      console.log("cityData", cityData);
+    if (geoCity && geoCity[0]) {
+      const cityData = geoCity[0];
+      dispatch(
+        updateUser({
+          value: {
+            location: cityData,
+          },
+        })
+      );
     }
   }, []);
 
@@ -70,8 +81,6 @@ const ProfileNavigator = () => {
       }
 
       const currentLocation = await Location.getCurrentPositionAsync({});
-
-      console.log("userLocationData", userLocationData);
 
       if (userLocationData && userLocationData.getUserLocation) {
         const { latitude, longitude } = userLocationData.getUserLocation;

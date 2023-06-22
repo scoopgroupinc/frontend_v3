@@ -23,7 +23,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
           // check why it does not redirect to login
           break;
         case ErrorCodes.BAD_USER_INPUT:
-          console.log("BAD_USER_INPUT");
+          console.log("BAD_USER_INPUT", err.message);
           break;
         case ErrorCodes.BAD_REQUEST:
           console.log("BAD_REQUEST");
