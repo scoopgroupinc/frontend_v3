@@ -35,13 +35,20 @@ export const styles = StyleSheet.create({
     color: Colors.DARK_GRAY_BLUE,
   },
   name: {
-    fontFamily: Typography.FONT_POPPINS_REGULAR,
+    fontFamily: Typography.FONT_CAPRIOLA_REGULAR,
     fontSize: Typography.FONT_SIZE_28,
     color: Colors.DARK_GRAY_BLUE,
   },
   age: {
     fontFamily: Typography.FONT_POPPINS_REGULAR,
     fontSize: Typography.FONT_SIZE_16,
+    color: Colors.DARK_GRAY_BLUE,
+    marginBottom: Spacing.SCALE_10,
+  },
+
+  city: {
+    fontFamily: Typography.FONT_CAPRIOLA_REGULAR,
+    fontSize: Typography.FONT_SIZE_24,
     color: Colors.DARK_GRAY_BLUE,
     marginBottom: Spacing.SCALE_10,
   },
