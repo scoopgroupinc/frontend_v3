@@ -194,6 +194,7 @@ const UserSlice = createSlice({
 
 export const selectUser = (state: any) => state.appUser;
 export const selectUserIsOnboarded = (state: any) => state.appUser.user?.isOnboarded;
+export const selectIsVoteOnboarded = (state: any) => state.appUser.user?.isVoteOnboarded;
 export const selectUserId = (state: any) => state.appUser.user?.userId;
 export const selectUserProfile = (state: any) => state.appUser.userProfile;
 export const selectUserVisuals = (state: any) => state.appUser.userVisuals;
