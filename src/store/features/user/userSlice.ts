@@ -14,7 +14,7 @@ interface UserState {
   userVisuals: any;
   userProfile: any;
   userPreference: any;
-  userPrompts: any;
+  userPrompts: UserPrompts[];
   userPromptsOrder: any[];
   editPromptIndex: any;
   editPrompt: any;

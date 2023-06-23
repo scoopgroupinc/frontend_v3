@@ -18,17 +18,18 @@ export const useFetchUserData = () => {
 
   const userId = useAppSelector(selectUserId);
 
-  const { data: userPrompts } = useQuery(GET_USER_PROMPTS, {
+  const { data: userPrompts, loading: loadingPrompts } = useQuery(GET_USER_PROMPTS, {
     variables: {
       userId,
     },
+    notifyOnNetworkStatusChange: true,
   });
 
   useEffect(() => {
-    if (userPrompts) {
+    if (!loadingPrompts && userPrompts) {
       dispatch(setUserPrompts({ userPrompts: userPrompts.getUserPrompts }));
     }
-  }, [userPrompts, dispatch]);
+  }, [userPrompts, dispatch, loadingPrompts]);
 
   const { data: userPromptData } = useQuery(GET_PROMPTS_ORDER, {
     variables: {
