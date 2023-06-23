@@ -5,9 +5,10 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useAppSelector } from "../store/hooks";
 import AuthNavigator from "./AuthNavigator";
 import screenName from "../utils/constants/screenName";
-import ProfileNavigator from "./ProfileNavigator";
+import ProfileNavigator from "./ProfileNavigator/ProfileNavigator";
 import { useNotifications } from "../hooks/useNotification";
 import notificationAxios from "../services/axios/notificationAxios";
+import { navigationRef } from "./RootNavigation";
 
 const Stack = createNativeStackNavigator();
 
@@ -38,7 +39,7 @@ const Navigator = () => {
 
   return (
     <View style={{ flex: 1 }}>
-      <NavigationContainer>
+      <NavigationContainer ref={navigationRef}>
         <Stack.Navigator
           screenOptions={{
             headerShown: false,

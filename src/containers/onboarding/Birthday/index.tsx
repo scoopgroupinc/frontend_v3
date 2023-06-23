@@ -57,14 +57,12 @@ export const OnboardBirthdayScreen = () => {
         variables: {
           UserProfileInput: data,
         },
-      })
-        .then(async () => {
-          setModalState(false);
-          navigation.navigate(screenName.HEIGHT);
-        })
-        .catch(() => {});
+      }).then(async () => {
+        setModalState(false);
+        navigation.navigate(screenName.HEIGHT);
+      });
     } catch (err) {
-      /* eslint-disable no-console */
+      Alert.alert("Error", err.message || "Something went wrong!");
     }
   };
 

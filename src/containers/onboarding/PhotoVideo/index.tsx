@@ -51,7 +51,9 @@ export const PhotoVideoScreen = () => {
           })
         );
       })
-      .catch(() => {});
+      .catch ((err) => {
+        Alert.alert("Error", err.message || "Something went wrong!");
+      });
   };
 
   const handleImages = (image: any) => {

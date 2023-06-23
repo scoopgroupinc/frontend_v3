@@ -34,7 +34,6 @@ const AllPrompts = () => {
     dispatch(setEditPrompt({ editPrompt: { ...prompt, answer: "" } }));
     navigation.navigate(screenName.PROMPT_ANSWER);
   };
-
   useEffect(() => {
     if ((userPrompts || []).length > 0) {
       const map = new Map();
@@ -49,11 +48,7 @@ const AllPrompts = () => {
     if (allPrompts.length > 0) {
       setSelectablePrompts(allPrompts.filter((prompt: any) => !promptMap.has(prompt.id)));
     }
-  }, [promptMap, allPrompts]);
-
-  useEffect(() => {
-    console.log("selectablePrompts", selectablePrompts);
-  }, [selectablePrompts]);
+  }, [promptMap, allPrompts, userPrompts]);
 
   return (
     <LinearGradient style={styles.container} colors={gradient}>

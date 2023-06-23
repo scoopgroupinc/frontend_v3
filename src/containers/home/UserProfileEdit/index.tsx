@@ -74,14 +74,6 @@ export const UserProfileEdit = () => {
     );
   };
 
-  const UserPromptInput = userPrompts
-    ?.filter((item: any) => item.answer !== "")
-    ?.map((item: any) => ({
-      answer: item.answer,
-      promptId: item.promptId,
-      userId,
-    }));
-
   const handleSaveImages = async (img: any) => {
     const postUrl = URLS.FILE_URL;
     if (img.includes("file://")) {
@@ -102,7 +94,7 @@ export const UserProfileEdit = () => {
     await Promise.all(imageArray.map(async (image: any) => handleSaveImages(image.videoOrPhoto)))
       .then(() => {
         isSaving(false);
-      
+
         navigation.goBack();
       })
       .catch((err) => {
@@ -114,7 +106,13 @@ export const UserProfileEdit = () => {
 
   const [saveUserPrompts] = useMutation(SAVE_USER_PROMPTS, {
     variables: {
-      UserPromptInput,
+      UserPromptInput: userPrompts
+        .filter((item: any) => item.answer !== "")
+        .map((item: any) => ({
+          answer: item.answer,
+          promptId: item.promptId,
+          userId,
+        })),
     },
     onCompleted: async (data) => {
       const { saveUserPrompts: prompts } = data;
