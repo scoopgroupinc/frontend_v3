@@ -8,6 +8,7 @@ import screenName from "../utils/constants/screenName";
 import ProfileNavigator from "./ProfileNavigator";
 import { useNotifications } from "../hooks/useNotification";
 import notificationAxios from "../services/axios/notificationAxios";
+import { navigationRef } from "./RootNavigation";
 
 const Stack = createNativeStackNavigator();
 
@@ -38,7 +39,7 @@ const Navigator = () => {
 
   return (
     <View style={{ flex: 1 }}>
-      <NavigationContainer>
+      <NavigationContainer ref={navigationRef}>
         <Stack.Navigator
           screenOptions={{
             headerShown: false,

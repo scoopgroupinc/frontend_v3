@@ -9,7 +9,7 @@ import MessagesSlice from "./features/messages/MessagesSlice";
 const persistConfig = {
   key: "root",
   storage: AsyncStorage,
-  whitelist: ["appUser"],
+  blacklist: ["appUser"],
 };
 
 const rootReducer = combineReducers({

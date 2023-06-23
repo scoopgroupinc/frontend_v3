@@ -19,7 +19,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
       switch (err.extensions?.code) {
         case ErrorCodes.UNAUTHENTICATED:
           console.log("UNAUTHENTICATED");
-          RootNavigation.navigate(screenName.LOGIN);
+          RootNavigation.navigate(screenName.AUTH_NAVIGATOR);
           // check why it does not redirect to login
           break;
         case ErrorCodes.BAD_USER_INPUT:
