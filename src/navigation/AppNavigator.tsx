@@ -8,7 +8,7 @@ import { screenName } from "../utils/constants";
 import { useAppSelector } from "../store/hooks";
 import { Colors } from "../utils";
 // import VoteOnboardNavigator from "./VoteOnboardNavigator";
-import { selectUser } from "../store/features/user/userSlice";
+import { selectUserIsOnboarded } from "../store/features/user/userSlice";
 import { OnboardNavigator } from "./OnboardNavigator";
 import { Home } from "../containers/home";
 import ChatNavigator from "./ChatNavigator";
@@ -16,8 +16,7 @@ import ChatNavigator from "./ChatNavigator";
 const AppTabStack = createBottomTabNavigator();
 
 const AppNavigator = () => {
-  const user = useAppSelector(selectUser);
-  const { isOnboarded } = user || {};
+  const isOnboarded = useAppSelector(selectUserIsOnboarded);
 
   return isOnboarded ? (
     <AppTabStack.Navigator

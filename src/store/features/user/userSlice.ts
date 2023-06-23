@@ -66,7 +66,7 @@ const UserSlice = createSlice({
       }
     },
     setUserPreference: (state, action: PayloadAction<any>) => {
-      state.userPreference = cloneDeep(action.payload);
+      state.userPreference = cloneDeep(action.payload.userPreference);
     },
     setUserPrompts: (state, action: PayloadAction<any>) => {
       const { userPrompts } = action.payload;
@@ -91,7 +91,7 @@ const UserSlice = createSlice({
       state.userPrompts = prompts;
     },
     setUserPromptsOrder: (state, action: PayloadAction<any>) => {
-      state.userPromptsOrder = cloneDeep(action.payload);
+      state.userPromptsOrder = cloneDeep(action.payload.userPrompts);
     },
     updateUser: (state, action: PayloadAction<any>) => {
       const { value } = action.payload;
@@ -193,6 +193,7 @@ const UserSlice = createSlice({
 });
 
 export const selectUser = (state: any) => state.appUser;
+export const selectUserIsOnboarded = (state: any) => state.appUser.user?.isOnboarded;
 export const selectUserId = (state: any) => state.appUser.user?.userId;
 export const selectUserProfile = (state: any) => state.appUser.userProfile;
 export const selectUserVisuals = (state: any) => state.appUser.userVisuals;
