@@ -80,12 +80,11 @@ const UserSlice = createSlice({
       } else {
         state.isDirty = false;
       }
-      state.userPrompts = cloneDeep(userPrompts);
+      state.userPrompts = prompts;
     },
     updateUser: (state, action: PayloadAction<any>) => {
       const { value } = action.payload;
       state.user = { ...state.user, ...value };
-      removeData("user");
       storeObjectData("user", { ...state.user, ...value });
       if (!!state.originalUser && !isEqual(state.user, state.originalUser)) {
         state.isDirty = true;
@@ -106,12 +105,12 @@ const UserSlice = createSlice({
     // logout: (state) => {
     //   state.user = null;
     //   state.userVisuals = null;
-    //   multiRemove(["user", "userToken", "token", "onboardKey", "userVisuals"]);
+    //   multiRemove(["user", "userToken", "token", "userVisuals"]);
     // },
     // deleteAccount: (state) => {
     //   state.user = null;
     //   state.userVisuals = null;
-    //   multiRemove(["user", "userToken", "token", "onboardKey", "userVisuals"]);
+    //   multiRemove(["user", "userToken", "token", "userVisuals"]);
     // },
     copyUserData: (state) => {
       state.originalUser = cloneDeep(state.user);
@@ -173,11 +172,11 @@ const UserSlice = createSlice({
         // state.userProfile = null;
         Object.assign(state, initialState);
 
-        multiRemove(["user", "userToken", "token", "onboardKey", "userVisuals"]);
+        multiRemove(["user", "userToken", "token", "userVisuals"]);
       })
       .addCase("appUser/deleteAccount", (state) => {
         Object.assign(state, initialState);
-        multiRemove(["user", "userToken", "token", "onboardKey", "userVisuals"]);
+        multiRemove(["user", "userToken", "token", "userVisuals"]);
       });
   },
 });
