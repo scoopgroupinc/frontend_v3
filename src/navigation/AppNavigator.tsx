@@ -10,7 +10,7 @@ import { screenName } from "../utils/constants";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { Colors } from "../utils";
 // import VoteOnboardNavigator from "./VoteOnboardNavigator";
-import { setUserVisuals } from "../store/features/user/userSlice";
+import { selectUser, setUserVisuals } from "../store/features/user/userSlice";
 import { URLS } from "../utils/constants/apis";
 import { OnboardNavigator } from "./OnboardNavigator";
 import { GET_PROMPTS } from "../services/graphql/profile/queries";
@@ -21,9 +21,9 @@ import ChatNavigator from "./ChatNavigator";
 const AppTabStack = createBottomTabNavigator();
 
 const AppNavigator = () => {
-  const { user } = useAppSelector((state) => state.appUser);
+  const user = useAppSelector(selectUser);
   const userId = user?.userId;
-  const { isOnboarded } = user;
+  const { isOnboarded } = user || {};
 
   const dispatch = useAppDispatch();
 
@@ -60,7 +60,7 @@ const AppNavigator = () => {
     }
   }, [promptsResult, dispatch]);
 
-  return isOnboarded ? (
+  return !isOnboarded ? (
     <AppTabStack.Navigator
       initialRouteName={screenName.HOME}
       screenOptions={{
