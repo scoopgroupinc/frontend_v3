@@ -5,7 +5,6 @@ import { GET_PROMPTS } from "../../../services/graphql/profile/queries";
 import { useAppDispatch } from "../../../store/hooks";
 
 export const useFetchStaticData = () => {
-
   const dispatch = useAppDispatch();
   const { data: promptsResult } = useQuery(GET_PROMPTS);
 
@@ -15,6 +14,5 @@ export const useFetchStaticData = () => {
     }
   }, [promptsResult, dispatch]);
 
-
-  return []
+  return [];
 };

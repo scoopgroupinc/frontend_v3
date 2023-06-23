@@ -102,7 +102,7 @@ export const UserProfileEdit = () => {
     await Promise.all(imageArray.map(async (image: any) => handleSaveImages(image.videoOrPhoto)))
       .then(() => {
         isSaving(false);
-      
+
         navigation.goBack();
       })
       .catch((err) => {
