@@ -13,7 +13,9 @@ interface UserState {
   user: any;
   userVisuals: any;
   userProfile: any;
+  userPreference: any;
   userPrompts: any;
+  userPromptsOrder: any[];
   editPromptIndex: any;
   editPrompt: any;
   originalUser: any;
@@ -27,7 +29,9 @@ const initialState: UserState = {
   user: null,
   userVisuals: null,
   userProfile: null,
+  userPreference: null,
   userPrompts: initialPromptsData,
+  userPromptsOrder: [],
   editPromptIndex: null,
   editPrompt: null,
   originalUser: null,
@@ -61,9 +65,13 @@ const UserSlice = createSlice({
         state.isDirty = false;
       }
     },
+    setUserPreference: (state, action: PayloadAction<any>) => {
+      state.userPreference = cloneDeep(action.payload);
+    },
     setUserPrompts: (state, action: PayloadAction<any>) => {
       const { userPrompts } = action.payload;
       const prompts = cloneDeep(userPrompts);
+
       for (let i = 0; i < counter; i++) {
         if (!prompts[i]) {
           prompts.push({
@@ -81,6 +89,9 @@ const UserSlice = createSlice({
         state.isDirty = false;
       }
       state.userPrompts = prompts;
+    },
+    setUserPromptsOrder: (state, action: PayloadAction<any>) => {
+      state.userPromptsOrder = cloneDeep(action.payload);
     },
     updateUser: (state, action: PayloadAction<any>) => {
       const { value } = action.payload;
@@ -195,8 +206,10 @@ export const {
   setUser,
   setUserVisuals,
   updateUser,
+  setUserPreference,
   setUserProfile,
   setUserPrompts,
+  setUserPromptsOrder,
   setEditPromptIndex,
   setEditPrompt,
   setPromptOfEditIndex,
