@@ -16,6 +16,7 @@ import FormField from "../../../components/molecule/FormField";
 import { AppButton } from "../../../components/atoms/AppButton";
 import { onScreenView } from "../../../analytics";
 import { analyticScreenNames, screenClass } from "../../../analytics/constants";
+import { useOnScreenView } from "../../../hooks/useOnScreenView";
 
 const ResetPassword = ({ route }: any) => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
@@ -50,12 +51,8 @@ const ResetPassword = ({ route }: any) => {
     resolver: yupResolver(schema),
   });
 
-  useEffect(() => {
-    onScreenView({
-      screenName: analyticScreenNames.resetPassword,
-      screenType: screenClass.auth,
-    });
-  }, []);
+  useOnScreenView({screenName:analyticScreenNames.resetPassword,
+    screenType:screenClass.auth});
 
   const resetPassword = async (formData: any) => {
     setLoading(true);

@@ -18,10 +18,11 @@ import { setUser } from "../../../store/features/user/userSlice";
 import { getObjectData, multiRemove, storeStringData } from "../../../utils/storage";
 import { OTPInputModal } from "../../../components/templates/OTPInputModal";
 import { screenName } from "../../../utils/constants";
-import { eventNames } from "../../../analytics/constants";
+import { analyticScreenNames, eventNames, screenClass } from "../../../analytics/constants";
 import { logEvent } from "../../../analytics";
 import { useNotifications } from "../../../hooks/useNotification";
 import notificationAxios from "../../../services/axios/notificationAxios";
+import { useOnScreenView } from "../../../hooks/useOnScreenView";
 
 const LoginScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
@@ -29,6 +30,9 @@ const LoginScreen = () => {
   const [modalState, setModalState] = useState<boolean>(false);
   const [revalidate, setRevalidate] = useState<boolean>(true);
   const dispatch = useAppDispatch();
+
+  useOnScreenView({screenName:analyticScreenNames.signIn,
+    screenType:screenClass.auth});
 
   const { registerForPushNotificationsAsync } = useNotifications();
 

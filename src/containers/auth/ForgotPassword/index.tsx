@@ -16,6 +16,7 @@ import AppActivityIndicator from "../../../components/atoms/ActivityIndicator";
 import { screenName } from "../../../utils/constants";
 import { analyticScreenNames, eventNames, screenClass } from "../../../analytics/constants";
 import { logEvent, onScreenView } from "../../../analytics";
+import { useOnScreenView } from "../../../hooks/useOnScreenView";
 
 const ForgotPassword = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
@@ -42,12 +43,9 @@ const ForgotPassword = () => {
 
   const [verify] = useMutation(FORGOT_PASSWORD);
 
-  useEffect(() => {
-    onScreenView({
-      screenName: analyticScreenNames.forgetPassword,
-      screenType: screenClass.auth,
-    });
-  }, []);
+  useOnScreenView({screenName:analyticScreenNames.forgetPassword,
+    screenType:screenClass.auth});
+
   const forgotPasswordEvent = (formData: any) => {
     setLoading(true);
     setUserEmail(formData.email);

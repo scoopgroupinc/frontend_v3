@@ -31,8 +31,8 @@ const CreateAccount = () => {
 
   const dispatch = useAppDispatch();
 
-  useOnScreenView({screenName:analyticScreenNames.welcome,
-    screenType:screenClass.auth})
+  useOnScreenView({screenName:analyticScreenNames.signUp,
+    screenType:screenClass.auth});
 
   const EMAIL_REGEX = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 

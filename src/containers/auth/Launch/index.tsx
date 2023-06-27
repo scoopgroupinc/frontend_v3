@@ -17,10 +17,13 @@ import { GradientLayout } from "../../../components/layouts/GradientLayout";
 import { styles } from "./styles";
 import { screenName } from "../../../utils/constants";
 import { OAUTH } from "../../../utils/constants/apis";
+import { analyticScreenNames, screenClass } from "../../../analytics/constants";
+import { useOnScreenView } from "../../../hooks/useOnScreenView";
 
 WebBrowser.maybeCompleteAuthSession();
 
 const Launch = () => {
+
   const [user, setUser] = useState<any>(null);
   const [appleUser, setAppleUser] = useState<any>(null);
   const [request, response, promptAsync] = Facebook.useAuthRequest({
@@ -32,6 +35,9 @@ const Launch = () => {
     androidClientId: OAUTH.ANDROID_GOOGLE_GUID,
     iosClientId: OAUTH.IOS_GOOGLE_GUID,
   });
+
+  useOnScreenView({screenName:analyticScreenNames.welcome,
+    screenType:screenClass.auth});
 
   // if (request) {
   //   console.log(
