@@ -21,7 +21,8 @@ import { useAppDispatch } from "../../../store/hooks";
 import { setUser } from "../../../store/features/user/userSlice";
 import { storeStringData } from "../../../utils/storage";
 import { logEvent } from "../../../analytics";
-import { eventNames } from "../../../analytics/constants";
+import { analyticScreenNames, eventNames, screenClass } from "../../../analytics/constants";
+import { useOnScreenView } from "../../../hooks/useOnScreenView";
 
 const CreateAccount = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
@@ -29,6 +30,9 @@ const CreateAccount = () => {
   const [modalState, setModalState] = useState<boolean>(false);
 
   const dispatch = useAppDispatch();
+
+  useOnScreenView({screenName:analyticScreenNames.welcome,
+    screenType:screenClass.auth})
 
   const EMAIL_REGEX = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 
