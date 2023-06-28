@@ -37,6 +37,7 @@ import { URLS } from "../../../utils/constants/apis";
 import AppActivityIndicator from "../../../components/atoms/ActivityIndicator";
 import { logEvent, onScreenView } from "../../../analytics";
 import { analyticScreenNames, eventNames, screenClass } from "../../../analytics/constants";
+import { useOnScreenView } from "../../../hooks/useOnScreenView";
 
 const inputTextProps = {
   editable: false,
@@ -56,6 +57,8 @@ export const UserProfileEdit = () => {
   const isDirty = useAppSelector(selectIsDirty);
 
   const dispatch = useAppDispatch();
+
+  useOnScreenView({ screenName: analyticScreenNames.editProfile, screenType: screenClass.profile });
 
   // make copy to allow for undoing of changes
   useEffect(() => {

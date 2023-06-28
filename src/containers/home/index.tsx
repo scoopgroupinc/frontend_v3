@@ -35,9 +35,10 @@ import {
 } from "../../store/features/matches/matchSlice";
 import { styles } from "./styles";
 import OptionTab from "../../components/atoms/OptionsTabs";
-import { eventNames, screenClass } from "../../analytics/constants";
+import { analyticScreenNames, eventNames, screenClass } from "../../analytics/constants";
 import { logEvent } from "../../analytics";
 import { getUserConversationList } from "../../utils/helpers";
+import { useOnScreenView } from "../../hooks/useOnScreenView";
 
 export const Home = () => {
   const { user } = useAppSelector(selectUser);
@@ -46,6 +47,8 @@ export const Home = () => {
   const userId = user?.userId;
 
   const dispatch = useAppDispatch();
+
+  useOnScreenView({ screenName: analyticScreenNames.main, screenType: screenClass.profile });
 
   const userVisuals = useAppSelector(selectUserVisuals);
 

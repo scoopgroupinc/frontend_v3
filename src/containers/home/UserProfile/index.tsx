@@ -42,6 +42,7 @@ import Drink from "./Drink";
 import { UserProfileView } from "../UserProfileView";
 import { analyticScreenNames, screenClass } from "../../../analytics/constants";
 import { onScreenView } from "../../../analytics";
+import { useOnScreenView } from "../../../hooks/useOnScreenView";
 
 const Tab = createMaterialTopTabNavigator();
 const UserProfileStack = createNativeStackNavigator();
@@ -49,12 +50,7 @@ const UserProfileStack = createNativeStackNavigator();
 const TopTab = () => {
   const gradient = [Colors.RUST, Colors.RED, Colors.TEAL];
 
-  useEffect(() => {
-    onScreenView({
-      screenName: analyticScreenNames.profile,
-      screenType: screenClass.profile,
-    });
-  }, []);
+  useOnScreenView({ screenName: analyticScreenNames.profile, screenType: screenClass.profile });
 
   return (
     <LinearGradient style={{ flex: 1 }} colors={gradient}>
