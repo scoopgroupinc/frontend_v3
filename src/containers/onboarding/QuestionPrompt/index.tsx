@@ -28,6 +28,7 @@ import {
 } from "../../../store/features/user/userSlice";
 import { analyticScreenNames, screenClass } from "../../../analytics/constants";
 import { onScreenView } from "../../../analytics";
+import { useOnScreenView } from "../../../hooks/useOnScreenView";
 
 export const QuestionPromptScreen = ({ route }: any) => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
@@ -37,6 +38,9 @@ export const QuestionPromptScreen = ({ route }: any) => {
   let userPromptInput: never[] = [];
 
   const dispatch = useAppDispatch();
+
+  useOnScreenView({screenName:analyticScreenNames.onBoardSelectPromptList,
+    screenType:screenClass.onBoarding});
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
 

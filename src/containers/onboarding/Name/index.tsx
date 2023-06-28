@@ -22,6 +22,7 @@ import AppActivityIndicator from "../../../components/atoms/ActivityIndicator";
 import { updateUser } from "../../../store/features/user/userSlice";
 import { logEvent, onScreenView } from "../../../analytics";
 import { analyticScreenNames, eventNames, screenClass } from "../../../analytics/constants";
+import { useOnScreenView } from "../../../hooks/useOnScreenView";
 
 export type UserData = {
   firstname: string;
@@ -37,6 +38,9 @@ export const OnboardName = () => {
   const email = user?.email;
 
   const dispatch = useAppDispatch();
+
+  useOnScreenView({screenName:analyticScreenNames.onBoardName,
+    screenType:screenClass.onBoarding});
 
   const schema = yup.object().shape({
     firstname: yup
@@ -104,13 +108,6 @@ export const OnboardName = () => {
       Alert.alert("Error", err.message || "Something went wrong!");
     }
   };
-
-  useEffect(() => {
-    onScreenView({
-      screenName: analyticScreenNames.onBoardName,
-      screenType: screenClass.onBoarding,
-    });
-  }, []);
 
   return (
     <>

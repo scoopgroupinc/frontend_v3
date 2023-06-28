@@ -9,6 +9,7 @@ import { AppButton } from "../../../components/atoms/AppButton";
 import { screenName } from "../../../utils/constants";
 import { styles } from "./styles";
 import { NavigationScreenType } from "../../../types/globals";
+import { useOnScreenView } from "../../../hooks/useOnScreenView";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -21,12 +22,11 @@ Notifications.setNotificationHandler({
 const SendNotificationScreen = ({ navigation, route }: NavigationScreenType) => {
   const [showNotifications, setShowNotifications] = useState<boolean | null>(null);
 
-  useEffect(() => {
-    onScreenView({
-      screenName: analyticScreenNames.onBoardNotification,
-      screenType: screenClass.onBoarding,
-    });
-  }, []);
+  useOnScreenView({
+    screenName: analyticScreenNames.onBoardNotification,
+    screenType: screenClass.onBoarding,
+  });
+
   const next = (state: boolean) => {
     logEvent({
       eventName: eventNames.nextOnBoardNotificationButton,

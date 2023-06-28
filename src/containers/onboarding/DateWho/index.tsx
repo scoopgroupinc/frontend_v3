@@ -16,6 +16,7 @@ import { GradientLayout } from "../../../components/layouts/GradientLayout";
 import AppActivityIndicator from "../../../components/atoms/ActivityIndicator";
 import { logEvent, onScreenView } from "../../../analytics";
 import { analyticScreenNames, eventNames, screenClass } from "../../../analytics/constants";
+import { useOnScreenView } from "../../../hooks/useOnScreenView";
 
 export const DateWhoScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
@@ -48,12 +49,10 @@ export const DateWhoScreen = () => {
     }
   };
 
-  useEffect(() => {
-    onScreenView({
-      screenName: analyticScreenNames.onBoardGenderPreference,
-      screenType: screenClass.onBoarding,
-    });
-  }, []);
+  useOnScreenView({
+    screenName: analyticScreenNames.onBoardGenderPreference,
+    screenType: screenClass.onBoarding
+  });
 
   return (
     <>
