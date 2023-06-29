@@ -6,7 +6,7 @@ export const actions = {
 };
 
 export const analyticScreenNames = {
-  welcome: "Welcome",
+  welcome: "Welcome", // Analytics: ScreenView
   signIn: "Sign In",
   signUp: "Sign up",
   signUpOTP: "Sign Up OTP",
@@ -22,8 +22,7 @@ export const analyticScreenNames = {
   onBoardGenderPreference: "On Board Gender Preference",
   onBoardHeight: "On Board Height",
   onBoardPhotos: "On Board Photos",
-  onBoardSelectPrompt: "On Board Select Prompt",
-  onBoardSelectPromptList: "On Board Select Prompt List",
+  onBoardAllPrompts: "On Board All Prompts",
   onBoardWritePrompt: "On Board Write Prompt",
   onBoardPrompts: "On Board Prompts",
   openingMessage: "Opening Message",
@@ -79,7 +78,8 @@ export const analyticScreenNames = {
   aboutMe: "about me",
   vote: "vote",
   visuals: "visuals",
-  prompts: "Prompts",
+  profileAllPrompts: "Profile All Prompts",
+  profileAnswerPrompt: "Profile Answer Prompt",
   onBoarding: "onBoarding",
   chat: "conversations",
   messages: "messages",

@@ -29,6 +29,7 @@ import {
 import { analyticScreenNames, screenClass } from "../../../analytics/constants";
 import { onScreenView } from "../../../analytics";
 import { useOnScreenView } from "../../../hooks/useOnScreenView";
+import { ORIGIN } from "../../../features/Prompt/constants";
 
 export const QuestionPromptScreen = ({ route }: any) => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
@@ -39,7 +40,7 @@ export const QuestionPromptScreen = ({ route }: any) => {
 
   const dispatch = useAppDispatch();
 
-  useOnScreenView({screenName:analyticScreenNames.onBoardSelectPromptList,
+  useOnScreenView({screenName:analyticScreenNames.onBoardAllPrompts,
     screenType:screenClass.onBoarding});
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -136,17 +137,17 @@ export const QuestionPromptScreen = ({ route }: any) => {
                     key={index}
                     onAdd={() => {
                       dispatch(setEditPromptIndex({ editPromptIndex: index }));
-                      navigation.navigate(screenName.ALLPROMPTS);
+                      navigation.navigate(screenName.ALLPROMPTS, { origin: ORIGIN.ONBOARDING });
                     }}
                     onEdit={() => {
                       dispatch(setEditPromptIndex({ editPromptIndex: index }));
                       dispatch(setEditPrompt({ editPrompt: item }));
-                      navigation.navigate(screenName.PROMPT_ANSWER, { prompt: item });
+                      navigation.navigate(screenName.PROMPT_ANSWER, { origin: ORIGIN.ONBOARDING });
                     }}
                     prompt={item}
                     onSwap={() => {
                       dispatch(setEditPromptIndex({ editPromptIndex: index }));
-                      navigation.navigate(screenName.ALLPROMPTS);
+                      navigation.navigate(screenName.ALLPROMPTS, { origin: ORIGIN.ONBOARDING });
                     }}
                   />
                 ))}
