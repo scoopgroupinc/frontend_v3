@@ -36,7 +36,7 @@ import {
 import { styles } from "./styles";
 import OptionTab from "../../components/atoms/OptionsTabs";
 import { analyticScreenNames, eventNames, screenClass } from "../../analytics/constants";
-import { logEvent } from "../../analytics";
+import { logEvent, onScreenView } from "../../analytics";
 import { getUserConversationList } from "../../utils/helpers";
 import { useOnScreenView } from "../../hooks/useOnScreenView";
 
@@ -48,13 +48,18 @@ export const Home = () => {
 
   const dispatch = useAppDispatch();
 
-  useOnScreenView({ screenName: analyticScreenNames.main, screenType: screenClass.profile });
-
   const userVisuals = useAppSelector(selectUserVisuals);
 
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const [openSettings, setOpenSettings] = useState<boolean>(false);
+
+  useEffect(() => {
+    const view = openSettings 
+    ? { screenName: analyticScreenNames.settings, screenType: screenClass.profile }
+    :{ screenName: analyticScreenNames.profileHome, screenType: screenClass.profile }
+    onScreenView(view);
+  }, [openSettings]);
 
   const { data: userChoicesResult } = useQuery(GET_USER_CHOICES, {
     variables: {

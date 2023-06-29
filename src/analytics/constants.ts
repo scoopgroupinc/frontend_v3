@@ -38,7 +38,7 @@ export const analyticScreenNames = {
   noMore: "No More",
   blockOrReportUser: "Block or Report User",
   scoopFeedback: "Scoop Feedback",
-  main: "Main",
+  profileHome: "Profile Home",
   editProfile: "Edit Profile",
   editPhoto: "Edit Photo",
   photoPromptList: "Photo Prompt List",
@@ -74,7 +74,6 @@ export const analyticScreenNames = {
   pets: "Pets",
   chatList: "Chat List",
   message: "Message",
-  profile: "profile",
   aboutMe: "about me",
   vote: "vote",
   visuals: "visuals",
@@ -86,6 +85,7 @@ export const analyticScreenNames = {
   matches: "matches",
   launch: "launch",
   viewProfile: "viewProfile",
+  settings:"settings",
 };
 
 export const screenClass = {
