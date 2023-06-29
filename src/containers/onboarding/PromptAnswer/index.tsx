@@ -18,7 +18,7 @@ const OnboardPromptAnswer = () => {
     navigation.navigate(screenName.QUESTION_PROMPT);
   };
   
-  useOnScreenView({screenName:analyticScreenNames.onBoardWritePrompt,
+  useOnScreenView({screenName:analyticScreenNames.onBoardAnswerPrompt,
     screenType:screenClass.onBoarding});
 
   return <PromptAnswerModal goBack={goBack} close={close} />;

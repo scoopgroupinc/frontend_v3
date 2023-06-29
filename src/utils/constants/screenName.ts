@@ -32,7 +32,6 @@ const screenName = {
   PROMPT_ANSWER: "PromptAnswer",
 
   // APP_NAVIGATOR
-  PROFILE: "Profile",
   VOTE: "Vote",
   CHAT: "Chat",
   HOME: "Home",

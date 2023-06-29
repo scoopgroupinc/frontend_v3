@@ -23,7 +23,7 @@ export const analyticScreenNames = {
   onBoardHeight: "On Board Height",
   onBoardPhotos: "On Board Photos",
   onBoardAllPrompts: "On Board All Prompts",
-  onBoardWritePrompt: "On Board Write Prompt",
+  onBoardAnswerPrompt: "On Board Answer Prompt",
   onBoardPrompts: "On Board Prompts",
   openingMessage: "Opening Message",
   ratePromptMessage: "Rate Prompt Message",
