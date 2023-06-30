@@ -1,0 +1,50 @@
+[
+  {
+    "authorizationCode": "cae4f8de3d5b344038212e343d6347eaa.0.rrqyr.pB8iS90qY_RwvwuzxlB6gg",
+    "email": "6jkb6njgcx@privaterelay.appleid.com",
+    "fullName": {
+      "familyName": "Owusu",
+      "givenName": "Clifford",
+      "middleName": null,
+      "namePrefix": null,
+      "nameSuffix": null,
+      "nickname": null
+    },
+    "identityToken": "eyJraWQiOiJZdXlYb1kiLCJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJodHRwczovL2FwcGxlaWQuYXBwbGUuY29tIiwiYXVkIjoiY29tLnNjb29wLmxvdmUiLCJleHAiOjE2ODc2MDcwNTEsImlhdCI6MTY4NzUyMDY1MSwic3ViIjoiMDAxMDgxLjg2YWNkNjJhNzU3NDQ4MDI4NjkzYWM1NzA0ODg1NzczLjExNDQiLCJjX2hhc2giOiJVYnU5NmRyOUh6eFdzMlYzdGNvZldnIiwiZW1haWwiOiI2amtiNm5qZ2N4QHByaXZhdGVyZWxheS5hcHBsZWlkLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjoidHJ1ZSIsImlzX3ByaXZhdGVfZW1haWwiOiJ0cnVlIiwiYXV0aF90aW1lIjoxNjg3NTIwNjUxLCJub25jZV9zdXBwb3J0ZWQiOnRydWUsInJlYWxfdXNlcl9zdGF0dXMiOjJ9.CDytJbAPgBQNY1oLivBGZgBDYp1PjFsRILE8yq9d13ivIsganE_Eac8fV9ORaRrTJV6uV1MECRU_EY_Z9rUK-lr4Spse8HyHFZHVMB3CUIEtVlFgvfDOyidx5vxoE8Cz9qnySUjvLB1qnbwVstiwn9dQkF50VAdCk8fLbOk0lB4ieT3P0TzPjalX_qpsQvBWR7tsYDsIdYoWNPnZ6gWMCocqAUpinj-z4FbYV4uDt8Q_fwcO5aZb6izFPG0syA9r2VbkmPXtm8I2Hj5Toc3uo30llYzNWTzYj0YG6q3KtOJPq8X6lcYyMQSOtnjdm90W6CfUAe4hd4xM0z4jQ0eVnw",
+    "realUserStatus": 2,
+    "state": null,
+    "user": "001081.86acd62a757448028693ac5704885773.1144"
+  },
+  {
+    "authorizationCode": "cdd1c34bd431d4ecab3c7bb32f68617e7.0.rrqyr.dBGynqJhja-FzGjPw_XNUg",
+    "email": "cliffordowusukwadwo@gmail.com",
+    "fullName": {
+      "familyName": "Owusu",
+      "givenName": "Clifford",
+      "middleName": null,
+      "namePrefix": null,
+      "nameSuffix": null,
+      "nickname": null
+    },
+    "identityToken": "eyJraWQiOiJXNldjT0tCIiwiYWxnIjoiUlMyNTYifQ.eyJpc3MiOiJodHRwczovL2FwcGxlaWQuYXBwbGUuY29tIiwiYXVkIjoiY29tLnNjb29wLmxvdmUiLCJleHAiOjE2ODc2MTM0MTEsImlhdCI6MTY4NzUyNzAxMSwic3ViIjoiMDAxMDgxLjg2YWNkNjJhNzU3NDQ4MDI4NjkzYWM1NzA0ODg1NzczLjExNDQiLCJjX2hhc2giOiJxNnZwV05YX3hSTElhMnQwblNWSXVnIiwiZW1haWwiOiI2amtiNm5qZ2N4QHByaXZhdGVyZWxheS5hcHBsZWlkLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjoidHJ1ZSIsImlzX3ByaXZhdGVfZW1haWwiOiJ0cnVlIiwiYXV0aF90aW1lIjoxNjg3NTI3MDExLCJub25jZV9zdXBwb3J0ZWQiOnRydWV9.SKShpLK_gcsoMB5cZ8flt9RiVF0cquTcn_0TcspX5bW__N9eUjX52_HYPRJ0D-5BF8EXFfQ5nLUj1lEGejWaxQEb7tdOcVirgFAe1GJaeMz-2xZOkRpVM7vDSokC5UtoI1_WVdpMrsSFDVl4ntrf3S4zC9fp83FN3EalqPRx1Of5M2S8GX8nE3RueGhAimn6Pg541BXB20xk4H0Er09GykDg5WTjMCwFdB9zyfYHKzsOTX4cMeYxGXOTpOeX1bvneXzpeOZPh21if1nrP47mahlP8rmuHQYa3s61pt6d1jjmrw7ubn4zLVqgg5CcBxj0Bfon8l52ZmP7P65JyWER_g",
+    "realUserStatus": 1,
+    "state": null,
+    "user": "001081.86acd62a757448028693ac5704885773.1144"
+  },
+  {
+    "authorizationCode": "cfa463585aea14fbebe95804fc43576b4.0.srqyr.MVuLTIL3tf0PBRzdDqyqUw",
+    "email": null,
+    "fullName": {
+      "familyName": "Owusu",
+      "givenName": "Clifford",
+      "middleName": null,
+      "namePrefix": null,
+      "nameSuffix": null,
+      "nickname": null
+    },
+    "identityToken": "eyJraWQiOiJmaDZCczhDIiwiYWxnIjoiUlMyNTYifQ.eyJpc3MiOiJodHRwczovL2FwcGxlaWQuYXBwbGUuY29tIiwiYXVkIjoiY29tLnNjb29wLmxvdmUiLCJleHAiOjE2ODc2MTU1MTQsImlhdCI6MTY4NzUyOTExNCwic3ViIjoiMDAxMDgxLjg2YWNkNjJhNzU3NDQ4MDI4NjkzYWM1NzA0ODg1NzczLjExNDQiLCJjX2hhc2giOiJRNTdjRkNaN1pROXNJNjVXRDhOSEFBIiwiZW1haWwiOiI2amtiNm5qZ2N4QHByaXZhdGVyZWxheS5hcHBsZWlkLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjoidHJ1ZSIsImlzX3ByaXZhdGVfZW1haWwiOiJ0cnVlIiwiYXV0aF90aW1lIjoxNjg3NTI5MTE0LCJub25jZV9zdXBwb3J0ZWQiOnRydWV9.F7Hn_VZG_UiU4_mIUI41KJslX57HkJV6Bw4Voztxly94bX6gZHNCYqA7fA9sYm0IHtrFMlHX-QuZImFv4CvpfdKfSd92gh6UlJXYPIbWqbXi3-SUupkXux012DugLHNbSzGZ_0D5UvV063uybPG6GAuEfyj3a75zAVxm9OvGOiJwYbWzmdNC5yR6NK5uCvlDlZBCHoIBCWQCQqjaL9xxl2TDSaaSKgZ-ye1s5Ymu2MjZ3a_IfxMVq_xjyaynumRVVh9wIJniODDnZqWkAOa0-dBr9rL7pjPxZRYM9rP3ZN8Xy7nKzbJz1fRpW3oKrMYXsWx70QKWgDRStQjDl5UwGA",
+    "realUserStatus": 1,
+    "state": null,
+    "user": "001081.86acd62a757448028693ac5704885773.1144"
+  }
+]
