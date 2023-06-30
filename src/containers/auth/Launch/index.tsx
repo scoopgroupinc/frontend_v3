@@ -1,6 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import React, { useEffect, useState } from "react";
-import { View, Text, Image } from "react-native";
+import React, { useCallback, useEffect, useState } from "react";
+import { View, Text, Image, Platform } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { VStack } from "native-base";
@@ -8,24 +8,32 @@ import { VStack } from "native-base";
 import * as Facebook from "expo-auth-session/providers/facebook";
 import * as Google from "expo-auth-session/providers/google";
 import * as AppleAuthentication from "expo-apple-authentication";
-
+import { AppleAuthenticationCredential } from "expo-apple-authentication";
+import jwtDecode from "jwt-decode";
 import * as WebBrowser from "expo-web-browser";
 
 import axios from "axios";
+import { useMutation } from "@apollo/client";
 import { AppButton } from "../../../components/atoms/AppButton";
 import { GradientLayout } from "../../../components/layouts/GradientLayout";
 import { styles } from "./styles";
-import { screenName } from "../../../utils/constants";
 import { OAUTH } from "../../../utils/constants/apis";
+import { PROVIDER_LOGIN } from "../../../services/graphql/auth/mutations";
+import { useNotifications } from "../../../hooks/useNotification";
+import notificationAxios from "../../../services/axios/notificationAxios";
+import { useAppDispatch } from "../../../store/hooks";
+import { setUser } from "../../../store/features/user/userSlice";
+import { storeStringData } from "../../../utils/storage";
+import { screenName } from "../../../utils/constants";
 
 WebBrowser.maybeCompleteAuthSession();
 
 const Launch = () => {
-  const [user, setUser] = useState<any>(null);
-  const [appleUser, setAppleUser] = useState<any>(null);
   const [request, response, promptAsync] = Facebook.useAuthRequest({
     clientId: OAUTH.FACEBOOK_CLIENT_ID,
   });
+
+  const [loginWithProvider, { data, loading, error }] = useMutation(PROVIDER_LOGIN);
 
   const [googleRequest, googleResponse, googlePromptAsync] = Google.useAuthRequest({
     expoClientId: OAUTH.EXPO_CLIENT_ID,
@@ -38,6 +46,24 @@ const Launch = () => {
   //     `You need to add this url to your authorized redirect urls on your Facebook app: ${request.redirectUri}`
   //   );
   // }
+  const dispatch = useAppDispatch();
+  const { registerForPushNotificationsAsync } = useNotifications();
+
+  const saveDeviceToken = useCallback(
+    async (userId: string) => {
+      const token = await registerForPushNotificationsAsync();
+      if (userId && token) {
+        const notificationData = {
+          notificationToken: token,
+          osType: Platform.OS,
+          version: Platform.Version,
+          userId,
+        };
+        await notificationAxios.put("deviceToken", notificationData);
+      }
+    },
+    [registerForPushNotificationsAsync]
+  );
 
   useEffect(() => {
     if (response && response.type === "success" && response.authentication) {
@@ -62,10 +88,33 @@ const Launch = () => {
           })
           .then((res) => res.data)
           .catch((err) => console.log(err));
-        setUser(userInfoResponse);
+        const providerData = {
+          email: userInfoResponse.email,
+          proivderName: "google",
+          providerUserId: userInfoResponse.id,
+        };
+
+        loginWithProvider({
+          variables: {
+            providerData,
+          },
+        })
+          .then(async (res) => {
+            await storeStringData("userToken", res?.data?.loginWithProvider?.token);
+            dispatch(
+              setUser({
+                user: {
+                  ...res?.data?.loginWithProvider?.user,
+                  token: res?.data?.loginWithProvider?.token,
+                },
+              })
+            );
+            saveDeviceToken(res?.data?.loginWithProvider?.user.userId);
+          })
+          .catch((err) => console.log(err));
       })();
     }
-  }, [googleResponse]);
+  }, [googleResponse, loginWithProvider, dispatch, saveDeviceToken]);
 
   const handlePressAsync = async () => {
     const result = await promptAsync();
@@ -117,16 +166,30 @@ const Launch = () => {
             }}
             onPress={async () => {
               try {
-                const credential = await AppleAuthentication.signInAsync({
-                  requestedScopes: [
-                    AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
-                    AppleAuthentication.AppleAuthenticationScope.EMAIL,
-                  ],
-                });
-                // console.log("credential", credential);
-                setAppleUser(credential);
+                const credential: AppleAuthenticationCredential =
+                  await AppleAuthentication.signInAsync({
+                    requestedScopes: [
+                      AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
+                      AppleAuthentication.AppleAuthenticationScope.EMAIL,
+                    ],
+                  });
+                const decodedToken = jwtDecode<any>(credential.identityToken!);
+
+                const providerData = {
+                  email: decodedToken.email,
+                  proivderName: "apple",
+                  providerUserId: decodedToken.sub,
+                };
+
+                loginWithProvider({
+                  variables: {
+                    providerData,
+                  },
+                })
+                  .then((res) => console.log(res))
+                  .catch((err) => console.log(err));
                 // signed in
-              } catch (e) {
+              } catch (e: any) {
                 if (e.code === "ERR_REQUEST_CANCELED") {
                   // handle that the user canceled the sign-in flow
                 } else {

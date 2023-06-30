@@ -68,3 +68,20 @@ export const LOG_IN_USER = gql`
     }
   }
 `;
+
+export const PROVIDER_LOGIN = gql`
+  mutation LoginWithProvider($AuthProviderInput: AuthProviderInput!) {
+    loginWithProvider(authProviderInput: $AuthProviderInput) {
+      token
+      user {
+        userId
+        firstName
+        lastName
+        email
+        isOnboarded
+        isVoteOnboarded
+      }
+      message
+    }
+  }
+`;
