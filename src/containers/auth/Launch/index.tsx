@@ -24,7 +24,7 @@ const Launch = () => {
   const [user, setUser] = useState<any>(null);
   const [appleUser, setAppleUser] = useState<any>(null);
   const [request, response, promptAsync] = Facebook.useAuthRequest({
-    clientId: "136276392801515",
+    clientId: OAUTH.FACEBOOK_CLIENT_ID,
   });
 
   const [googleRequest, googleResponse, googlePromptAsync] = Google.useAuthRequest({
