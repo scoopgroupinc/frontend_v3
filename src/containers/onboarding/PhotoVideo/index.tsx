@@ -51,7 +51,7 @@ export const PhotoVideoScreen = () => {
           })
         );
       })
-      .catch ((err) => {
+      .catch((err) => {
         Alert.alert("Error", err.message || "Something went wrong!");
       });
   };
