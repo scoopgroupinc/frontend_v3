@@ -2,6 +2,28 @@
 
 ### Folder Structure
 see Advanced structure 'https://www.youtube.com/watch?v=UUga4-z7b6s'
+src
+>analytics
+    contents to implement analytics tracking
+> assets
+    images
+>components
+    reusable components that are independent to redux
+>containers
+    main pages
+>features
+    reused components that are tied to redux states
+    grouped by feature use so it's easier to find
+>hooks
+    app wide used hooks
+>navigation
+    handles routing, and only returns containers
+>services
+    related to api and graphql
+>store 
+    redux implementation
+>utils
+    constants, colors, font, type
 
 
 ### Running android
