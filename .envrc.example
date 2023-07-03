@@ -2,6 +2,8 @@
 # USE THIS FILE AS A TEMPLATE TO CREATE YOUR OWN .envrc FILE
 # continue to add any env varables to file
 
+export EAS_PROJECT_ID=
+
 # PROD
 export EXPO_CLIENT_ID=
 export EXPO_CLIENT_SECRET=

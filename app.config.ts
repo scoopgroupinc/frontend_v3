@@ -62,7 +62,7 @@ const config = {
   },
   extra: {
     eas: {
-      projectId: "c7bc250b-d451-49fd-b042-5a9fae365906",
+      projectId: process.env.EAS_PROJECT_ID,
     },
   },
   scheme: ["scoop", `fb${oauth[environment].FACEBOOK_APP_ID}`],
