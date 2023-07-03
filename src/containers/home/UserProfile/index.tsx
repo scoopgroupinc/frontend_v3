@@ -41,7 +41,7 @@ import GoingOut from "./GoingOut";
 import Drink from "./Drink";
 import { UserProfileView } from "../UserProfileView";
 import { analyticScreenNames, screenClass } from "../../../analytics/constants";
-import { useOnScreenView } from "../../../hooks/useOnScreenView";
+import { useOnScreenView } from "../../../analytics/hooks/useOnScreenView";
 
 const Tab = createMaterialTopTabNavigator();
 const UserProfileStack = createNativeStackNavigator();

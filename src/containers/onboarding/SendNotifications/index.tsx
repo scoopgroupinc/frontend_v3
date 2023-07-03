@@ -9,7 +9,7 @@ import { AppButton } from "../../../components/atoms/AppButton";
 import { screenName } from "../../../utils/constants";
 import { styles } from "./styles";
 import { NavigationScreenType } from "../../../types/globals";
-import { useOnScreenView } from "../../../hooks/useOnScreenView";
+import { useOnScreenView } from "../../../analytics/hooks/useOnScreenView";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({

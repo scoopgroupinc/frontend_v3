@@ -4,7 +4,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { screenName } from "../../../utils/constants";
 import { PromptAnswerModal } from "../../../features/Prompt/components/PromptAnswerModal";
 import { analyticScreenNames, screenClass } from "../../../analytics/constants";
-import { useOnScreenView } from "../../../hooks/useOnScreenView";
+import { useOnScreenView } from "../../../analytics/hooks/useOnScreenView";
 import { ORIGIN } from "../../../features/Prompt/constants";
 
 const OnboardPromptAnswer = () => {

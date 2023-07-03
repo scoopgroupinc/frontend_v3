@@ -22,7 +22,7 @@ import AppActivityIndicator from "../../../components/atoms/ActivityIndicator";
 import { updateUser } from "../../../store/features/user/userSlice";
 import { logEvent, onScreenView } from "../../../analytics";
 import { analyticScreenNames, eventNames, screenClass } from "../../../analytics/constants";
-import { useOnScreenView } from "../../../hooks/useOnScreenView";
+import { useOnScreenView } from "../../../analytics/hooks/useOnScreenView";
 
 export type UserData = {
   firstname: string;

@@ -38,7 +38,7 @@ import OptionTab from "../../components/atoms/OptionsTabs";
 import { analyticScreenNames, eventNames, screenClass } from "../../analytics/constants";
 import { logEvent, onScreenView } from "../../analytics";
 import { getUserConversationList } from "../../utils/helpers";
-import { useOnScreenView } from "../../hooks/useOnScreenView";
+import { useOnScreenView } from "../../analytics/hooks/useOnScreenView";
 
 export const Home = () => {
   const { user } = useAppSelector(selectUser);

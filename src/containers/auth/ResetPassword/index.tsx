@@ -16,7 +16,7 @@ import FormField from "../../../components/molecule/FormField";
 import { AppButton } from "../../../components/atoms/AppButton";
 import { onScreenView } from "../../../analytics";
 import { analyticScreenNames, screenClass } from "../../../analytics/constants";
-import { useOnScreenView } from "../../../hooks/useOnScreenView";
+import { useOnScreenView } from "../../../analytics/hooks/useOnScreenView";
 
 const ResetPassword = ({ route }: any) => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();

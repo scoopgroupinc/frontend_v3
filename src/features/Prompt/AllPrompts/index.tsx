@@ -12,7 +12,7 @@ import { screenName } from "../../../utils/constants";
 import { AppIconButton } from "../../../components/layouts/AppIconButton";
 import { selectAllPrompts } from "../../../store/features/prompts/promptsSlice";
 import { selectUserPrompts, setEditPrompt } from "../../../store/features/user/userSlice";
-import { useOnScreenView } from "../../../hooks/useOnScreenView";
+import { useOnScreenView } from "../../../analytics/hooks/useOnScreenView";
 import { analyticScreenNames, screenClass } from "../../../analytics/constants";
 import { ORIGIN } from "../constants";
 

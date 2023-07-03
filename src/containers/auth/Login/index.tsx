@@ -22,7 +22,7 @@ import { analyticScreenNames, eventNames, screenClass } from "../../../analytics
 import { logEvent } from "../../../analytics";
 import { useNotifications } from "../../../hooks/useNotification";
 import notificationAxios from "../../../services/axios/notificationAxios";
-import { useOnScreenView } from "../../../hooks/useOnScreenView";
+import { useOnScreenView } from "../../../analytics/hooks/useOnScreenView";
 
 const LoginScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();

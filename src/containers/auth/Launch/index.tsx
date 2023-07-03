@@ -18,7 +18,7 @@ import { styles } from "./styles";
 import { screenName } from "../../../utils/constants";
 import { OAUTH } from "../../../utils/constants/apis";
 import { analyticScreenNames, screenClass } from "../../../analytics/constants";
-import { useOnScreenView } from "../../../hooks/useOnScreenView";
+import { useOnScreenView } from "../../../analytics/hooks/useOnScreenView";
 
 WebBrowser.maybeCompleteAuthSession();
 

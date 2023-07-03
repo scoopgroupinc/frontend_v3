@@ -14,7 +14,7 @@ import { styles } from "./styles";
 import { AppButton } from "../../../components/atoms/AppButton";
 import { NavigationScreenType } from "../../../types/globals";
 import { screenName } from "../../../utils/constants";
-import { useOnScreenView } from "../../../hooks/useOnScreenView";
+import { useOnScreenView } from "../../../analytics/hooks/useOnScreenView";
 
 const locationObject = {
   latitude: 0,
