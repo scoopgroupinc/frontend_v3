@@ -97,17 +97,15 @@ const Launch = () => {
             },
           })
           .then((res) => res.data)
-          .catch((err) => console.log(err));
-
-        const providerData = {
-          email: userInfoResponse.email,
-          proivderName: "google",
-          providerUserId: userInfoResponse.id,
-        };
+          .catch((err) => console.log("Google Error", err));
 
         loginWithProvider({
           variables: {
-            providerData,
+            AuthProviderInput: {
+              providerName: "google",
+              providerUserId: userInfoResponse.id,
+              email: userInfoResponse.email,
+            },
           },
         })
           .then(async (res) => {
@@ -122,7 +120,7 @@ const Launch = () => {
             );
             saveDeviceToken(res?.data?.loginWithProvider?.user.userId);
           })
-          .catch((err) => console.log(err));
+          .catch((err) => console.log("social error", err));
       })();
     }
   }, [googleResponse, loginWithProvider, dispatch, saveDeviceToken]);
