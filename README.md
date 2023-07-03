@@ -18,13 +18,13 @@ mac: https://reactnative.dev/docs/0.71/environment-setup?guide=native&os=macos
 
 ### Build
 When creating a build make sure to set NODE_ENV to either production, development or local
-We use (direnv)[https://direnv.net/docs/installation.html] to read env files
+We use [direnv](https://direnv.net/docs/installation.html) to read env files
 
 ### Installation direnv
-(direnv installation)[https://direnv.net/docs/installation.html]
+[direnv installation](https://direnv.net/docs/installation.html)
 
 1. For mac `brew install direnv`
-2. (hook into your shell)[https://direnv.net/docs/hook.html]: Add `eval "$(direnv hook zsh)"` to ~/.zshrc
+2. [hook into your shell](https://direnv.net/docs/hook.html): Add `eval "$(direnv hook zsh)"` to ~/.zshrc
 3. Run `exec $SHELL` to save and restart 
 4. cd into project folder (if you are already there cd out and cd back)
 5. run `direnv allow` it should read all your exported variables
