@@ -8,7 +8,22 @@ export const GET_USER = gql`
       lastName
       email
       phoneNumber
-      onBoarding
+      isOnboarded
+    }
+  }
+`;
+
+export const GET_USER_PREFERENCE = gql`
+  query getUserPreference($userId: String!) {
+    getUserPreference(userId: $userId) {
+      userId
+      createdAt
+      heightRange
+      ageRange
+      gender
+      distance
+      ethnicityPreferences
+      sportsPreferences
     }
   }
 `;

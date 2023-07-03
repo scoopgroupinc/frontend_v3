@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "501079367587",
+    "project_id": "com-scoop-love-analytics",
+    "storage_bucket": "com-scoop-love-analytics.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:501079367587:android:fbc08007ea75c6b5dcc416",
+        "android_client_info": {
+          "package_name": "com.scoop.love"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "501079367587-eoarfvf9esjiq6u7vc19n0t3181fhns2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCOoN25q3pqESvk3AagKgh40R5y4bC7krg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "501079367587-eoarfvf9esjiq6u7vc19n0t3181fhns2.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "501079367587-hb7ft6hku532p8k6h2npc3em5ug0goa2.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.scoop.love"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

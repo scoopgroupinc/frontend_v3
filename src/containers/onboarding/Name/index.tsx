@@ -87,25 +87,21 @@ export const OnboardName = () => {
         variables: {
           UpdateUserInput: data,
         },
-      })
-        .then(async (res) => {
-          if (res?.data?.updateUser) {
-            dispatch(
-              updateUser({
-                value: {
-                  firstName: res?.data?.updateUser?.firstName,
-                  lastName: res?.data?.updateUser?.lastName,
-                },
-              })
-            );
-            navigation.navigate(screenName.GENDER);
-          }
-        })
-        .catch((err) => {
-          console.error(err);
-        });
+      }).then(async (res) => {
+        if (res?.data?.updateUser) {
+          dispatch(
+            updateUser({
+              value: {
+                firstName: res?.data?.updateUser?.firstName,
+                lastName: res?.data?.updateUser?.lastName,
+              },
+            })
+          );
+          navigation.navigate(screenName.GENDER);
+        }
+      });
     } catch (err) {
-      console.error(err);
+      Alert.alert("Error", err.message || "Something went wrong!");
     }
   };
 

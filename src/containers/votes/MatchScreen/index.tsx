@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { View, Text, Image, TextInput } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -12,12 +12,15 @@ import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { Colors, Spacing } from "../../../utils";
 import LikeButton from "../../../components/atoms/LikeButton";
 import { AppButton } from "../../../components/atoms/AppButton";
+import { eventNames, screenClass } from "../../../analytics/constants";
 import { screenName } from "../../../utils/constants";
+
 import {
   RemoveActiveChoice,
   selectMatchedUsers,
   selectUserChoices,
 } from "../../../store/features/matches/matchSlice";
+import { logEvent } from "../../../analytics";
 
 const MatchScreen = () => {
   const { user } = useAppSelector(selectUser);
@@ -30,8 +33,6 @@ const MatchScreen = () => {
       Authorization: `Bearer ${user?.token}`,
     },
   });
-
-  console.log("socket", socket);
 
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
@@ -61,13 +62,13 @@ const MatchScreen = () => {
     );
     navigation.navigate(screenName.CHAT_NAVIGATOR);
 
-    //  logEvent({
-    //    eventName: eventNames.submitConversationStarterButton,
-    //    params: {
-    //      userId: reduxUser?.userId,
-    //      screenClass: screenClass.matches,
-    //    },
-    //  });
+    logEvent({
+      eventName: eventNames.submitConversationStarterButton,
+      params: {
+        userId: user1?.userId,
+        screenClass: screenClass.matches,
+      },
+    });
   };
 
   return (

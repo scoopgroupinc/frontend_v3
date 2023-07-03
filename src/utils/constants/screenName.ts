@@ -28,7 +28,8 @@ const screenName = {
   QUESTION_PROMPT: "QuestionPrompt",
   ONBOARD_TEXT: "OnboardText",
   ALLPROMPTS: "AllPrompts",
-  ONBOARD_PROMPT_ANSWER: "OnboardPromptAnswer",
+  // note: PROMPT_ANSWER is used in onboard flow to point to OnboardPromptAnswer, in edit points to EditPromptAnswer
+  PROMPT_ANSWER: "PromptAnswer",
 
   // APP_NAVIGATOR
   PROFILE: "Profile",

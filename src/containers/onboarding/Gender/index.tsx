@@ -1,6 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 import React, { useEffect, useState } from "react";
-import { View, Text } from "react-native";
+import { Alert, View } from "react-native";
 import { useMutation } from "@apollo/client";
 import { ProgressBar } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
@@ -39,13 +39,11 @@ export const GenderScreen = () => {
         variables: {
           UserProfileInput: data,
         },
-      })
-        .then(async () => {
-          navigation.navigate(screenName.DATE_WHO);
-        })
-        .catch(() => {});
+      }).then(async () => {
+        navigation.navigate(screenName.DATE_WHO);
+      });
     } catch (error) {
-      /* eslint-disable no-console */
+      Alert.alert("Error", error.message || "Something went wrong!");
     }
   };
 

@@ -18,8 +18,10 @@ import { Colors } from "../../../utils";
 import { screenName } from "../../../utils/constants";
 import { OTPInputModal } from "../../../components/templates/OTPInputModal";
 import { useAppDispatch } from "../../../store/hooks";
-import { setUser, updateUser } from "../../../store/features/user/userSlice";
+import { setUser } from "../../../store/features/user/userSlice";
 import { storeStringData } from "../../../utils/storage";
+import { logEvent } from "../../../analytics";
+import { eventNames } from "../../../analytics/constants";
 
 const CreateAccount = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();

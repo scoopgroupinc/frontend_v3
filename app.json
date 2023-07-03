@@ -18,16 +18,17 @@
       "supportsTablet": true,
       "buildNumber": "1.0.0",
       "bundleIdentifier": "com.scoop.love",
-      "icon": "src/assets/apple-touch-icon.png"
+      "icon": "src/assets/icon.png",
+      "googleServicesFile": "src/services/firebase/GoogleService-Info.plist"
     },
     "android": {
+      "package": "com.scoop.love",
+      "versionCode": 1,
+      "googleServicesFile": "src/services/firebase/google-services.json",
       "adaptiveIcon": {
         "foregroundImage": "src/assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF",
-        "package": "com.scoop.love",
-        "versionCode": 1
-      },
-      "package": "com.scoop.love"
+        "backgroundColor": "#FFFFFF"
+      }
     },
     "web": {
       "favicon": "src/assets/favicon.png"
@@ -40,6 +41,17 @@
     "scheme": ["scoop", "fb136276392801515"],
     "owner": "scoopgroup",
     "plugins": [
+      "@react-native-firebase/app",
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "useFrameworks": "static"
+          }
+        }
+      ],
+
+      "expo-apple-authentication",
       [
         "expo-apple-authentication",
         "expo-image-picker",

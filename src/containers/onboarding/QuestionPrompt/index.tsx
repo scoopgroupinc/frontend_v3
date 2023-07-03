@@ -1,5 +1,5 @@
 /* eslint-disable import/prefer-default-export */
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { View, Text, Alert } from "react-native";
 import { useMutation } from "@apollo/client";
 import { ProgressBar } from "react-native-paper";
@@ -9,8 +9,6 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { styles } from "./styles";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
-import { cloneArray, mapIndexToPrompts } from "../../../utils/helpers";
-import { UserPrompts } from "../../../utils/types";
 import { SAVE_USER_PROMPT_ORDER } from "../../../services/graphql/onboarding/mutations";
 import {
   SAVE_ONBOARD_STATUS,
@@ -19,43 +17,37 @@ import {
 import { screenName } from "../../../utils/constants";
 import { GradientLayout } from "../../../components/layouts/GradientLayout";
 import { AppButton } from "../../../components/atoms/AppButton";
-import { CaptureText } from "../../../components/atoms/CaptureText";
+import { CaptureText } from "../../../features/Prompt/components/CaptureText";
 import AppActivityIndicator from "../../../components/atoms/ActivityIndicator";
-import { updateUser } from "../../../store/features/user/userSlice";
-import { analyticScreenNames } from "../../../analytics/constants";
+import {
+  selectUserId,
+  updateUser,
+  setEditPromptIndex,
+  setEditPrompt,
+  selectUserPrompts,
+} from "../../../store/features/user/userSlice";
+import { analyticScreenNames, screenClass } from "../../../analytics/constants";
 import { onScreenView } from "../../../analytics";
 
 export const QuestionPromptScreen = ({ route }: any) => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
-  const { user } = useAppSelector((state: any) => state.appUser);
-  const userId = user?.userId;
+  const userId = useAppSelector(selectUserId);
+  const userPrompts = useAppSelector(selectUserPrompts);
+  let userPromptInput: never[] = [];
 
   const dispatch = useAppDispatch();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const [counter, setCounter] = useState<number>(6);
-  const initialData: UserPrompts[] = [...Array(counter)].map(mapIndexToPrompts);
-  const [items, setItems] = useState(initialData);
-
-  const [captureId, setCaptureId] = useState<string>("");
-
   const [saveUserPromptsOrder] = useMutation(SAVE_USER_PROMPT_ORDER);
-
-  const answered_prompts = items.filter((item) => item.answer !== "");
-  const UserPromptInput = answered_prompts.map((item) => ({
-    answer: item.answer,
-    promptId: item.promptId,
-    userId,
-  }));
 
   const [saveOnBoardStatus] = useMutation(SAVE_ONBOARD_STATUS, {
     variables: {
       onboardInput: {
         userId,
-        onBoarding: true,
-        voteOnboard: false,
+        isOnboarded: true,
+        isVoteOnboarded: false,
       },
     },
     onCompleted: () => {
@@ -63,7 +55,7 @@ export const QuestionPromptScreen = ({ route }: any) => {
       dispatch(
         updateUser({
           value: {
-            onBoarding: true,
+            isOnboarded: true,
           },
         })
       );
@@ -77,13 +69,15 @@ export const QuestionPromptScreen = ({ route }: any) => {
 
   const [saveUserPrompts] = useMutation(SAVE_USER_PROMPTS, {
     variables: {
-      UserPromptInput,
+      UserPromptInput: userPromptInput,
     },
     onCompleted: (data) => {
-      const { saveUserPrompts } = data;
-      if (saveUserPrompts) {
+      console.log("data", data, userPromptInput);
+      const { saveUserPrompts: prompts } = data;
+      if (prompts) {
         const ids: any = [];
-        saveUserPrompts.forEach((item: any, index: number) => {
+        console.log("prompts", prompts);
+        prompts.forEach((item: any, index: number) => {
           if (item.id !== ids[index]) {
             ids[index] = item.id;
           }
@@ -110,34 +104,16 @@ export const QuestionPromptScreen = ({ route }: any) => {
     },
   });
 
-  useEffect(() => {
-    if (route?.params?.item) {
-      const { item } = route?.params;
-      const newArray: UserPrompts[] = cloneArray(items);
-      const index = newArray.findIndex((item) => Number(item.id) === Number(captureId));
-      newArray[index] = {
-        ...newArray[index],
-        answer: item.answer,
-        prompt: item.prompt,
-        promptId: item.promptId,
-        userId: item.userId,
-      };
-      setItems(newArray);
-    }
-
-    onScreenView({
-      screenName: analyticScreenNames.onBoardSelectPrompt,
-      screenType: screenClass.onBoarding,
-    });
-  }, [route?.params?.item]);
-
-  const handlePromptChange = (id: string) => {
-    setCaptureId(id);
-    navigation.navigate(screenName.ALLPROMPTS);
-  };
-
   const completeOnboard = async () => {
     setIsLoading(true);
+    userPromptInput = userPrompts
+      .filter((item: { answer: string }) => item.answer !== "")
+      .map((item: { answer: string; promptId: string; userId: string }) => ({
+        answer: item.answer,
+        promptId: item.promptId,
+        userId,
+      }));
+    console.log(userPromptInput);
     saveUserPrompts();
   };
 
@@ -151,17 +127,22 @@ export const QuestionPromptScreen = ({ route }: any) => {
             <View style={styles.mediaContainer}>
               <View style={styles.mediaBox}>
                 <Text style={styles.mediaHeader}>Add prompts</Text>
-                {items?.map((item: any, index: any) => (
+                {userPrompts?.map((item: any, index: any) => (
                   <CaptureText
                     key={index}
-                    addPrompt={() => {
-                      setCaptureId(index);
+                    onAdd={() => {
+                      dispatch(setEditPromptIndex({ editPromptIndex: index }));
                       navigation.navigate(screenName.ALLPROMPTS);
                     }}
+                    onEdit={() => {
+                      dispatch(setEditPromptIndex({ editPromptIndex: index }));
+                      dispatch(setEditPrompt({ editPrompt: item }));
+                      navigation.navigate(screenName.PROMPT_ANSWER, { prompt: item });
+                    }}
                     prompt={item}
-                    change={() => {
-                      setCaptureId(index);
-                      handlePromptChange(item.id);
+                    onSwap={() => {
+                      dispatch(setEditPromptIndex({ editPromptIndex: index }));
+                      navigation.navigate(screenName.ALLPROMPTS);
                     }}
                   />
                 ))}
@@ -169,7 +150,7 @@ export const QuestionPromptScreen = ({ route }: any) => {
             </View>
           </ScrollView>
           <View style={{ paddingHorizontal: 20 }}>
-            <AppButton isDisabled={UserPromptInput.length < 1} onPress={completeOnboard}>
+            <AppButton isDisabled={userPrompts.length < 1} onPress={completeOnboard}>
               {isLoading ? "Saving Prompts..." : "Complete"}
             </AppButton>
           </View>

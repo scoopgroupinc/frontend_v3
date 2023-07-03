@@ -4,7 +4,7 @@ import { Colors } from "../../../utils";
 
 const styles = StyleSheet.create({
   body: {
-    width: 80,
+    width: 60,
     padding: 4,
     backgroundColor: Colors.RUST,
     borderRadius: 10,
@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
   value: {
     textAlign: "center",
     color: Colors.WHITE,
-    fontSize: 14,
+    fontSize: 10,
     fontFamily: "Poppins_400Regular",
   },
 });

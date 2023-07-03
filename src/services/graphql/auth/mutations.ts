@@ -23,8 +23,8 @@ export const ACTIVATE_ACCOUNT = gql`
         firstName
         lastName
         email
-        onBoarding
-        voteOnboard
+        isOnboarded
+        isVoteOnboarded
       }
       message
     }
@@ -61,8 +61,25 @@ export const LOG_IN_USER = gql`
         firstName
         lastName
         email
-        onBoarding
-        voteOnboard
+        isOnboarded
+        isVoteOnboarded
+      }
+      message
+    }
+  }
+`;
+
+export const PROVIDER_LOGIN = gql`
+  mutation LoginWithProvider($AuthProviderInput: AuthProviderInput!) {
+    loginWithProvider(authProviderInput: $AuthProviderInput) {
+      token
+      user {
+        userId
+        firstName
+        lastName
+        email
+        isOnboarded
+        isVoteOnboarded
       }
       message
     }

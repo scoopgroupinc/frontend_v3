@@ -1,14 +1,13 @@
 import React, { ReactNode } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 
-import { SafeAreaView, View } from "react-native";
+import { SafeAreaView } from "react-native";
 import { Colors } from "../../../utils";
 
 interface LayoutType {
   children: ReactNode;
-  safearea?: boolean;
 }
-export const GradientLayout = ({ children, safearea = true }: LayoutType) => {
+export const GradientLayout = ({ children }: LayoutType) => {
   const gradient = [Colors.RUST, Colors.RED, Colors.TEAL];
   return (
     <LinearGradient style={{ flex: 1 }} colors={gradient}>

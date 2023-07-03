@@ -4,7 +4,6 @@ import { View, Text, Alert } from "react-native";
 import { useMutation } from "@apollo/client";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
-import { useSelector } from "react-redux";
 import * as FileSystem from "expo-file-system";
 import { ScrollableGradientLayout } from "../../../components/layouts/ScrollableGradientLayout";
 import { AppAlert } from "../../../components/layouts/AppAlert";
@@ -21,16 +20,19 @@ import {
   selectUserProfile,
   selectUserPrompts,
   selectUserVisuals,
-  setUserPrompts,
   setUserVisuals,
+  setEditPrompt,
+  setEditPromptIndex,
+  copyUserData,
+  clearCopyData,
+  resetToCopyData,
+  selectIsDirty,
 } from "../../../store/features/user/userSlice";
-import { CaptureText } from "../../../components/atoms/CaptureText";
-import { useAppDispatch } from "../../../store/hooks";
+import { CaptureText } from "../../../features/Prompt/components/CaptureText";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { screenName } from "../../../utils/constants";
 import { styles } from "./styles";
 import { AppInput } from "../../../components/atoms/AppInput";
-import { UserPrompts } from "../../../utils/types";
-import { cloneArray, mapIndexToPrompts } from "../../../utils/helpers";
 import { URLS } from "../../../utils/constants/apis";
 import AppActivityIndicator from "../../../components/atoms/ActivityIndicator";
 import { logEvent, onScreenView } from "../../../analytics";
@@ -40,24 +42,25 @@ const inputTextProps = {
   editable: false,
 };
 
-export const UserProfileEdit = ({ route }: any) => {
+export const UserProfileEdit = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const [modalState, setModalState] = useState<boolean>(false);
   const [saving, isSaving] = useState<boolean>(false);
   const [doneState, setDoneState] = useState<boolean>(false);
 
-  const [captureId, setCaptureId] = useState<string>("");
-
-  const userPrompts = useSelector(selectUserPrompts);
-  const userVisuals = useSelector(selectUserVisuals);
-  const userProfile = useSelector(selectUserProfile);
-
-  const { user } = useSelector(selectUser);
+  const { user } = useAppSelector(selectUser);
   const userId = user?.userId;
-
-  const [counter, setCounter] = useState<number>(6);
+  const userPrompts = useAppSelector(selectUserPrompts);
+  const userVisuals = useAppSelector(selectUserVisuals);
+  const userProfile = useAppSelector(selectUserProfile);
+  const isDirty = useAppSelector(selectIsDirty);
 
   const dispatch = useAppDispatch();
+
+  // make copy to allow for undoing of changes
+  useEffect(() => {
+    dispatch(copyUserData());
+  }, [dispatch]);
 
   const handleUserVisuals = (image: any) => {
     const newImages = [...userVisuals];
@@ -70,34 +73,6 @@ export const UserProfileEdit = ({ route }: any) => {
       })
     );
   };
-
-  const [saveUserPromptsOrder] = useMutation(SAVE_USER_PROMPT_ORDER);
-
-  const saveChanges = async () => {
-    isSaving(true);
-    saveUserProfile();
-    logEvent({
-      eventName: eventNames.editMainProfileButton,
-      params: {},
-    });
-  };
-
-  const cancelChanges = () => {
-    logEvent({
-      eventName: eventNames.cancelProfileButton,
-      params: {},
-    });
-    setModalState(false);
-    navigation.goBack();
-  };
-
-  const UserPromptInput = userPrompts
-    ?.filter((item: any) => item.answer !== "")
-    ?.map((item: any) => ({
-      answer: item.answer,
-      promptId: item.promptId,
-      userId,
-    }));
 
   const handleSaveImages = async (img: any) => {
     const postUrl = URLS.FILE_URL;
@@ -119,40 +94,33 @@ export const UserProfileEdit = ({ route }: any) => {
     await Promise.all(imageArray.map(async (image: any) => handleSaveImages(image.videoOrPhoto)))
       .then(() => {
         isSaving(false);
-        // Toast.show("User profile has been saved successfully!", {
-        //   duration: Toast.durations.LONG,
-        //   position: Toast.positions.BOTTOM,
-        //   shadow: true,
-        //   animation: true,
-        //   hideOnPress: true,
-        //   delay: 0,
-        // });
+
         navigation.goBack();
       })
       .catch((err) => {
         isSaving(false);
-        // Toast.show("Error saving Photos", {
-        //   duration: Toast.durations.LONG,
-        //   position: Toast.positions.BOTTOM,
-        //   shadow: true,
-        //   animation: true,
-        //   hideOnPress: true,
-        //   delay: 0,
-        // });
       });
   };
 
+  const [saveUserPromptsOrder] = useMutation(SAVE_USER_PROMPT_ORDER);
+
   const [saveUserPrompts] = useMutation(SAVE_USER_PROMPTS, {
     variables: {
-      UserPromptInput,
+      UserPromptInput: userPrompts
+        .filter((item: any) => item.answer !== "")
+        .map((item: any) => ({
+          answer: item.answer,
+          promptId: item.promptId,
+          userId,
+        })),
     },
     onCompleted: async (data) => {
-      const { saveUserPrompts } = data;
-      if (saveUserPrompts.length > 0) {
+      const { saveUserPrompts: prompts } = data;
+      if (prompts.length > 0) {
         // get the ids of prompts in items
         const ids: string[] = userPrompts.map((item: any) => item.id);
 
-        saveUserPrompts.forEach((item: any, index: number) => {
+        prompts.forEach((item: any, index: number) => {
           if (item.id !== ids[index]) {
             ids[index] = item.id;
           }
@@ -184,27 +152,11 @@ export const UserProfileEdit = ({ route }: any) => {
               })
               .catch((err) => {
                 isSaving(false);
-                //  Toast.show("Error saving photos", {
-                //    duration: Toast.durations.LONG,
-                //    position: Toast.positions.BOTTOM,
-                //    shadow: true,
-                //    animation: true,
-                //    hideOnPress: true,
-                //    delay: 0,
-                //  });
                 // navigation.goBack()
               });
           },
           onError: (e: any) => {
             isSaving(false);
-            //  Toast.show("Error saving prompts order", {
-            //    duration: Toast.durations.LONG,
-            //    position: Toast.positions.BOTTOM,
-            //    shadow: true,
-            //    animation: true,
-            //    hideOnPress: true,
-            //    delay: 0,
-            //  });
           },
         });
       } else {
@@ -225,28 +177,12 @@ export const UserProfileEdit = ({ route }: any) => {
             );
           })
           .catch((err) => {
-            //  Toast.show("Error saving photos", {
-            //    duration: Toast.durations.LONG,
-            //    position: Toast.positions.BOTTOM,
-            //    shadow: true,
-            //    animation: true,
-            //    hideOnPress: true,
-            //    delay: 0,
-            //  });
             // navigation.goBack()
           });
       }
     },
     onError: (error) => {
       isSaving(false);
-      //  Toast.show("Error saving prompts", {
-      //    duration: Toast.durations.LONG,
-      //    position: Toast.positions.BOTTOM,
-      //    shadow: true,
-      //    animation: true,
-      //    hideOnPress: true,
-      //    delay: 0,
-      //  });
     },
   });
 
@@ -259,42 +195,36 @@ export const UserProfileEdit = ({ route }: any) => {
     },
     onError: (error) => {
       isSaving(false);
-      // Toast.show("Error saving user tags", {
-      //   duration: Toast.durations.LONG,
-      //   position: Toast.positions.BOTTOM,
-      //   shadow: true,
-      //   animation: true,
-      //   hideOnPress: true,
-      //   delay: 0,
-      // });
     },
   });
 
-  const handlePromptChange = (id: string) => {
-    setCaptureId(id);
-    navigation.navigate(screenName.ALLPROMPTS);
+  const saveChanges = async () => {
+    dispatch(clearCopyData());
+    isSaving(true);
+    saveUserProfile();
+    logEvent({
+      eventName: eventNames.editMainProfileButton,
+      params: {},
+    });
   };
 
-  useEffect(() => {
-    if (route?.params?.item) {
-      const { item } = route?.params;
-      const newArray: UserPrompts[] = cloneArray(userPrompts);
-      const index = newArray.findIndex((item) => Number(item.id) === Number(captureId));
-      newArray[index] = {
-        ...newArray[index],
-        answer: item.answer,
-        prompt: item.prompt,
-        promptId: item.promptId,
-        userId: item.userId,
-      };
-
-      dispatch(setUserPrompts({ userPrompts: newArray }));
-    }
-    onScreenView({
-      screenName: analyticScreenNames.onBoardSelectPrompt,
-      screenType: screenClass.onBoarding,
+  const cancelChanges = () => {
+    dispatch(resetToCopyData());
+    logEvent({
+      eventName: eventNames.cancelProfileButton,
+      params: {},
     });
-  }, [route?.params?.item]);
+    setModalState(false);
+    navigation.goBack();
+  };
+
+  const handleCancelButton = () => {
+    if (isDirty) {
+      setModalState(true);
+    } else {
+      cancelChanges();
+    }
+  };
 
   return (
     <>
@@ -325,7 +255,7 @@ export const UserProfileEdit = ({ route }: any) => {
 
           <AppAlert state={doneState} close={() => setDoneState(false)}>
             <View style={styles.textContainer}>
-              <Text style={styles.modalText}>Are you sure you want to save your changes? </Text>
+              <Text style={styles.modalText}>Are you sure you want to save your changes?</Text>
               <View style={styles.buttonContainer}>
                 <View style={styles.buttons}>
                   <AppButton style={styles.editButton} onPress={() => setDoneState(false)}>
@@ -346,10 +276,10 @@ export const UserProfileEdit = ({ route }: any) => {
           </AppAlert>
 
           <View style={styles.topContainer}>
-            <AppButton style={styles.topButton} onPress={() => setModalState(true)}>
+            <AppButton style={styles.topButton} onPress={() => handleCancelButton()}>
               Cancel
             </AppButton>
-            <AppButton style={styles.topButton} onPress={() => saveChanges()}>
+            <AppButton isDisabled={!isDirty} style={styles.topButton} onPress={() => saveChanges()}>
               {saving ? "Saving..." : "Done"}
             </AppButton>
           </View>
@@ -365,15 +295,20 @@ export const UserProfileEdit = ({ route }: any) => {
             <Text style={styles.mediaHeader}>Prompts</Text>
             {userPrompts?.map((item: any, index: any) => (
               <CaptureText
-                key={index}
-                addPrompt={() => {
-                  setCaptureId(index);
+                key={item.id}
+                onAdd={() => {
+                  dispatch(setEditPromptIndex({ editPromptIndex: index }));
                   navigation.navigate(screenName.ALLPROMPTS);
                 }}
+                onEdit={() => {
+                  dispatch(setEditPromptIndex({ editPromptIndex: index }));
+                  dispatch(setEditPrompt({ editPrompt: item }));
+                  navigation.navigate(screenName.PROMPT_ANSWER, { prompt: item });
+                }}
                 prompt={item}
-                change={() => {
-                  setCaptureId(index);
-                  handlePromptChange(item.id);
+                onSwap={() => {
+                  dispatch(setEditPromptIndex({ editPromptIndex: index }));
+                  navigation.navigate(screenName.ALLPROMPTS);
                 }}
               />
             ))}
@@ -384,6 +319,71 @@ export const UserProfileEdit = ({ route }: any) => {
               marginBottom: "25%",
             }}
           >
+            <AppInput
+              _typeOf="tag_field"
+              value={userProfile
+                ?.find((item: any) => item.tagType === "relationship_goal")
+                ?.userTags.map((item: any) => item.tagName)
+                .join(", ")}
+              visible={
+                userProfile?.find((item: any) => item.tagType === "relationship_goal")?.visible
+              }
+              label="Relationship Goals"
+              placeholder="Long Term, Short Term, Casual, Friends With Benefits"
+              onPressIn={() => {
+                navigation.navigate(screenName.RELATIONSHIP_GOALS, {
+                  currentTagType: "relationship_goal",
+                });
+              }}
+              {...inputTextProps}
+            />
+            <AppInput
+              _typeOf="tag_field"
+              value={userProfile
+                ?.find((item: any) => item.tagType === "parenting_goal")
+                ?.userTags.map((item: any) => item.tagName)
+                .join(", ")}
+              visible={userProfile?.find((item: any) => item.tagType === "parenting_goal")?.visible}
+              label="Parenting Goals"
+              placeholder="Have Kids, Want Kids, Don’t Want Kids"
+              onPressIn={() => {
+                navigation.navigate(screenName.PARENTING_GOALS, {
+                  currentTagType: "parenting_goal",
+                });
+              }}
+              {...inputTextProps}
+            />
+            <AppInput
+              _typeOf="tag_field"
+              visible={userProfile?.find((item: any) => item.tagType === "homeTown")?.visible}
+              value={
+                userProfile?.find((item: any) => item.tagType === "homeTown")?.userTags[0]?.tagName
+              }
+              label="Hometown"
+              placeholder="New York, NY"
+              onPressIn={() => {
+                navigation.navigate(screenName.HOMETOWN, {
+                  currentTagType: "homeTown",
+                });
+              }}
+              {...inputTextProps}
+            />
+            <AppInput
+              _typeOf="tag_field"
+              value={userProfile
+                ?.find((item: any) => item.tagType === "ethnicity")
+                ?.userTags.map((item: any) => item.tagName)
+                .join(", ")}
+              visible={userProfile?.find((item: any) => item.tagType === "ethnicity")?.visible}
+              label="Ethnicity"
+              placeholder="Asian, Black/African, Hispanic/Latinx, White/Caucasian"
+              onPressIn={() => {
+                navigation.navigate(screenName.ETHNICITY, {
+                  currentTagType: "ethnicity",
+                });
+              }}
+              {...inputTextProps}
+            />
             <AppInput
               onChangeText={(text: string) => {
                 userProfile?.map((item: any) => {
@@ -431,21 +431,6 @@ export const UserProfileEdit = ({ route }: any) => {
             />
             <AppInput
               _typeOf="tag_field"
-              visible={userProfile?.find((item: any) => item.tagType === "homeTown")?.visible}
-              value={
-                userProfile?.find((item: any) => item.tagType === "homeTown")?.userTags[0]?.tagName
-              }
-              label="Hometown"
-              placeholder="New York, NY"
-              onPressIn={() => {
-                navigation.navigate(screenName.HOMETOWN, {
-                  currentTagType: "homeTown",
-                });
-              }}
-              {...inputTextProps}
-            />
-            <AppInput
-              _typeOf="tag_field"
               visible={userProfile?.find((item: any) => item.tagType === "school")?.visible}
               value={
                 userProfile?.find((item: any) => item.tagType === "school")?.userTags[0]?.tagName
@@ -471,248 +456,6 @@ export const UserProfileEdit = ({ route }: any) => {
               onPressIn={() => {
                 navigation.navigate(screenName.EDUCATION_LEVEL, {
                   currentTagType: "education",
-                });
-              }}
-              {...inputTextProps}
-            />
-            <AppInput
-              _typeOf="tag_field"
-              value={userProfile
-                ?.find((item: any) => item.tagType === "ethnicity")
-                ?.userTags.map((item: any) => item.tagName)
-                .join(", ")}
-              visible={userProfile?.find((item: any) => item.tagType === "ethnicity")?.visible}
-              label="Ethnicity"
-              placeholder="Asian, Black/African, Hispanic/Latinx, White/Caucasian"
-              onPressIn={() => {
-                navigation.navigate(screenName.ETHNICITY, {
-                  currentTagType: "ethnicity",
-                });
-              }}
-              {...inputTextProps}
-            />
-            <AppInput
-              _typeOf="tag_field"
-              value={userProfile
-                ?.find((item: any) => item.tagType === "physical_activity")
-                ?.userTags.map((item: any) => item.tagName)
-                .join(", ")}
-              visible={
-                userProfile?.find((item: any) => item.tagType === "physical_activity")?.visible
-              }
-              label="Sports"
-              placeholder="Basketball, Football, Soccer, Tennis, Volleyball"
-              onPressIn={() => {
-                navigation.navigate(screenName.SPORTS, {
-                  currentTagType: "physical_activity",
-                });
-              }}
-              {...inputTextProps}
-            />
-            <AppInput
-              _typeOf="tag_field"
-              value={userProfile
-                ?.find((item: any) => item.tagType === "smoking")
-                ?.userTags.map((item: any) => item.tagName)
-                .join(", ")}
-              visible={userProfile?.find((item: any) => item.tagType === "smoking")?.visible}
-              label="Smoking"
-              placeholder="Yes"
-              onPressIn={() => {
-                navigation.navigate(screenName.SMOKING, {
-                  currentTagType: "smoking",
-                });
-              }}
-              {...inputTextProps}
-            />
-            <AppInput
-              _typeOf="tag_field"
-              value={userProfile
-                ?.find((item: any) => item.tagType === "cannibis_usage")
-                ?.userTags.map((item: any) => item.tagName)
-                .join(", ")}
-              visible={userProfile?.find((item: any) => item.tagType === "cannibis_usage")?.visible}
-              label="Cannabis"
-              placeholder="Yes"
-              onPressIn={() => {
-                navigation.navigate(screenName.CANNABIS, {
-                  currentTagType: "cannibis_usage",
-                });
-              }}
-              {...inputTextProps}
-            />
-            <AppInput
-              _typeOf="tag_field"
-              value={userProfile
-                ?.find((item: any) => item.tagType === "alcohol_usage")
-                ?.userTags.map((item: any) => item.tagName)
-                .join(", ")}
-              visible={userProfile?.find((item: any) => item.tagType === "alcohol_usage")?.visible}
-              label="Alcohol"
-              placeholder="Yes"
-              onPressIn={() => {
-                navigation.navigate(screenName.ALCOHOL, {
-                  currentTagType: "alcohol_usage",
-                });
-              }}
-              {...inputTextProps}
-            />
-            <AppInput
-              _typeOf="tag_field"
-              value={userProfile
-                ?.find((item: any) => item.tagType === "drug_usage")
-                ?.userTags.map((item: any) => item.tagName)
-                .join(", ")}
-              visible={userProfile?.find((item: any) => item.tagType === "drug_usage")?.visible}
-              label="Drugs"
-              placeholder="Yes"
-              onPressIn={() => {
-                navigation.navigate(screenName.DRUGS, {
-                  currentTagType: "drug_usage",
-                });
-              }}
-              {...inputTextProps}
-            />
-            <AppInput
-              _typeOf="tag_field"
-              value={userProfile
-                ?.find((item: any) => item.tagType === "drink")
-                ?.userTags.map((item: any) => item.tagName)
-                .join(", ")}
-              visible={userProfile?.find((item: any) => item.tagType === "drink")?.visible}
-              label="Drink"
-              placeholder="Yes"
-              onPressIn={() => {
-                navigation.navigate(screenName.DRINK, {
-                  currentTagType: "drink",
-                });
-              }}
-              {...inputTextProps}
-            />
-            <AppInput
-              _typeOf="tag_field"
-              value={userProfile
-                ?.find((item: any) => item.tagType === "diet")
-                ?.userTags.map((item: any) => item.tagName)
-                .join(", ")}
-              visible={userProfile?.find((item: any) => item.tagType === "diet")?.visible}
-              label="Diet"
-              placeholder="Vegetarian, Vegan, Gluten-Free, Dairy-Free, Kosher"
-              onPressIn={() => {
-                navigation.navigate(screenName.DIET, {
-                  currentTagType: "diet",
-                });
-              }}
-              {...inputTextProps}
-            />
-            <AppInput
-              _typeOf="tag_field"
-              value={userProfile
-                ?.find((item: any) => item.tagType === "language")
-                ?.userTags.map((item: any) => item.tagName)
-                .join(", ")}
-              visible={userProfile?.find((item: any) => item.tagType === "language")?.visible}
-              label="Languages"
-              placeholder="English, Spanish, French, German, Italian"
-              onPressIn={() => {
-                navigation.navigate(screenName.LANGUAGES, {
-                  currentTagType: "language",
-                });
-              }}
-              {...inputTextProps}
-            />
-            <AppInput
-              _typeOf="tag_field"
-              value={userProfile
-                ?.find((item: any) => item.tagType === "music_genre")
-                ?.userTags.map((item: any) => item.tagName)
-                .join(", ")}
-              visible={userProfile?.find((item: any) => item.tagType === "music_genre")?.visible}
-              label="Music Genres"
-              placeholder="Pop, Rock, Hip-Hop, R&B, Country"
-              onPressIn={() => {
-                navigation.navigate(screenName.MUSIC_GENRES, {
-                  currentTagType: "music_genre",
-                });
-              }}
-              {...inputTextProps}
-            />
-            <AppInput
-              _typeOf="tag_field"
-              value={userProfile
-                ?.find((item: any) => item.tagType === "book_genre")
-                ?.userTags.map((item: any) => item.tagName)
-                .join(", ")}
-              visible={userProfile?.find((item: any) => item.tagType === "book_genre")?.visible}
-              label="Book Genres"
-              placeholder="Fiction, Non-Fiction, Romance, Mystery, Thriller"
-              onPressIn={() => {
-                navigation.navigate(screenName.BOOK_GENRES, {
-                  currentTagType: "book_genre",
-                });
-              }}
-              {...inputTextProps}
-            />
-            <AppInput
-              _typeOf="tag_field"
-              value={userProfile
-                ?.find((item: any) => item.tagType === "pets")
-                ?.userTags.map((item: any) => item.tagName)
-                .join(", ")}
-              visible={userProfile?.find((item: any) => item.tagType === "pets")?.visible}
-              label="Pets"
-              placeholder="Dog, Cat, Fish, Bird, Reptile"
-              onPressIn={() => {
-                navigation.navigate(screenName.PETS, {
-                  currentTagType: "pets",
-                });
-              }}
-              {...inputTextProps}
-            />
-            <AppInput
-              _typeOf="tag_field"
-              value={userProfile
-                ?.find((item: any) => item.tagType === "creative")
-                ?.userTags.map((item: any) => item.tagName)
-                .join(", ")}
-              visible={userProfile?.find((item: any) => item.tagType === "creative")?.visible}
-              label="Creative Outlet"
-              placeholder="Writing, Painting, Photography, Music, Film"
-              onPressIn={() => {
-                navigation.navigate(screenName.CREATIVE_OUTLET, {
-                  currentTagType: "creative",
-                });
-              }}
-              {...inputTextProps}
-            />
-            <AppInput
-              _typeOf="tag_field"
-              value={userProfile
-                ?.find((item: any) => item.tagType === "staying_in")
-                ?.userTags.map((item: any) => item.tagName)
-                .join(", ")}
-              visible={userProfile?.find((item: any) => item.tagType === "staying_in")?.visible}
-              label="Staying In"
-              placeholder="Watching TV, Cooking, Reading, Gaming, Bingeing"
-              onPressIn={() => {
-                navigation.navigate(screenName.STAYING_IN, {
-                  currentTagType: "staying_in",
-                });
-              }}
-              {...inputTextProps}
-            />
-            <AppInput
-              _typeOf="tag_field"
-              value={userProfile
-                ?.find((item: any) => item.tagType === "going_out")
-                ?.userTags.map((item: any) => item.tagName)
-                .join(", ")}
-              visible={userProfile?.find((item: any) => item.tagType === "going_out")?.visible}
-              label="Going Out"
-              placeholder="Bars, Clubs, Concerts, Movies, Sports"
-              onPressIn={() => {
-                navigation.navigate(screenName.GOING_OUT, {
-                  currentTagType: "going_out",
                 });
               }}
               {...inputTextProps}
@@ -802,15 +545,15 @@ export const UserProfileEdit = ({ route }: any) => {
             <AppInput
               _typeOf="tag_field"
               value={userProfile
-                ?.find((item: any) => item.tagType === "parenting_goal")
+                ?.find((item: any) => item.tagType === "diet")
                 ?.userTags.map((item: any) => item.tagName)
                 .join(", ")}
-              visible={userProfile?.find((item: any) => item.tagType === "parenting_goal")?.visible}
-              label="Parenting Goals"
-              placeholder="Have Kids, Want Kids, Don’t Want Kids"
+              visible={userProfile?.find((item: any) => item.tagType === "diet")?.visible}
+              label="Diet"
+              placeholder="Vegetarian, Vegan, Gluten-Free, Dairy-Free, Kosher"
               onPressIn={() => {
-                navigation.navigate(screenName.PARENTING_GOALS, {
-                  currentTagType: "parenting_goal",
+                navigation.navigate(screenName.DIET, {
+                  currentTagType: "diet",
                 });
               }}
               {...inputTextProps}
@@ -818,17 +561,210 @@ export const UserProfileEdit = ({ route }: any) => {
             <AppInput
               _typeOf="tag_field"
               value={userProfile
-                ?.find((item: any) => item.tagType === "relationship_goal")
+                ?.find((item: any) => item.tagType === "drink")
+                ?.userTags.map((item: any) => item.tagName)
+                .join(", ")}
+              visible={userProfile?.find((item: any) => item.tagType === "drink")?.visible}
+              label="Drink"
+              placeholder="Yes"
+              onPressIn={() => {
+                navigation.navigate(screenName.DRINK, {
+                  currentTagType: "drink",
+                });
+              }}
+              {...inputTextProps}
+            />
+            <AppInput
+              _typeOf="tag_field"
+              value={userProfile
+                ?.find((item: any) => item.tagType === "smoking")
+                ?.userTags.map((item: any) => item.tagName)
+                .join(", ")}
+              visible={userProfile?.find((item: any) => item.tagType === "smoking")?.visible}
+              label="Smoking"
+              placeholder="Yes"
+              onPressIn={() => {
+                navigation.navigate(screenName.SMOKING, {
+                  currentTagType: "smoking",
+                });
+              }}
+              {...inputTextProps}
+            />
+            <AppInput
+              _typeOf="tag_field"
+              value={userProfile
+                ?.find((item: any) => item.tagType === "alcohol_usage")
+                ?.userTags.map((item: any) => item.tagName)
+                .join(", ")}
+              visible={userProfile?.find((item: any) => item.tagType === "alcohol_usage")?.visible}
+              label="Alcohol"
+              placeholder="Yes"
+              onPressIn={() => {
+                navigation.navigate(screenName.ALCOHOL, {
+                  currentTagType: "alcohol_usage",
+                });
+              }}
+              {...inputTextProps}
+            />
+            <AppInput
+              _typeOf="tag_field"
+              value={userProfile
+                ?.find((item: any) => item.tagType === "cannibis_usage")
+                ?.userTags.map((item: any) => item.tagName)
+                .join(", ")}
+              visible={userProfile?.find((item: any) => item.tagType === "cannibis_usage")?.visible}
+              label="Cannabis"
+              placeholder="Yes"
+              onPressIn={() => {
+                navigation.navigate(screenName.CANNABIS, {
+                  currentTagType: "cannibis_usage",
+                });
+              }}
+              {...inputTextProps}
+            />
+            <AppInput
+              _typeOf="tag_field"
+              value={userProfile
+                ?.find((item: any) => item.tagType === "drug_usage")
+                ?.userTags.map((item: any) => item.tagName)
+                .join(", ")}
+              visible={userProfile?.find((item: any) => item.tagType === "drug_usage")?.visible}
+              label="Drugs"
+              placeholder="Yes"
+              onPressIn={() => {
+                navigation.navigate(screenName.DRUGS, {
+                  currentTagType: "drug_usage",
+                });
+              }}
+              {...inputTextProps}
+            />
+            <AppInput
+              _typeOf="tag_field"
+              value={userProfile
+                ?.find((item: any) => item.tagType === "language")
+                ?.userTags.map((item: any) => item.tagName)
+                .join(", ")}
+              visible={userProfile?.find((item: any) => item.tagType === "language")?.visible}
+              label="Languages"
+              placeholder="English, Spanish, French, German, Italian"
+              onPressIn={() => {
+                navigation.navigate(screenName.LANGUAGES, {
+                  currentTagType: "language",
+                });
+              }}
+              {...inputTextProps}
+            />
+            <AppInput
+              _typeOf="tag_field"
+              value={userProfile
+                ?.find((item: any) => item.tagType === "music_genre")
+                ?.userTags.map((item: any) => item.tagName)
+                .join(", ")}
+              visible={userProfile?.find((item: any) => item.tagType === "music_genre")?.visible}
+              label="Music Genres"
+              placeholder="Pop, Rock, Hip-Hop, R&B, Country"
+              onPressIn={() => {
+                navigation.navigate(screenName.MUSIC_GENRES, {
+                  currentTagType: "music_genre",
+                });
+              }}
+              {...inputTextProps}
+            />
+            <AppInput
+              _typeOf="tag_field"
+              value={userProfile
+                ?.find((item: any) => item.tagType === "book_genre")
+                ?.userTags.map((item: any) => item.tagName)
+                .join(", ")}
+              visible={userProfile?.find((item: any) => item.tagType === "book_genre")?.visible}
+              label="Book Genres"
+              placeholder="Fiction, Non-Fiction, Romance, Mystery, Thriller"
+              onPressIn={() => {
+                navigation.navigate(screenName.BOOK_GENRES, {
+                  currentTagType: "book_genre",
+                });
+              }}
+              {...inputTextProps}
+            />
+            <AppInput
+              _typeOf="tag_field"
+              value={userProfile
+                ?.find((item: any) => item.tagType === "pets")
+                ?.userTags.map((item: any) => item.tagName)
+                .join(", ")}
+              visible={userProfile?.find((item: any) => item.tagType === "pets")?.visible}
+              label="Pets"
+              placeholder="Dog, Cat, Fish, Bird, Reptile"
+              onPressIn={() => {
+                navigation.navigate(screenName.PETS, {
+                  currentTagType: "pets",
+                });
+              }}
+              {...inputTextProps}
+            />
+            <AppInput
+              _typeOf="tag_field"
+              value={userProfile
+                ?.find((item: any) => item.tagType === "physical_activity")
                 ?.userTags.map((item: any) => item.tagName)
                 .join(", ")}
               visible={
-                userProfile?.find((item: any) => item.tagType === "relationship_goal")?.visible
+                userProfile?.find((item: any) => item.tagType === "physical_activity")?.visible
               }
-              label="Relationship Goals"
-              placeholder="Long Term, Short Term, Casual, Friends With Benefits"
+              label="Sports"
+              placeholder="Basketball, Football, Soccer, Tennis, Volleyball"
               onPressIn={() => {
-                navigation.navigate(screenName.RELATIONSHIP_GOALS, {
-                  currentTagType: "relationship_goal",
+                navigation.navigate(screenName.SPORTS, {
+                  currentTagType: "physical_activity",
+                });
+              }}
+              {...inputTextProps}
+            />
+
+            <AppInput
+              _typeOf="tag_field"
+              value={userProfile
+                ?.find((item: any) => item.tagType === "going_out")
+                ?.userTags.map((item: any) => item.tagName)
+                .join(", ")}
+              visible={userProfile?.find((item: any) => item.tagType === "going_out")?.visible}
+              label="Going Out"
+              placeholder="Bars, Clubs, Concerts, Movies, Sports"
+              onPressIn={() => {
+                navigation.navigate(screenName.GOING_OUT, {
+                  currentTagType: "going_out",
+                });
+              }}
+              {...inputTextProps}
+            />
+            <AppInput
+              _typeOf="tag_field"
+              value={userProfile
+                ?.find((item: any) => item.tagType === "staying_in")
+                ?.userTags.map((item: any) => item.tagName)
+                .join(", ")}
+              visible={userProfile?.find((item: any) => item.tagType === "staying_in")?.visible}
+              label="Staying In"
+              placeholder="Watching TV, Cooking, Reading, Gaming, Bingeing"
+              onPressIn={() => {
+                navigation.navigate(screenName.STAYING_IN, {
+                  currentTagType: "staying_in",
+                });
+              }}
+              {...inputTextProps}
+            />
+            <AppInput
+              _typeOf="tag_field"
+              value={userProfile
+                ?.find((item: any) => item.tagType === "creative")
+                ?.userTags.map((item: any) => item.tagName)
+                .join(", ")}
+              visible={userProfile?.find((item: any) => item.tagType === "creative")?.visible}
+              label="Creative Outlet"
+              placeholder="Writing, Painting, Photography, Music, Film"
+              onPressIn={() => {
+                navigation.navigate(screenName.CREATIVE_OUTLET, {
+                  currentTagType: "creative",
                 });
               }}
               {...inputTextProps}
