@@ -85,3 +85,25 @@ export const PROVIDER_LOGIN = gql`
     }
   }
 `;
+
+export const VERIFY_PROVIDER_EMAIL = gql`
+  mutation VerifyProviderEmail($email: String!) {
+    verifyProviderEmail(email: $email) {
+      message
+      statusCode
+      status
+      data {
+        token
+        message
+        user {
+          userId
+          firstName
+          lastName
+          email
+          isOnboarded
+          isVoteOnboarded
+        }
+      }
+    }
+  }
+`;
