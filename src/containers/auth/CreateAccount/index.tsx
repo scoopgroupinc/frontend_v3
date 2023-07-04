@@ -87,13 +87,12 @@ const CreateAccount = () => {
             params: { success: response?.data?.createUser },
           });
         })
-        .catch((err) => {
-          logEvent({
-            eventName: eventNames.submitSignUpButtonResponse,
-            params: { error: err.message },
-          });
-        });
-    } catch (err) {}
+    } catch (err) {
+      logEvent({
+        eventName: eventNames.submitSignUpButtonResponse,
+        params: { error: err.message },
+      });
+    }
   };
 
   return (
