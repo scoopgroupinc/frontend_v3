@@ -46,7 +46,6 @@ const Launch = () => {
   const [verifyProviderEmail, { data: verifyData, error: verifyError }] =
     useMutation(VERIFY_PROVIDER_EMAIL);
 
-  console.log(OAUTH.IOS_GOOGLE_GUID);
   const [googleRequest, googleResponse, googlePromptAsync] = Google.useAuthRequest({
     expoClientId: OAUTH.EXPO_CLIENT_ID,
     androidClientId: OAUTH.ANDROID_GOOGLE_GUID,
