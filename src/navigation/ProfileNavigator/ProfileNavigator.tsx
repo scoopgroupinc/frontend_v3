@@ -1,17 +1,22 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import { UserProfileEdit } from "../containers/home/UserProfileEdit";
-import { screenName } from "../utils/constants";
-import { UserProfileView } from "../containers/home/UserProfileView";
-import UserProfile from "../containers/home/UserProfile";
-import AppNavigator from "./AppNavigator";
-import Messages from "../containers/chat/Messages";
-import { useLocation } from "../hooks/useLocation";
+import { UserProfileEdit } from "../../containers/home/UserProfileEdit";
+import { screenName } from "../../utils/constants";
+import { UserProfileView } from "../../containers/home/UserProfileView";
+import UserProfile from "../../containers/home/UserProfile";
+import AppNavigator from "../AppNavigator";
+import Messages from "../../containers/chat/Messages";
+import { useFetchUserData } from "./hooks/useFetchUserData";
+import { useNotification } from "./hooks/useNotification";
+import { useFetchStaticData } from "./hooks/useFetchStaticData";
 
 const HomeStack = createStackNavigator();
 
 const ProfileNavigator = () => {
-  useLocation();
+  useNotification();
+  useFetchUserData();
+  useFetchStaticData();
+
   return (
     <HomeStack.Navigator
       screenOptions={{

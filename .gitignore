@@ -11,6 +11,10 @@ npm-debug.*
 web-build/
 yarn-error.log
 
+# Direnv files
+.direnv
+.envrc
+
 # macOS
 .DS_Store
 

@@ -13,7 +13,9 @@ interface UserState {
   user: any;
   userVisuals: any;
   userProfile: any;
-  userPrompts: any;
+  userPreference: any;
+  userPrompts: UserPrompts[];
+  userPromptsOrder: any[];
   editPromptIndex: any;
   editPrompt: any;
   originalUser: any;
@@ -27,7 +29,9 @@ const initialState: UserState = {
   user: null,
   userVisuals: null,
   userProfile: null,
+  userPreference: null,
   userPrompts: initialPromptsData,
+  userPromptsOrder: [],
   editPromptIndex: null,
   editPrompt: null,
   originalUser: null,
@@ -61,9 +65,13 @@ const UserSlice = createSlice({
         state.isDirty = false;
       }
     },
+    setUserPreference: (state, action: PayloadAction<any>) => {
+      state.userPreference = cloneDeep(action.payload.userPreference);
+    },
     setUserPrompts: (state, action: PayloadAction<any>) => {
       const { userPrompts } = action.payload;
       const prompts = cloneDeep(userPrompts);
+
       for (let i = 0; i < counter; i++) {
         if (!prompts[i]) {
           prompts.push({
@@ -82,10 +90,12 @@ const UserSlice = createSlice({
       }
       state.userPrompts = prompts;
     },
+    setUserPromptsOrder: (state, action: PayloadAction<any>) => {
+      state.userPromptsOrder = cloneDeep(action.payload.userPrompts);
+    },
     updateUser: (state, action: PayloadAction<any>) => {
       const { value } = action.payload;
       state.user = { ...state.user, ...value };
-      removeData("user");
       storeObjectData("user", { ...state.user, ...value });
       if (!!state.originalUser && !isEqual(state.user, state.originalUser)) {
         state.isDirty = true;
@@ -106,12 +116,12 @@ const UserSlice = createSlice({
     // logout: (state) => {
     //   state.user = null;
     //   state.userVisuals = null;
-    //   multiRemove(["user", "userToken", "token", "onboardKey", "userVisuals"]);
+    //   multiRemove(["user", "userToken", "token", "userVisuals"]);
     // },
     // deleteAccount: (state) => {
     //   state.user = null;
     //   state.userVisuals = null;
-    //   multiRemove(["user", "userToken", "token", "onboardKey", "userVisuals"]);
+    //   multiRemove(["user", "userToken", "token", "userVisuals"]);
     // },
     copyUserData: (state) => {
       state.originalUser = cloneDeep(state.user);
@@ -173,16 +183,18 @@ const UserSlice = createSlice({
         // state.userProfile = null;
         Object.assign(state, initialState);
 
-        multiRemove(["user", "userToken", "token", "onboardKey", "userVisuals"]);
+        multiRemove(["user", "userToken", "token", "userVisuals"]);
       })
       .addCase("appUser/deleteAccount", (state) => {
         Object.assign(state, initialState);
-        multiRemove(["user", "userToken", "token", "onboardKey", "userVisuals"]);
+        multiRemove(["user", "userToken", "token", "userVisuals"]);
       });
   },
 });
 
 export const selectUser = (state: any) => state.appUser;
+export const selectUserIsOnboarded = (state: any) => state.appUser.user?.isOnboarded;
+export const selectIsVoteOnboarded = (state: any) => state.appUser.user?.isVoteOnboarded;
 export const selectUserId = (state: any) => state.appUser.user?.userId;
 export const selectUserProfile = (state: any) => state.appUser.userProfile;
 export const selectUserVisuals = (state: any) => state.appUser.userVisuals;
@@ -196,8 +208,10 @@ export const {
   setUser,
   setUserVisuals,
   updateUser,
+  setUserPreference,
   setUserProfile,
   setUserPrompts,
+  setUserPromptsOrder,
   setEditPromptIndex,
   setEditPrompt,
   setPromptOfEditIndex,

@@ -49,6 +49,7 @@ export const GetLocationsScreen = ({ navigation }: NavigationScreenType) => {
       navigation.navigate(screenName.NOTIFICATIONS);
     } catch (err) {
       console.error(err);
+      Alert.alert("Error", error.message || "Something went wrong!");
     }
   };
   useEffect(() => {

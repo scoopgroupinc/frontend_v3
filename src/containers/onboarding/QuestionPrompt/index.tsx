@@ -1,5 +1,5 @@
 /* eslint-disable import/prefer-default-export */
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { View, Text, Alert } from "react-native";
 import { useMutation } from "@apollo/client";
 import { ProgressBar } from "react-native-paper";
@@ -9,8 +9,6 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { styles } from "./styles";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
-import { mapIndexToPrompts } from "../../../utils/helpers";
-import { UserPrompts } from "../../../utils/types";
 import { SAVE_USER_PROMPT_ORDER } from "../../../services/graphql/onboarding/mutations";
 import {
   SAVE_ONBOARD_STATUS,
@@ -26,6 +24,7 @@ import {
   updateUser,
   setEditPromptIndex,
   setEditPrompt,
+  selectUserPrompts,
 } from "../../../store/features/user/userSlice";
 import { analyticScreenNames, screenClass } from "../../../analytics/constants";
 import { onScreenView } from "../../../analytics";
@@ -33,24 +32,15 @@ import { onScreenView } from "../../../analytics";
 export const QuestionPromptScreen = ({ route }: any) => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
-  const { userId } = useAppSelector(selectUserId);
+  const userId = useAppSelector(selectUserId);
   const userPrompts = useAppSelector(selectUserPrompts);
+  let userPromptInput: never[] = [];
 
   const dispatch = useAppDispatch();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const initialData: UserPrompts[] = [...Array(6)].map(mapIndexToPrompts);
-  const [items, setItems] = useState(initialData);
-
   const [saveUserPromptsOrder] = useMutation(SAVE_USER_PROMPT_ORDER);
-
-  const answeredPrompts = items.filter((item) => item.answer !== "");
-  const UserPromptInput = answeredPrompts.map((item) => ({
-    answer: item.answer,
-    promptId: item.promptId,
-    userId,
-  }));
 
   const [saveOnBoardStatus] = useMutation(SAVE_ONBOARD_STATUS, {
     variables: {
@@ -79,12 +69,14 @@ export const QuestionPromptScreen = ({ route }: any) => {
 
   const [saveUserPrompts] = useMutation(SAVE_USER_PROMPTS, {
     variables: {
-      UserPromptInput,
+      UserPromptInput: userPromptInput,
     },
     onCompleted: (data) => {
+      console.log("data", data, userPromptInput);
       const { saveUserPrompts: prompts } = data;
       if (prompts) {
         const ids: any = [];
+        console.log("prompts", prompts);
         prompts.forEach((item: any, index: number) => {
           if (item.id !== ids[index]) {
             ids[index] = item.id;
@@ -114,6 +106,14 @@ export const QuestionPromptScreen = ({ route }: any) => {
 
   const completeOnboard = async () => {
     setIsLoading(true);
+    userPromptInput = userPrompts
+      .filter((item: { answer: string }) => item.answer !== "")
+      .map((item: { answer: string; promptId: string; userId: string }) => ({
+        answer: item.answer,
+        promptId: item.promptId,
+        userId,
+      }));
+    console.log(userPromptInput);
     saveUserPrompts();
   };
 
@@ -127,7 +127,7 @@ export const QuestionPromptScreen = ({ route }: any) => {
             <View style={styles.mediaContainer}>
               <View style={styles.mediaBox}>
                 <Text style={styles.mediaHeader}>Add prompts</Text>
-                {items?.map((item: any, index: any) => (
+                {userPrompts?.map((item: any, index: any) => (
                   <CaptureText
                     key={index}
                     onAdd={() => {
@@ -150,7 +150,7 @@ export const QuestionPromptScreen = ({ route }: any) => {
             </View>
           </ScrollView>
           <View style={{ paddingHorizontal: 20 }}>
-            <AppButton isDisabled={UserPromptInput.length < 1} onPress={completeOnboard}>
+            <AppButton isDisabled={userPrompts.length < 1} onPress={completeOnboard}>
               {isLoading ? "Saving Prompts..." : "Complete"}
             </AppButton>
           </View>

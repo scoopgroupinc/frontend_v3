@@ -74,14 +74,6 @@ export const UserProfileEdit = () => {
     );
   };
 
-  const UserPromptInput = userPrompts
-    ?.filter((item: any) => item.answer !== "")
-    ?.map((item: any) => ({
-      answer: item.answer,
-      promptId: item.promptId,
-      userId,
-    }));
-
   const handleSaveImages = async (img: any) => {
     const postUrl = URLS.FILE_URL;
     if (img.includes("file://")) {
@@ -102,26 +94,11 @@ export const UserProfileEdit = () => {
     await Promise.all(imageArray.map(async (image: any) => handleSaveImages(image.videoOrPhoto)))
       .then(() => {
         isSaving(false);
-        // Toast.show("User profile has been saved successfully!", {
-        //   duration: Toast.durations.LONG,
-        //   position: Toast.positions.BOTTOM,
-        //   shadow: true,
-        //   animation: true,
-        //   hideOnPress: true,
-        //   delay: 0,
-        // });
+
         navigation.goBack();
       })
       .catch((err) => {
         isSaving(false);
-        // Toast.show("Error saving Photos", {
-        //   duration: Toast.durations.LONG,
-        //   position: Toast.positions.BOTTOM,
-        //   shadow: true,
-        //   animation: true,
-        //   hideOnPress: true,
-        //   delay: 0,
-        // });
       });
   };
 
@@ -129,7 +106,13 @@ export const UserProfileEdit = () => {
 
   const [saveUserPrompts] = useMutation(SAVE_USER_PROMPTS, {
     variables: {
-      UserPromptInput,
+      UserPromptInput: userPrompts
+        .filter((item: any) => item.answer !== "")
+        .map((item: any) => ({
+          answer: item.answer,
+          promptId: item.promptId,
+          userId,
+        })),
     },
     onCompleted: async (data) => {
       const { saveUserPrompts: prompts } = data;
@@ -169,27 +152,11 @@ export const UserProfileEdit = () => {
               })
               .catch((err) => {
                 isSaving(false);
-                //  Toast.show("Error saving photos", {
-                //    duration: Toast.durations.LONG,
-                //    position: Toast.positions.BOTTOM,
-                //    shadow: true,
-                //    animation: true,
-                //    hideOnPress: true,
-                //    delay: 0,
-                //  });
                 // navigation.goBack()
               });
           },
           onError: (e: any) => {
             isSaving(false);
-            //  Toast.show("Error saving prompts order", {
-            //    duration: Toast.durations.LONG,
-            //    position: Toast.positions.BOTTOM,
-            //    shadow: true,
-            //    animation: true,
-            //    hideOnPress: true,
-            //    delay: 0,
-            //  });
           },
         });
       } else {
@@ -210,28 +177,12 @@ export const UserProfileEdit = () => {
             );
           })
           .catch((err) => {
-            //  Toast.show("Error saving photos", {
-            //    duration: Toast.durations.LONG,
-            //    position: Toast.positions.BOTTOM,
-            //    shadow: true,
-            //    animation: true,
-            //    hideOnPress: true,
-            //    delay: 0,
-            //  });
             // navigation.goBack()
           });
       }
     },
     onError: (error) => {
       isSaving(false);
-      //  Toast.show("Error saving prompts", {
-      //    duration: Toast.durations.LONG,
-      //    position: Toast.positions.BOTTOM,
-      //    shadow: true,
-      //    animation: true,
-      //    hideOnPress: true,
-      //    delay: 0,
-      //  });
     },
   });
 

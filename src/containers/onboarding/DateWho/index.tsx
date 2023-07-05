@@ -1,6 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 import React, { useEffect, useState } from "react";
-import { View } from "react-native";
+import { Alert, View } from "react-native";
 import { ProgressBar } from "react-native-paper";
 import { useMutation } from "@apollo/client";
 import { useNavigation } from "@react-navigation/native";
@@ -40,15 +40,11 @@ export const DateWhoScreen = () => {
         variables: {
           userPreferenceInput: data,
         },
-      })
-        .then(async () => {
-          navigation.navigate(screenName.BIRTHDAY);
-        })
-        .catch(() => {
-          /* eslint-disable no-console */
-        });
+      }).then(async () => {
+        navigation.navigate(screenName.BIRTHDAY);
+      });
     } catch (err) {
-      /* eslint-disable no-console */
+      Alert.alert("Error", err.message || "Something went wrong!");
     }
   };
 

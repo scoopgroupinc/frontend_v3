@@ -13,6 +13,21 @@ export const GET_USER = gql`
   }
 `;
 
+export const GET_USER_PREFERENCE = gql`
+  query getUserPreference($userId: String!) {
+    getUserPreference(userId: $userId) {
+      userId
+      createdAt
+      heightRange
+      ageRange
+      gender
+      distance
+      ethnicityPreferences
+      sportsPreferences
+    }
+  }
+`;
+
 export const GET_PROMPTS = gql`
   query GET_PROMPTS {
     getPrompts(id: "", promptType: "") {

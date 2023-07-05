@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View } from "react-native";
+import { Alert, Platform, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -15,21 +15,37 @@ import AppActivityIndicator from "../../../components/atoms/ActivityIndicator";
 import { LOG_IN_USER } from "../../../services/graphql/auth/mutations";
 import { useAppDispatch } from "../../../store/hooks";
 import { setUser } from "../../../store/features/user/userSlice";
-import { storeStringData } from "../../../utils/storage";
+import { getObjectData, multiRemove, storeStringData } from "../../../utils/storage";
 import { OTPInputModal } from "../../../components/templates/OTPInputModal";
 import { screenName } from "../../../utils/constants";
 import { eventNames } from "../../../analytics/constants";
 import { logEvent } from "../../../analytics";
+import { useNotifications } from "../../../hooks/useNotification";
+import notificationAxios from "../../../services/axios/notificationAxios";
 
 const LoginScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const [userData, setUserData] = useState<any>();
   const [modalState, setModalState] = useState<boolean>(false);
   const [revalidate, setRevalidate] = useState<boolean>(true);
-
   const dispatch = useAppDispatch();
 
+  const { registerForPushNotificationsAsync } = useNotifications();
+
   const [loginUserMutation, { loading: loginLoading }] = useMutation(LOG_IN_USER);
+
+  const saveDeviceToken = async (userId: string) => {
+    const token = await registerForPushNotificationsAsync();
+    if (userId && token) {
+      const data = {
+        notificationToken: token,
+        osType: Platform.OS,
+        version: Platform.Version,
+        userId,
+      };
+      await notificationAxios.put("deviceToken", data);
+    }
+  };
 
   const schema = yup.object().shape({
     email: yup.string().email().required("Email is required."),
@@ -72,10 +88,14 @@ const LoginScreen = () => {
             },
           })
         );
+        saveDeviceToken(res?.data?.login?.user.userId);
       })
       .catch((err) => {
         if (err.message === "Kindly activate your account") {
           setModalState(true);
+        } else {
+          Alert.alert("Error", err.message || "Something went wrong!");
+          multiRemove(["user", "userToken", "token", "userVisuals"]);
         }
         logEvent({
           eventName: eventNames.submitSignInButtonResponse,
