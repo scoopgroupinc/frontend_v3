@@ -9,7 +9,7 @@ import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { selectUser, updateUser } from "../store/features/user/userSlice";
 import { GET_USER_LOCATION } from "../services/graphql/profile/queries";
 
-export const useLocation = () => {
+export const useUpdateUserLocation = () => {
   const { user } = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
 
