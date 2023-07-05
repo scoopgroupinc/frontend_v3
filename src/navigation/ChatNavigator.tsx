@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from "react";
-import { createStackNavigator } from "@react-navigation/stack";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useQuery } from "@apollo/client";
 import { screenName } from "../utils/constants";
 import Conversations from "../containers/chat/Conversations";
@@ -9,7 +9,8 @@ import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { setUserMatches } from "../store/features/matches/matchSlice";
 import { selectUser } from "../store/features/user/userSlice";
 
-const ChatStack = createStackNavigator();
+
+const ChatStack = createNativeStackNavigator();
 
 const ChatNavigator = () => {
   const { user } = useAppSelector(selectUser);

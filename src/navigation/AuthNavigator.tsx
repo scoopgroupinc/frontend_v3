@@ -1,5 +1,5 @@
 import React from "react";
-import { createStackNavigator } from "@react-navigation/stack";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import screenName from "../utils/constants/screenName";
 import Launch from "../containers/auth/Launch";
 import LoginScreen from "../containers/auth/Login";
@@ -7,7 +7,7 @@ import CreateAccount from "../containers/auth/CreateAccount";
 import ForgotPassword from "../containers/auth/ForgotPassword";
 import ResetPassword from "../containers/auth/ResetPassword";
 
-const AuthStack = createStackNavigator();
+const AuthStack = createNativeStackNavigator();
 
 const AuthNavigator = () => (
   <AuthStack.Navigator

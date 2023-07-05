@@ -32,7 +32,6 @@ const screenName = {
   PROMPT_ANSWER: "PromptAnswer",
 
   // APP_NAVIGATOR
-  PROFILE: "Profile",
   VOTE: "Vote",
   CHAT: "Chat",
   HOME: "Home",
@@ -40,8 +39,6 @@ const screenName = {
   // PROFILE
   ANALYTICS: "Analytics",
   USER_PROFILE: "UserProfile",
-  EDIT_PROFILE: "Edit",
-  View_PROFILE: "Preview",
   PROFILE_MODAL: "ProfileModal",
   WORK: "Work",
   EDUCATION_LEVEL: "EducationLevel",
