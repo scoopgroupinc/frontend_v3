@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text } from "react-native";
-import { MaterialIcons } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 
 import { styles } from "./styles";
 import { Colors } from "../../../utils";
@@ -15,7 +15,7 @@ const TagScreenHeader = ({ title, close }: tagScreenProps) => (
   <View style={styles.headerContainer}>
     <View>
       <AppIconButton style={{ alignSelf: "flex-start", padding: 0 }} onPress={close}>
-        <MaterialIcons name="keyboard-arrow-left" size={32} color={Colors.ICON_FILL} />
+        <Ionicons name="ios-chevron-back" size={32} color={Colors.ICON_FILL} />
       </AppIconButton>
     </View>
     <View style={styles.textContainer}>
