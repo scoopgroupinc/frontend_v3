@@ -98,11 +98,6 @@ const Launch = () => {
           })
           .then((res) => res.data)
           .catch((err) => console.log(err));
-        // const providerData = {
-        //   email: userInfoResponse.email,
-        //   proivderName: "google",
-        //   providerUserId: userInfoResponse.id,
-        // };
 
         loginWithProvider({
           variables: {
