@@ -98,15 +98,19 @@ const Launch = () => {
           })
           .then((res) => res.data)
           .catch((err) => console.log(err));
-        const providerData = {
-          email: userInfoResponse.email,
-          proivderName: "google",
-          providerUserId: userInfoResponse.id,
-        };
+        // const providerData = {
+        //   email: userInfoResponse.email,
+        //   proivderName: "google",
+        //   providerUserId: userInfoResponse.id,
+        // };
 
         loginWithProvider({
           variables: {
-            providerData,
+            AuthProviderInput: {
+              providerName: "google",
+              providerUserId: userInfoResponse.id,
+              email: userInfoResponse.email,
+            },
           },
         })
           .then(async (res) => {
