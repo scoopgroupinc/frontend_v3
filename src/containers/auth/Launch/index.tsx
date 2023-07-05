@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { View, Text, Image, Platform, Modal, Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { AlertDialog, Heading, Icon, VStack } from "native-base";
+import { Heading, Icon, VStack } from "native-base";
 // import * as AuthSession from "expo-auth-session";
 import * as Facebook from "expo-auth-session/providers/facebook";
 import * as Google from "expo-auth-session/providers/google";

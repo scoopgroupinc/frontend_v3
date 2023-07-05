@@ -192,22 +192,21 @@ export const ToggleProfileView = () => {
           },
         });
       } else {
-        await saveVisuals()
-          .then(() => {
-            Alert.alert(
-              "Profile Saved",
-              "Your profile has been saved successfully!",
-              [
-                {
-                  text: "OK",
-                  onPress: () => {
-                    navigation.goBack();
-                  },
+        await saveVisuals().then(() => {
+          Alert.alert(
+            "Profile Saved",
+            "Your profile has been saved successfully!",
+            [
+              {
+                text: "OK",
+                onPress: () => {
+                  navigation.goBack();
                 },
-              ],
-              { cancelable: false }
-            );
-          })
+              },
+            ],
+            { cancelable: false }
+          );
+        });
       }
     },
     onError: (error) => {

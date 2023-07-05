@@ -77,16 +77,15 @@ const CreateAccount = () => {
 
       registerUserMutation({
         variables: { CreateUserInput: data },
-      })
-        .then((response) => {
-          if (response && response?.data?.createUser) {
-            setModalState(true);
-          }
-          logEvent({
-            eventName: eventNames.submitSignUpButtonResponse,
-            params: { success: response?.data?.createUser },
-          });
-        })
+      }).then((response) => {
+        if (response && response?.data?.createUser) {
+          setModalState(true);
+        }
+        logEvent({
+          eventName: eventNames.submitSignUpButtonResponse,
+          params: { success: response?.data?.createUser },
+        });
+      });
     } catch (err) {
       logEvent({
         eventName: eventNames.submitSignUpButtonResponse,

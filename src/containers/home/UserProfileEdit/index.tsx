@@ -56,7 +56,6 @@ export const UserProfileEdit = () => {
             marginBottom: 20,
           }}
         >
-
           <View style={styles.mediaBox}>
             <Text style={styles.mediaHeader}>Photos</Text>
             <MediaContainer images={userVisuals} onAddImage={handleUserVisuals} />
@@ -541,7 +540,7 @@ export const UserProfileEdit = () => {
               {...inputTextProps}
             />
           </View>
-          </View>
+        </View>
       </ScrollableGradientLayout>
     </>
   );

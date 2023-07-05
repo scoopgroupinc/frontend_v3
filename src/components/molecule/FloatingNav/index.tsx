@@ -5,7 +5,6 @@ import { styles } from "./styles";
 import { FloatingNavItemList } from "./types";
 import { FloatingNavButton } from "./FloatingNavButton";
 
-
 export const FloatingNav = ({ items }: FloatingNavItemList) => {
   const gradient = [Colors.RUST, Colors.RED, Colors.TEAL];
   const [isPressedId, setIsPressedId] = useState("");

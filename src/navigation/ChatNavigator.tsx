@@ -9,7 +9,6 @@ import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { setUserMatches } from "../store/features/matches/matchSlice";
 import { selectUser } from "../store/features/user/userSlice";
 
-
 const ChatStack = createNativeStackNavigator();
 
 const ChatNavigator = () => {
