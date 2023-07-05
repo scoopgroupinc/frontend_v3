@@ -98,15 +98,14 @@ const Launch = () => {
           })
           .then((res) => res.data)
           .catch((err) => console.log(err));
-        const providerData = {
-          email: userInfoResponse.email,
-          proivderName: "google",
-          providerUserId: userInfoResponse.id,
-        };
 
         loginWithProvider({
           variables: {
-            providerData,
+            AuthProviderInput: {
+              providerName: "google",
+              providerUserId: userInfoResponse.id,
+              email: userInfoResponse.email,
+            },
           },
         })
           .then(async (res) => {
@@ -297,7 +296,7 @@ const Launch = () => {
                 style={{
                   marginTop: "80%",
                   flex: 1,
-                  backgroundColor: "goldenrod",
+                  backgroundColor: "white",
                   borderTopRightRadius: 100,
                   padding: "5%",
                   zIndex: 10,
@@ -331,6 +330,9 @@ const Launch = () => {
                       msg={errors.email?.message}
                     />
                     <AppButton
+                      style={{
+                        backgroundColor: Colors.RUST,
+                      }}
                       onPress={handleSubmit((val: { email: string }) => {
                         setIsVisible(false);
                         setLoading(true);

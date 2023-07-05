@@ -4,23 +4,22 @@ import { onError } from "@apollo/client/link/error";
 import { Alert } from "react-native";
 import { setContext } from "@apollo/client/link/context";
 import { ErrorCodes, URLS } from "../../utils/constants/apis";
-import * as RootNavigation from "../../navigation/RootNavigation";
-import { screenName } from "../../utils/constants";
 import { getStringData } from "../../utils/storage";
+import { setUser } from "../../store/features/user/userSlice";
+import { store } from "../../store";
 
-export const getToken = async () => {
-  const token = getStringData("userToken");
-  return token;
-};
-
+export const getToken = async () => getStringData("userToken");
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors) {
     for (const err of graphQLErrors) {
       switch (err.extensions?.code) {
         case ErrorCodes.UNAUTHENTICATED:
           console.log("UNAUTHENTICATED");
-          RootNavigation.navigate(screenName.AUTH_NAVIGATOR);
-          // check why it does not redirect to login
+          store.dispatch(
+            setUser({
+              user: null,
+            })
+          );
           break;
         case ErrorCodes.BAD_USER_INPUT:
           console.log("BAD_USER_INPUT", err.message);
