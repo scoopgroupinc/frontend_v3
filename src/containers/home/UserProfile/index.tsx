@@ -1,14 +1,9 @@
-import React, { useEffect } from "react";
+import React from "react";
 
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import { SafeAreaView } from "react-native-safe-area-context";
-import { LinearGradient } from "expo-linear-gradient";
-import { Dimensions } from "react-native";
-import { Colors } from "../../../utils";
 import { screenName } from "../../../utils/constants";
-import { UserProfileEdit } from "../UserProfileEdit";
+
 import School from "./School";
 import JobTitle from "./JobTitle";
 import EducationLevel from "./EducationLevel";
@@ -39,45 +34,9 @@ import BookGenre from "./BookGenre";
 import StayingIn from "./StayingIn";
 import GoingOut from "./GoingOut";
 import Drink from "./Drink";
-import { UserProfileView } from "../UserProfileView";
-import { analyticScreenNames, screenClass } from "../../../analytics/constants";
-import { onScreenView } from "../../../analytics";
+import { ToggleProfileView } from "./ToggleProfileView";
 
-const Tab = createMaterialTopTabNavigator();
 const UserProfileStack = createNativeStackNavigator();
-
-const TopTab = () => {
-  const gradient = [Colors.RUST, Colors.RED, Colors.TEAL];
-
-  useEffect(() => {
-    onScreenView({
-      screenName: analyticScreenNames.profile,
-      screenType: screenClass.profile,
-    });
-  }, []);
-
-  return (
-    <LinearGradient style={{ flex: 1 }} colors={gradient}>
-      <SafeAreaView style={{ flex: 1 }} edges={["left", "right", "top"]}>
-        <Tab.Navigator
-          screenOptions={{
-            tabBarIndicatorStyle: {
-              backgroundColor: Colors.WHITE,
-              height: 3,
-              width: 100,
-              left: (Dimensions.get("window").width / 2 - 100) / 2,
-            },
-            tabBarLabelStyle: { fontSize: 16, fontWeight: "bold" },
-            tabBarStyle: { backgroundColor: "transparent" },
-          }}
-        >
-          <Tab.Screen name="Edit" component={UserProfileEdit} />
-          <Tab.Screen name="View" component={UserProfileView} />
-        </Tab.Navigator>
-      </SafeAreaView>
-    </LinearGradient>
-  );
-};
 
 const UserProfile = () => (
   <UserProfileStack.Navigator
@@ -85,7 +44,7 @@ const UserProfile = () => (
       headerShown: false,
     }}
   >
-    <UserProfileStack.Screen name="TopTab" component={TopTab} />
+    <UserProfileStack.Screen name="ToggleProfileView" component={ToggleProfileView} />
     <UserProfileStack.Group>
       <UserProfileStack.Screen name={screenName.JOB_TITLE} component={JobTitle} />
       <UserProfileStack.Screen name={screenName.SCHOOL} component={School} />
