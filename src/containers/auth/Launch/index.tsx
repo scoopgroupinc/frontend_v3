@@ -38,7 +38,7 @@ WebBrowser.maybeCompleteAuthSession();
 
 const Launch = () => {
   const [request, response, promptAsync] = Facebook.useAuthRequest({
-    clientId: "136276392801515",
+    clientId: OAUTH.FACEBOOK_CLIENT_ID,
   });
 
   const [loginWithProvider, { data: loginWithProviderData, error }] = useMutation(PROVIDER_LOGIN);
@@ -98,7 +98,6 @@ const Launch = () => {
           })
           .then((res) => res.data)
           .catch((err) => console.log(err));
-
         const providerData = {
           email: userInfoResponse.email,
           proivderName: "google",
