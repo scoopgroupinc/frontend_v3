@@ -51,7 +51,7 @@ export const PhotoVideoScreen = () => {
           })
         );
       })
-      .catch ((err) => {
+      .catch((err) => {
         Alert.alert("Error", err.message || "Something went wrong!");
       });
   };
@@ -114,7 +114,7 @@ export const PhotoVideoScreen = () => {
           <ProgressBar progress={0.6} color="#0E0E2C" />
           <Heading>Photos & Videos</Heading>
           <MediaContainer images={allImages} onAddImage={handleImages} />
-          <AppButton isDisabled={allImages.length < 1} onPress={() => saveImages()}>
+          <AppButton isDisabled={allImages && allImages.length < 1} onPress={() => saveImages()}>
             Upload Photos
           </AppButton>
         </VStack>
