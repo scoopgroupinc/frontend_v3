@@ -16,7 +16,6 @@ const AppTabStack = createBottomTabNavigator();
 
 const AppNavigator = () => {
   const isOnboarded = useAppSelector(selectUserIsOnboarded);
-  const gradient = [Colors.RUST, Colors.RED, Colors.TEAL];
   return isOnboarded ? (
     <AppTabStack.Navigator
       initialRouteName={screenName.PROFILE_HOME}
