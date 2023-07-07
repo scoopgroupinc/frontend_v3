@@ -1,13 +1,7 @@
 /* eslint-disable import/prefer-default-export */
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { View, Text, Pressable, Linking, Alert } from "react-native";
-import {
-  AntDesign,
-  FontAwesome5,
-  MaterialCommunityIcons,
-  MaterialIcons,
-  Octicons,
-} from "@expo/vector-icons";
+import { FontAwesome5, MaterialIcons, Ionicons, Octicons } from "@expo/vector-icons";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
 import { useMutation, useQuery } from "@apollo/client";
@@ -19,7 +13,6 @@ import { screenName } from "../../utils/constants";
 import { DELETE_USER_PROFILE } from "../../services/graphql/user/mutations";
 import {
   GET_PROMPTS_ORDER,
-  GET_USER_CHOICES,
   GET_USER_TAGS_TYPE_VISIBLE,
 } from "../../services/graphql/profile/queries";
 import {
@@ -29,15 +22,12 @@ import {
   setUserPrompts,
 } from "../../store/features/user/userSlice";
 import {
-  setUserChoices,
   setCriterias,
-  selectUserMatches,
 } from "../../store/features/matches/matchSlice";
 import { styles } from "./styles";
 import OptionTab from "../../components/atoms/OptionsTabs";
 import { eventNames, screenClass } from "../../analytics/constants";
 import { logEvent } from "../../analytics";
-import { getUserConversationList } from "../../utils/helpers";
 
 export const Home = () => {
   const { user } = useAppSelector(selectUser);
@@ -52,23 +42,6 @@ export const Home = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const [openSettings, setOpenSettings] = useState<boolean>(false);
-
-  const { data: userChoicesResult } = useQuery(GET_USER_CHOICES, {
-    variables: {
-      userId,
-    },
-    notifyOnNetworkStatusChange: true,
-    onCompleted: () => {
-      if (userChoicesResult?.getUserChoices && userChoicesResult?.getUserChoices?.length > 0) {
-        dispatch(
-          setUserChoices({
-            userChoices: userChoicesResult?.getUserChoices,
-          })
-        );
-      }
-    },
-    onError: () => {},
-  });
 
   const {
     data: userPromptData,
@@ -267,10 +240,6 @@ export const Home = () => {
     }
   }, [userProfileResult, userProfileLoading, dispatch]);
 
-  const userMatches = useAppSelector(selectUserMatches);
-
-  getUserConversationList(userMatches, dispatch, userId);
-
   return (
     <ScrollableGradientLayout>
       <>
@@ -316,17 +285,17 @@ export const Home = () => {
               <OptionTab
                 optionName="Product Policies"
                 btnAction={openUrlPolicy}
-                icon={<MaterialIcons name="policy" size={24} color="black" />}
+                icon={<Ionicons name="md-shield-checkmark-outline" size={24} color="black" />}
               />
               <OptionTab
                 optionName="Logout"
                 btnAction={createLogoutAlert}
-                icon={<AntDesign name="logout" size={24} color="black" />}
+                icon={<Ionicons name="exit-outline" size={24} color="black" />}
               />
               <OptionTab
                 optionName="Delete Account"
                 btnAction={createDeleteAlert}
-                icon={<MaterialCommunityIcons name="delete" size={24} color="black" />}
+                icon={<Ionicons name="trash" size={24} color="black" />}
               />
             </View>
           </SlideUpModal>
