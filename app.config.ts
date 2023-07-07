@@ -84,6 +84,12 @@ const config = {
         photosPermission: "The app accesses your photos to let you share them with your friends.",
       },
     ],
+    [
+      "expo-location",
+      {
+        locationAlwaysAndWhenInUsePermission: "Allow $(PRODUCT_NAME) to use your location.",
+      },
+    ],
   ],
 };
 
