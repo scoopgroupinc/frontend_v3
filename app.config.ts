@@ -84,6 +84,12 @@ const config = {
         photosPermission: "The app accesses your photos to let you share them with your friends.",
       },
     ],
+    [
+      "expo-location",
+      {
+        locationAlwaysAndWhenInUsePermission: "Allow $(PRODUCT_NAME) to use your location.",
+      },
+    ],
   ],
 };
 
@@ -91,6 +97,7 @@ const environments = {
   local: {
     ...config,
     extra: {
+      ...config.extra,
       ENV: environment,
       CLIENT_URL: process.env.LOCAL_CLIENT_URL,
       CHATSERVICE_BASE_URL: process.env.LOCAL_CHATSERVICE_BASE_URL,
@@ -102,6 +109,7 @@ const environments = {
   development: {
     ...config,
     extra: {
+      ...config.extra,
       ENV: environment,
       CLIENT_URL: process.env.DEV_CLIENT_URL,
       CHATSERVICE_BASE_URL: process.env.DEV_CHATSERVICE_BASE_URL,
@@ -113,6 +121,7 @@ const environments = {
   production: {
     ...config,
     extra: {
+      ...config.extra,
       ENV: environment,
       CLIENT_URL: process.env.CLIENT_URL,
       CHATSERVICE_BASE_URL: process.env.CHATSERVICE_BASE_URL,
