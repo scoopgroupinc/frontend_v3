@@ -129,7 +129,11 @@ export const UserProfileView = () => {
               </View> */}
             <View style={styles.section}>
               <Text style={styles.name}>{`${user?.firstName} ${user?.lastName}`}</Text>
-              <Text style={styles.age}>{/* {age} years old, {height} */}</Text>
+              {/* <Text style={styles.age}>
+                {age} years old, {height}
+              </Text> */}
+              <Text style={styles.city}> {user?.location?.city}</Text>
+
               <Text style={styles.descriptionHeader}>My Basics</Text>
 
               <View style={[styles.content, { flexDirection: "column" }]}>

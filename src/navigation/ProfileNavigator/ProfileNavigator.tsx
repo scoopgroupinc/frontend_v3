@@ -7,6 +7,7 @@ import Messages from "../../containers/chat/Messages";
 import { useFetchUserData } from "./hooks/useFetchUserData";
 import { useNotification } from "./hooks/useNotification";
 import { useFetchStaticData } from "./hooks/useFetchStaticData";
+import { useUpdateUserLocation } from "../../hooks/useLocation";
 
 const HomeStack = createNativeStackNavigator();
 
@@ -14,6 +15,7 @@ const ProfileNavigator = () => {
   useNotification();
   useFetchUserData();
   useFetchStaticData();
+  useUpdateUserLocation();
 
   return (
     <HomeStack.Navigator

@@ -48,7 +48,7 @@ const AppNavigator = () => {
     >
       <AppTabStack.Screen
         name={screenName.VOTE}
-        // component={voteOnboard ? VoteNavigator : VoteOnboardNavigator}
+        // component={isVoteOnboarded ? VoteNavigator : VoteOnboardNavigator}
         component={VoteNavigator}
         options={{
           tabBarItemStyle: {
