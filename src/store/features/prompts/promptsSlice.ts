@@ -8,12 +8,24 @@ export interface Prompt {
   sample_answer: string;
   type: string;
 }
+
+export interface Tag {
+  id: string;
+  name: string;
+  emoji: string;
+  type: string;
+  order: number;
+  visible: boolean;
+}
+
 export interface PromptState {
   allPrompts: Prompt[];
+  allTags: Tag[];
 }
 
 const initialState: PromptState = {
   allPrompts: [],
+  allTags: [],
 };
 
 const PromptSlice = createSlice({
@@ -24,11 +36,16 @@ const PromptSlice = createSlice({
       const { allPrompts } = action.payload;
       state.allPrompts = allPrompts;
     },
+    setAllTags: (state, action: PayloadAction<any>) => {
+      const { allTags } = action.payload;
+      state.allTags = allTags;
+    },
   },
 });
 
 export const selectAllPrompts = (state: any) => state.appPrompts.allPrompts;
+export const selectAllTags = (state: any) => state.appPrompts.allTags;
 
-export const { setAllPrompts } = PromptSlice.actions;
+export const { setAllPrompts, setAllTags } = PromptSlice.actions;
 
 export default PromptSlice.reducer;
