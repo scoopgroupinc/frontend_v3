@@ -13,6 +13,7 @@ export const FloatingNav = ({ items }: FloatingNavItemList) => {
     <View style={styles.container}>
       {items.map(({ id, icon, onPress, isSelected }) => (
         <TouchableOpacity
+          key={id}
           onPressIn={() => setIsPressedId(id)}
           onPressOut={() => setIsPressedId("")}
           onPress={onPress}
