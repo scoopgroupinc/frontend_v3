@@ -13,7 +13,12 @@ export interface ButtonType {
 
 export const AppButton = ({ children, variant, colorScheme, ...props }: IButtonProps) => {
   let button;
-  if (variant === "ghost" || colorScheme === "orange" || colorScheme === "blue") {
+  if (
+    variant === "ghost" ||
+    colorScheme === "orange" ||
+    colorScheme === "blue" ||
+    colorScheme === "coolGray"
+  ) {
     button = (
       <Button
         {...props}

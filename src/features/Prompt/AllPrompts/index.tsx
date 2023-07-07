@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FlatList, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
-import { MaterialIcons } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { styles } from "./styles";
@@ -59,7 +59,7 @@ const AllPrompts = () => {
               style={{ alignSelf: "flex-start", padding: 0 }}
               onPress={() => navigation.goBack()}
             >
-              <MaterialIcons name="keyboard-arrow-left" size={32} color={Colors.ICON_FILL} />
+              <Ionicons name="ios-chevron-back" size={32} color={Colors.ICON_FILL} />
             </AppIconButton>
           </View>
           <View style={styles.textContainer}>

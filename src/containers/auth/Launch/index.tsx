@@ -3,7 +3,8 @@ import React, { useCallback, useEffect, useState } from "react";
 import { View, Text, Image, Platform, Modal, Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { Heading, VStack } from "native-base";
+import { Heading, Icon, VStack } from "native-base";
+
 // import * as AuthSession from "expo-auth-session";
 import * as Facebook from "expo-auth-session/providers/facebook";
 import * as Google from "expo-auth-session/providers/google";
@@ -33,6 +34,7 @@ import FormField from "../../../components/molecule/FormField";
 import { OTPInputModal } from "../../../components/templates/OTPInputModal";
 import { Colors, Spacing, Typography } from "../../../utils";
 import AppActivityIndicator from "../../../components/atoms/ActivityIndicator";
+import { Ionicons } from "@expo/vector-icons";
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -164,7 +166,7 @@ const Launch = () => {
   });
 
   const NullEmailAlert = () =>
-    Alert.alert("Email is hidden", "Sccop will need your email address to proceed!", [
+    Alert.alert("Email is hidden", "Scoop needs your email address to proceed!", [
       {
         text: "Cancel",
         onPress: () => console.log("Cancel Pressed"),
@@ -212,17 +214,23 @@ const Launch = () => {
         </View>
         <VStack space={4} style={[styles.btnContainer]}>
           <>
-            <AppButton isDisabled={!request} onPress={handlePressAsync} colorScheme="blue">
-              Sign in with Facebook
+            <AppButton
+              isDisabled={!request}
+              onPress={handlePressAsync}
+              colorScheme="blue"
+              leftIcon={<Icon as={Ionicons} name="logo-facebook" size="sm" />}
+            >
+              Continue with Facebook
             </AppButton>
             <AppButton
               isDisabled={!googleRequest}
               onPress={() => {
                 googlePromptAsync();
               }}
-              colorScheme="blue"
+              colorScheme="coolGray"
+              leftIcon={<Icon as={Ionicons} name="logo-google" size="sm" />}
             >
-              Sign in with Google
+              Continue with Google
             </AppButton>
             <AppleAuthentication.AppleAuthenticationButton
               buttonType={AppleAuthentication.AppleAuthenticationButtonType.CONTINUE}

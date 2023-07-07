@@ -13,6 +13,7 @@ export const styles = StyleSheet.create({
     borderWidth: 5,
     height: 20,
     shadowColor: Colors.BLACK,
+    elevation: 5,
     shadowOffset: {
       width: 0,
       height: 2,
@@ -26,6 +27,7 @@ export const styles = StyleSheet.create({
     borderRadius: 4,
     height: 10,
     shadowColor: Colors.BLACK,
+    elevation: 5,
     shadowOffset: {
       width: 0,
       height: 1,
