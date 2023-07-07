@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { View, Text, Image, Platform, Modal, Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { AlertDialog, Heading, VStack } from "native-base";
+import { Heading, VStack } from "native-base";
 // import * as AuthSession from "expo-auth-session";
 import * as Facebook from "expo-auth-session/providers/facebook";
 import * as Google from "expo-auth-session/providers/google";
@@ -83,6 +83,7 @@ const Launch = () => {
         );
         const userInfo = await userInfoResponse.json();
         setUser(userInfo);
+        console.log("response", response);
       })();
     }
   }, [response]);
@@ -98,15 +99,14 @@ const Launch = () => {
           })
           .then((res) => res.data)
           .catch((err) => console.log(err));
-        const providerData = {
-          email: userInfoResponse.email,
-          proivderName: "google",
-          providerUserId: userInfoResponse.id,
-        };
 
         loginWithProvider({
           variables: {
-            providerData,
+            AuthProviderInput: {
+              providerName: "google",
+              providerUserId: userInfoResponse.id,
+              email: userInfoResponse.email,
+            },
           },
         })
           .then(async (res) => {

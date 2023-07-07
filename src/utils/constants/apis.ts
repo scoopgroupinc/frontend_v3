@@ -24,6 +24,6 @@ const OAUTH = {
   FACEBOOK_APP_ID: Constants.expoConfig.extra.FACEBOOK_APP_ID,
 };
 
-const ENV = Constants.expoConfig.extra.ENV;
+const { ENV } = Constants.expoConfig.extra;
 
 export { URLS, ErrorCodes, OAUTH, ENV };
