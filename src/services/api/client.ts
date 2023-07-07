@@ -9,7 +9,6 @@ import { setUser } from "../../store/features/user/userSlice";
 import { store } from "../../store";
 
 export const getToken = async () => getStringData("userToken");
-
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors) {
     for (const err of graphQLErrors) {
