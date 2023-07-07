@@ -159,7 +159,7 @@ const CreateAccount = () => {
               >
                 Submit
               </AppButton>
-              <AppButton variant="ghost" onPress={() => navigation.navigate(screenName.LOGIN)}>
+              <AppButton variant="ghost" onPress={() => navigation.navigate(screenName.LAUNCH)}>
                 Sign In
               </AppButton>
             </VStack>
