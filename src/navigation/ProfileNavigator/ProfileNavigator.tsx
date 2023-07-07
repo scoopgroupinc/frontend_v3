@@ -8,6 +8,7 @@ import { useFetchUserData } from "./hooks/useFetchUserData";
 import { useNotification } from "./hooks/useNotification";
 import { useFetchStaticData } from "./hooks/useFetchStaticData";
 import { useUpdateUserLocation } from "../../hooks/useLocation";
+import { useGetUserConversationList } from "../../hooks/useGetConversations";
 
 const HomeStack = createNativeStackNavigator();
 
@@ -16,6 +17,8 @@ const ProfileNavigator = () => {
   useFetchUserData();
   useFetchStaticData();
   useUpdateUserLocation();
+  const [, setGetConversations] = useGetUserConversationList();
+  setGetConversations(true);
 
   return (
     <HomeStack.Navigator
