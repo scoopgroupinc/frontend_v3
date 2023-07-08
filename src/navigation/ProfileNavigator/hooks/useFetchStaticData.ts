@@ -8,15 +8,14 @@ export const useFetchStaticData = () => {
   const dispatch = useAppDispatch();
   const { data: promptsResult } = useQuery(GET_PROMPTS);
   const { data: tagsResult } = useQuery(GET_TAGS);
+
   useEffect(() => {
-    
     if (promptsResult) {
       dispatch(setAllPrompts({ allPrompts: promptsResult.getPrompts }));
     }
   }, [promptsResult, dispatch]);
 
   useEffect(() => {
-    
     if (tagsResult) {
       dispatch(setAllTags({ allTags: tagsResult.getTags }));
     }

@@ -11,9 +11,8 @@ import { selectUser } from "../../../store/features/user/userSlice";
 import { selectUserMatches } from "../../../store/features/matches/matchSlice";
 import ChatHeader from "../../../components/atoms/ChatHeader";
 import { analyticScreenNames, screenClass } from "../../../analytics/constants";
-import { onScreenView } from "../../../analytics";
 import { useOnScreenView } from "../../../analytics/hooks/useOnScreenView";
-import { useGetUserConversationList } from "../../../hooks/useGetConversations";
+import { useGetUserConversations } from "../../../hooks/useGetUserConversations";
 
 const ChatMessage = ({ route }: any) => {
   const { user } = useAppSelector(selectUser);
@@ -23,7 +22,7 @@ const ChatMessage = ({ route }: any) => {
   const { matchUserId: receiverID, username, photo, msgs }: any = route.params;
 
   const [messages, setMessages] = useState<any>([]);
-  const [getConversations, setGetConversations] = useGetUserConversationList();
+  const [getConversations, setGetConversations] = useGetUserConversations();
 
   const socket: Socket = io("http://scoopchat-dev.eba-cqqr2rky.us-east-1.elasticbeanstalk.com", {
     transports: ["websocket", "polling"],
@@ -81,10 +80,6 @@ const ChatMessage = ({ route }: any) => {
       socket.emit("online", { userId: user?.userId, checkecUserId: receiverID });
     }, 18000);
     getMessages();
-    onScreenView({
-      screenName: analyticScreenNames.message,
-      screenType: screenClass.chat,
-    });
   }, []);
 
   useEffect(() => {
