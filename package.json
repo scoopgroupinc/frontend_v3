@@ -24,6 +24,7 @@
   "dependencies": {
     "@apollo/client": "^3.7.14",
     "@expo-google-fonts/capriola": "^0.2.3",
+    "@expo-google-fonts/coustard": "^0.2.3",
     "@expo-google-fonts/poppins": "^0.2.3",
     "@expo-google-fonts/roboto-serif": "^0.2.3",
     "@expo-google-fonts/roboto-slab": "^0.2.3",
