@@ -23,6 +23,8 @@ export const LINE_HEIGHT_16 = scaleFont(16);
 
 // FONT-FAMILY
 export const FONT_FAMILY = {
+  Coustard_400Regular: "Coustard_400Regular",
+  Coustard_900Black: "Coustard_900Black",
   Poppins_100Thin: "Poppins_100Thin",
   Poppins_100Thin_Italic: "Poppins_100Thin_Italic",
   Poppins_200ExtraLight: "Poppins_200ExtraLight",
@@ -56,14 +58,16 @@ export const FONT_FAMILY = {
   RobotoSerif_400Regular_Italic: "RobotoSerif_400Regular_Italic",
   RobotoSerif_500Medium_Italic: "RobotoSerif_500Medium_Italic",
   RobotoSerif_600SemiBold_Italic: "RobotoSerif_600SemiBold_Italic",
-  RobotoSerif_700Bold_Italic: "RobotoSerif_700Bold_Italic",
-  RobotoSerif_800ExtraBold_Italic: "RobotoSerif_800ExtraBold_Italic",
-  RobotoSerif_900Black_Italic: "RobotoSerif_900Black_Italic",
+  // RobotoSerif_700Bold_Italic: "RobotoSerif_700Bold_Italic",
+  // RobotoSerif_800ExtraBold_Italic: "RobotoSerif_800ExtraBold_Italic",
+  // RobotoSerif_900Black_Italic: "RobotoSerif_900Black_Italic",
   Tienne_400Regular: "Tienne_400Regular",
   Tienne_700Bold: "Tienne_700Bold",
   Tienne_900Black: "Tienne_900Black",
   Capriola_400Regular: "Capriola_400Regular",
 };
+
+export const FONT_COUSTARD_REGULAR = "Coustard_400Regular";
 export const FONT_POPPINS_REGULAR = "Poppins_400Regular";
 export const FONT_POPPINS_BOLD = "Poppins_700Bold";
 
