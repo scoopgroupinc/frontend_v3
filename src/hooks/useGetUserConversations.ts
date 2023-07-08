@@ -7,18 +7,18 @@ import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { selectUserId } from "../store/features/user/userSlice";
 import { selectUserChoices } from "../store/features/matches/matchSlice";
 
-export const useGetUserConversationList = (): [
+export const useGetUserConversations = (): [
   boolean,
   React.Dispatch<React.SetStateAction<boolean>>
 ] => {
   const dispatch = useAppDispatch();
   const userId = useAppSelector(selectUserId);
   const userChoices = useAppSelector(selectUserChoices);
-  const [getConversations, setGetConversations] = useState(false);
+  const [getConversations, setGetConversations] = useState(true);
 
   useEffect(() => {
     const fetchConversations = async () => {
-      if (!getConversations) {
+      if (getConversations) {
         try {
           const results = await Promise.all(
             userChoices.map(async ({ matchName, matchUserId, visual }) => {
