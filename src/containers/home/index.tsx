@@ -21,9 +21,7 @@ import {
   setUserProfile,
   setUserPrompts,
 } from "../../store/features/user/userSlice";
-import {
-  setCriterias,
-} from "../../store/features/matches/matchSlice";
+import { setCriterias } from "../../store/features/matches/matchSlice";
 import { styles } from "./styles";
 import OptionTab from "../../components/atoms/OptionsTabs";
 import { analyticScreenNames, eventNames, screenClass } from "../../analytics/constants";

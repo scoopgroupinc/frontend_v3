@@ -7,17 +7,17 @@ import Conversations from "../containers/chat/Conversations";
 import { GET_USER_MATCHES } from "../services/graphql/chat/queries";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { setUserMatches } from "../store/features/matches/matchSlice";
-import { selectUser } from "../store/features/user/userSlice";
+import { selectUserId } from "../store/features/user/userSlice";
 
 const ChatStack = createNativeStackNavigator();
 
 const ChatNavigator = () => {
-  const { user } = useAppSelector(selectUser);
+  const userId = useAppSelector(selectUserId);
   const dispatch = useAppDispatch();
 
   const { data: userMatchesData, refetch: userMatchesRefetch } = useQuery(GET_USER_MATCHES, {
     variables: {
-      userId: user?.userId,
+      userId,
     },
   });
 
