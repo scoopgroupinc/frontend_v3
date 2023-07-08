@@ -296,10 +296,15 @@
     chalk "^2.0.0"
     js-tokens "^4.0.0"
 
-"@babel/parser@^7.13.16", "@babel/parser@^7.14.0", "@babel/parser@^7.20.0", "@babel/parser@^7.22.5":
+"@babel/parser@^7.13.16", "@babel/parser@^7.20.0", "@babel/parser@^7.22.5":
   version "7.22.5"
   resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.22.5.tgz#721fd042f3ce1896238cf1b341c77eb7dee7dbea"
   integrity sha512-DFZMC9LJUG9PLOclRC32G63UXwzqS2koQC8dkx+PLdmt1xSePYpbT/NbsrJy8Q/muXz7o/h/d4A7Fuyixm559Q==
+
+"@babel/parser@^7.14.0":
+  version "7.22.7"
+  resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.22.7.tgz#df8cf085ce92ddbdbf668a7f186ce848c9036cae"
+  integrity sha512-7NF8pOkHP5o2vpmGgNGcfAeCvOYhGLyA3Z4eBQkT1RJlWu47n63bCs93QfJ2hIAFCil7L5P2IWhs1oToVgrL0Q==
 
 "@babel/plugin-bugfix-safari-id-destructuring-collision-in-function-expression@^7.22.5":
   version "7.22.5"
@@ -1247,6 +1252,11 @@
   version "0.2.3"
   resolved "https://registry.yarnpkg.com/@expo-google-fonts/capriola/-/capriola-0.2.3.tgz#b973d7dfffa701177784a5620bcd3a01b9da4350"
   integrity sha512-CS+jLLHIG9MIHIUl4q0viWhVhrgt81FIVuoattCauRMgOTlkBb9D9OYK8lqHmQr+8MB5OVJx5cn6D5hyUIByNA==
+
+"@expo-google-fonts/coustard@^0.2.3":
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/@expo-google-fonts/coustard/-/coustard-0.2.3.tgz#bba3bfe63e14b50b6e10dfd15e8d4c9a4e14edf7"
+  integrity sha512-bTXeb6dbGlrZxaMPLegXbws0iwy3i1Muer1mfn72cfRAJhLZ052Ll60QQScDVevzgEI2yxZQ7jyRJmypNA8LkQ==
 
 "@expo-google-fonts/poppins@^0.2.3":
   version "0.2.3"

@@ -1,6 +1,14 @@
 import { FONT_FAMILY } from "../../utils/typography/fonts";
 
 export const fonts = {
+  Coustard: {
+    400: {
+      normal: "Coustard_400Regular",
+    },
+    900: {
+      normal: "Coustard_900Black",
+    },
+  },
   Poppins: {
     100: {
       normal: "Poppins_100Thin",

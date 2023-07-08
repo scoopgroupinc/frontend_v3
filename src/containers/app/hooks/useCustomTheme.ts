@@ -18,6 +18,7 @@ import {
   Poppins_900Black,
   Poppins_900Black_Italic,
 } from "@expo-google-fonts/poppins";
+import { Coustard_400Regular, Coustard_900Black } from "@expo-google-fonts/coustard";
 import {
   RobotoSerif_100Thin_Italic,
   RobotoSerif_200ExtraLight_Italic,
@@ -25,9 +26,9 @@ import {
   RobotoSerif_400Regular_Italic,
   RobotoSerif_500Medium_Italic,
   RobotoSerif_600SemiBold_Italic,
-  RobotoSerif_700Bold_Italic,
-  RobotoSerif_800ExtraBold_Italic,
-  RobotoSerif_900Black_Italic,
+  // RobotoSerif_700Bold_Italic,
+  // RobotoSerif_800ExtraBold_Italic,
+  // RobotoSerif_900Black_Italic,
 } from "@expo-google-fonts/roboto-serif";
 import {
   RobotoSlab_100Thin,
@@ -36,9 +37,9 @@ import {
   RobotoSlab_400Regular,
   RobotoSlab_500Medium,
   RobotoSlab_600SemiBold,
-  RobotoSlab_700Bold,
-  RobotoSlab_800ExtraBold,
-  RobotoSlab_900Black,
+  // RobotoSlab_700Bold,
+  // RobotoSlab_800ExtraBold,
+  // RobotoSlab_900Black,
 } from "@expo-google-fonts/roboto-slab";
 import { Tienne_400Regular, Tienne_700Bold, Tienne_900Black } from "@expo-google-fonts/tienne";
 import { Capriola_400Regular } from "@expo-google-fonts/capriola";
@@ -46,6 +47,8 @@ import { useFonts } from "expo-font";
 
 export const useCustomTheme = () => {
   const [fontsLoaded] = useFonts({
+    Coustard_400Regular,
+    Coustard_900Black,
     Poppins_100Thin,
     Poppins_100Thin_Italic,
     Poppins_200ExtraLight,
@@ -70,18 +73,18 @@ export const useCustomTheme = () => {
     RobotoSlab_400Regular,
     RobotoSlab_500Medium,
     RobotoSlab_600SemiBold,
-    RobotoSlab_700Bold,
-    RobotoSlab_800ExtraBold,
-    RobotoSlab_900Black,
+    // RobotoSlab_700Bold,
+    // RobotoSlab_800ExtraBold,
+    // RobotoSlab_900Black,
     RobotoSerif_100Thin_Italic,
     RobotoSerif_200ExtraLight_Italic,
     RobotoSerif_300Light_Italic,
     RobotoSerif_400Regular_Italic,
     RobotoSerif_500Medium_Italic,
     RobotoSerif_600SemiBold_Italic,
-    RobotoSerif_700Bold_Italic,
-    RobotoSerif_800ExtraBold_Italic,
-    RobotoSerif_900Black_Italic,
+    // RobotoSerif_700Bold_Italic,
+    // RobotoSerif_800ExtraBold_Italic,
+    // RobotoSerif_900Black_Italic,
     Tienne_400Regular,
     Tienne_700Bold,
     Tienne_900Black,
