@@ -26,7 +26,7 @@ export const useNotification = () => {
       if (responseListener) Notifications.removeNotificationSubscription(responseListener);
       if (notifyMe) Notifications.removeNotificationSubscription(notifyMe);
     };
-  }, []);
+  }, [handleNotificationResponse]);
 
   // I've used to test the theory that notification sync with the backend doesn't work yet
   // with this local notification, I've confirmed that the notification is working

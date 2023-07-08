@@ -61,7 +61,7 @@ const School = ({ navigation, route }: any) => {
                 ?.tagName
             }
             onChangeText={(text: string) => {
-              const _data = userProfile?.map((item: any) => {
+              const data = userProfile?.map((item: any) => {
                 const { tagType, userTags } = item;
                 if (tagType === currentTagType) {
                   return {
@@ -77,7 +77,7 @@ const School = ({ navigation, route }: any) => {
               });
               dispatch(
                 setUserProfile({
-                  userProfile: _data,
+                  userProfile: data,
                 })
               );
             }}

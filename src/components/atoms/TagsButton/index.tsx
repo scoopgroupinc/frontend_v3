@@ -7,7 +7,7 @@ import { Colors } from "../../../utils";
 import { styles } from "./styles";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import {
-  selectUser,
+  selectUserId,
   selectUserProfile,
   setUserProfile,
 } from "../../../store/features/user/userSlice";
@@ -33,9 +33,7 @@ export const TagsButton = ({ currentTagType, typeOf, data }: TagButtonProps) => 
   const [tags, setTags] = useState<any>([]);
 
   const dispatch = useAppDispatch();
-  const { user } = useAppSelector(selectUser);
-  const userId = user?.userId;
-
+  const userId = useAppSelector(selectUserId);
   const userProfile = useAppSelector(selectUserProfile);
 
   const handleMulipleBtns = () => {
@@ -95,7 +93,7 @@ export const TagsButton = ({ currentTagType, typeOf, data }: TagButtonProps) => 
                   styles.circleGradient,
                   {
                     backgroundColor:
-                      tags[0]?.tagName === data.name ? Colors.TRANSPARENT : Colors.WHITE,
+                      tags && tags[0]?.tagName === data.name ? Colors.TRANSPARENT : Colors.WHITE,
                   },
                 ]
           }
