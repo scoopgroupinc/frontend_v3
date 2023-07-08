@@ -17,7 +17,7 @@ import {
 import { screenName } from "../../../utils/constants";
 import { GradientLayout } from "../../../components/layouts/GradientLayout";
 import { AppButton } from "../../../components/atoms/AppButton";
-import { CaptureText } from "../../../features/Prompt/components/CaptureText";
+import { CaptureText } from "../../../features/Prompt/components/EditPromptList/CaptureText";
 import AppActivityIndicator from "../../../components/atoms/ActivityIndicator";
 import {
   selectUserId,
@@ -28,8 +28,10 @@ import {
 } from "../../../store/features/user/userSlice";
 import { analyticScreenNames, screenClass } from "../../../analytics/constants";
 import { onScreenView } from "../../../analytics";
+import { EditPromptList } from "../../../features/Prompt/components/EditPromptList";
 
 export const QuestionPromptScreen = ({ route }: any) => {
+  // TODO: fix SAVE_USER_PROMPT_ORDER
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const userId = useAppSelector(selectUserId);
@@ -125,28 +127,7 @@ export const QuestionPromptScreen = ({ route }: any) => {
           <ProgressBar style={styles.progressBar} progress={0.7} color="#0E0E2C" />
           <ScrollView showsVerticalScrollIndicator={false}>
             <View style={styles.mediaContainer}>
-              <View style={styles.mediaBox}>
-                <Text style={styles.mediaHeader}>Add prompts</Text>
-                {userPrompts?.map((item: any, index: any) => (
-                  <CaptureText
-                    key={index}
-                    onAdd={() => {
-                      dispatch(setEditPromptIndex({ editPromptIndex: index }));
-                      navigation.navigate(screenName.ALLPROMPTS);
-                    }}
-                    onEdit={() => {
-                      dispatch(setEditPromptIndex({ editPromptIndex: index }));
-                      dispatch(setEditPrompt({ editPrompt: item }));
-                      navigation.navigate(screenName.PROMPT_ANSWER, { prompt: item });
-                    }}
-                    prompt={item}
-                    onSwap={() => {
-                      dispatch(setEditPromptIndex({ editPromptIndex: index }));
-                      navigation.navigate(screenName.ALLPROMPTS);
-                    }}
-                  />
-                ))}
-              </View>
+              <EditPromptList title="Add prompts" />
             </View>
           </ScrollView>
           <View style={{ paddingHorizontal: 20 }}>

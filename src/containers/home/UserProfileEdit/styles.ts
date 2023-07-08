@@ -4,11 +4,14 @@ import { Colors, Spacing, Typography } from "../../../utils";
 export const styles = StyleSheet.create({
   mediaBox: {
     marginTop: Spacing.SCALE_12,
-    borderWidth: 3,
+    borderWidth: 2,
     borderColor: Colors.WHITE,
     borderStyle: "dashed",
     padding: Spacing.SCALE_10,
     borderRadius: 15,
+  },
+  mediaContainer: {
+    marginTop: Spacing.SCALE_12,
   },
   mediaHeader: {
     color: Colors.WHITE,
