@@ -1,5 +1,5 @@
 /* eslint-disable import/prefer-default-export */
-import React, { useState } from "react";
+import React from "react";
 import { View, Text } from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
@@ -8,19 +8,14 @@ import { ScrollableGradientLayout } from "../../../components/layouts/Scrollable
 import { MediaContainer } from "../../../components/molecule/MediaContainer";
 import {
   selectUserProfile,
-  selectUserPrompts,
   selectUserVisuals,
   setUserVisuals,
-  setEditPrompt,
-  setEditPromptIndex,
 } from "../../../store/features/user/userSlice";
-import { CaptureText } from "../../../features/Prompt/components/CaptureText";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { screenName } from "../../../utils/constants";
 import { styles } from "./styles";
 import { AppInput } from "../../../components/atoms/AppInput";
-import AppActivityIndicator from "../../../components/atoms/ActivityIndicator";
-import { ORIGIN } from "../../../features/Prompt/constants";
+import { EditPromptList } from "../../../features/Prompt/components/EditPromptList";
 
 const inputTextProps = {
   editable: false,
@@ -28,7 +23,6 @@ const inputTextProps = {
 
 export const UserProfileEdit = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
-  const userPrompts = useAppSelector(selectUserPrompts);
   const userVisuals = useAppSelector(selectUserVisuals);
   const userProfile = useAppSelector(selectUserProfile);
 
@@ -60,30 +54,9 @@ export const UserProfileEdit = () => {
           <Text style={styles.mediaHeader}>Photos</Text>
           <MediaContainer images={userVisuals} onAddImage={handleUserVisuals} />
         </View>
-
-        <View style={styles.mediaBox}>
-          <Text style={styles.mediaHeader}>Prompts</Text>
-          {userPrompts?.map((item: any, index: any) => (
-            <CaptureText
-              key={item.id}
-              onAdd={() => {
-                dispatch(setEditPromptIndex({ editPromptIndex: index }));
-                navigation.navigate(screenName.ALLPROMPTS, { origin: ORIGIN.PROFILE });
-              }}
-              onEdit={() => {
-                dispatch(setEditPromptIndex({ editPromptIndex: index }));
-                dispatch(setEditPrompt({ editPrompt: item }));
-                navigation.navigate(screenName.PROMPT_ANSWER, { origin: ORIGIN.PROFILE });
-              }}
-              prompt={item}
-              onSwap={() => {
-                dispatch(setEditPromptIndex({ editPromptIndex: index }));
-                navigation.navigate(screenName.ALLPROMPTS, { origin: ORIGIN.PROFILE });
-              }}
-            />
-          ))}
+        <View style={styles.mediaContainer}>
+          <EditPromptList />
         </View>
-
         <View
           style={{
             marginBottom: "25%",
