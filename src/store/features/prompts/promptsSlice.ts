@@ -19,12 +19,12 @@ export interface Tag {
 }
 
 export interface PromptState {
-  allPrompts: Prompt[];
+  allPrompts: { [id: string]: Prompt };
   allTags: Tag[];
 }
 
 const initialState: PromptState = {
-  allPrompts: [],
+  allPrompts: {},
   allTags: [],
 };
 
@@ -34,7 +34,9 @@ const PromptSlice = createSlice({
   reducers: {
     setAllPrompts: (state, action: PayloadAction<any>) => {
       const { allPrompts } = action.payload;
-      state.allPrompts = allPrompts;
+      allPrompts.forEach((prompt: Prompt) => {
+        state.allPrompts[prompt.id] = prompt;
+      });
     },
     setAllTags: (state, action: PayloadAction<any>) => {
       const { allTags } = action.payload;

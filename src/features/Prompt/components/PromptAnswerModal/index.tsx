@@ -17,6 +17,7 @@ import {
   setPromptOfEditIndex,
 } from "../../../../store/features/user/userSlice";
 import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
+import { selectAllPrompts } from "../../../../store/features/prompts/promptsSlice";
 
 interface PromptAnswerType {
   goBack: () => void;
@@ -30,6 +31,8 @@ export const PromptAnswerModal = ({ close, goBack, origin }: PromptAnswerType) =
   const editPromptAnswer = useAppSelector(selectEditPromptAnswer);
   const userId = useAppSelector(selectUserId);
   const [answer, setAnswer] = useState(editPromptAnswer);
+  const allPrompts = useAppSelector(selectAllPrompts);
+  const promptObj = allPrompts[editPrompt.promptId];
 
   useEffect(() => {
     setAnswer(editPromptAnswer);
@@ -52,7 +55,7 @@ export const PromptAnswerModal = ({ close, goBack, origin }: PromptAnswerType) =
       <KeyboardAwareScrollView>
         <Pressable onPress={handleChangePrompt}>
           <View style={[styles.questionInput, styles.container]}>
-            <Text>{editPrompt?.prompt}</Text>
+            <Text>{promptObj?.prompt}</Text>
             <Entypo name="edit" size={24} color={Colors.ICON_FILL} />
           </View>
         </Pressable>
