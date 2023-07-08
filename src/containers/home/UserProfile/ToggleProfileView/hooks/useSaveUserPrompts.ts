@@ -14,7 +14,7 @@ export const useSaveUserPrompts = () => {
   const { user } = useAppSelector(selectUser);
   const userId = user?.userId;
   const userPrompts = useAppSelector(selectUserPrompts);
-  const isUserPromptsDirtyselectPromptsDirty = useAppSelector(selectisUserPromptsDirty);
+  const isUserPromptsDirty = useAppSelector(selectisUserPromptsDirty);
 
   const [saveUserPromptsOrder] = useMutation(SAVE_USER_PROMPT_ORDER);
 
@@ -52,5 +52,5 @@ export const useSaveUserPrompts = () => {
     },
   });
 
-  return [!isUserPromptsDirtyselectPromptsDirty ? null : saveUserPrompts];
+  return [!isUserPromptsDirty ? null : saveUserPrompts];
 };

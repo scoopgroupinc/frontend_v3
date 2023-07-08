@@ -1,5 +1,5 @@
 /* eslint-disable import/prefer-default-export */
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { View, Text, Alert } from "react-native";
 
 import { LinearGradient } from "expo-linear-gradient";
@@ -58,17 +58,17 @@ export const ToggleProfileView = () => {
   const [saveUserProfile] = useSaveUserProfile();
   const [saveUserPrompts] = useSaveUserPrompts();
 
-  const saveChanges = async () => {
+  const saveChanges = useCallback(async () => {
     isSaving(true);
     logEvent({
       eventName: eventNames.editMainProfileButton,
       params: {},
     });
     try {
-
-      const saveCalls = [saveUserProfile, saveUserPrompts, saveUserVisuals].filter((item) => item !== null);
-      
-      await Promise.all(saveCalls);
+      const saveCalls = [saveUserProfile, saveUserPrompts, saveUserVisuals].filter(
+        (item) => item !== null
+      );
+      await Promise.all(saveCalls.map((func) => func()));
 
       dispatch(clearCopyData());
       isSaving(false);
@@ -85,12 +85,11 @@ export const ToggleProfileView = () => {
         ],
         { cancelable: false }
       );
-      navigation.goBack();
     } catch (error) {
       Alert.alert(error.message);
       isSaving(false);
     }
-  };
+  }, [dispatch, navigation, saveUserPrompts, saveUserProfile, saveUserVisuals]);
 
   const cancelChanges = () => {
     dispatch(resetToCopyData());
