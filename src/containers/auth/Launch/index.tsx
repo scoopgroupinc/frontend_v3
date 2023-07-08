@@ -12,7 +12,7 @@ import * as AppleAuthentication from "expo-apple-authentication";
 import { AppleAuthenticationCredential } from "expo-apple-authentication";
 import jwtDecode from "jwt-decode";
 import * as WebBrowser from "expo-web-browser";
-
+import { Ionicons } from "@expo/vector-icons";
 import axios from "axios";
 import { useMutation } from "@apollo/client";
 import { useForm } from "react-hook-form";
@@ -34,7 +34,6 @@ import FormField from "../../../components/molecule/FormField";
 import { OTPInputModal } from "../../../components/templates/OTPInputModal";
 import { Colors, Spacing, Typography } from "../../../utils";
 import AppActivityIndicator from "../../../components/atoms/ActivityIndicator";
-import { Ionicons } from "@expo/vector-icons";
 
 WebBrowser.maybeCompleteAuthSession();
 

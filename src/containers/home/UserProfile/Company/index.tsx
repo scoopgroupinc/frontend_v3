@@ -45,7 +45,7 @@ const Company = ({ navigation, route }: any) => {
         (item: any) => item.tagType === currentTagType
       );
       if (!isTagTypeInUserProfile) {
-        const _data = userProfile?.map((item: any) => {
+        const data = userProfile?.map((item: any) => {
           const { tagType, userTags } = item;
           if (tagType === currentTagType) {
             return {
@@ -61,7 +61,7 @@ const Company = ({ navigation, route }: any) => {
         });
         dispatch(
           setUserProfile({
-            userProfile: _data,
+            userProfile: data,
           })
         );
       }
@@ -89,7 +89,7 @@ const Company = ({ navigation, route }: any) => {
                 ?.tagName
             }
             onChangeText={(text: string) => {
-              const _data = userProfile?.map((item: any) => {
+              const data = userProfile?.map((item: any) => {
                 const { tagType, userTags } = item;
                 if (tagType === currentTagType) {
                   return {
@@ -106,7 +106,7 @@ const Company = ({ navigation, route }: any) => {
 
               dispatch(
                 setUserProfile({
-                  userProfile: _data,
+                  userProfile: data,
                 })
               );
             }}
