@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, ImageBackground, Image, Dimensions } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
+import { all } from "axios";
 import { useAppSelector } from "../../../store/hooks";
 import {
   selectUser,
@@ -41,6 +42,7 @@ import {
   getCreativeOuletDetails,
 } from "../../../features/ProfileView/components/getDetails";
 import { styles } from "../../../features/ProfileView/styles";
+import { selectAllPrompts } from "../../../store/features/prompts/promptsSlice";
 
 const screenHeight = Dimensions.get("window").height;
 const onethirdScreenHeight = screenHeight / 3;
@@ -48,6 +50,7 @@ const onethirdScreenHeight = screenHeight / 3;
 export const UserProfileView = () => {
   const userProfile = useAppSelector(selectUserProfile);
   const userPrompts = useAppSelector(selectUserPrompts);
+  const allPrompts = useAppSelector(selectAllPrompts);
   const allImages = useAppSelector(selectUserVisuals);
   const { user } = useAppSelector(selectUser);
 
@@ -184,7 +187,10 @@ export const UserProfileView = () => {
                       }}
                     >
                       {/* <Text>{item.prompt.answer}</Text> */}
-                      <QuotedText title={item.prompt.prompt} text={item.prompt.answer} />
+                      <QuotedText
+                        title={allPrompts[item.prompt.promptId]?.prompt}
+                        text={item.prompt.answer}
+                      />
                     </View>
                   );
                 }

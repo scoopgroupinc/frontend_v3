@@ -24,7 +24,7 @@ const AllPrompts = () => {
   const [promptMap, setPromptMap] = useState(new Map());
   const allPrompts = useAppSelector(selectAllPrompts);
   const userPrompts = useAppSelector(selectUserPrompts);
-  const [selectablePrompts, setSelectablePrompts] = useState(allPrompts);
+  const [selectablePrompts, setSelectablePrompts] = useState(Object.values(allPrompts));
 
   const gradient = [Colors.RUST, Colors.RED, Colors.TEAL];
 
@@ -45,8 +45,10 @@ const AllPrompts = () => {
   }, [userPrompts]);
 
   useEffect(() => {
-    if (allPrompts.length > 0) {
-      setSelectablePrompts(allPrompts.filter((prompt: any) => !promptMap.has(prompt.id)));
+    if (Object.values(allPrompts).length > 0) {
+      setSelectablePrompts(
+        Object.values(allPrompts).filter((prompt: any) => !promptMap.has(prompt.id))
+      );
     }
   }, [promptMap, allPrompts, userPrompts]);
 

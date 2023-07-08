@@ -50,6 +50,7 @@ import {
   getCreativeOuletDetails,
 } from "../../../features/ProfileView/components/getDetails";
 import { styles } from "../../../features/ProfileView/styles";
+import { selectAllPrompts } from "../../../store/features/prompts/promptsSlice";
 
 const screenHeight = Dimensions.get("window").height;
 const onethirdScreenHeight = screenHeight / 3;
@@ -64,6 +65,7 @@ export const ProfileView = () => {
   const userProfile = userChoices[0].profile;
   const userPrompts = useAppSelector(selectUserChoicePrompts);
   const allImages = useAppSelector(selectUserChoiceImages);
+  const allPrompts = useAppSelector(selectAllPrompts);
 
   const [handleLikeDislike] = useMutation(USER_SWIPER_ACTION);
 
@@ -259,7 +261,10 @@ export const ProfileView = () => {
                       }}
                     >
                       {/* <Text>{item.prompt.answer}</Text> */}
-                      <QuotedText title={item.prompt.prompt} text={item.prompt.answer} />
+                      <QuotedText
+                        title={allPrompts[item.prompt.promptId]?.prompt}
+                        text={item.prompt.answer}
+                      />
                     </View>
                   );
                 }
