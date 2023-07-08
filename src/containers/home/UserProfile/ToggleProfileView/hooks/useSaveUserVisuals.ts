@@ -28,10 +28,9 @@ export const useSaveUserVisuals = () => {
   };
 
   const handleSaveImages = async (img: any) => {
-    const postUrl = URLS.FILE_URL;
     if (img.includes("file://")) {
-      return await FileSystem.uploadAsync(
-        `${postUrl}/api/v1/visuals/uploadvisuals/${userId}`,
+      return FileSystem.uploadAsync(
+        `${URLS.FILE_URL}/api/v1/visuals/uploadvisuals/${userId}`,
         img,
         {
           httpMethod: "POST",
@@ -44,9 +43,7 @@ export const useSaveUserVisuals = () => {
 
   const saveVisuals = async () => {
     const imageArray = [...userVisuals];
-    return await Promise.all(
-      imageArray.map(async (image: any) => handleSaveImages(image.videoOrPhoto))
-    );
+    return Promise.all(imageArray.map(async (image: any) => handleSaveImages(image.videoOrPhoto)));
   };
 
   return [isUserVisualsDirty ? saveVisuals : null];
