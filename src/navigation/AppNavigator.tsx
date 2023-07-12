@@ -19,7 +19,7 @@ const AppNavigator = () => {
   const gradient = [Colors.RUST, Colors.RED, Colors.TEAL];
   return isOnboarded ? (
     <AppTabStack.Navigator
-      initialRouteName={screenName.HOME}
+      initialRouteName={screenName.PROFILE_HOME}
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: false,
@@ -61,7 +61,7 @@ const AppNavigator = () => {
         }}
       />
       <AppTabStack.Screen
-        name={screenName.HOME}
+        name={screenName.PROFILE_HOME}
         component={Home}
         options={{
           tabBarItemStyle: {

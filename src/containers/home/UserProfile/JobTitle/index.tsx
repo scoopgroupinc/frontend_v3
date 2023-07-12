@@ -17,6 +17,7 @@ import { AppInput } from "../../../../components/atoms/AppInput";
 import TagsView from "../../../../components/molecule/TagsView";
 import { logEvent, onScreenView } from "../../../../analytics";
 import { analyticScreenNames, eventNames, screenClass } from "../../../../analytics/constants";
+import { useOnScreenView } from "../../../../analytics/hooks/useOnScreenView";
 
 const JobTitle = ({ route }: any) => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
@@ -35,6 +36,11 @@ const JobTitle = ({ route }: any) => {
 
   const pageTitle = "Job Title";
 
+  useOnScreenView({
+    screenName: analyticScreenNames.jobTitle,
+    screenType: screenClass.profile
+  });
+
   const goBackHome = () => {
     logEvent({
       eventName: eventNames.backEditProfileButton,
@@ -47,10 +53,6 @@ const JobTitle = ({ route }: any) => {
     if (input.current) {
       input.current.focus();
     }
-    onScreenView({
-      screenName: analyticScreenNames.jobTitle,
-      screenType: screenClass.profile,
-    });
   }, []);
 
   return (

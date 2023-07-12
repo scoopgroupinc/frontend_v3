@@ -21,9 +21,10 @@ import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
 interface PromptAnswerType {
   goBack: () => void;
   close: () => void;
+  origin: string;
 }
 
-export const PromptAnswerModal = ({ close, goBack }: PromptAnswerType) => {
+export const PromptAnswerModal = ({ close, goBack, origin }: PromptAnswerType) => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const editPrompt = useAppSelector(selectEditPrompt);
   const editPromptAnswer = useAppSelector(selectEditPromptAnswer);
@@ -43,7 +44,7 @@ export const PromptAnswerModal = ({ close, goBack }: PromptAnswerType) => {
   };
 
   const handleChangePrompt = () => {
-    navigation.navigate(screenName.ALLPROMPTS);
+    navigation.navigate(screenName.ALLPROMPTS, {origin});
   };
 
   return (

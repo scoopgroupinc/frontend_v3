@@ -68,17 +68,17 @@ export const UserProfileEdit = () => {
                 key={item.id}
                 onAdd={() => {
                   dispatch(setEditPromptIndex({ editPromptIndex: index }));
-                  navigation.navigate(screenName.ALLPROMPTS);
+                  navigation.navigate(screenName.ALLPROMPTS, {origin: ORIGIN.PROFILE});
                 }}
                 onEdit={() => {
                   dispatch(setEditPromptIndex({ editPromptIndex: index }));
                   dispatch(setEditPrompt({ editPrompt: item }));
-                  navigation.navigate(screenName.PROMPT_ANSWER, { prompt: item });
+                  navigation.navigate(screenName.PROMPT_ANSWER, {origin: ORIGIN.PROFILE});
                 }}
                 prompt={item}
                 onSwap={() => {
                   dispatch(setEditPromptIndex({ editPromptIndex: index }));
-                  navigation.navigate(screenName.ALLPROMPTS);
+                  navigation.navigate(screenName.ALLPROMPTS, {origin: ORIGIN.PROFILE});
                 }}
               />
             ))}

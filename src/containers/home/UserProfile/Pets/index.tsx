@@ -8,6 +8,7 @@ import TagScreenHeader from "../../../../components/molecule/TagScreenHeader";
 import TagsView from "../../../../components/molecule/TagsView";
 import { analyticScreenNames, eventNames, screenClass } from "../../../../analytics/constants";
 import { logEvent, onScreenView } from "../../../../analytics";
+import { useOnScreenView } from "../../../../analytics/hooks/useOnScreenView";
 
 const TypeOf = {
   SINGLE: "single",
@@ -31,12 +32,10 @@ const Pets = ({ navigation, route }: any) => {
     navigation.goBack();
   };
 
-  useEffect(() => {
-    onScreenView({
-      screenName: analyticScreenNames.pets,
-      screenType: screenClass.profile,
-    });
-  }, []);
+  useOnScreenView({
+    screenName: analyticScreenNames.pets,
+    screenType: screenClass.profile
+  });
 
   return (
     <LinearGradient style={styles.container} colors={gradient}>

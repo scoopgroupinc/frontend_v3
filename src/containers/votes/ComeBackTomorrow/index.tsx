@@ -2,6 +2,8 @@ import React from "react";
 import { View, Text, Image } from "react-native";
 import { GradientLayout } from "../../../components/layouts/GradientLayout";
 import { styles } from "./styles";
+import { useOnScreenView } from "../../../analytics/hooks/useOnScreenView";
+import { analyticScreenNames, screenClass } from "../../../analytics/constants";
 
 export const ComeBackTomorrow = ({ outOfMatches, noMatchToday }: any) => (
   <GradientLayout>
@@ -22,3 +24,8 @@ export const ComeBackTomorrow = ({ outOfMatches, noMatchToday }: any) => (
     </View>
   </GradientLayout>
 );
+
+useOnScreenView({
+  screenName: analyticScreenNames.noMore,
+  screenType: screenClass.matches
+});

@@ -8,6 +8,7 @@ import TagScreenHeader from "../../../../components/molecule/TagScreenHeader";
 import TagsView from "../../../../components/molecule/TagsView";
 import { logEvent, onScreenView } from "../../../../analytics";
 import { analyticScreenNames, eventNames, screenClass } from "../../../../analytics/constants";
+import { useOnScreenView } from "../../../../analytics/hooks/useOnScreenView";
 
 const TypeOf = {
   SINGLE: "single",
@@ -18,6 +19,11 @@ const Ethnicity = ({ navigation, route }: any) => {
   const gradient = [Colors.RUST, Colors.RED, Colors.TEAL];
 
   const { currentTagType } = route?.params || {};
+
+  useOnScreenView({
+    screenName: analyticScreenNames.ethnicity,
+    screenType: screenClass.profile
+  });
 
   const pageTitle = "Ethnicity";
 
@@ -30,13 +36,6 @@ const Ethnicity = ({ navigation, route }: any) => {
     });
     navigation.goBack();
   };
-
-  useEffect(() => {
-    onScreenView({
-      screenName: analyticScreenNames.ethnicity,
-      screenType: screenClass.profile,
-    });
-  }, []);
 
   return (
     <LinearGradient style={styles.container} colors={gradient}>

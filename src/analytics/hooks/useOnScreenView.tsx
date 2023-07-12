@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { onScreenView } from "../analytics";
+import { onScreenView } from "..";
 
 interface IScreen {
   screenName: string;
