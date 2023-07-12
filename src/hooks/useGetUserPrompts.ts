@@ -66,5 +66,9 @@ export const useGetUserPrompts = () => {
     }
   }, [userPromptData, loadingPromptOrder, dispatch]);
 
-  return [];
+  return  {
+    data: userPrompts,
+    loading: loadingPrompts,
+    error,
+  };
 };

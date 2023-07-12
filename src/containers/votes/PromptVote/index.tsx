@@ -1,29 +1,23 @@
 /* eslint-disable import/prefer-default-export */
 import React, { useEffect, useState } from "react";
 import { View, Text, ScrollView, TextInput } from "react-native";
-import { useMutation, useQuery } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Heading } from "native-base";
-import { useAppDispatch, useAppSelector } from "../../../store/hooks";
+import { useAppSelector } from "../../../store/hooks";
 import { selectUser } from "../../../store/features/user/userSlice";
 import { Colors, Spacing } from "../../../utils";
 import { SAVE_GROUP_RATING } from "../../../services/graphql/profile/mutations";
 import { screenName } from "../../../utils/constants";
-import { GET_PROMPTS_ORDER } from "../../../services/graphql/profile/queries";
-import { URLS } from "../../../utils/constants/apis";
 import { QuotedText } from "../../../components/atoms/QuotedText";
 import styles from "./style";
 import { AppButton } from "../../../components/atoms/AppButton";
 import { RatingSlider } from "../../../components/molecule/RatingSlider";
-import {
-  selectUserChoices,
-  setUserChoiceImages,
-  setUserChoicePrompts,
-} from "../../../store/features/matches/matchSlice";
+import { selectUserChoices } from "../../../store/features/matches/matchSlice";
 import AppActivityIndicator from "../../../components/atoms/ActivityIndicator";
 import { analyticScreenNames, eventNames, screenClass } from "../../../analytics/constants";
 import { logEvent, onScreenView } from "../../../analytics";
@@ -44,10 +38,17 @@ export const PromptVote = () => {
 
   const gradient = [Colors.RUST, Colors.RED, Colors.TEAL];
 
-  const dispatch = useAppDispatch();
+  useEffect(() => {
+    onScreenView({
+      screenName: analyticScreenNames.ratePrompt,
+      screenType: screenClass.matches,
+    });
+  }, []);
+
+  // const dispatch = useAppDispatch();
   const userChoices = useAppSelector(selectUserChoices);
 
-  const userChoiceId = userChoices[0]?.shownUserId;
+  // const userChoiceId = userChoices[0]?.shownUserId;
   const userChoicePrompt = userChoices[0]?.prompt;
   const promptCriteria = useAppSelector((state) =>
     state.matches.criterias.filter((criteria: any) => criteria.type === "user_prompts")
@@ -96,67 +97,10 @@ export const PromptVote = () => {
     },
   });
 
-  const userPromptsOrder = {
-    userId: userChoiceId,
-  };
-
-  const { data: promptsOrderResult, loading: promptsOrderLoading } = useQuery(GET_PROMPTS_ORDER, {
-    variables: {
-      userPromptsOrder,
-    },
-  });
-
   const quote = {
     title: `${userChoicePrompt?.prompt}...`,
     text: `"${userChoicePrompt?.answer}"`,
   };
-
-  useEffect(() => {
-    // load images for the next screen
-    const fetchChoiceVisuals = async () => {
-      await fetch(`${URLS.FILE_URL}/api/v1/visuals/${userChoiceId}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-        .then((res) => res.json())
-        .then((res) => {
-          if (res) {
-            dispatch(
-              setUserChoiceImages({
-                userChoiceImages: res,
-              })
-            );
-          }
-        })
-        .catch(() => {});
-    };
-
-    fetchChoiceVisuals();
-    onScreenView({
-      screenName: analyticScreenNames.ratePrompt,
-      screenType: screenClass.matches,
-    });
-  }, [userChoicePrompt, dispatch, userChoiceId]);
-
-  useEffect(() => {
-    // load prompts for the profile view screen
-    const fetchPromptsOrder = async () => {
-      if (promptsOrderLoading) return null;
-
-      const promptsOrder = promptsOrderResult?.getUserPromptsOrder;
-
-      if (promptsOrder && promptsOrder.length > 0) {
-        dispatch(
-          setUserChoicePrompts({
-            promptsOrder,
-          })
-        );
-      }
-    };
-    fetchPromptsOrder();
-  }, [promptsOrderResult, dispatch, promptsOrderLoading]);
 
   return (
     <>

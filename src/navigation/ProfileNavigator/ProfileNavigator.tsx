@@ -11,17 +11,19 @@ import { useGetUserPreference } from "../../hooks/useGetUserPreference";
 import { useGetUserPrompts } from "../../hooks/useGetUserPrompts";
 import { useGetUserTags } from "../../hooks/useGetUserTags";
 import { useGetUserVisuals } from "../../hooks/useGetUserVisuals";
+import { useGetUserChoices } from "../../hooks/useGetUserChoices";
 
 const HomeStack = createNativeStackNavigator();
 
 const ProfileNavigator = () => {
-  useGetUserConversations();
+  useGetUserConversations(true);
   useGetUserPreference();
   useGetUserPrompts();
   useGetUserTags();
   useGetUserVisuals();
   useFetchStaticData();
   useUpdateUserLocation();
+  useGetUserChoices();
 
   return (
     <HomeStack.Navigator
