@@ -2,22 +2,21 @@ import { useMutation, useQuery } from "@apollo/client";
 import { useCallback, useEffect } from "react";
 import * as Location from "expo-location";
 import * as Device from "expo-device";
-import { Platform } from "react-native";
-import { Alert } from "native-base";
+import { Platform, Alert } from "react-native";
 import { SAVE_USER_LOCATION } from "../services/graphql/profile/mutations";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { selectUser, updateUser } from "../store/features/user/userSlice";
+import { selectUserId, updateUser } from "../store/features/user/userSlice";
 import { GET_USER_LOCATION } from "../services/graphql/profile/queries";
 
 export const useUpdateUserLocation = () => {
-  const { user } = useAppSelector(selectUser);
+  const userId = useAppSelector(selectUserId);
   const dispatch = useAppDispatch();
 
   const [saveUserLocation] = useMutation(SAVE_USER_LOCATION);
 
   const { data: userLocationData } = useQuery(GET_USER_LOCATION, {
     variables: {
-      userId: user?.userId,
+      userId,
     },
   });
 
@@ -25,7 +24,7 @@ export const useUpdateUserLocation = () => {
     async (cordinates: any) => {
       try {
         const data = {
-          userId: user?.userId,
+          userId,
           latitude: cordinates?.coords?.latitude.toString(),
           longitude: cordinates?.coords?.longitude.toString(),
         };
@@ -35,9 +34,11 @@ export const useUpdateUserLocation = () => {
             CreateLocationInput: data,
           },
         });
-      } catch (err) {}
+      } catch (err) {
+        Alert.alert("Error saving location", err.message);
+      }
     },
-    [saveUserLocation, user?.userId]
+    [saveUserLocation, userId]
   );
 
   const getCityFromLatLong = useCallback(
@@ -64,12 +65,12 @@ export const useUpdateUserLocation = () => {
   useEffect(() => {
     (async () => {
       if (Platform.OS === "android" && !Device.isDevice) {
-        Alert("Oops, this will not work on Snack in an Android emulator. Try it on your device!");
+        Alert.alert("Oops, this will not work on Snack in an Android emulator. Try it on your device!");
         return;
       }
       const { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== "granted") {
-        Alert("Permission to access location was denied");
+        Alert.alert("Permission to access location was denied");
         return;
       }
 
@@ -78,7 +79,7 @@ export const useUpdateUserLocation = () => {
       if (userLocationData && userLocationData.getUserLocation) {
         const { latitude, longitude } = userLocationData.getUserLocation;
         if (
-          latitude !== currentLocation?.coords?.latitude &&
+          latitude !== currentLocation?.coords?.latitude ||
           longitude !== currentLocation?.coords?.longitude
         ) {
           saveUserLocationMutation(currentLocation);

@@ -22,7 +22,7 @@ const ChatMessage = ({ route }: any) => {
   const { matchUserId: receiverID, username, photo, msgs }: any = route.params;
 
   const [messages, setMessages] = useState<any>([]);
-  const [getConversations, setGetConversations] = useGetUserConversations();
+  const [, setIsFetchingUserConverstation] = useGetUserConversations(true);
 
   const socket: Socket = io("http://scoopchat-dev.eba-cqqr2rky.us-east-1.elasticbeanstalk.com", {
     transports: ["websocket", "polling"],
@@ -97,7 +97,7 @@ const ChatMessage = ({ route }: any) => {
             },
           },
         ]);
-        setGetConversations(true);
+        setIsFetchingUserConverstation(true);
       }
     });
   }, [socket, receiverID, username, user?.userId, userMatches, dispatch]);
@@ -114,7 +114,7 @@ const ChatMessage = ({ route }: any) => {
     message[0].createdAt = moment().toISOString();
     socket.emit("addMessage", payload);
     setMessages((previousMessages: any) => GiftedChat.append(message, previousMessages));
-    setGetConversations(true);
+    setIsFetchingUserConverstation(true);
   }, []);
 
   return (
