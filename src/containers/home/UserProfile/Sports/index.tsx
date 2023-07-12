@@ -7,7 +7,8 @@ import TagScreenHeader from "../../../../components/molecule/TagScreenHeader";
 import TagsView from "../../../../components/molecule/TagsView";
 import { SPORTS } from "../../../../utils/types/TAGS";
 import { analyticScreenNames, eventNames, screenClass } from "../../../../analytics/constants";
-import { logEvent, onScreenView } from "../../../../analytics";
+import { logEvent } from "../../../../analytics";
+import { useOnScreenView } from "../../../../analytics/hooks/useOnScreenView";
 
 const TypeOf = {
   SINGLE: "single",
@@ -23,6 +24,11 @@ const Sports = ({ navigation, route }: any) => {
 
   const sportsTag = SPORTS;
 
+  useOnScreenView({
+    screenName: analyticScreenNames.sports,
+    screenType: screenClass.profile
+  });
+
   const goBackHome = () => {
     logEvent({
       eventName: eventNames.backEditProfileButton,
@@ -30,14 +36,7 @@ const Sports = ({ navigation, route }: any) => {
     });
     navigation.goBack();
   };
-
-  useEffect(() => {
-    onScreenView({
-      screenName: analyticScreenNames.sports,
-      screenType: screenClass.profile,
-    });
-  }, []);
-
+  
   return (
     <LinearGradient style={styles.container} colors={gradient}>
       <SafeAreaView style={{ flex: 1 }} edges={["left", "right", "top"]}>

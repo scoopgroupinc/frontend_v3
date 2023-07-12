@@ -7,6 +7,7 @@ import TagsView from "../../../../components/molecule/TagsView";
 import { EDUCATION_LEVEL } from "../../../../utils/types/TAGS";
 import { logEvent, onScreenView } from "../../../../analytics";
 import { analyticScreenNames, eventNames, screenClass } from "../../../../analytics/constants";
+import { useOnScreenView } from "../../../../analytics/hooks/useOnScreenView";
 
 const TypeOf = {
   SINGLE: "single",
@@ -17,6 +18,11 @@ const EducationLevel = ({ navigation, route }: { navigation: any; route: any }) 
   const gradient = [Colors.RUST, Colors.RED, Colors.TEAL];
 
   const { currentTagType } = route?.params || {};
+
+  useOnScreenView({
+    screenName: analyticScreenNames.educationLevel,
+    screenType: screenClass.profile
+  });
 
   const eduTags = EDUCATION_LEVEL;
 
@@ -30,12 +36,6 @@ const EducationLevel = ({ navigation, route }: { navigation: any; route: any }) 
     navigation.goBack();
   };
 
-  useEffect(() => {
-    onScreenView({
-      screenName: analyticScreenNames.educationLevel,
-      screenType: screenClass.profile,
-    });
-  }, []);
   return (
     <LinearGradient style={{ flex: 1 }} colors={gradient}>
       <SafeAreaView style={{ flex: 1 }} edges={["left", "right", "top"]}>

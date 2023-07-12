@@ -14,7 +14,8 @@ import TagScreenHeader from "../../../../components/molecule/TagScreenHeader";
 import { AppInput } from "../../../../components/atoms/AppInput";
 import TagsView from "../../../../components/molecule/TagsView";
 import { analyticScreenNames, eventNames, screenClass } from "../../../../analytics/constants";
-import { logEvent, onScreenView } from "../../../../analytics";
+import { logEvent } from "../../../../analytics";
+import { useOnScreenView } from "../../../../analytics/hooks/useOnScreenView";
 
 const School = ({ navigation, route }: any) => {
   const userProfile = useAppSelector(selectUserProfile);
@@ -38,14 +39,15 @@ const School = ({ navigation, route }: any) => {
     navigation.goBack();
   };
 
+  useOnScreenView({
+    screenName: analyticScreenNames.school,
+    screenType: screenClass.profile
+  });
+
   useEffect(() => {
     if (input.current) {
       input.current.focus();
     }
-    onScreenView({
-      screenName: analyticScreenNames.school,
-      screenType: screenClass.profile,
-    });
   }, []);
 
   return (

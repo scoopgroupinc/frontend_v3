@@ -24,8 +24,8 @@ import {
 import { setCriterias } from "../../store/features/matches/matchSlice";
 import { styles } from "./styles";
 import OptionTab from "../../components/atoms/OptionsTabs";
-import { eventNames, screenClass } from "../../analytics/constants";
-import { logEvent } from "../../analytics";
+import { analyticScreenNames, eventNames, screenClass } from "../../analytics/constants";
+import { logEvent, onScreenView } from "../../analytics";
 
 export const Home = () => {
   const { user } = useAppSelector(selectUser);
@@ -41,27 +41,12 @@ export const Home = () => {
 
   const [openSettings, setOpenSettings] = useState<boolean>(false);
 
-  const {
-    data: userPromptData,
-    loading: userPromptLoading,
-    refetch: userPromptRefetch,
-  } = useQuery(GET_PROMPTS_ORDER, {
-    variables: {
-      userPromptsOrder: {
-        userId,
-      },
-    },
-    notifyOnNetworkStatusChange: true,
-  });
-
-  const {
-    loading: userProfileLoading,
-    data: userProfileResult,
-    refetch: userProfileRefetch,
-  } = useQuery(GET_USER_TAGS_TYPE_VISIBLE, {
-    variables: { userId },
-    notifyOnNetworkStatusChange: true,
-  });
+  useEffect(() => {
+    const view = openSettings 
+    ? { screenName: analyticScreenNames.settings, screenType: screenClass.profile }
+    :{ screenName: analyticScreenNames.profileHome, screenType: screenClass.profile }
+    onScreenView(view);
+  }, [openSettings]);
 
   const [deleteUser] = useMutation(DELETE_USER_PROFILE);
 
@@ -202,41 +187,6 @@ export const Home = () => {
   useEffect(() => {
     componentDidMount();
   }, []);
-
-  useEffect(() => {
-    if (userPromptData && !userPromptLoading) {
-      dispatch(
-        setUserPrompts({
-          userPrompts: userPromptData?.getUserPromptsOrder,
-        })
-      );
-    }
-  }, [userPromptData, userPromptLoading, dispatch]);
-
-  useEffect(() => {
-    if (userProfileResult && !userProfileLoading) {
-      const { getAllUserTagsTypeVisible } = userProfileResult;
-      const modifiedResult: any = getAllUserTagsTypeVisible.map((item: any) => ({
-        userId: item.userId,
-        tagType: item.tagType,
-        userTags:
-          item.userTags.length === 0
-            ? item.userTags
-            : item.userTags?.map((tag: any) => ({
-                userId: item.userId,
-                tagName: tag.tagName,
-                tagType: tag.tagType,
-              })),
-        visible: item.visible,
-        emoji: item.emoji,
-      }));
-      dispatch(
-        setUserProfile({
-          userProfile: modifiedResult,
-        })
-      );
-    }
-  }, [userProfileResult, userProfileLoading, dispatch]);
 
   return (
     <ScrollableGradientLayout>

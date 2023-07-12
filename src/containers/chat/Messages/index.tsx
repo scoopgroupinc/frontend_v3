@@ -12,7 +12,8 @@ import { selectUserMatches } from "../../../store/features/matches/matchSlice";
 import ChatHeader from "../../../components/atoms/ChatHeader";
 import { analyticScreenNames, screenClass } from "../../../analytics/constants";
 import { onScreenView } from "../../../analytics";
-import { useGetUserConversations } from "../../../hooks/useGetUserConversations";
+import { getUserConversationList } from "../../../utils/helpers";
+import { useOnScreenView } from "../../../analytics/hooks/useOnScreenView";
 
 const ChatMessage = ({ route }: any) => {
   const { user } = useAppSelector(selectUser);
@@ -31,6 +32,11 @@ const ChatMessage = ({ route }: any) => {
     extraHeaders: {
       Authorization: `Bearer ${user?.token}`,
     },
+  });
+
+  useOnScreenView({
+    screenName: analyticScreenNames.messages,
+    screenType: screenClass.chat
   });
 
   const renderBubble = (props: any) => {

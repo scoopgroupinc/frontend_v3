@@ -8,7 +8,8 @@ import TagScreenHeader from "../../../../components/molecule/TagScreenHeader";
 import TagsView from "../../../../components/molecule/TagsView";
 import { NavigationScreenProps } from "../../../../utils/types/globals";
 import { logEvent } from "../../../../analytics";
-import { eventNames, screenClass } from "../../../../analytics/constants";
+import { analyticScreenNames, eventNames, screenClass } from "../../../../analytics/constants";
+import { useOnScreenView } from "../../../../analytics/hooks/useOnScreenView";
 
 const TypeOf = {
   SINGLE: "single",
@@ -19,6 +20,11 @@ const Drink = ({ navigation, route }: NavigationScreenProps) => {
   const gradient = [Colors.RUST, Colors.RED, Colors.TEAL];
 
   const { currentTagType } = route?.params || {};
+
+  useOnScreenView({
+    screenName: analyticScreenNames.drink,
+    screenType: screenClass.profile
+  });
 
   const pageTitle = "Drinks";
 

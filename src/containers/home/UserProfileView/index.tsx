@@ -43,6 +43,7 @@ import {
 } from "../../../features/ProfileView/components/getDetails";
 import { styles } from "../../../features/ProfileView/styles";
 import { selectAllPrompts } from "../../../store/features/prompts/promptsSlice";
+import { useOnScreenView } from "../../../analytics/hooks/useOnScreenView";
 
 const screenHeight = Dimensions.get("window").height;
 const onethirdScreenHeight = screenHeight / 3;
@@ -55,6 +56,8 @@ export const UserProfileView = () => {
   const { user } = useAppSelector(selectUser);
 
   const [merged, setMerged] = useState<any>([]);
+
+  useOnScreenView({ screenName: analyticScreenNames.profileView, screenType: screenClass.profile });
 
   useEffect(() => {
     const mergeData = () => {
@@ -84,11 +87,6 @@ export const UserProfileView = () => {
       }
     };
     mergeData();
-
-    onScreenView({
-      screenName: analyticScreenNames.profileView,
-      screenType: screenClass.profile,
-    });
   }, [allImages, userPrompts]);
 
   return (

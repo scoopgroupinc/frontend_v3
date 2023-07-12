@@ -6,8 +6,9 @@ import { Colors } from "../../../../utils";
 import { RELIGIOUS_PRACTICES } from "../../../../utils/types/TAGS";
 import TagScreenHeader from "../../../../components/molecule/TagScreenHeader";
 import TagsView from "../../../../components/molecule/TagsView";
-import { logEvent, onScreenView } from "../../../../analytics";
+import { logEvent } from "../../../../analytics";
 import { analyticScreenNames, eventNames, screenClass } from "../../../../analytics/constants";
+import { useOnScreenView } from "../../../../analytics/hooks/useOnScreenView";
 
 const TypeOf = {
   SINGLE: "single",
@@ -31,12 +32,10 @@ const ReligiousPractices = ({ navigation, route }: any) => {
     navigation.goBack();
   };
 
-  useEffect(() => {
-    onScreenView({
-      screenName: analyticScreenNames.religiousPractice,
-      screenType: screenClass.profile,
-    });
-  }, []);
+  useOnScreenView({
+    screenName: analyticScreenNames.religiousPractice,
+    screenType: screenClass.profile
+  });
 
   return (
     <LinearGradient style={styles.container} colors={gradient}>

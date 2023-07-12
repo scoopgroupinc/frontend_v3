@@ -29,6 +29,8 @@ import {
 import { analyticScreenNames, screenClass } from "../../../analytics/constants";
 import { onScreenView } from "../../../analytics";
 import { EditPromptList } from "../../../features/Prompt/components/EditPromptList";
+import { useOnScreenView } from "../../../analytics/hooks/useOnScreenView";
+import { ORIGIN } from "../../../features/Prompt/constants";
 
 export const QuestionPromptScreen = ({ route }: any) => {
   // TODO: fix SAVE_USER_PROMPT_ORDER
@@ -39,6 +41,9 @@ export const QuestionPromptScreen = ({ route }: any) => {
   let userPromptInput: never[] = [];
 
   const dispatch = useAppDispatch();
+
+  useOnScreenView({screenName:analyticScreenNames.onBoardAllPrompts,
+    screenType:screenClass.onBoarding});
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -74,7 +79,6 @@ export const QuestionPromptScreen = ({ route }: any) => {
       UserPromptInput: userPromptInput,
     },
     onCompleted: (data) => {
-      console.log("data", data, userPromptInput);
       const { saveUserPrompts: prompts } = data;
       if (prompts) {
         const ids: any = [];
