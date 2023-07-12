@@ -40,6 +40,11 @@ const Company = ({ navigation, route }: any) => {
     navigation.goBack();
   };
 
+  useOnScreenView({
+    screenName: analyticScreenNames.company,
+    screenType: screenClass.profile
+  });
+
   useEffect(() => {
     if (userProfile) {
       const isTagTypeInUserProfile = userProfile?.find(
@@ -73,10 +78,6 @@ const Company = ({ navigation, route }: any) => {
     if (input.current) {
       input.current.focus();
     }
-    useOnScreenView({
-      screenName: analyticScreenNames.company,
-      screenType: screenClass.profile
-    });
   }, []);
 
   return (
