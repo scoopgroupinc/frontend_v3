@@ -58,7 +58,7 @@ export const UserProfileView = () => {
 
   useEffect(() => {
     const mergeData = () => {
-      if (userPrompts.length > 0 && allImages.length > 0) {
+      if (userPrompts.length > 0 && allImages && allImages.length > 0) {
         // get the max length of the two arrays
         const maxLength = Math.max(
           userPrompts.filter((x: any) => x.answer !== "").length,
@@ -91,7 +91,7 @@ export const UserProfileView = () => {
       style={{ flex: 1 }}
       resizeMode="cover"
       source={{
-        uri: allImages[0]?.videoOrPhoto,
+        uri: allImages ? allImages[0]?.videoOrPhoto : "../../assets/splash.png",
       }}
     >
       <ScrollView
@@ -127,7 +127,11 @@ export const UserProfileView = () => {
               </View> */}
             <View style={styles.section}>
               <Text style={styles.name}>{`${user?.firstName} ${user?.lastName}`}</Text>
-              <Text style={styles.age}>{/* {age} years old, {height} */}</Text>
+              {/* <Text style={styles.age}>
+                {age} years old, {height}
+              </Text> */}
+              <Text style={styles.city}> {user?.location?.city}</Text>
+
               <Text style={styles.descriptionHeader}>My Basics</Text>
 
               <View style={[styles.content, { flexDirection: "column" }]}>

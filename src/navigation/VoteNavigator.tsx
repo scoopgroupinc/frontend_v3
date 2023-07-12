@@ -1,5 +1,5 @@
 import React from "react";
-import { createStackNavigator } from "@react-navigation/stack";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { screenName } from "../utils/constants";
 import { PromptVote } from "../containers/votes/PromptVote";
 import { VisualVote } from "../containers/votes/VisualVote";
@@ -9,7 +9,7 @@ import { ComeBackTomorrow } from "../containers/votes/ComeBackTomorrow";
 import { useAppSelector } from "../store/hooks";
 import { selectUserChoices } from "../store/features/matches/matchSlice";
 
-const VoteStack = createStackNavigator();
+const VoteStack = createNativeStackNavigator();
 
 const VoteNavigator = () => {
   const userChoices = useAppSelector(selectUserChoices);

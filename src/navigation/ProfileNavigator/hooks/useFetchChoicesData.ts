@@ -2,7 +2,12 @@ import { useEffect } from "react";
 import { useQuery } from "@apollo/client";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { URLS } from "../../../utils/constants/apis";
-import { setUserChoiceImages, setUserChoices, selectUserChoices, setUserChoicePrompts } from "../../../store/features/matches/matchSlice";
+import {
+  setUserChoiceImages,
+  setUserChoices,
+  selectUserChoices,
+  setUserChoicePrompts,
+} from "../../../store/features/matches/matchSlice";
 import { selectUserId } from "../../../store/features/user/userSlice";
 import { GET_PROMPTS_ORDER, GET_USER_CHOICES } from "../../../services/graphql/profile/queries";
 
@@ -11,7 +16,7 @@ export const useFetchChoicesData = () => {
   const userId = useAppSelector(selectUserId);
   const [userChoiceId, setUserChoiceId] = useState<string>("");
   const userChoices = useAppSelector(selectUserChoices);
-  
+
   const { data: userChoicesResult } = useQuery(GET_USER_CHOICES, {
     variables: {
       userId,
@@ -73,7 +78,6 @@ export const useFetchChoicesData = () => {
   useEffect(() => {
     // load prompts for the profile view screen
     const fetchPromptsOrder = () => {
-
       const promptsOrder = promptsOrderResult?.getUserPromptsOrder;
 
       if (promptsOrder && promptsOrder.length > 0) {

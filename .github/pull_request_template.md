@@ -1,11 +1,12 @@
 ## What?
 
-- [x] bug fix
+- [ ] bug fix
 - [ ] feature
 - [ ] enhancement
 - [ ] refactor
 
-## description - Scoop -
+## description 
+- SCOOP-
 
 ## Why?
 

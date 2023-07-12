@@ -68,3 +68,42 @@ export const LOG_IN_USER = gql`
     }
   }
 `;
+
+export const PROVIDER_LOGIN = gql`
+  mutation LoginWithProvider($AuthProviderInput: AuthProviderInput!) {
+    loginWithProvider(authProviderInput: $AuthProviderInput) {
+      token
+      user {
+        userId
+        firstName
+        lastName
+        email
+        isOnboarded
+        isVoteOnboarded
+      }
+      message
+    }
+  }
+`;
+
+export const VERIFY_PROVIDER_EMAIL = gql`
+  mutation VerifyProviderEmail($email: String!) {
+    verifyProviderEmail(email: $email) {
+      message
+      statusCode
+      status
+      data {
+        token
+        message
+        user {
+          userId
+          firstName
+          lastName
+          email
+          isOnboarded
+          isVoteOnboarded
+        }
+      }
+    }
+  }
+`;

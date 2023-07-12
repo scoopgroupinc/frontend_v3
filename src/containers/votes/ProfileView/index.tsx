@@ -140,7 +140,7 @@ export const ProfileView = () => {
 
   useEffect(() => {
     const mergeData = () => {
-      if (userPrompts.length > 0 && allImages.length > 0) {
+      if (userPrompts.length > 0 && allImages && allImages.length > 0) {
         // get the max length of the two arrays
         const maxLength = Math.max(
           userPrompts.filter((x: any) => x.answer !== "").length,
@@ -178,7 +178,7 @@ export const ProfileView = () => {
       style={{ flex: 1 }}
       resizeMode="cover"
       source={{
-        uri: allImages && allImages[0]?.videoOrPhoto,
+        uri: allImages ? allImages[0]?.videoOrPhoto : "../../assets/splash.png",
       }}
     >
       <ScrollView

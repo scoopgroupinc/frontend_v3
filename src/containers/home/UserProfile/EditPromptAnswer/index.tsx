@@ -13,11 +13,11 @@ const EditPromptAnswer = () => {
 
   // UserProfileEdit -> PromptAnswer -> PromptAnswerModal -> UserProfileEdit
   const goBack = () => {
-    navigation.navigate(screenName.EDIT_PROFILE);
+    navigation.navigate(screenName.USER_PROFILE_EDIT);
   };
 
   const close = () => {
-    navigation.navigate(screenName.EDIT_PROFILE);
+    navigation.navigate(screenName.USER_PROFILE_EDIT);
   };
 
   useOnScreenView({screenName:analyticScreenNames.profileAnswerPrompt,

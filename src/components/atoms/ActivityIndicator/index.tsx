@@ -3,16 +3,6 @@ import LottieView from "lottie-react-native";
 import { View, StyleSheet } from "react-native";
 import { Colors } from "../../../utils";
 
-const AppActivityIndicator = ({ visible = false }) => {
-  if (!visible) return null;
-
-  return (
-    <View style={styles.overlay}>
-      <LottieView autoPlay loop source={require("../../../assets/animations/loader.json")} />
-    </View>
-  );
-};
-
 const styles = StyleSheet.create({
   overlay: {
     position: "absolute",
@@ -23,5 +13,15 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
 });
+
+const AppActivityIndicator = ({ visible = false }) => {
+  if (!visible) return null;
+
+  return (
+    <View style={styles.overlay}>
+      <LottieView autoPlay loop source={require("../../../assets/animations/loader.json")} />
+    </View>
+  );
+};
 
 export default AppActivityIndicator;

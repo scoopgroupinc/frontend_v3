@@ -39,8 +39,6 @@ const screenName = {
   // PROFILE
   ANALYTICS: "Analytics",
   USER_PROFILE: "UserProfile",
-  EDIT_PROFILE: "Edit",
-  View_PROFILE: "Preview",
   PROFILE_MODAL: "ProfileModal",
   WORK: "Work",
   EDUCATION_LEVEL: "EducationLevel",
