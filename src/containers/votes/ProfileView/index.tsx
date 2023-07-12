@@ -50,6 +50,7 @@ import {
   getCreativeOuletDetails,
 } from "../../../features/ProfileView/components/getDetails";
 import { styles } from "../../../features/ProfileView/styles";
+import { useOnScreenView } from "../../../analytics/hooks/useOnScreenView";
 
 const screenHeight = Dimensions.get("window").height;
 const onethirdScreenHeight = screenHeight / 3;
@@ -57,6 +58,11 @@ const onethirdScreenHeight = screenHeight / 3;
 export const ProfileView = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const dispatch = useAppDispatch();
+
+  useOnScreenView({
+    screenName: analyticScreenNames.profileView,
+    screenType: screenClass.matches
+  });
 
   const { user } = useAppSelector(selectUser);
   const userId = user?.id;

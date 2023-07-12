@@ -7,7 +7,8 @@ import { STAYING_IN } from "../../../../utils/types/TAGS";
 import TagScreenHeader from "../../../../components/molecule/TagScreenHeader";
 import TagsView from "../../../../components/molecule/TagsView";
 import { logEvent } from "../../../../analytics";
-import { eventNames, screenClass } from "../../../../analytics/constants";
+import { analyticScreenNames, eventNames, screenClass } from "../../../../analytics/constants";
+import { useOnScreenView } from "../../../../analytics/hooks/useOnScreenView";
 
 const TypeOf = {
   SINGLE: "single",
@@ -30,6 +31,11 @@ const StayingIn = ({ navigation, route }: any) => {
     });
     navigation.goBack();
   };
+
+  useOnScreenView({
+    screenName: analyticScreenNames.stayingIn,
+    screenType: screenClass.profile
+  });
 
   return (
     <LinearGradient style={styles.container} colors={gradient}>
