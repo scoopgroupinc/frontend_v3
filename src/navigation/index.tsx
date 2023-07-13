@@ -3,6 +3,7 @@ import { Platform, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
+import * as Linking from "expo-linking";
 import { useAppSelector } from "../store/hooks";
 import AuthNavigator from "./AuthNavigator";
 import screenName from "../utils/constants/screenName";
@@ -12,10 +13,15 @@ import notificationAxios from "../services/axios/notificationAxios";
 import { navigationRef } from "./RootNavigation";
 
 const Stack = createNativeStackNavigator();
+const prefix = Linking.createURL("/");
 
 const Navigator = () => {
   const { user } = useAppSelector((state) => state.appUser);
   const { registerForPushNotificationsAsync } = useNotifications();
+
+  const linking = {
+    prefixes: [prefix],
+  };
 
   const saveNotificationToken = useCallback(
     async (usr: any) => {
@@ -40,7 +46,7 @@ const Navigator = () => {
 
   return (
     <View style={{ flex: 1 }}>
-      <NavigationContainer ref={navigationRef}>
+      <NavigationContainer ref={navigationRef} linking={linking}>
         <Stack.Navigator
           screenOptions={{
             headerShown: false,
