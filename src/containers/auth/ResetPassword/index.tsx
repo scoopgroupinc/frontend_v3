@@ -14,7 +14,6 @@ import styles from "./style";
 import { screenName } from "../../../utils/constants";
 import FormField from "../../../components/molecule/FormField";
 import { AppButton } from "../../../components/atoms/AppButton";
-import { onScreenView } from "../../../analytics";
 import { analyticScreenNames, screenClass } from "../../../analytics/constants";
 import { useOnScreenView } from "../../../analytics/hooks/useOnScreenView";
 

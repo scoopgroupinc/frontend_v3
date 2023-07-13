@@ -16,7 +16,7 @@ import { screenName } from "../../../utils/constants";
 import { AppButton } from "../../../components/atoms/AppButton";
 import { MediaContainer } from "../../../components/molecule/MediaContainer";
 import { setUserVisuals } from "../../../store/features/user/userSlice";
-import { logEvent, onScreenView } from "../../../analytics";
+import { logEvent } from "../../../analytics";
 import { analyticScreenNames, eventNames, screenClass } from "../../../analytics/constants";
 import { useOnScreenView } from "../../../analytics/hooks/useOnScreenView";
 

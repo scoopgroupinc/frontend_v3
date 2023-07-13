@@ -20,7 +20,7 @@ import { AppButton } from "../../../components/atoms/AppButton";
 import { Colors } from "../../../utils";
 import AppActivityIndicator from "../../../components/atoms/ActivityIndicator";
 import { updateUser } from "../../../store/features/user/userSlice";
-import { logEvent, onScreenView } from "../../../analytics";
+import { logEvent } from "../../../analytics";
 import { analyticScreenNames, eventNames, screenClass } from "../../../analytics/constants";
 import { useOnScreenView } from "../../../analytics/hooks/useOnScreenView";
 

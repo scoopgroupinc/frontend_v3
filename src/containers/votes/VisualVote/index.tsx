@@ -16,8 +16,9 @@ import { SAVE_GROUP_RATING } from "../../../services/graphql/profile/mutations";
 import { styles } from "./style";
 import { RatingSlider } from "../../../components/molecule/RatingSlider";
 import AppActivityIndicator from "../../../components/atoms/ActivityIndicator";
-import { logEvent, onScreenView } from "../../../analytics";
+import { logEvent } from "../../../analytics";
 import { analyticScreenNames, eventNames, screenClass } from "../../../analytics/constants";
+import { useOnScreenView } from "../../../analytics/hooks/useOnScreenView";
 
 const gradient = [Colors.RUST, Colors.RED, Colors.TEAL];
 
@@ -71,12 +72,11 @@ export const VisualVote = () => {
     endTime: new Date().toISOString(),
   };
 
-  useEffect(() => {
-    onScreenView({
-      screenName: analyticScreenNames.ratePhoto,
-      screenType: screenClass.matches,
-    });
-  }, []);
+  useOnScreenView({
+    screenName: analyticScreenNames.ratePhoto,
+    screenType: screenClass.matches,
+  });
+
   const [saveGroupRating] = useMutation(SAVE_GROUP_RATING, {
     variables: { ratingGroupInput },
     onCompleted: () => {

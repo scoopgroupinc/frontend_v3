@@ -13,7 +13,7 @@ import { screenName } from "../../../utils/constants";
 import { GradientLayout } from "../../../components/layouts/GradientLayout";
 import { AppButton } from "../../../components/atoms/AppButton";
 import { SelectButtons } from "../../../components/layouts/SelectButtons";
-import { logEvent, onScreenView } from "../../../analytics";
+import { logEvent } from "../../../analytics";
 import { analyticScreenNames, eventNames, screenClass } from "../../../analytics/constants";
 import { useOnScreenView } from "../../../analytics/hooks/useOnScreenView";
 

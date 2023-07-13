@@ -27,7 +27,6 @@ import {
   selectUserPrompts,
 } from "../../../store/features/user/userSlice";
 import { analyticScreenNames, screenClass } from "../../../analytics/constants";
-import { onScreenView } from "../../../analytics";
 import { useOnScreenView } from "../../../analytics/hooks/useOnScreenView";
 import { ORIGIN } from "../../../features/Prompt/constants";
 

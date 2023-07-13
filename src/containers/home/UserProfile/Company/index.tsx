@@ -15,7 +15,6 @@ import TagsView from "../../../../components/molecule/TagsView";
 import { Colors } from "../../../../utils";
 import { AppInput } from "../../../../components/atoms/AppInput";
 import { analyticScreenNames, screenClass } from "../../../../analytics/constants";
-import { onScreenView } from "../../../../analytics";
 import { useOnScreenView } from "../../../../analytics/hooks/useOnScreenView";
 
 const Company = ({ navigation, route }: any) => {

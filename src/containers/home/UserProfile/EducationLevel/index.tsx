@@ -5,7 +5,7 @@ import { Colors } from "../../../../utils";
 import TagScreenHeader from "../../../../components/molecule/TagScreenHeader";
 import TagsView from "../../../../components/molecule/TagsView";
 import { EDUCATION_LEVEL } from "../../../../utils/types/TAGS";
-import { logEvent, onScreenView } from "../../../../analytics";
+import { logEvent } from "../../../../analytics";
 import { analyticScreenNames, eventNames, screenClass } from "../../../../analytics/constants";
 import { useOnScreenView } from "../../../../analytics/hooks/useOnScreenView";
 

@@ -3,7 +3,7 @@ import { View, Text, Alert } from "react-native";
 import * as Notifications from "expo-notifications";
 import { ProgressBar } from "react-native-paper";
 import { GradientLayout } from "../../../components/layouts/GradientLayout";
-import { logEvent, onScreenView } from "../../../analytics";
+import { logEvent } from "../../../analytics";
 import { eventNames, screenClass, analyticScreenNames } from "../../../analytics/constants";
 import { AppButton } from "../../../components/atoms/AppButton";
 import { screenName } from "../../../utils/constants";

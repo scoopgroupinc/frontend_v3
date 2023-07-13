@@ -6,7 +6,7 @@ import { Colors } from "../../../../utils";
 import { CANNABIS } from "../../../../utils/types/TAGS";
 import TagScreenHeader from "../../../../components/molecule/TagScreenHeader";
 import TagsView from "../../../../components/molecule/TagsView";
-import { logEvent, onScreenView } from "../../../../analytics";
+import { logEvent } from "../../../../analytics";
 import { analyticScreenNames, eventNames, screenClass } from "../../../../analytics/constants";
 import { useOnScreenView } from "../../../../analytics/hooks/useOnScreenView";
 
