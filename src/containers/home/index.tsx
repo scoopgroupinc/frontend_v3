@@ -35,8 +35,8 @@ import {
 } from "../../store/features/matches/matchSlice";
 import { styles } from "./styles";
 import OptionTab from "../../components/atoms/OptionsTabs";
-import { eventNames, screenClass } from "../../analytics/constants";
-import { logEvent } from "../../analytics";
+import { analyticScreenNames, eventNames, screenClass } from "../../analytics/constants";
+import { logEvent, onScreenView } from "../../analytics";
 import { getUserConversationList } from "../../utils/helpers";
 
 export const Home = () => {
@@ -52,6 +52,13 @@ export const Home = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const [openSettings, setOpenSettings] = useState<boolean>(false);
+
+  useEffect(() => {
+    const view = openSettings 
+    ? { screenName: analyticScreenNames.settings, screenType: screenClass.profile }
+    :{ screenName: analyticScreenNames.profileHome, screenType: screenClass.profile }
+    onScreenView(view);
+  }, [openSettings]);
 
   const { data: userChoicesResult } = useQuery(GET_USER_CHOICES, {
     variables: {

@@ -6,8 +6,9 @@ import { Colors } from "../../../../utils";
 import { PARENTING_GOALS } from "../../../../utils/types/TAGS";
 import TagScreenHeader from "../../../../components/molecule/TagScreenHeader";
 import TagsView from "../../../../components/molecule/TagsView";
-import { logEvent, onScreenView } from "../../../../analytics";
+import { logEvent } from "../../../../analytics";
 import { analyticScreenNames, eventNames, screenClass } from "../../../../analytics/constants";
+import { useOnScreenView } from "../../../../analytics/hooks/useOnScreenView";
 
 const TypeOf = {
   SINGLE: "single",
@@ -31,12 +32,10 @@ const ParentingGoals = ({ navigation, route }: any) => {
     navigation.goBack();
   };
 
-  useEffect(() => {
-    onScreenView({
-      screenName: analyticScreenNames.parentingGoal,
-      screenType: screenClass.profile,
-    });
-  }, []);
+  useOnScreenView({
+    screenName: analyticScreenNames.parentingGoal,
+    screenType: screenClass.profile
+  });
 
   return (
     <LinearGradient style={styles.container} colors={gradient}>

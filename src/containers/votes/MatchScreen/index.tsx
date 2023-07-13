@@ -12,7 +12,7 @@ import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { Colors, Spacing } from "../../../utils";
 import LikeButton from "../../../components/atoms/LikeButton";
 import { AppButton } from "../../../components/atoms/AppButton";
-import { eventNames, screenClass } from "../../../analytics/constants";
+import { analyticScreenNames, eventNames, screenClass } from "../../../analytics/constants";
 import { screenName } from "../../../utils/constants";
 
 import {
@@ -21,6 +21,7 @@ import {
   selectUserChoices,
 } from "../../../store/features/matches/matchSlice";
 import { logEvent } from "../../../analytics";
+import { useOnScreenView } from "../../../analytics/hooks/useOnScreenView";
 
 const MatchScreen = () => {
   const { user } = useAppSelector(selectUser);
@@ -44,6 +45,11 @@ const MatchScreen = () => {
   const gradient = [Colors.RUST, Colors.RED, Colors.TEAL];
 
   const [msg, setMsg] = useState<string>("");
+
+  useOnScreenView({
+    screenName: analyticScreenNames.matchMade,
+    screenType: screenClass.matches
+  });
 
   // const matchedUsers = useAppSelector(selectMatchedUsers);
 

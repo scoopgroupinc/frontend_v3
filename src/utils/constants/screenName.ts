@@ -34,7 +34,7 @@ const screenName = {
   // APP_NAVIGATOR
   VOTE: "Vote",
   CHAT: "Chat",
-  HOME: "Home",
+  PROFILE_HOME: "Home",
 
   // PROFILE
   ANALYTICS: "Analytics",

@@ -14,6 +14,7 @@ import { styles } from "./styles";
 import { AppButton } from "../../../components/atoms/AppButton";
 import { NavigationScreenType } from "../../../types/globals";
 import { screenName } from "../../../utils/constants";
+import { useOnScreenView } from "../../../analytics/hooks/useOnScreenView";
 
 const locationObject = {
   latitude: 0,
@@ -52,28 +53,34 @@ export const GetLocationsScreen = ({ navigation }: NavigationScreenType) => {
       Alert.alert("Error", error.message || "Something went wrong!");
     }
   };
-  useEffect(() => {
-    (async () => {
-      if (Platform.OS === "android" && !Device.isDevice) {
-        setErrorMsg(
-          "Oops, this will not work on Snack in an Android emulator. Try it on your device!"
-        );
-        return;
-      }
-      const { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== "granted") {
-        setErrorMsg("Permission to access location was denied");
-        return;
-      }
 
-      const currLocation = await Location.getCurrentPositionAsync({});
-      setLocation(currLocation.coords);
-    })();
-    onScreenView({
-      screenName: analyticScreenNames.onBoardLocation,
-      screenType: screenClass.onBoarding,
-    });
-  }, []);
+  useOnScreenView({
+    screenName: analyticScreenNames.onBoardLocation,
+    screenType: screenClass.onBoarding
+  });
+
+  useEffect(
+    () => {
+      (async () => {
+        if (Platform.OS === "android" && !Device.isDevice) {
+          setErrorMsg(
+            "Oops, this will not work on Snack in an Android emulator. Try it on your device!"
+          );
+          return;
+        }
+        const { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== "granted") {
+          setErrorMsg("Permission to access location was denied");
+          return;
+        }
+
+        const currLocation = await Location.getCurrentPositionAsync({});
+        setLocation(currLocation.coords);
+      })();
+    },
+    []
+  );
+
 
   const allowLocation = async () => {
     const { status } = await Location.requestForegroundPermissionsAsync();

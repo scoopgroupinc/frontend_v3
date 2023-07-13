@@ -17,6 +17,7 @@ import { AppButton } from "../../../components/atoms/AppButton";
 import { DateSpinner } from "../../../components/atoms/DateSpinner";
 import { logEvent, onScreenView } from "../../../analytics";
 import { analyticScreenNames, eventNames, screenClass } from "../../../analytics/constants";
+import { useOnScreenView } from "../../../analytics/hooks/useOnScreenView";
 
 export const OnboardBirthdayScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
@@ -31,15 +32,14 @@ export const OnboardBirthdayScreen = () => {
     setModalState(false);
   };
 
+  useOnScreenView({screenName:analyticScreenNames.onBoardBirthday,
+    screenType:screenClass.onBoarding});
+
   useEffect(() => {
     if (date !== null) {
       const age = moment().diff(date, "years");
       setAge(age);
     }
-    onScreenView({
-      screenName: analyticScreenNames.onBoardBirthday,
-      screenType: screenClass.onBoarding,
-    });
   }, [date]);
 
   const [saveUserProfile, { loading }] = useMutation(SAVE_USER_BIRTHDAY);

@@ -4,7 +4,8 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { screenName } from "../../../utils/constants";
 import { PromptAnswerModal } from "../../../features/Prompt/components/PromptAnswerModal";
 import { analyticScreenNames, screenClass } from "../../../analytics/constants";
-import { onScreenView } from "../../../analytics";
+import { useOnScreenView } from "../../../analytics/hooks/useOnScreenView";
+import { ORIGIN } from "../../../features/Prompt/constants";
 
 const OnboardPromptAnswer = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
@@ -16,12 +17,9 @@ const OnboardPromptAnswer = () => {
   const close = () => {
     navigation.navigate(screenName.QUESTION_PROMPT);
   };
-  useEffect(() => {
-    onScreenView({
-      screenName: analyticScreenNames.onBoardWritePrompt,
-      screenType: screenClass.onBoarding,
-    });
-  }, []);
+  
+  useOnScreenView({screenName:analyticScreenNames.onBoardAnswerPrompt,
+    screenType:screenClass.onBoarding});
 
   return <PromptAnswerModal goBack={goBack} close={close} />;
 };

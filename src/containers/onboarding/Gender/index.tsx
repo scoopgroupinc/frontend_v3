@@ -15,6 +15,7 @@ import { AppButton } from "../../../components/atoms/AppButton";
 import { SelectButtons } from "../../../components/layouts/SelectButtons";
 import { logEvent, onScreenView } from "../../../analytics";
 import { analyticScreenNames, eventNames, screenClass } from "../../../analytics/constants";
+import { useOnScreenView } from "../../../analytics/hooks/useOnScreenView";
 
 export const GenderScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
@@ -47,12 +48,8 @@ export const GenderScreen = () => {
     }
   };
 
-  useEffect(() => {
-    onScreenView({
-      screenName: analyticScreenNames.onBoardGender,
-      screenType: screenClass.onBoarding,
-    });
-  }, []);
+  useOnScreenView({screenName:analyticScreenNames.onBoardGender,
+    screenType:screenClass.onBoarding});
 
   return (
     <GradientLayout>

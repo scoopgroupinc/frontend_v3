@@ -16,6 +16,7 @@ import { AppInput } from "../../../../components/atoms/AppInput";
 import TagsView from "../../../../components/molecule/TagsView";
 import { logEvent, onScreenView } from "../../../../analytics";
 import { analyticScreenNames, eventNames, screenClass } from "../../../../analytics/constants";
+import { useOnScreenView } from "../../../../analytics/hooks/useOnScreenView";
 
 const Hometown = ({ navigation, route }: any) => {
   const userProfile = useAppSelector(selectUserProfile);
@@ -31,6 +32,11 @@ const Hometown = ({ navigation, route }: any) => {
 
   const pageTitle = "Hometown";
 
+  useOnScreenView({
+    screenName: analyticScreenNames.homeTown,
+    screenType: screenClass.profile
+  });
+
   const goBackHome = () => {
     logEvent({
       eventName: eventNames.backEditProfileButton,
@@ -43,10 +49,6 @@ const Hometown = ({ navigation, route }: any) => {
     if (input.current) {
       input.current.focus();
     }
-    onScreenView({
-      screenName: analyticScreenNames.homeTown,
-      screenType: screenClass.profile,
-    });
   }, []);
 
   return (

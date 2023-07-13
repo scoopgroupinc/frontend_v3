@@ -18,15 +18,19 @@ import { GradientLayout } from "../../../components/layouts/GradientLayout";
 import { styles } from "./styles";
 import { OAUTH } from "../../../utils/constants/apis";
 import { PROVIDER_LOGIN } from "../../../services/graphql/auth/mutations";
+import { analyticScreenNames, screenClass } from "../../../analytics/constants";
+import { useOnScreenView } from "../../../analytics/hooks/useOnScreenView";
 import { useNotifications } from "../../../hooks/useNotification";
 import notificationAxios from "../../../services/axios/notificationAxios";
 import { useAppDispatch } from "../../../store/hooks";
-import { setUser } from "../../../store/features/user/userSlice";
 import { storeStringData } from "../../../utils/storage";
 
 WebBrowser.maybeCompleteAuthSession();
 
 const Launch = () => {
+
+  const [user, setUser] = useState<any>(null);
+  const [appleUser, setAppleUser] = useState<any>(null);
   const [request, response, promptAsync] = Facebook.useAuthRequest({
     clientId: OAUTH.FACEBOOK_CLIENT_ID,
   });
@@ -38,6 +42,9 @@ const Launch = () => {
     androidClientId: OAUTH.ANDROID_GOOGLE_GUID,
     iosClientId: OAUTH.IOS_GOOGLE_GUID,
   });
+
+  useOnScreenView({screenName:analyticScreenNames.welcome,
+    screenType:screenClass.auth});
 
   // if (request) {
   //   console.log(
