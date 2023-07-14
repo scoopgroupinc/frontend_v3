@@ -1,5 +1,7 @@
 import analytics from "@react-native-firebase/analytics";
 import { methods } from "./constants";
+import { useAppSelector } from "../store/hooks";
+import { selectUserId } from "../store/features/user/userSlice";
 
 interface IEvent {
   eventName: string;
@@ -39,8 +41,12 @@ export const onAppOpen = async () => {
 };
 
 export const onScreenView = async (event: IScreen) => {
+
+  const userId = useAppSelector(selectUserId);
+
   await analytics().logScreenView({
     screen_name: event.screenName,
     screen_class: event.screenType,
+    userId: userId,
   });
 };
