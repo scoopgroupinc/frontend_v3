@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { View, Text } from "react-native";
 import { ProgressBar } from "react-native-paper";

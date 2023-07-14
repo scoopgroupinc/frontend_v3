@@ -1,5 +1,5 @@
 /* eslint-disable import/prefer-default-export */
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Alert, View } from "react-native";
 import { useMutation } from "@apollo/client";
 import { ProgressBar } from "react-native-paper";

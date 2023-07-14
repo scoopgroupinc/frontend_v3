@@ -1,5 +1,5 @@
 import { Alert, View } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";

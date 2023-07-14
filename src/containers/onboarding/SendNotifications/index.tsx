@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { View, Text, Alert } from "react-native";
 import * as Notifications from "expo-notifications";
 import { ProgressBar } from "react-native-paper";

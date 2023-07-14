@@ -1,4 +1,3 @@
-import React, { useEffect } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Colors } from "../../../../utils";

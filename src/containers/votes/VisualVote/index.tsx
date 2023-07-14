@@ -1,5 +1,5 @@
 /* eslint-disable import/prefer-default-export */
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { View, Text, Image, ScrollView, TextInput } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";

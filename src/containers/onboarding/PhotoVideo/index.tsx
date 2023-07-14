@@ -1,5 +1,5 @@
 /* eslint-disable import/prefer-default-export */
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { View, Text, Alert } from "react-native";
 import axios from "axios";
 import * as FileSystem from "expo-file-system";
