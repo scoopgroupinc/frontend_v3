@@ -60,7 +60,7 @@ const ChatMessage = ({ route }: any) => {
         }}
       />
     );
-  };
+  }
 
   useEffect(() => {
     const getMessages = async () => {

@@ -8,7 +8,7 @@ import { GradientLayout } from "../../../components/layouts/GradientLayout";
 import { SAVE_USER_LOCATION } from "../../../services/graphql/onboarding/mutations";
 import { useAppSelector } from "../../../store/hooks";
 import { selectUser } from "../../../store/features/user/userSlice";
-import { logEvent, onScreenView } from "../../../analytics";
+import { logEvent } from "../../../analytics";
 import { eventNames, screenClass, analyticScreenNames } from "../../../analytics/constants";
 import { styles } from "./styles";
 import { AppButton } from "../../../components/atoms/AppButton";
