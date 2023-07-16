@@ -12,7 +12,6 @@ import {
 import { Spacing } from "../../../utils";
 import { QuotedText } from "../../../components/atoms/QuotedText";
 import { analyticScreenNames, screenClass } from "../../../analytics/constants";
-import { onScreenView } from "../../../analytics";
 import {
   getRelationshipGoalsDetails,
   getRelationshipTypesDetails,

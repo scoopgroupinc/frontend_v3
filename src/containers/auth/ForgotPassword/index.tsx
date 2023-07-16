@@ -1,5 +1,5 @@
 import { Alert, View } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -15,7 +15,7 @@ import { OTPInputModal } from "../../../components/templates/OTPInputModal";
 import AppActivityIndicator from "../../../components/atoms/ActivityIndicator";
 import { screenName } from "../../../utils/constants";
 import { analyticScreenNames, eventNames, screenClass } from "../../../analytics/constants";
-import { logEvent, onScreenView } from "../../../analytics";
+import { logEvent } from "../../../analytics";
 import { useOnScreenView } from "../../../analytics/hooks/useOnScreenView";
 
 const ForgotPassword = () => {

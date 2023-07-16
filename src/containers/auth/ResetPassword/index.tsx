@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { View, Alert } from "react-native";
 import * as yup from "yup";
 import { useMutation } from "@apollo/client";
@@ -14,7 +14,6 @@ import styles from "./style";
 import { screenName } from "../../../utils/constants";
 import FormField from "../../../components/molecule/FormField";
 import { AppButton } from "../../../components/atoms/AppButton";
-import { onScreenView } from "../../../analytics";
 import { analyticScreenNames, screenClass } from "../../../analytics/constants";
 import { useOnScreenView } from "../../../analytics/hooks/useOnScreenView";
 

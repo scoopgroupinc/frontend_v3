@@ -1,5 +1,4 @@
 /* eslint-disable import/prefer-default-export */
-import React, { useEffect, useState } from "react";
 import { Alert, View } from "react-native";
 import { ProgressBar } from "react-native-paper";
 import { useMutation } from "@apollo/client";
@@ -14,7 +13,7 @@ import { SAVE_GENDER_PREFENCE } from "../../../services/graphql/onboarding/mutat
 import { screenName } from "../../../utils/constants";
 import { GradientLayout } from "../../../components/layouts/GradientLayout";
 import AppActivityIndicator from "../../../components/atoms/ActivityIndicator";
-import { logEvent, onScreenView } from "../../../analytics";
+import { logEvent } from "../../../analytics";
 import { analyticScreenNames, eventNames, screenClass } from "../../../analytics/constants";
 import { useOnScreenView } from "../../../analytics/hooks/useOnScreenView";
 

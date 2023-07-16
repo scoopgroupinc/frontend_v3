@@ -1,6 +1,7 @@
 import { ExpoConfig, ConfigContext } from "expo/config";
 
-const environment = process.env.NODE_ENV || "development";
+// trim for windows which leaves in trailing spaces...
+const environment = (process.env.NODE_ENV || "development").trim();
 
 const oauth = {
   production: {
