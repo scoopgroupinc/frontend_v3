@@ -1,9 +1,10 @@
 /* eslint-disable no-param-reassign */
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { IPrompt } from "../../../utils/types";
 // import { RootState } from "../..";
 
 export interface Prompt {
-  id: string;
+  promptId: string;
   prompt: string;
   sample_answer: string;
   type: string;
@@ -34,8 +35,8 @@ const PromptSlice = createSlice({
   reducers: {
     setAllPrompts: (state, action: PayloadAction<any>) => {
       const { allPrompts } = action.payload;
-      allPrompts.forEach((prompt: Prompt) => {
-        state.allPrompts[prompt.id] = prompt;
+      allPrompts.forEach((prompt: IPrompt) => {
+        state.allPrompts[prompt.id] = { ...prompt, promptId: prompt.id };
       });
     },
     setAllTags: (state, action: PayloadAction<any>) => {

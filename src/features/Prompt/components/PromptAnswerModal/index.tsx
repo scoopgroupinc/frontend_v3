@@ -17,7 +17,7 @@ import {
   setPromptOfEditIndex,
 } from "../../../../store/features/user/userSlice";
 import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
-import { selectAllPrompts } from "../../../../store/features/prompts/promptsSlice";
+import { selectEditPromptDefaults } from "../../../../store/features/prompts/selectEditPromptDefaults";
 
 interface PromptAnswerType {
   goBack: () => void;
@@ -31,8 +31,7 @@ export const PromptAnswerModal = ({ close, goBack, origin }: PromptAnswerType) =
   const editPromptAnswer = useAppSelector(selectEditPromptAnswer);
   const userId = useAppSelector(selectUserId);
   const [answer, setAnswer] = useState(editPromptAnswer);
-  const allPrompts = useAppSelector(selectAllPrompts);
-  const promptObj = allPrompts[editPrompt.promptId];
+  const promptObj = useAppSelector(selectEditPromptDefaults);
 
   useEffect(() => {
     setAnswer(editPromptAnswer);
@@ -40,14 +39,14 @@ export const PromptAnswerModal = ({ close, goBack, origin }: PromptAnswerType) =
   const dispatch = useAppDispatch();
 
   const handleSavePrompt = () => {
-    const prompt = { promptId: editPrompt.id, answer, prompt: editPrompt.prompt, userId };
+    const prompt = { promptId: editPrompt.promptId, answer, prompt: editPrompt.prompt, userId };
     dispatch(setEditPrompt({ editPrompt: prompt }));
     dispatch(setPromptOfEditIndex(prompt));
     goBack();
   };
 
   const handleChangePrompt = () => {
-    navigation.navigate(screenName.ALLPROMPTS, {origin});
+    navigation.navigate(screenName.ALLPROMPTS, { origin });
   };
 
   return (
@@ -62,7 +61,7 @@ export const PromptAnswerModal = ({ close, goBack, origin }: PromptAnswerType) =
         <TextInput
           multiline
           numberOfLines={7}
-          placeholder={editPrompt?.sample_answer}
+          placeholder={promptObj?.sample_answer}
           style={[styles.container, styles.textarea]}
           value={answer}
           onChangeText={setAnswer}

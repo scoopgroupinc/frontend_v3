@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useQuery } from "@apollo/client";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { URLS } from "../../../utils/constants/apis";

@@ -12,7 +12,13 @@ import {
   setEditPromptIndex,
 } from "../../../../store/features/user/userSlice";
 
-export const EditPromptList = ({ title = "Prompts" }: { title: string }) => {
+export const EditPromptList = ({
+  title = "Prompts",
+  origin,
+}: {
+  title: string;
+  origin: string;
+}) => {
   const dispatch = useAppDispatch();
 
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
@@ -30,17 +36,17 @@ export const EditPromptList = ({ title = "Prompts" }: { title: string }) => {
             key={index}
             onAdd={() => {
               dispatch(setEditPromptIndex({ editPromptIndex: index }));
-              navigation.navigate(screenName.ALLPROMPTS);
+              navigation.navigate(screenName.ALLPROMPTS, { origin });
             }}
             onEdit={() => {
               dispatch(setEditPromptIndex({ editPromptIndex: index }));
               dispatch(setEditPrompt({ editPrompt: prompt }));
-              navigation.navigate(screenName.PROMPT_ANSWER, { prompt });
+              navigation.navigate(screenName.PROMPT_ANSWER, { origin });
             }}
             prompt={prompt}
             onSwap={() => {
               dispatch(setEditPromptIndex({ editPromptIndex: index }));
-              navigation.navigate(screenName.ALLPROMPTS);
+              navigation.navigate(screenName.ALLPROMPTS, { origin });
             }}
           />
         );

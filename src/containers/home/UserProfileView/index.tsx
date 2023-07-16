@@ -41,6 +41,7 @@ import {
 } from "../../../features/ProfileView/components/getDetails";
 import { styles } from "../../../features/ProfileView/styles";
 import { selectAllPrompts } from "../../../store/features/prompts/promptsSlice";
+import { useOnScreenView } from "../../../analytics/hooks/useOnScreenView";
 
 const screenHeight = Dimensions.get("window").height;
 const onethirdScreenHeight = screenHeight / 3;

@@ -1,5 +1,5 @@
 /* eslint-disable import/prefer-default-export */
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { View, Text, ScrollView, TextInput } from "react-native";
 import { useMutation } from "@apollo/client";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -20,7 +20,8 @@ import { RatingSlider } from "../../../components/molecule/RatingSlider";
 import { selectUserChoices } from "../../../store/features/matches/matchSlice";
 import AppActivityIndicator from "../../../components/atoms/ActivityIndicator";
 import { analyticScreenNames, eventNames, screenClass } from "../../../analytics/constants";
-import { logEvent, onScreenView } from "../../../analytics";
+import { logEvent } from "../../../analytics";
+import { useOnScreenView } from "../../../analytics/hooks/useOnScreenView";
 
 export const PromptVote = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
@@ -38,12 +39,10 @@ export const PromptVote = () => {
 
   const gradient = [Colors.RUST, Colors.RED, Colors.TEAL];
 
-  useEffect(() => {
-    onScreenView({
+  useOnScreenView({
       screenName: analyticScreenNames.ratePrompt,
       screenType: screenClass.matches,
     });
-  }, []);
 
   // const dispatch = useAppDispatch();
   const userChoices = useAppSelector(selectUserChoices);

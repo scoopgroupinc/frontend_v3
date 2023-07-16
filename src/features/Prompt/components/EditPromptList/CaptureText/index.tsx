@@ -26,7 +26,7 @@ const TextContainer = ({ prompt, onSwap, onEdit }: TextContainerType) => {
             color: Colors.BLACK,
           }}
         >
-          {promptObj.prompt}
+          {promptObj?.prompt}
         </Text>
         <Text
           numberOfLines={1}

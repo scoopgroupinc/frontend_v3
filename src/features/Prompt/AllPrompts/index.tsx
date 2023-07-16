@@ -41,15 +41,12 @@ const AllPrompts = ({ route }: any) => {
         ? analyticScreenNames.onBoardAllPrompts
         : analyticScreenNames.profileAllPrompts,
 
-    screenType: 
-      origin === ORIGIN.ONBOARDING 
-        ? screenClass.onBoarding 
-        : screenClass.profile,
+    screenType: origin === ORIGIN.ONBOARDING ? screenClass.onBoarding : screenClass.profile,
   });
 
   const choosePrompt = async (prompt: any) => {
     dispatch(setEditPrompt({ editPrompt: { ...prompt, answer: "" } }));
-    navigation.navigate(screenName.PROMPT_ANSWER, {origin});
+    navigation.navigate(screenName.PROMPT_ANSWER, { origin });
   };
   useEffect(() => {
     if ((userPrompts || []).length > 0) {

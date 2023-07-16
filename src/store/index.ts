@@ -9,7 +9,6 @@ import MessagesSlice from "./features/messages/MessagesSlice";
 const persistConfig = {
   key: "root",
   storage: AsyncStorage,
-  whitelist: ["appUser"],
 };
 
 const rootReducer = combineReducers({

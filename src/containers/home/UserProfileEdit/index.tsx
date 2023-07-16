@@ -16,6 +16,7 @@ import { screenName } from "../../../utils/constants";
 import { styles } from "./styles";
 import { AppInput } from "../../../components/atoms/AppInput";
 import { EditPromptList } from "../../../features/Prompt/components/EditPromptList";
+import { ORIGIN } from "../../../features/Prompt/constants";
 
 const inputTextProps = {
   editable: false,
@@ -55,7 +56,7 @@ export const UserProfileEdit = () => {
           <MediaContainer images={userVisuals} onAddImage={handleUserVisuals} />
         </View>
         <View style={styles.mediaContainer}>
-          <EditPromptList />
+          <EditPromptList origin={ORIGIN.PROFILE} />
         </View>
         <View
           style={{

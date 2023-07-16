@@ -25,6 +25,7 @@ import {
 import { analyticScreenNames, screenClass } from "../../../analytics/constants";
 import { useOnScreenView } from "../../../analytics/hooks/useOnScreenView";
 import { EditPromptList } from "../../../features/Prompt/components/EditPromptList";
+import { ORIGIN } from "../../../features/Prompt/constants";
 
 export const QuestionPromptScreen = ({ route }: any) => {
   // TODO: fix SAVE_USER_PROMPT_ORDER
@@ -35,8 +36,10 @@ export const QuestionPromptScreen = ({ route }: any) => {
 
   const dispatch = useAppDispatch();
 
-  useOnScreenView({screenName:analyticScreenNames.onBoardAllPrompts,
-    screenType:screenClass.onBoarding});
+  useOnScreenView({
+    screenName: analyticScreenNames.onBoardAllPrompts,
+    screenType: screenClass.onBoarding,
+  });
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -125,7 +128,7 @@ export const QuestionPromptScreen = ({ route }: any) => {
           <ProgressBar style={styles.progressBar} progress={0.7} color="#0E0E2C" />
           <ScrollView showsVerticalScrollIndicator={false}>
             <View style={styles.mediaContainer}>
-              <EditPromptList title="Add prompts" />
+              <EditPromptList title="Add prompts" origin={ORIGIN.ONBOARDING} />
             </View>
           </ScrollView>
           <View style={{ paddingHorizontal: 20 }}>
