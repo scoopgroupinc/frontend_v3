@@ -1,5 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect } from "react";
 import { View, Text, Image, Platform } from "react-native";
 import { Icon, VStack } from "native-base";
 
@@ -24,13 +24,11 @@ import { useNotifications } from "../../../hooks/useNotification";
 import notificationAxios from "../../../services/axios/notificationAxios";
 import { useAppDispatch } from "../../../store/hooks";
 import { storeStringData } from "../../../utils/storage";
+import { setUser } from "../../../store/features/user/userSlice";
 
 WebBrowser.maybeCompleteAuthSession();
 
 const Launch = () => {
-
-  const [user, setUser] = useState<any>(null);
-  const [appleUser, setAppleUser] = useState<any>(null);
   const [request, response, promptAsync] = Facebook.useAuthRequest({
     clientId: OAUTH.FACEBOOK_CLIENT_ID,
   });
@@ -43,8 +41,7 @@ const Launch = () => {
     iosClientId: OAUTH.IOS_GOOGLE_GUID,
   });
 
-  useOnScreenView({screenName:analyticScreenNames.welcome,
-    screenType:screenClass.auth});
+  useOnScreenView({ screenName: analyticScreenNames.welcome, screenType: screenClass.auth });
 
   // if (request) {
   //   console.log(
@@ -77,11 +74,11 @@ const Launch = () => {
           `https://graph.facebook.com/me?access_token=${response?.authentication?.accessToken}&fields=id,name,picture.type(large)`
         );
         const userInfo = await userInfoResponse.json();
-        setUser(userInfo);
+        dispatch(setUser(userInfo));
         console.log("response", response);
       })();
     }
-  }, [response]);
+  }, [response, dispatch]);
 
   useEffect(() => {
     if (googleResponse && googleResponse.type === "success") {
