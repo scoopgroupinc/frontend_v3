@@ -23,7 +23,7 @@ const ProfileNavigator = () => {
   useGetUserVisuals();
   useFetchStaticData();
   useUpdateUserLocation();
-  useGetUserChoices();
+  // useGetUserChoices();
 
   return (
     <HomeStack.Navigator

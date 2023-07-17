@@ -1,7 +1,7 @@
 import { useMutation } from "@apollo/client";
 import {
   selectUserPrompts,
-  selectisUserPromptsDirty,
+  selectIsUserPromptsDirty,
   selectUser,
 } from "../../../../../store/features/user/userSlice";
 import { useAppSelector } from "../../../../../store/hooks";
@@ -14,7 +14,7 @@ export const useSaveUserPrompts = () => {
   const { user } = useAppSelector(selectUser);
   const userId = user?.userId;
   const userPrompts = useAppSelector(selectUserPrompts);
-  const isUserPromptsDirty = useAppSelector(selectisUserPromptsDirty);
+  const isUserPromptsDirty = useAppSelector(selectIsUserPromptsDirty);
 
   const [saveUserPromptsOrder] = useMutation(SAVE_USER_PROMPT_ORDER);
 
@@ -49,6 +49,9 @@ export const useSaveUserPrompts = () => {
           },
         });
       }
+    },
+    onError: (error) => {
+      throw new Error(error.message);
     },
   });
 

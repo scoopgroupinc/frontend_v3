@@ -1,4 +1,5 @@
 /* eslint-disable import/prefer-default-export */
+import React, { useState } from "react";
 import { Alert, View } from "react-native";
 import { ProgressBar } from "react-native-paper";
 import { useMutation } from "@apollo/client";
@@ -50,7 +51,7 @@ export const DateWhoScreen = () => {
 
   useOnScreenView({
     screenName: analyticScreenNames.onBoardGenderPreference,
-    screenType: screenClass.onBoarding
+    screenType: screenClass.onBoarding,
   });
 
   return (

@@ -68,6 +68,7 @@ export const ToggleProfileView = () => {
       const saveCalls = [saveUserProfile, saveUserPrompts, saveUserVisuals].filter(
         (item) => item !== null
       );
+
       await Promise.all(saveCalls.map((func) => func()));
 
       dispatch(clearCopyData());

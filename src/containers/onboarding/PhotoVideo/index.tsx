@@ -8,7 +8,6 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Heading, VStack } from "native-base";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
-import { styles } from "./styles";
 import AppActivityIndicator from "../../../components/atoms/ActivityIndicator";
 import { GradientLayout } from "../../../components/layouts/GradientLayout";
 import { URLS } from "../../../utils/constants/apis";
@@ -30,8 +29,10 @@ export const PhotoVideoScreen = () => {
   const [allImages, setImages] = useState<object[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  useOnScreenView({screenName:analyticScreenNames.onBoardPhotos,
-    screenType:screenClass.onBoarding});
+  useOnScreenView({
+    screenName: analyticScreenNames.onBoardPhotos,
+    screenType: screenClass.onBoarding,
+  });
 
   const getVisuals = async () => {
     axios

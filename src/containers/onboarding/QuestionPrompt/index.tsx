@@ -1,18 +1,14 @@
 /* eslint-disable import/prefer-default-export */
 import React, { useState } from "react";
-import { View, Text, Alert } from "react-native";
+import { View, Alert } from "react-native";
 import { useMutation } from "@apollo/client";
 import { ProgressBar } from "react-native-paper";
 
 import { ScrollView } from "react-native-gesture-handler";
-import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { styles } from "./styles";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
-import { SAVE_USER_PROMPT_ORDER } from "../../../services/graphql/onboarding/mutations";
 import {
   SAVE_ONBOARD_STATUS,
-  SAVE_USER_PROMPTS,
 } from "../../../services/graphql/profile/mutations";
 import { GradientLayout } from "../../../components/layouts/GradientLayout";
 import { AppButton } from "../../../components/atoms/AppButton";
@@ -26,13 +22,12 @@ import { analyticScreenNames, screenClass } from "../../../analytics/constants";
 import { useOnScreenView } from "../../../analytics/hooks/useOnScreenView";
 import { EditPromptList } from "../../../features/Prompt/components/EditPromptList";
 import { ORIGIN } from "../../../features/Prompt/constants";
+import { useSaveUserPrompts } from "../../home/UserProfile/ToggleProfileView/hooks/useSaveUserPrompts";
 
-export const QuestionPromptScreen = ({ route }: any) => {
-  // TODO: fix SAVE_USER_PROMPT_ORDER
+export const QuestionPromptScreen = () => {
 
   const userId = useAppSelector(selectUserId);
   const userPrompts = useAppSelector(selectUserPrompts);
-  let userPromptInput: never[] = [];
 
   const dispatch = useAppDispatch();
 
@@ -42,8 +37,7 @@ export const QuestionPromptScreen = ({ route }: any) => {
   });
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
-
-  const [saveUserPromptsOrder] = useMutation(SAVE_USER_PROMPT_ORDER);
+  const [saveUserPrompts] = useSaveUserPrompts();
 
   const [saveOnBoardStatus] = useMutation(SAVE_ONBOARD_STATUS, {
     variables: {
@@ -63,61 +57,23 @@ export const QuestionPromptScreen = ({ route }: any) => {
         })
       );
       setIsLoading(false);
-    },
-    onError: (error) => {
-      setIsLoading(false);
-      Alert.alert("Error", "Something went wrong");
-    },
+    }
   });
 
-  const [saveUserPrompts] = useMutation(SAVE_USER_PROMPTS, {
-    variables: {
-      UserPromptInput: userPromptInput,
-    },
-    onCompleted: (data) => {
-      console.log("data", data, userPromptInput);
-      const { saveUserPrompts: prompts } = data;
-      if (prompts) {
-        const ids: any = [];
-        console.log("prompts", prompts);
-        prompts.forEach((item: any, index: number) => {
-          if (item.id !== ids[index]) {
-            ids[index] = item.id;
-          }
-        });
 
-        saveUserPromptsOrder({
-          variables: {
-            UserPromptsOrder: {
-              userId,
-              userPromptIds: ids,
-            },
-          },
-          onCompleted: async (e) => {
-            saveOnBoardStatus();
-          },
-          onError: (e) => {
-            setIsLoading(false);
-          },
-        });
-      }
-    },
-    onError: (error) => {
-      setIsLoading(false);
-    },
-  });
-
+  // TO DO: make sure save works
   const completeOnboard = async () => {
     setIsLoading(true);
-    userPromptInput = userPrompts
-      .filter((item: { answer: string }) => item.answer !== "")
-      .map((item: { answer: string; promptId: string; userId: string }) => ({
-        answer: item.answer,
-        promptId: item.promptId,
-        userId,
-      }));
-    console.log(userPromptInput);
-    saveUserPrompts();
+    try {
+      if(saveUserPrompts){
+        saveUserPrompts();
+      }
+      saveOnBoardStatus();
+      setIsLoading(false);
+    } catch (error) {
+      Alert.alert("Error", "Something went wrong");
+      setIsLoading(false);
+    }
   };
 
   return (

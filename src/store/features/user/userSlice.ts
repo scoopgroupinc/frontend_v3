@@ -193,7 +193,7 @@ export const selectIsDirty = ({
 export const selectIsUserDirty = (state: { appUser: UserState }) => state.appUser.isUserDirty;
 export const selectIsEditPromptDirty = (state: { appUser: UserState }) =>
   state.appUser.isEditPromptDirty;
-export const selectisUserPromptsDirty = (state: { appUser: UserState }) =>
+export const selectIsUserPromptsDirty = (state: { appUser: UserState }) =>
   state.appUser.isUserPromptsDirty;
 export const selectisUserVisualsDirty = (state: { appUser: UserState }) =>
   state.appUser.isUserVisualsDirty;
