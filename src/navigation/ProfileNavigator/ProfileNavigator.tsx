@@ -4,18 +4,26 @@ import { screenName } from "../../utils/constants";
 import UserProfile from "../../containers/home/UserProfile";
 import AppNavigator from "../AppNavigator";
 import Messages from "../../containers/chat/Messages";
-import { useFetchUserData } from "./hooks/useFetchUserData";
-import { useNotification } from "./hooks/useNotification";
 import { useFetchStaticData } from "./hooks/useFetchStaticData";
 import { useUpdateUserLocation } from "../../hooks/useLocation";
+import { useGetUserConversations } from "../../hooks/useGetUserConversations";
+import { useGetUserPreference } from "../../hooks/useGetUserPreference";
+import { useGetUserPrompts } from "../../hooks/useGetUserPrompts";
+import { useGetUserTags } from "../../hooks/useGetUserTags";
+import { useGetUserVisuals } from "../../hooks/useGetUserVisuals";
+import { useGetUserChoices } from "../../hooks/useGetUserChoices";
 
 const HomeStack = createNativeStackNavigator();
 
 const ProfileNavigator = () => {
-  useNotification();
-  useFetchUserData();
+  useGetUserConversations(true);
+  useGetUserPreference();
+  useGetUserPrompts();
+  useGetUserTags();
+  useGetUserVisuals();
   useFetchStaticData();
   useUpdateUserLocation();
+  // useGetUserChoices();
 
   return (
     <HomeStack.Navigator

@@ -4,15 +4,12 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import { isEqual, cloneDeep } from "lodash";
 import { multiRemove, removeData, storeObjectData } from "../../../utils/storage";
 import { UserPrompts } from "../../../utils/types";
-import { mapIndexToPrompts } from "../../../utils/helpers";
-
-const counter = 6;
-const initialPromptsData: UserPrompts[] = [...Array(counter)].map(mapIndexToPrompts);
+import { UserProfile } from "./types";
 
 interface UserState {
   user: any;
   userVisuals: any;
-  userProfile: any;
+  userProfile: UserProfile;
   userPreference: any;
   userPrompts: UserPrompts[];
   userPromptsOrder: any[];
@@ -22,15 +19,19 @@ interface UserState {
   originalVisuals: any;
   originalProfile: any;
   originalPrompts: any;
-  isDirty: boolean;
+  isUserDirty: boolean;
+  isEditPromptDirty: boolean;
+  isUserPromptsDirty: boolean;
+  isUserVisualsDirty: boolean;
+  isUserProfileDirty: boolean;
 }
 
 const initialState: UserState = {
   user: null,
   userVisuals: null,
-  userProfile: null,
+  userProfile: [],
   userPreference: null,
-  userPrompts: initialPromptsData,
+  userPrompts: [],
   userPromptsOrder: [],
   editPromptIndex: null,
   editPrompt: null,
@@ -38,7 +39,11 @@ const initialState: UserState = {
   originalVisuals: null,
   originalProfile: null,
   originalPrompts: null,
-  isDirty: false,
+  isUserDirty: false,
+  isEditPromptDirty: false,
+  isUserPromptsDirty: false,
+  isUserVisualsDirty: false,
+  isUserProfileDirty: false,
 };
 
 const UserSlice = createSlice({
@@ -47,23 +52,17 @@ const UserSlice = createSlice({
   reducers: {
     setUser: (state, action: PayloadAction<any>) => {
       const { user } = action.payload;
-      state.user = user;
       storeObjectData("user", action.payload);
-      if (state.originalUser != null && !isEqual(state.user, state.originalUser)) {
-        state.isDirty = true;
-      } else {
-        state.isDirty = false;
-      }
+      state.user = user;
+      state.isUserDirty = state.originalUser !== null && !isEqual(state.user, state.originalUser);
     },
     setUserVisuals: (state, action: PayloadAction<any>) => {
       const { userVisuals } = action.payload;
       state.userVisuals = userVisuals;
       storeObjectData("userVisuals", action.payload);
-      if (!!state.originalVisuals && !isEqual(state.userVisuals, state.originalVisuals)) {
-        state.isDirty = true;
-      } else {
-        state.isDirty = false;
-      }
+      state.userVisuals = userVisuals;
+      state.isUserVisualsDirty =
+        !!state.originalVisuals && !isEqual(state.userVisuals, state.originalVisuals);
     },
     setUserPreference: (state, action: PayloadAction<any>) => {
       state.userPreference = cloneDeep(action.payload.userPreference);
@@ -72,22 +71,8 @@ const UserSlice = createSlice({
       const { userPrompts } = action.payload;
       const prompts = cloneDeep(userPrompts);
 
-      for (let i = 0; i < counter; i++) {
-        if (!prompts[i]) {
-          prompts.push({
-            id: `${i}`,
-            userId: "",
-            promptId: "",
-            prompt: "",
-            answer: "",
-          });
-        }
-      }
-      if (!!state.originalPrompts && !isEqual(state.userPrompts, state.originalPrompts)) {
-        state.isDirty = true;
-      } else {
-        state.isDirty = false;
-      }
+      state.isUserPromptsDirty =
+        !!state.originalPrompts && !isEqual(state.userPrompts, state.originalPrompts);
       state.userPrompts = prompts;
     },
     setUserPromptsOrder: (state, action: PayloadAction<any>) => {
@@ -97,20 +82,13 @@ const UserSlice = createSlice({
       const { value } = action.payload;
       state.user = { ...state.user, ...value };
       storeObjectData("user", { ...state.user, ...value });
-      if (!!state.originalUser && !isEqual(state.user, state.originalUser)) {
-        state.isDirty = true;
-      } else {
-        state.isDirty = false;
-      }
+      state.isUserDirty = !!state.originalUser && !isEqual(state.user, state.originalUser);
     },
     setUserProfile: (state, action: PayloadAction<any>) => {
       const { userProfile } = action.payload;
       state.userProfile = userProfile;
-      if (!!state.originalProfile && !isEqual(state.userProfile, state.originalProfile)) {
-        state.isDirty = true;
-      } else {
-        state.isDirty = false;
-      }
+      state.isUserProfileDirty =
+        !!state.originalProfile && !isEqual(state.userProfile, state.originalProfile);
     },
 
     // logout: (state) => {
@@ -128,7 +106,10 @@ const UserSlice = createSlice({
       state.originalVisuals = cloneDeep(state.userVisuals);
       state.originalProfile = cloneDeep(state.userProfile);
       state.originalPrompts = cloneDeep(state.userPrompts);
-      state.isDirty = false;
+      state.isUserDirty = false;
+      state.isUserPromptsDirty = false;
+      state.isUserVisualsDirty = false;
+      state.isUserProfileDirty = false;
     },
     resetToCopyData: (state) => {
       state.user = cloneDeep(state.originalUser);
@@ -138,14 +119,20 @@ const UserSlice = createSlice({
       state.originalVisuals = null;
       state.originalProfile = null;
       state.originalPrompts = null;
-      state.isDirty = false;
+      state.isUserDirty = false;
+      state.isUserPromptsDirty = false;
+      state.isUserVisualsDirty = false;
+      state.isUserProfileDirty = false;
     },
     clearCopyData: (state) => {
       state.originalUser = null;
       state.originalVisuals = null;
       state.originalProfile = null;
       state.originalPrompts = null;
-      state.isDirty = false;
+      state.isUserDirty = false;
+      state.isUserPromptsDirty = false;
+      state.isUserVisualsDirty = false;
+      state.isUserProfileDirty = false;
     },
     setEditPromptIndex: (state, action: PayloadAction<any>) => {
       const { editPromptIndex } = action.payload;
@@ -154,11 +141,7 @@ const UserSlice = createSlice({
     setEditPrompt: (state, action: PayloadAction<any>) => {
       const { editPrompt } = action.payload;
       state.editPrompt = { ...editPrompt };
-      if (isEqual(state.editPrompt, editPrompt)) {
-        state.isDirty = false;
-      } else {
-        state.isDirty = true;
-      }
+      state.isEditPromptDirty = !isEqual(state.editPrompt, editPrompt);
     },
     setPromptOfEditIndex: (state, action: PayloadAction<any>) => {
       const userPrompts = cloneDeep(state.userPrompts);
@@ -167,11 +150,7 @@ const UserSlice = createSlice({
         ...action.payload,
       };
       state.userPrompts = userPrompts;
-      if (isEqual(state.userPrompts, state.originalPrompts)) {
-        state.isDirty = false;
-      } else {
-        state.isDirty = true;
-      }
+      state.isUserPromptsDirty = !isEqual(state.userPrompts, state.originalPrompts);
     },
   },
   extraReducers: (builder) => {
@@ -192,17 +171,34 @@ const UserSlice = createSlice({
   },
 });
 
-export const selectUser = (state: any) => state.appUser;
-export const selectUserIsOnboarded = (state: any) => state.appUser.user?.isOnboarded;
-export const selectIsVoteOnboarded = (state: any) => state.appUser.user?.isVoteOnboarded;
-export const selectUserId = (state: any) => state.appUser.user?.userId;
-export const selectUserProfile = (state: any) => state.appUser.userProfile;
-export const selectUserVisuals = (state: any) => state.appUser.userVisuals;
-export const selectUserPrompts = (state: any) => state.appUser.userPrompts;
-export const selectEditPromptIndex = (state: any) => state.appUser.editPromptIndex;
-export const selectEditPrompt = (state: any) => state.appUser.editPrompt;
-export const selectEditPromptAnswer = (state: any) => state.appUser.editPrompt.answer;
-export const selectIsDirty = (state: any) => state.appUser.isDirty;
+export const selectUser = (state: { appUser: UserState }) => state.appUser;
+export const selectUserIsOnboarded = (state: { appUser: UserState }) =>
+  state.appUser.user?.isOnboarded;
+export const selectIsVoteOnboarded = (state: { appUser: UserState }) =>
+  state.appUser.user?.isVoteOnboarded;
+export const selectUserId = (state: { appUser: UserState }) => state.appUser.user?.userId;
+export const selectUserProfile = (state: { appUser: UserState }) => state.appUser.userProfile;
+export const selectUserVisuals = (state: { appUser: UserState }) => state.appUser.userVisuals;
+export const selectUserPrompts = (state: { appUser: UserState }) => state.appUser.userPrompts;
+export const selectEditPromptIndex = (state: { appUser: UserState }) =>
+  state.appUser.editPromptIndex;
+export const selectEditPrompt = (state: { appUser: UserState }) => state.appUser.editPrompt;
+export const selectEditPromptAnswer = (state: { appUser: UserState }) =>
+  state.appUser.editPrompt.answer;
+export const selectIsDirty = ({
+  appUser: { isUserDirty, isUserPromptsDirty, isUserVisualsDirty, isUserProfileDirty },
+}: {
+  appUser: UserState;
+}) => isUserDirty || isUserPromptsDirty || isUserVisualsDirty || isUserProfileDirty;
+export const selectIsUserDirty = (state: { appUser: UserState }) => state.appUser.isUserDirty;
+export const selectIsEditPromptDirty = (state: { appUser: UserState }) =>
+  state.appUser.isEditPromptDirty;
+export const selectIsUserPromptsDirty = (state: { appUser: UserState }) =>
+  state.appUser.isUserPromptsDirty;
+export const selectisUserVisualsDirty = (state: { appUser: UserState }) =>
+  state.appUser.isUserVisualsDirty;
+export const selectIsUserProfileDirty = (state: { appUser: UserState }) =>
+  state.appUser.isUserProfileDirty;
 
 export const {
   setUser,

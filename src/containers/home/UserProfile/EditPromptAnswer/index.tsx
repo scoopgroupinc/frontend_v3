@@ -7,11 +7,10 @@ import { ORIGIN } from "../../../../features/Prompt/constants";
 import { useOnScreenView } from "../../../../analytics/hooks/useOnScreenView";
 import { analyticScreenNames, screenClass } from "../../../../analytics/constants";
 
-//
 const EditPromptAnswer = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
-  // UserProfileEdit -> PromptAnswer -> PromptAnswerModal -> UserProfileEdit
+  // UserProfileEdit -> PromptAnswer (EditPromptAnswer) -> PromptAnswerModal -> UserProfileEdit
   const goBack = () => {
     navigation.navigate(screenName.USER_PROFILE_EDIT);
   };

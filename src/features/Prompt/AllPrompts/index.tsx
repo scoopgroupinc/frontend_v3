@@ -27,7 +27,7 @@ const AllPrompts = ({ route }: any) => {
   const [promptMap, setPromptMap] = useState(new Map());
   const allPrompts = useAppSelector(selectAllPrompts);
   const userPrompts = useAppSelector(selectUserPrompts);
-  const [selectablePrompts, setSelectablePrompts] = useState(allPrompts);
+  const [selectablePrompts, setSelectablePrompts] = useState(Object.values(allPrompts));
 
   const gradient = [Colors.RUST, Colors.RED, Colors.TEAL];
 
@@ -41,15 +41,12 @@ const AllPrompts = ({ route }: any) => {
         ? analyticScreenNames.onBoardAllPrompts
         : analyticScreenNames.profileAllPrompts,
 
-    screenType: 
-      origin === ORIGIN.ONBOARDING 
-        ? screenClass.onBoarding 
-        : screenClass.profile,
+    screenType: origin === ORIGIN.ONBOARDING ? screenClass.onBoarding : screenClass.profile,
   });
 
   const choosePrompt = async (prompt: any) => {
     dispatch(setEditPrompt({ editPrompt: { ...prompt, answer: "" } }));
-    navigation.navigate(screenName.PROMPT_ANSWER, {origin});
+    navigation.navigate(screenName.PROMPT_ANSWER, { origin });
   };
   useEffect(() => {
     if ((userPrompts || []).length > 0) {
@@ -62,8 +59,10 @@ const AllPrompts = ({ route }: any) => {
   }, [userPrompts]);
 
   useEffect(() => {
-    if (allPrompts.length > 0) {
-      setSelectablePrompts(allPrompts.filter((prompt: any) => !promptMap.has(prompt.id)));
+    if (Object.values(allPrompts).length > 0) {
+      setSelectablePrompts(
+        Object.values(allPrompts).filter((prompt: any) => !promptMap.has(prompt.id))
+      );
     }
   }, [promptMap, allPrompts, userPrompts]);
 

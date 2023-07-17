@@ -18,15 +18,16 @@ export interface UserToken {
 }
 
 export interface GetPromptsType {
-  getPrompts: Prompts[];
+  getPrompts: IPrompt[];
 }
 
-export interface Prompts {
+export interface IPrompt {
   id: string;
   prompt: string;
   type: string;
   sample_answer: string;
 }
+
 export interface UserPrompts {
   id: string;
   userId: string;

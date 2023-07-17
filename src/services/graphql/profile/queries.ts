@@ -90,6 +90,19 @@ export const GET_USER_PROFILE = gql`
   }
 `;
 
+export const GET_TAGS = gql`
+  query getTags {
+    getTags(tagType: "") {
+      id
+      name
+      emoji
+      type
+      order
+      visible
+    }
+  }
+`;
+
 export const GET_USER_TAGS_TYPE_VISIBLE = gql`
   query getAllUserTagsTypeVisible($userId: String!) {
     getAllUserTagsTypeVisible(userId: $userId) {

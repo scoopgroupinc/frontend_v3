@@ -12,7 +12,7 @@ export const MediaContainer = ({ images = [], onAddImage }: ScreenType) => {
 
   const mergedData = userVisuals.map((image, index) => ({
     ...image,
-    videoOrPhoto: images ? images[index].videoOrPhoto : undefined,
+    videoOrPhoto: images ? images[index]?.videoOrPhoto : undefined,
   }));
 
   return (

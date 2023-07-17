@@ -11,9 +11,8 @@ import { selectUser } from "../../../store/features/user/userSlice";
 import { selectUserMatches } from "../../../store/features/matches/matchSlice";
 import ChatHeader from "../../../components/atoms/ChatHeader";
 import { analyticScreenNames, screenClass } from "../../../analytics/constants";
-import { onScreenView } from "../../../analytics";
-import { getUserConversationList } from "../../../utils/helpers";
 import { useOnScreenView } from "../../../analytics/hooks/useOnScreenView";
+import { useGetUserConversations } from "../../../hooks/useGetUserConversations";
 
 const ChatMessage = ({ route }: any) => {
   const { user } = useAppSelector(selectUser);
@@ -23,6 +22,7 @@ const ChatMessage = ({ route }: any) => {
   const { matchUserId: receiverID, username, photo, msgs }: any = route.params;
 
   const [messages, setMessages] = useState<any>([]);
+  const [, setIsFetchingUserConverstation] = useGetUserConversations(true);
 
   const socket: Socket = io("http://scoopchat-dev.eba-cqqr2rky.us-east-1.elasticbeanstalk.com", {
     transports: ["websocket", "polling"],
@@ -80,10 +80,6 @@ const ChatMessage = ({ route }: any) => {
       socket.emit("online", { userId: user?.userId, checkecUserId: receiverID });
     }, 18000);
     getMessages();
-    onScreenView({
-      screenName: analyticScreenNames.message,
-      screenType: screenClass.chat,
-    });
   }, []);
 
   useEffect(() => {
@@ -101,7 +97,7 @@ const ChatMessage = ({ route }: any) => {
             },
           },
         ]);
-        getUserConversationList(userMatches, dispatch, user?.userId);
+        setIsFetchingUserConverstation(true);
       }
     });
   }, [socket, receiverID, username, user?.userId, userMatches, dispatch]);
@@ -118,7 +114,7 @@ const ChatMessage = ({ route }: any) => {
     message[0].createdAt = moment().toISOString();
     socket.emit("addMessage", payload);
     setMessages((previousMessages: any) => GiftedChat.append(message, previousMessages));
-    getUserConversationList(userMatches, dispatch, user?.userId);
+    setIsFetchingUserConverstation(true);
   }, []);
 
   return (
