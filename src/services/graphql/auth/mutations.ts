@@ -47,14 +47,14 @@ export const FORGOT_PASSWORD = gql`
 `;
 
 export const CREATE_USER = gql`
-  mutation CreateUser($CreateUserInput: CreateUserInput!) {
-    createUser(createUserInput: $CreateUserInput)
+  mutation CreateUser($createUserInput: CreateUserInput!) {
+    createUser(createUserInput: $createUserInput)
   }
 `;
 
 export const LOG_IN_USER = gql`
-  mutation Login($LoginUserInput: LoginUserInput!) {
-    login(loginUserInput: $LoginUserInput) {
+  mutation Login($loginUserInput: LoginUserInput!) {
+    login(loginUserInput: $loginUserInput) {
       token
       user {
         userId
@@ -70,8 +70,8 @@ export const LOG_IN_USER = gql`
 `;
 
 export const PROVIDER_LOGIN = gql`
-  mutation LoginWithProvider($AuthProviderInput: AuthProviderInput!) {
-    loginWithProvider(authProviderInput: $AuthProviderInput) {
+  mutation LoginWithProvider($authProviderInput: AuthProviderInput!) {
+    loginWithProvider(authProviderInput: $authProviderInput) {
       token
       user {
         userId

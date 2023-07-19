@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Alert, Platform, View } from "react-native";
+import { Alert, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -15,13 +15,11 @@ import AppActivityIndicator from "../../../components/atoms/ActivityIndicator";
 import { LOG_IN_USER } from "../../../services/graphql/auth/mutations";
 import { useAppDispatch } from "../../../store/hooks";
 import { setUser } from "../../../store/features/user/userSlice";
-import { getObjectData, multiRemove, storeStringData } from "../../../utils/storage";
+import { multiRemove, storeStringData } from "../../../utils/storage";
 import { OTPInputModal } from "../../../components/templates/OTPInputModal";
 import { screenName } from "../../../utils/constants";
 import { analyticScreenNames, eventNames, screenClass } from "../../../analytics/constants";
 import { logEvent } from "../../../analytics";
-import { useNotifications } from "../../../hooks/useNotification";
-import notificationAxios from "../../../services/axios/notificationAxios";
 import { useOnScreenView } from "../../../analytics/hooks/useOnScreenView";
 
 const LoginScreen = () => {
@@ -34,22 +32,7 @@ const LoginScreen = () => {
   useOnScreenView({screenName:analyticScreenNames.signIn,
     screenType:screenClass.auth});
 
-  const { registerForPushNotificationsAsync } = useNotifications();
-
   const [loginUserMutation, { loading: loginLoading }] = useMutation(LOG_IN_USER);
-
-  const saveDeviceToken = async (userId: string) => {
-    const token = await registerForPushNotificationsAsync();
-    if (userId && token) {
-      const data = {
-        notificationToken: token,
-        osType: Platform.OS,
-        version: Platform.Version,
-        userId,
-      };
-      await notificationAxios.put("deviceToken", data);
-    }
-  };
 
   const schema = yup.object().shape({
     email: yup.string().email().required("Email is required."),
@@ -76,7 +59,7 @@ const LoginScreen = () => {
     setUserData(formData);
     loginUserMutation({
       variables: {
-        LoginUserInput: {
+        loginUserInput: {
           email: formData.email,
           password: formData.password,
         },
@@ -92,7 +75,6 @@ const LoginScreen = () => {
             },
           })
         );
-        saveDeviceToken(res?.data?.login?.user.userId);
       })
       .catch((err) => {
         if (err.message === "Kindly activate your account") {

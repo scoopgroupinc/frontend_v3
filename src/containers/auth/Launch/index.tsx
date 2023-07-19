@@ -1,10 +1,10 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import React, { useCallback, useEffect } from "react";
-import { View, Text, Image, Platform } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, Text, Image, Alert } from "react-native";
 import { Icon, VStack } from "native-base";
 
 // import * as AuthSession from "expo-auth-session";
-import * as Facebook from "expo-auth-session/providers/facebook";
+// import * as Facebook from "expo-auth-session/providers/facebook";
 import * as Google from "expo-auth-session/providers/google";
 import * as AppleAuthentication from "expo-apple-authentication";
 import { AppleAuthenticationCredential } from "expo-apple-authentication";
@@ -19,8 +19,6 @@ import { OAUTH } from "../../../utils/constants/apis";
 import { PROVIDER_LOGIN } from "../../../services/graphql/auth/mutations";
 import { analyticScreenNames, screenClass } from "../../../analytics/constants";
 import { useOnScreenView } from "../../../analytics/hooks/useOnScreenView";
-import { useNotifications } from "../../../hooks/useNotification";
-import notificationAxios from "../../../services/axios/notificationAxios";
 import { useAppDispatch } from "../../../store/hooks";
 import { storeStringData } from "../../../utils/storage";
 import { setUser } from "../../../store/features/user/userSlice";
@@ -28,11 +26,30 @@ import { setUser } from "../../../store/features/user/userSlice";
 WebBrowser.maybeCompleteAuthSession();
 
 const Launch = () => {
-  const [request, response, promptAsync] = Facebook.useAuthRequest({
-    clientId: OAUTH.FACEBOOK_CLIENT_ID,
-  });
+  const dispatch = useAppDispatch();
+
+  useOnScreenView({ screenName: analyticScreenNames.welcome, screenType: screenClass.auth });
 
   const [loginWithProvider] = useMutation(PROVIDER_LOGIN);
+
+  // const [request, response, promptAsync] = Facebook.useAuthRequest({
+  //   clientId: OAUTH.FACEBOOK_CLIENT_ID,
+  // });
+
+  // useEffect(() => {
+  //   if (response && response.type === "success" && response.authentication) {
+  //     (async () => {
+  //       const userInfoResponse = await fetch(
+  //         `https://graph.facebook.com/me?access_token=${response?.authentication?.accessToken}&fields=id,name,picture.type(large)`
+  //       );
+  //       const userInfo = await userInfoResponse.json();
+  //       dispatch(setUser(userInfo));
+  //       console.log("response", response);
+  //     })();
+  //   }
+  // }, [response, dispatch]);
+
+  const [providerUser, setProviderUser] = useState<any>({});
 
   const [googleRequest, googleResponse, googlePromptAsync] = Google.useAuthRequest({
     expoClientId: OAUTH.EXPO_CLIENT_ID,
@@ -40,83 +57,73 @@ const Launch = () => {
     iosClientId: OAUTH.IOS_GOOGLE_GUID,
   });
 
-  useOnScreenView({ screenName: analyticScreenNames.welcome, screenType: screenClass.auth });
+  useEffect(() => {
+    const fetchGoogleData = async () => {
+      try {
+        const userInfoResponse = await axios.get("https://www.googleapis.com/userinfo/v2/me", {
+          headers: {
+            Authorization: `Bearer ${googleResponse?.authentication?.accessToken}`,
+          },
+        });
 
-  // if (request) {
-  //   console.log(
-  //     `You need to add this url to your authorized redirect urls on your Facebook app: ${request.redirectUri}`
-  //   );
-  // }
-  const dispatch = useAppDispatch();
-  const { registerForPushNotificationsAsync } = useNotifications();
-
-  const saveDeviceToken = useCallback(
-    async (userId: string) => {
-      const token = await registerForPushNotificationsAsync();
-      if (userId && token) {
-        const notificationData = {
-          notificationToken: token,
-          osType: Platform.OS,
-          version: Platform.Version,
-          userId,
-        };
-        await notificationAxios.put("deviceToken", notificationData);
+        const { email, id } = userInfoResponse.data;
+        setProviderUser({ email, id, provider: "google" });
+      } catch (err) {
+        console.log("err", err);
+        Alert.alert("Google Authentication Error", err.message);
       }
-    },
-    [registerForPushNotificationsAsync]
-  );
-
-  useEffect(() => {
-    if (response && response.type === "success" && response.authentication) {
-      (async () => {
-        const userInfoResponse = await fetch(
-          `https://graph.facebook.com/me?access_token=${response?.authentication?.accessToken}&fields=id,name,picture.type(large)`
-        );
-        const userInfo = await userInfoResponse.json();
-        dispatch(setUser(userInfo));
-        console.log("response", response);
-      })();
+    };
+    if (googleResponse?.authentication?.accessToken) {
+      fetchGoogleData();
     }
-  }, [response, dispatch]);
+  }, [googleResponse]);
+
+  const handleAppleAuthentication = async () => {
+    try {
+      const credential: AppleAuthenticationCredential = await AppleAuthentication.signInAsync({
+        requestedScopes: [
+          AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
+          AppleAuthentication.AppleAuthenticationScope.EMAIL,
+        ],
+      });
+      const { email, user: id } = credential;
+      setProviderUser({ email, id, provider: "apple" });
+    } catch (err) {
+      console.log("err", err);
+      Alert.alert("Apple Authentication Error", err.message);
+    }
+  };
 
   useEffect(() => {
-    if (googleResponse && googleResponse.type === "success") {
-      (async () => {
-        const userInfoResponse = await axios
-          .get("https://www.googleapis.com/userinfo/v2/me", {
-            headers: {
-              Authorization: `Bearer ${googleResponse?.authentication?.accessToken}`,
-            },
-          })
-          .then((res) => res.data)
-          .catch((err) => console.log(err));
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        const { email, id } = userInfoResponse;
-        loginWithProvider({
+    const login = async () => {
+      try {
+        const loginResponse = await loginWithProvider({
           variables: {
-            AuthProviderInput: {
-              email,
-              id,
-              provider: "google",
+            authProviderInput: {
+              email: providerUser.email,
+              id: providerUser.id,
+              provider: providerUser.provoder,
             },
           },
-        })
-          .then(async (res) => {
-            await storeStringData("userToken", res?.data?.loginWithProvider?.token);
-            dispatch(
-              setUser({
-                user: {
-                  ...res?.data?.loginWithProvider?.user,
-                  token: res?.data?.loginWithProvider?.token,
-                },
-              })
-            );
-            saveDeviceToken(res?.data?.loginWithProvider?.user.userId);
+        });
+        await storeStringData("userToken", loginResponse?.data?.loginWithProvider?.token);
+        dispatch(
+          setUser({
+            user: {
+              ...loginResponse?.data?.loginWithProvider?.user,
+              token: loginResponse?.data?.loginWithProvider?.token,
+            },
           })
-          .catch((err) => console.log("mistake", err));
-      })();
+        );
+      } catch (err) {
+        console.log("err", err);
+        Alert.alert("Login Error", err.message);
+      }
+    };
+    if (providerUser?.email && providerUser?.id) {
+      login();
     }
-  }, [googleResponse, loginWithProvider, dispatch, saveDeviceToken]);
+  }, [providerUser, loginWithProvider, dispatch]);
 
   return (
     <GradientLayout>
@@ -157,42 +164,7 @@ const Launch = () => {
               width: "100%",
               height: 44,
             }}
-            onPress={async () => {
-              try {
-                const credential: AppleAuthenticationCredential =
-                  await AppleAuthentication.signInAsync({
-                    requestedScopes: [
-                      AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
-                      AppleAuthentication.AppleAuthenticationScope.EMAIL,
-                    ],
-                  });
-                loginWithProvider({
-                  variables: {
-                    AuthProviderInput: {
-                      email: credential.email,
-                      id: credential.user,
-                      provider: "apple",
-                    },
-                  },
-                })
-                  .then(async (res) => {
-                    console.log("response", res);
-                    await storeStringData("userToken", res?.data?.loginWithProvider?.token);
-                    dispatch(
-                      setUser({
-                        user: {
-                          ...res?.data?.loginWithProvider?.user,
-                          token: res?.data?.loginWithProvider?.token,
-                        },
-                      })
-                    );
-                    saveDeviceToken(res?.data?.loginWithProvider?.user.userId);
-                  })
-                  .catch((err) => console.log("mistake", err));
-              } catch (err) {
-                console.log("err", err);
-              }
-            }}
+            onPress={handleAppleAuthentication}
           />
         </>
         {/* <AppButton onPress={onSignUpPress}>Create Account</AppButton> */}

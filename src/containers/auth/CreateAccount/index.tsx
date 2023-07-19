@@ -80,7 +80,7 @@ const CreateAccount = () => {
       };
 
       registerUserMutation({
-        variables: { CreateUserInput: data },
+        variables: { createUserInput: data },
       }).then((response) => {
         if (response && response?.data?.createUser) {
           setModalState(true);
