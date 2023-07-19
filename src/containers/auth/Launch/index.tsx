@@ -102,7 +102,7 @@ const Launch = () => {
             authProviderInput: {
               email: providerUser.email,
               id: providerUser.id,
-              provider: providerUser.provoder,
+              provider: providerUser.provider,
             },
           },
         });
