@@ -1,5 +1,64 @@
 import { gql } from "@apollo/client";
 
+export const GET_USER_ANSWERED_PROMPTS = gql`
+  query getUserAnsweredPrompts($userId: String!) {
+    getUserAnsweredPrompts(userId: $userId) {
+      userPrompts {
+        id
+        createdAt
+        userId
+        promptId
+        prompt
+        answer
+      }
+      promptIds
+    }
+  }
+`;
+
+export const GET_PROMPTS = gql`
+  query getPrompts {
+    getPrompts(id: "", promptType: "") {
+      id
+      prompt
+      type
+      sample_answer
+    }
+  }
+`;
+
+export const GET_PROMPTS_ORDER = gql`
+  query getUserPromptsOrder($userPromptsOrder: GetPromptOrderInput!) {
+    getUserPromptsOrder(userPromptsOrder: $userPromptsOrder) {
+      userPrompts {
+        id
+        createdAt
+        userId
+        promptId
+        prompt
+        answer
+      }
+      promptIds
+    }
+  }
+`;
+
+export const GET_DISPLAYED_PROMPTS = gql`
+  query getUserPromptsDisplayed($userId: String!) {
+    getUserPromptsDisplayed(userId: $userId) {
+      userPrompts {
+        id
+        createdAt
+        userId
+        promptId
+        prompt
+        answer
+      }
+      promptIds
+    }
+  }
+`;
+
 export const GET_USER = gql`
   query getUser($userId: String!) {
     getUser(userId: $userId) {
@@ -24,30 +83,6 @@ export const GET_USER_PREFERENCE = gql`
       distance
       ethnicityPreferences
       sportsPreferences
-    }
-  }
-`;
-
-export const GET_PROMPTS = gql`
-  query GET_PROMPTS {
-    getPrompts(id: "", promptType: "") {
-      id
-      prompt
-      type
-      sample_answer
-    }
-  }
-`;
-
-export const GET_PROMPTS_ORDER = gql`
-  query getUserPromptsOrder($userPromptsOrder: IGetPromptOrder!) {
-    getUserPromptsOrder(userPromptsOrder: $userPromptsOrder) {
-      id
-      createdAt
-      userId
-      promptId
-      prompt
-      answer
     }
   }
 `;
@@ -172,8 +207,8 @@ export const GET_USER_CHOICES = gql`
 `;
 
 export const GET_RATING_BY_CONTENT = gql`
-  query getRatingByContent($RatingInput: [IGetRatingInput!]!) {
-    getRatingByContent(ratingInput: $RatingInput) {
+  query getRatingByContent($ratingInput: [GetRatingInput!]!) {
+    getRatingByContent(ratingInput: $ratingInput) {
       contentId
       type
       Trustworty

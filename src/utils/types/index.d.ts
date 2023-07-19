@@ -28,13 +28,14 @@ export interface IPrompt {
   sample_answer: string;
 }
 
-export interface UserPrompts {
+export interface UserPrompt {
   id: string;
   userId: string;
   promptId: string;
   prompt: string;
   answer: string;
 }
+
 export interface GetPromptsOrderType {
   getUserPromptsOrder: PromptsOrder[];
 }
@@ -50,7 +51,7 @@ export interface PromptsOrder {
 }
 
 export interface GetUserPrompts {
-  getAllUserPrompts: UserPrompts[];
+  getAllUserPrompts:UserPrompt[];
 }
 
 declare module "react-native-smooth-pincode-input";

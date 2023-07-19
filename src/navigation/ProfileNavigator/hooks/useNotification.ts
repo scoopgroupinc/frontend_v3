@@ -1,9 +1,36 @@
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
+import { Platform } from "react-native";
 import * as Notifications from "expo-notifications";
 import { useNotifications } from "../../../hooks/useNotification";
+import { useAppSelector } from "../../../store/hooks";
+import notificationAxios from "../../../services/axios/notificationAxios";
+import { selectUserId } from "../../../store/features/user/userSlice";
 
 export const useNotification = () => {
-  const { handleNotificationResponse } = useNotifications();
+  const { handleNotificationResponse, registerForPushNotificationsAsync } = useNotifications();
+
+  const userId = useAppSelector(selectUserId);
+
+  const saveNotificationToken = useCallback(
+    async (id: string) => {
+      const notificationToken = await registerForPushNotificationsAsync();
+      if (notificationToken) {
+        await notificationAxios.put("deviceToken", {
+          notificationToken,
+          osType: Platform.OS,
+          version: Platform.Version,
+          userId: id,
+        });
+      }
+    },
+    [registerForPushNotificationsAsync]
+  );
+
+  useEffect(() => {
+    if (userId) {
+      saveNotificationToken(userId);
+    }
+  }, [userId, saveNotificationToken]);
 
   useEffect(() => {
     Notifications.setNotificationHandler({

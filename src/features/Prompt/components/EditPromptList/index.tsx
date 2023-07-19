@@ -8,6 +8,7 @@ import { styles } from "./styles";
 import { screenName } from "../../../../utils/constants";
 import {
   selectUserPrompts,
+  selectUserPromptsOrder,
   setEditPrompt,
   setEditPromptIndex,
 } from "../../../../store/features/user/userSlice";
@@ -23,6 +24,9 @@ export const EditPromptList = ({
 
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const userPrompts = useAppSelector(selectUserPrompts);
+  const promptIds = useAppSelector(selectUserPromptsOrder);
+
+  // to do: refresh on change
   const n = 6;
   const emptyPrompts = Array.from({ length: n }, (_, index) => ({ index }));
 
@@ -30,7 +34,9 @@ export const EditPromptList = ({
     <View style={styles.mediaBox}>
       <Text style={styles.mediaHeader}>{title}</Text>
       {emptyPrompts?.map((emptyItem: any, index: any) => {
-        const prompt = userPrompts[index] || emptyItem;
+        const promptId = promptIds[index];
+
+        const prompt = userPrompts[promptId] || emptyItem;
         return (
           <CaptureText
             key={index}

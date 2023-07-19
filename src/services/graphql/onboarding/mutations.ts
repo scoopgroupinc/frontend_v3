@@ -1,22 +1,5 @@
 import { gql } from "@apollo/client";
 
-export const SAVE_USER_PROMPT = gql`
-  mutation SaveUserPrompt($UserPromptInput: UserPromptsInput!) {
-    saveUserPrompt(UserPromptInput: $UserPromptInput) {
-      id
-      createdAt
-      userId
-      promptId
-      answer
-    }
-  }
-`;
-export const SAVE_USER_PROMPT_ORDER = gql`
-  mutation SaveUserPromptOrder($UserPromptsOrder: UserPromptsOrder!) {
-    saveUserPromptsOrder(userPromptsOrder: $UserPromptsOrder)
-  }
-`;
-
 export const SAVE_USER_GENDER = gql`
   mutation saveUserProfile($UserProfileInput: UserProfileInput!) {
     saveUserProfile(userProfileInput: $UserProfileInput) {

@@ -12,6 +12,11 @@ export interface UserProfile {
   school: string;
 }
 
+export interface UserPromptsOrderInput {
+  userId: string!;
+  promptIds: string[];
+}
+
 export interface UserTagsTypeVisibleInput {
   userId: string!;
   visible: string!;

@@ -2,8 +2,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { isEqual, cloneDeep } from "lodash";
-import { multiRemove, removeData, storeObjectData } from "../../../utils/storage";
-import { UserPrompts } from "../../../utils/types";
+import { multiRemove, storeObjectData } from "../../../utils/storage";
+import { UserPrompt } from "../../../utils/types";
 import { UserProfile } from "./types";
 
 interface UserState {
@@ -11,7 +11,7 @@ interface UserState {
   userVisuals: any;
   userProfile: UserProfile;
   userPreference: any;
-  userPrompts: UserPrompts[];
+  userPrompts: { [key: string]: UserPrompt };
   userPromptsOrder: any[];
   editPromptIndex: any;
   editPrompt: any;
@@ -22,6 +22,7 @@ interface UserState {
   isUserDirty: boolean;
   isEditPromptDirty: boolean;
   isUserPromptsDirty: boolean;
+  isUserPromptsOrderDirty: boolean;
   isUserVisualsDirty: boolean;
   isUserProfileDirty: boolean;
 }
@@ -31,7 +32,7 @@ const initialState: UserState = {
   userVisuals: null,
   userProfile: [],
   userPreference: null,
-  userPrompts: [],
+  userPrompts: {},
   userPromptsOrder: [],
   editPromptIndex: null,
   editPrompt: null,
@@ -42,6 +43,7 @@ const initialState: UserState = {
   isUserDirty: false,
   isEditPromptDirty: false,
   isUserPromptsDirty: false,
+  isUserPromptsOrderDirty: false,
   isUserVisualsDirty: false,
   isUserProfileDirty: false,
 };
@@ -55,6 +57,12 @@ const UserSlice = createSlice({
       storeObjectData("user", action.payload);
       state.user = user;
       state.isUserDirty = state.originalUser !== null && !isEqual(state.user, state.originalUser);
+    },
+    updateUser: (state, action: PayloadAction<any>) => {
+      const { value } = action.payload;
+      state.user = { ...state.user, ...value };
+      storeObjectData("user", { ...state.user, ...value });
+      state.isUserDirty = !!state.originalUser && !isEqual(state.user, state.originalUser);
     },
     setUserVisuals: (state, action: PayloadAction<any>) => {
       const { userVisuals } = action.payload;
@@ -70,19 +78,17 @@ const UserSlice = createSlice({
     setUserPrompts: (state, action: PayloadAction<any>) => {
       const { userPrompts } = action.payload;
       const prompts = cloneDeep(userPrompts);
+      const results = {};
 
+      prompts.forEach((prompt: UserPrompt) => {
+        results[prompt.promptId] = prompt;
+      });
+      state.userPrompts = results;
       state.isUserPromptsDirty =
         !!state.originalPrompts && !isEqual(state.userPrompts, state.originalPrompts);
-      state.userPrompts = prompts;
     },
     setUserPromptsOrder: (state, action: PayloadAction<any>) => {
-      state.userPromptsOrder = cloneDeep(action.payload.userPrompts);
-    },
-    updateUser: (state, action: PayloadAction<any>) => {
-      const { value } = action.payload;
-      state.user = { ...state.user, ...value };
-      storeObjectData("user", { ...state.user, ...value });
-      state.isUserDirty = !!state.originalUser && !isEqual(state.user, state.originalUser);
+      state.userPromptsOrder = cloneDeep(action.payload.userPrompts) || [];
     },
     setUserProfile: (state, action: PayloadAction<any>) => {
       const { userProfile } = action.payload;
@@ -90,17 +96,6 @@ const UserSlice = createSlice({
       state.isUserProfileDirty =
         !!state.originalProfile && !isEqual(state.userProfile, state.originalProfile);
     },
-
-    // logout: (state) => {
-    //   state.user = null;
-    //   state.userVisuals = null;
-    //   multiRemove(["user", "userToken", "token", "userVisuals"]);
-    // },
-    // deleteAccount: (state) => {
-    //   state.user = null;
-    //   state.userVisuals = null;
-    //   multiRemove(["user", "userToken", "token", "userVisuals"]);
-    // },
     copyUserData: (state) => {
       state.originalUser = cloneDeep(state.user);
       state.originalVisuals = cloneDeep(state.userVisuals);
@@ -108,6 +103,7 @@ const UserSlice = createSlice({
       state.originalPrompts = cloneDeep(state.userPrompts);
       state.isUserDirty = false;
       state.isUserPromptsDirty = false;
+      state.isUserPromptsOrderDirty = false;
       state.isUserVisualsDirty = false;
       state.isUserProfileDirty = false;
     },
@@ -121,6 +117,7 @@ const UserSlice = createSlice({
       state.originalPrompts = null;
       state.isUserDirty = false;
       state.isUserPromptsDirty = false;
+      state.isUserPromptsOrderDirty = false;
       state.isUserVisualsDirty = false;
       state.isUserProfileDirty = false;
     },
@@ -131,6 +128,7 @@ const UserSlice = createSlice({
       state.originalPrompts = null;
       state.isUserDirty = false;
       state.isUserPromptsDirty = false;
+      state.isUserPromptsOrderDirty = false;
       state.isUserVisualsDirty = false;
       state.isUserProfileDirty = false;
     },
@@ -143,12 +141,15 @@ const UserSlice = createSlice({
       state.editPrompt = { ...editPrompt };
       state.isEditPromptDirty = !isEqual(state.editPrompt, editPrompt);
     },
-    setPromptOfEditIndex: (state, action: PayloadAction<any>) => {
+    setPromptIdOfEditIndex: (state, action: PayloadAction<any>) => {
+      const userPromptsOrder = cloneDeep(state.userPromptsOrder);
+      userPromptsOrder[state.editPromptIndex] = action.payload;
+      state.userPromptsOrder = userPromptsOrder;
+      state.isUserPromptsOrderDirty = !isEqual(state.userPromptsOrder, state.userPromptsOrder);
+    },
+    setPromptToEdit: (state, action: PayloadAction<any>) => {
       const userPrompts = cloneDeep(state.userPrompts);
-      userPrompts[state.editPromptIndex] = {
-        id: state.editPromptIndex.toString(),
-        ...action.payload,
-      };
+      userPrompts[state.editPrompt.promptId] = action.payload;
       state.userPrompts = userPrompts;
       state.isUserPromptsDirty = !isEqual(state.userPrompts, state.originalPrompts);
     },
@@ -156,10 +157,6 @@ const UserSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase("appUser/logout", (state) => {
-        // state.user = null;
-        // state.userVisuals = null;
-        // state.userPrompts = initialPromptsData;
-        // state.userProfile = null;
         Object.assign(state, initialState);
 
         multiRemove(["user", "userToken", "token", "userVisuals"]);
@@ -179,7 +176,9 @@ export const selectIsVoteOnboarded = (state: { appUser: UserState }) =>
 export const selectUserId = (state: { appUser: UserState }) => state.appUser.user?.userId;
 export const selectUserProfile = (state: { appUser: UserState }) => state.appUser.userProfile;
 export const selectUserVisuals = (state: { appUser: UserState }) => state.appUser.userVisuals;
-export const selectUserPrompts = (state: { appUser: UserState }) => state.appUser.userPrompts;
+export const selectUserPrompts = (state: { appUser: UserState }) => state.appUser.userPrompts || {};
+export const selectUserPromptsOrder = (state: { appUser: UserState }) =>
+  state.appUser.userPromptsOrder || [];
 export const selectEditPromptIndex = (state: { appUser: UserState }) =>
   state.appUser.editPromptIndex;
 export const selectEditPrompt = (state: { appUser: UserState }) => state.appUser.editPrompt;
@@ -195,6 +194,8 @@ export const selectIsEditPromptDirty = (state: { appUser: UserState }) =>
   state.appUser.isEditPromptDirty;
 export const selectIsUserPromptsDirty = (state: { appUser: UserState }) =>
   state.appUser.isUserPromptsDirty;
+export const selectIsUserPromptsOrderDirty = (state: { appUser: UserState }) =>
+  state.appUser.isUserPromptsOrderDirty;
 export const selectisUserVisualsDirty = (state: { appUser: UserState }) =>
   state.appUser.isUserVisualsDirty;
 export const selectIsUserProfileDirty = (state: { appUser: UserState }) =>
@@ -210,7 +211,8 @@ export const {
   setUserPromptsOrder,
   setEditPromptIndex,
   setEditPrompt,
-  setPromptOfEditIndex,
+  setPromptIdOfEditIndex,
+  setPromptToEdit,
   copyUserData,
   clearCopyData,
   resetToCopyData,
