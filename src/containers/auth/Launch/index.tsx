@@ -106,15 +106,23 @@ const Launch = () => {
             },
           },
         });
-        await storeStringData("userToken", loginResponse?.data?.loginWithProvider?.token);
-        dispatch(
-          setUser({
-            user: {
-              ...loginResponse?.data?.loginWithProvider?.user,
-              token: loginResponse?.data?.loginWithProvider?.token,
-            },
-          })
-        );
+
+        const user = loginResponse?.data?.loginWithProvider?.user;
+        const token = loginResponse?.data?.loginWithProvider?.token;
+
+        if (user && token) {
+          await storeStringData("userToken", token);
+
+          // Note once set, user will be redirected and considered logged in
+          dispatch(
+            setUser({
+              user: {
+                ...user,
+                token,
+              },
+            })
+          );
+        }
       } catch (err) {
         console.log("err", err);
         Alert.alert("Login Error", err.message);
