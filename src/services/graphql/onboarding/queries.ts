@@ -8,30 +8,6 @@ export const GET_USER_GENDER = gql`
   }
 `;
 
-export const GET_PROMPTS_ORDER = gql`
-  query GET_PROMPTS_ORDER($userId: String!) {
-    getUserPromptsOrder(userId: $userId) {
-      id
-      createdAt
-      userId
-      promptId
-      prompt
-      answer
-    }
-  }
-`;
-
-export const GET_PROMPTS = gql`
-  query GET_PROMPTS {
-    getPrompts(id: "", promptType: "") {
-      id
-      prompt
-      type
-      sample_answer
-    }
-  }
-`;
-
 export const GET_USER_HEIGHT = gql`
   query getUserProfile($userId: String!) {
     getUserProfile(userId: $userId) {

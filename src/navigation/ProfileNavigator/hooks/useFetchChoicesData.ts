@@ -9,7 +9,7 @@ import {
   setUserChoicePrompts,
 } from "../../../store/features/matches/matchSlice";
 import { selectUserId } from "../../../store/features/user/userSlice";
-import { GET_PROMPTS_ORDER, GET_USER_CHOICES } from "../../../services/graphql/profile/queries";
+import { GET_DISPLAYED_PROMPTS, GET_USER_CHOICES } from "../../../services/graphql/profile/queries";
 
 export const useFetchChoicesData = () => {
   const dispatch = useAppDispatch();
@@ -35,16 +35,15 @@ export const useFetchChoicesData = () => {
     onError: () => {},
   });
 
+  // TODO: set userChoice Prompts
   useEffect(() => {
     if (userChoiceId) {
       const { data: promptsOrderResult, loading: promptsOrderLoading } = useQuery(
-        GET_PROMPTS_ORDER,
+        GET_DISPLAYED_PROMPTS,
         {
           variables: {
-            userPromptsOrder: {
               userId: userChoiceId,
             },
-          },
         }
       );
     }
@@ -73,23 +72,7 @@ export const useFetchChoicesData = () => {
     };
 
     fetchChoiceVisuals();
-  }, [userChoicePrompt, dispatch, userChoiceId]);
-
-  useEffect(() => {
-    // load prompts for the profile view screen
-    const fetchPromptsOrder = () => {
-      const promptsOrder = promptsOrderResult?.getUserPromptsOrder;
-
-      if (promptsOrder && promptsOrder.length > 0) {
-        dispatch(
-          setUserChoicePrompts({
-            promptsOrder,
-          })
-        );
-      }
-    };
-    fetchPromptsOrder();
-  }, [promptsOrderResult, dispatch]);
+  }, [setUserChoicePrompts, dispatch, userChoiceId]);
 
   return [];
 };

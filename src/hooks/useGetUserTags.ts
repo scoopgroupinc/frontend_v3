@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useQuery } from "@apollo/client";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { GET_USER_TAGS_TYPE_VISIBLE } from "../services/graphql/profile/queries";
@@ -9,12 +9,16 @@ export const useGetUserTags = () => {
 
   const userId = useAppSelector(selectUserId);
 
-  const { data: userProfileResult, error } = useQuery(GET_USER_TAGS_TYPE_VISIBLE, {
+  const {
+    data: userProfileResult,
+    error,
+    loading: userProfileLoading,
+  } = useQuery(GET_USER_TAGS_TYPE_VISIBLE, {
     variables: { userId },
   });
 
   useEffect(() => {
-    if (userProfileResult) {
+    if (userProfileResult && !userProfileLoading) {
       const { getAllUserTagsTypeVisible } = userProfileResult;
       const modifiedResult: any = getAllUserTagsTypeVisible.map((item: any) => ({
         userId: item.userId,
@@ -36,7 +40,7 @@ export const useGetUserTags = () => {
         })
       );
     }
-  }, [dispatch, userProfileResult]);
+  }, [userProfileResult, userProfileLoading, dispatch]);
 
   return [error];
 };

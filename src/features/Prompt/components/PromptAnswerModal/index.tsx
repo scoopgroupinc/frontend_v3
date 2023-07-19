@@ -14,7 +14,8 @@ import {
   selectEditPrompt,
   selectEditPromptAnswer,
   setEditPrompt,
-  setPromptOfEditIndex,
+  setPromptIdOfEditIndex,
+  setPromptToEdit,
 } from "../../../../store/features/user/userSlice";
 import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
 import { selectEditPromptDefaults } from "../../../../store/features/prompts/selectEditPromptDefaults";
@@ -40,8 +41,9 @@ export const PromptAnswerModal = ({ close, goBack, origin }: PromptAnswerType) =
 
   const handleSavePrompt = () => {
     const prompt = { promptId: editPrompt.promptId, answer, prompt: editPrompt.prompt, userId };
-    dispatch(setEditPrompt({ editPrompt: prompt }));
-    dispatch(setPromptOfEditIndex(prompt));
+    dispatch(setPromptToEdit(prompt));
+    dispatch(setPromptIdOfEditIndex(prompt.promptId));
+    dispatch(setEditPrompt({ editPrompt: null }));
     goBack();
   };
 

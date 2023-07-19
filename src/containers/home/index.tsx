@@ -1,31 +1,22 @@
 /* eslint-disable import/prefer-default-export */
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { View, Text, Pressable, Linking, Alert } from "react-native";
-import { FontAwesome5, MaterialIcons, Ionicons, Octicons } from "@expo/vector-icons";
+import { FontAwesome5, Ionicons, Octicons } from "@expo/vector-icons";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
-import { useMutation, useQuery } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { ScrollableGradientLayout } from "../../components/layouts/ScrollableGradientLayout";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { SlideUpModal } from "../../components/layouts/SlideUpModal";
 import { ProfileAvatar } from "../../components/molecule/ProfileAvatar";
 import { screenName } from "../../utils/constants";
 import { DELETE_USER_PROFILE } from "../../services/graphql/user/mutations";
-import {
-  GET_PROMPTS_ORDER,
-  GET_USER_TAGS_TYPE_VISIBLE,
-} from "../../services/graphql/profile/queries";
-import {
-  selectUser,
-  selectUserVisuals,
-  setUserProfile,
-  setUserPrompts,
-} from "../../store/features/user/userSlice";
 import { setCriterias } from "../../store/features/matches/matchSlice";
 import { styles } from "./styles";
 import OptionTab from "../../components/atoms/OptionsTabs";
 import { analyticScreenNames, eventNames, screenClass } from "../../analytics/constants";
 import { logEvent, onScreenView } from "../../analytics";
+import { selectUser, selectUserVisuals } from "../../store/features/user/userSlice";
 
 export const Home = () => {
   const { user } = useAppSelector(selectUser);
@@ -44,31 +35,9 @@ export const Home = () => {
   useEffect(() => {
     const view = openSettings 
     ? { screenName: analyticScreenNames.settings, screenType: screenClass.profile }
-    :{ screenName: analyticScreenNames.profileHome, screenType: screenClass.profile }
+      : { screenName: analyticScreenNames.profileHome, screenType: screenClass.profile };
     onScreenView(view);
   }, [openSettings]);
-
-    const {
-    data: userPromptData,
-    loading: userPromptLoading,
-    refetch: userPromptRefetch,
-  } = useQuery(GET_PROMPTS_ORDER, {
-    variables: {
-      userPromptsOrder: {
-        userId,
-      },
-    },
-    notifyOnNetworkStatusChange: true,
-  });
-
-  const {
-    loading: userProfileLoading,
-    data: userProfileResult,
-    refetch: userProfileRefetch,
-  } = useQuery(GET_USER_TAGS_TYPE_VISIBLE, {
-    variables: { userId },
-    notifyOnNetworkStatusChange: true,
-  });
 
   const [deleteUser] = useMutation(DELETE_USER_PROFILE);
 
@@ -195,55 +164,13 @@ export const Home = () => {
     []
   );
 
-  const componentDidMount = () => {
-    userProfileRefetch();
-    userPromptRefetch();
-
+  useEffect(() => {
     dispatch(
       setCriterias({
         criterias: criteriaData,
       })
     );
-  };
-
-  useEffect(() => {
-    componentDidMount();
-  }, []);
-
-  useEffect(() => {
-    if (userPromptData && !userPromptLoading) {
-      dispatch(
-        setUserPrompts({
-          userPrompts: userPromptData?.getUserPromptsOrder,
-        })
-      );
-    }
-  }, [userPromptData, userPromptLoading, dispatch]);
-
-  useEffect(() => {
-    if (userProfileResult && !userProfileLoading) {
-      const { getAllUserTagsTypeVisible } = userProfileResult;
-      const modifiedResult: any = getAllUserTagsTypeVisible.map((item: any) => ({
-        userId: item.userId,
-        tagType: item.tagType,
-        userTags:
-          item.userTags.length === 0
-            ? item.userTags
-            : item.userTags?.map((tag: any) => ({
-                userId: item.userId,
-                tagName: tag.tagName,
-                tagType: tag.tagType,
-              })),
-        visible: item.visible,
-        emoji: item.emoji,
-      }));
-      dispatch(
-        setUserProfile({
-          userProfile: modifiedResult,
-        })
-      );
-    }
-  }, [userProfileResult, userProfileLoading, dispatch]);
+  }, [dispatch, criteriaData]);
 
   return (
     <ScrollableGradientLayout>

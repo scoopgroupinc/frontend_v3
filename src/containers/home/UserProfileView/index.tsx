@@ -7,6 +7,7 @@ import {
   selectUserProfile,
   selectUserPrompts,
   selectUserVisuals,
+  selectUserPromptsOrder,
 } from "../../../store/features/user/userSlice";
 import { Spacing } from "../../../utils";
 import { QuotedText } from "../../../components/atoms/QuotedText";
@@ -49,6 +50,7 @@ const onethirdScreenHeight = screenHeight / 3;
 export const UserProfileView = () => {
   const userProfile = useAppSelector(selectUserProfile);
   const userPrompts = useAppSelector(selectUserPrompts);
+  const promptIds = useAppSelector(selectUserPromptsOrder) || [];
   const allPrompts = useAppSelector(selectAllPrompts);
   const allImages = useAppSelector(selectUserVisuals);
   const { user } = useAppSelector(selectUser);
@@ -59,33 +61,32 @@ export const UserProfileView = () => {
 
   useEffect(() => {
     const mergeData = () => {
-      if (userPrompts.length > 0 && allImages && allImages.length > 0) {
+      if (promptIds.length > 0 && allImages && allImages.length > 0) {
         // get the max length of the two arrays
-        const maxLength = Math.max(
-          userPrompts.filter((x: any) => x.answer !== "").length,
-          allImages.length
-        );
+        const maxLength = Math.max(promptIds.length, allImages.length);
         setMerged([]);
         for (let i = 0; i < maxLength; i++) {
           if (allImages[i]) {
             setMerged((prev: any) => [...prev, { type: "image", image: allImages[i] }]);
           }
-          if (userPrompts[i]) {
-            if (userPrompts[i].answer !== "") {
+          const id = promptIds[i];
+          if (id) {
+            if (userPrompts[id]?.answer) {
               setMerged((prev: any) => [...prev, { type: "prompt", prompt: userPrompts[i] }]);
             }
           }
         }
       }
       setMerged([]);
-      for (let i = 0; i < userPrompts.length; i++) {
-        if (userPrompts[i].answer !== "") {
-          setMerged((prev: any) => [...prev, { type: "prompt", prompt: userPrompts[i] }]);
+      for (let i = 0; i < promptIds.length; i++) {
+        const id = promptIds[i];
+        if (userPrompts[id].answer !== "") {
+          setMerged((prev: any) => [...prev, { type: "prompt", prompt: userPrompts[id] }]);
         }
       }
     };
     mergeData();
-  }, [allImages, userPrompts]);
+  }, [allImages, userPrompts, promptIds]);
 
   return (
     <ImageBackground

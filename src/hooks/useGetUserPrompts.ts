@@ -1,14 +1,13 @@
 import { useQuery } from "@apollo/client";
+
 import { useEffect } from "react";
-import { GET_USER_PROMPTS } from "../services/graphql/onboarding/queries";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { GET_PROMPTS_ORDER } from "../services/graphql/profile/queries";
 import {
   selectUserId,
   setUserPrompts,
   setUserPromptsOrder,
 } from "../store/features/user/userSlice";
-import { GetPromptsOrderType, PromptsOrder } from "../utils/types";
+import { GET_USER_ANSWERED_PROMPTS } from "../services/graphql/profile/queries";
 
 export const useGetUserPrompts = () => {
   const dispatch = useAppDispatch();
@@ -17,10 +16,10 @@ export const useGetUserPrompts = () => {
 
   // user prompts data
   const {
-    data: userPrompts,
+    data,
     loading: loadingPrompts,
     error,
-  } = useQuery(GET_USER_PROMPTS, {
+  } = useQuery(GET_USER_ANSWERED_PROMPTS, {
     variables: {
       userId,
     },
@@ -28,46 +27,14 @@ export const useGetUserPrompts = () => {
   });
 
   useEffect(() => {
-    if (!loadingPrompts && userPrompts) {
-      dispatch(setUserPrompts({ userPrompts: userPrompts.getUserPrompts }));
+    if (data && !loadingPrompts) {
+      dispatch(setUserPrompts({ userPrompts: data.getUserAnsweredPrompts.userPrompts }));
+      dispatch(setUserPromptsOrder({ userPromptsOrder: data.getUserAnsweredPrompts.promptIds }));
     }
-  }, [userPrompts, loadingPrompts, dispatch]);
+  }, [data, dispatch, loadingPrompts]);
 
-  // user prompts order data
-  const { loading: loadingPromptOrder, data: userPromptData } = useQuery(GET_PROMPTS_ORDER, {
-    variables: {
-      userPromptsOrder: {
-        userId,
-      },
-    },
-    notifyOnNetworkStatusChange: true,
-  });
-
-  useEffect(() => {
-    if (!loadingPromptOrder && userPromptData) {
-      // const ratingInput: any = []
-      // promptsOrder.forEach((prompt: any) => {
-      //   const find = contentIds.find(
-      //     (rd: any) => rd.contentId === prompt.id && rd.type === 'user_visual'
-      //   )
-      //   if (!find) {
-      //     ratingInput.push({
-      //       contentId: prompt.id,
-      //       type: 'prompt',
-      //     })
-      //   }
-      // })
-      // setContentIds((prev: any) => [...prev, ...ratingInput])
-      dispatch(
-        setUserPromptsOrder({
-          userPrompts: userPromptData.getUserPromptsOrder,
-        })
-      );
-    }
-  }, [userPromptData, loadingPromptOrder, dispatch]);
-
-  return  {
-    data: userPrompts,
+  return {
+    data,
     loading: loadingPrompts,
     error,
   };

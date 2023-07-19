@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 
 export const SAVE_USER_PROMPT = gql`
-  mutation SaveUserPrompt($UserPromptInput: UserPromptsInput!) {
-    saveUserPrompt(UserPromptInput: $UserPromptInput) {
+  mutation handleSaveUserPrompt($userPromptInput: userPromptInput!) {
+    handleSaveUserPrompt(userPromptInput: $userPromptInput) {
       id
       createdAt
       userId
@@ -12,9 +12,21 @@ export const SAVE_USER_PROMPT = gql`
   }
 `;
 
+export const SAVE_USER_PROMPTS = gql`
+  mutation saveUserPrompts($userPromptInput: [userPromptInput!]!) {
+    saveUserPrompts(userPromptInput: $userPromptInput) {
+      userPrompts
+      promptIds
+    }
+  }
+`;
+
 export const SAVE_USER_PROMPT_ORDER = gql`
-  mutation SaveUserPromptOrder($UserPromptsOrder: UserPromptsOrder!) {
-    saveUserPromptsOrder(userPromptsOrder: $UserPromptsOrder)
+  mutation saveUserPromptsOrder($userPromptsOrderInput: UserPromptsOrderInput!) {
+    saveUserPromptsOrder(userPromptsOrder: $userPromptsOrderInput) {
+      userPrompts
+      promptIds
+    }
   }
 `;
 
@@ -71,18 +83,6 @@ export const SAVE_USER_TAGS_TYPE_VISIBLE = gql`
   mutation saveUserTagsTypeVisible($userTagsTypeVisibleInput: [UserTagsTypeVisibleInput!]!) {
     saveUserTagsTypeVisible(userTagsTypeVisibleInput: $userTagsTypeVisibleInput) {
       emoji
-    }
-  }
-`;
-
-export const SAVE_USER_PROMPTS = gql`
-  mutation saveUserPrompts($UserPromptInput: [UserPromptsInput!]!) {
-    saveUserPrompts(UserPromptInput: $UserPromptInput) {
-      id
-      createdAt
-      userId
-      promptId
-      answer
     }
   }
 `;

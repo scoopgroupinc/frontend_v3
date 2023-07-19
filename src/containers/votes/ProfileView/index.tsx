@@ -62,7 +62,7 @@ export const ProfileView = () => {
 
   useOnScreenView({
     screenName: analyticScreenNames.profileView,
-    screenType: screenClass.matches
+    screenType: screenClass.matches,
   });
 
   const { user } = useAppSelector(selectUser);
@@ -70,6 +70,7 @@ export const ProfileView = () => {
   const userChoices = useAppSelector(selectUserChoices);
   const userProfile = userChoices[0].profile;
   const userPrompts = useAppSelector(selectUserChoicePrompts);
+  const promptIds = userPrompts.map(prompt => prompt.promptId);
   const allImages = useAppSelector(selectUserChoiceImages);
   const allPrompts = useAppSelector(selectAllPrompts);
 
@@ -154,26 +155,24 @@ export const ProfileView = () => {
           if (allImages[i]) {
             setMerged((prev: any) => [...prev, { type: "image", image: allImages[i] }]);
           }
-          if (userPrompts[i]) {
-            if (userPrompts[i].answer !== "") {
+          const id = promptIds[i];
+          if (id) {
+            if (userPrompts[id]?.answer) {
               setMerged((prev: any) => [...prev, { type: "prompt", prompt: userPrompts[i] }]);
             }
           }
         }
       }
       setMerged([]);
-      for (let i = 0; i < userPrompts.length; i++) {
-        if (userPrompts[i].answer !== "") {
-          setMerged((prev: any) => [...prev, { type: "prompt", prompt: userPrompts[i] }]);
+      for (let i = 0; i < promptIds.length; i++) {
+        const id = promptIds[i];
+        if (userPrompts[id].answer !== "") {
+          setMerged((prev: any) => [...prev, { type: "prompt", prompt: userPrompts[id] }]);
         }
       }
     };
     mergeData();
-    onScreenView({
-      screenName: analyticScreenNames.profileView,
-      screenType: screenClass.profile,
-    });
-  }, [allImages, userPrompts]);
+  }, [allImages, userPrompts, promptIds]);
 
   return (
     <ImageBackground
