@@ -210,7 +210,6 @@ export const {
   setUserPrompts,
   setUserPromptsOrder,
   setEditPromptIndex,
-  // setEditPromptId,
   setEditPrompt,
   setPromptIdOfEditIndex,
   setPromptToEdit,
