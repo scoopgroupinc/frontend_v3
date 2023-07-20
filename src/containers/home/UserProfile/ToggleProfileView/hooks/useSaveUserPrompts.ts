@@ -33,13 +33,14 @@ export const useSaveUserPrompts = () => {
       });
       setPromptsToSave(prompts);
     }
-  }, [promptIds, userPrompts]);
+  }, [promptIds, userPrompts, userId]);
 
   const [saveUserPrompts] = useMutation(SAVE_USER_PROMPTS, {
     variables: {
-      userPromptInput: promptsToSave,
+      userPromptsInput: promptsToSave,
     },
     onError: (error) => {
+      console.log("saveUserPrompts", promptsToSave, error.message);
       throw new Error(error.message);
     },
   });

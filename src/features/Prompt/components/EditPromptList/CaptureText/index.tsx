@@ -22,8 +22,9 @@ const TextContainer = ({ prompt, onSwap, onEdit }: TextContainerType) => {
           numberOfLines={1}
           ellipsizeMode="tail"
           style={{
-            fontSize: 18,
+            fontSize: 16,
             color: Colors.BLACK,
+            paddingBottom: 5,
           }}
         >
           {promptObj?.prompt}
@@ -32,7 +33,7 @@ const TextContainer = ({ prompt, onSwap, onEdit }: TextContainerType) => {
           numberOfLines={1}
           ellipsizeMode="tail"
           style={{
-            fontSize: 16,
+            fontSize: 18,
             color: Colors.DARK_GRAY_BLUE,
           }}
         >

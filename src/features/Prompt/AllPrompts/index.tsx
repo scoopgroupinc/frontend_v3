@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { FlatList, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
@@ -10,24 +10,22 @@ import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { Colors } from "../../../utils";
 import { screenName } from "../../../utils/constants";
 import { AppIconButton } from "../../../components/layouts/AppIconButton";
-import { selectAllPrompts } from "../../../store/features/prompts/promptsSlice";
-import { selectUserPrompts, setEditPrompt } from "../../../store/features/user/userSlice";
+import { setEditPrompt } from "../../../store/features/user/userSlice";
 import { useOnScreenView } from "../../../analytics/hooks/useOnScreenView";
 import { analyticScreenNames, screenClass } from "../../../analytics/constants";
 import { ORIGIN } from "../constants";
+import { selectAvailablePrompts } from "../../../store/features/prompts/selectEditPromptDefaults";
 
 interface d {
   id: string;
   prompt: string;
 }
 
+const LineSeperator = () => <View style={{ height: 2, backgroundColor: Colors.LIGHT_GRAY }} />;
 const AllPrompts = ({ route }: any) => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
-  const [promptMap, setPromptMap] = useState(new Map());
-  const allPrompts = useAppSelector(selectAllPrompts);
-  const userPrompts = useAppSelector(selectUserPrompts);
-  const [selectablePrompts, setSelectablePrompts] = useState(Object.values(allPrompts));
+  const selectablePrompts = useAppSelector(selectAvailablePrompts);
 
   const gradient = [Colors.RUST, Colors.RED, Colors.TEAL];
 
@@ -48,23 +46,6 @@ const AllPrompts = ({ route }: any) => {
     dispatch(setEditPrompt({ editPrompt: { ...prompt, answer: "" } }));
     navigation.navigate(screenName.PROMPT_ANSWER, { origin });
   };
-  useEffect(() => {
-    if ((userPrompts || []).length > 0) {
-      const map = new Map();
-      userPrompts.forEach((prompt) => {
-        map.set(prompt.promptId, prompt);
-      });
-      setPromptMap(map);
-    }
-  }, [userPrompts]);
-
-  useEffect(() => {
-    if (Object.values(allPrompts).length > 0) {
-      setSelectablePrompts(
-        Object.values(allPrompts).filter((prompt: any) => !promptMap.has(prompt.id))
-      );
-    }
-  }, [promptMap, allPrompts, userPrompts]);
 
   return (
     <LinearGradient style={styles.container} colors={gradient}>
@@ -85,11 +66,9 @@ const AllPrompts = ({ route }: any) => {
         <View style={styles.modalContainer}>
           <View style={styles.modalHeader} />
           <FlatList
-            ItemSeparatorComponent={() => (
-              <View style={{ height: 1, backgroundColor: Colors.ICON_INNER_SHADOW }} />
-            )}
+            ItemSeparatorComponent={LineSeperator}
             showsVerticalScrollIndicator={false}
-            data={selectablePrompts}
+            data={Object.values(selectablePrompts)}
             renderItem={({ item }) => (
               <TouchableOpacity
                 style={{
@@ -97,7 +76,7 @@ const AllPrompts = ({ route }: any) => {
                 }}
                 onPress={() => choosePrompt(item)}
               >
-                <Text>{item.prompt}</Text>
+                <Text style={styles.optionText}>{item.prompt}</Text>
               </TouchableOpacity>
             )}
             keyExtractor={(item) => item.id}

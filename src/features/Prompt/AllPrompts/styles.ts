@@ -61,6 +61,9 @@ export const styles = StyleSheet.create({
     fontWeight: "bold",
     fontFamily: Typography.FONT_CAPRIOLA_REGULAR,
   },
+  optionText: {
+    fontSize: 16,
+  },
   textContainer: {
     width: "80%",
   },

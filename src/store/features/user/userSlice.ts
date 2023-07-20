@@ -81,14 +81,16 @@ const UserSlice = createSlice({
       const results = {};
 
       prompts.forEach((prompt: UserPrompt) => {
-        results[prompt.promptId] = prompt;
+        if (prompt.promptId !== undefined) {
+          results[prompt.promptId] = prompt;
+        }
       });
       state.userPrompts = results;
       state.isUserPromptsDirty =
         !!state.originalPrompts && !isEqual(state.userPrompts, state.originalPrompts);
     },
     setUserPromptsOrder: (state, action: PayloadAction<any>) => {
-      state.userPromptsOrder = cloneDeep(action.payload.userPrompts) || [];
+      state.userPromptsOrder = cloneDeep(action.payload.userPromptsOrder) || [];
     },
     setUserProfile: (state, action: PayloadAction<any>) => {
       const { userProfile } = action.payload;

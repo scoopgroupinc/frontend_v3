@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
 export const SAVE_USER_PROMPT = gql`
-  mutation handleSaveUserPrompt($userPromptInput: userPromptInput!) {
+  mutation handleSaveUserPrompt($userPromptInput: UserPromptInput!) {
     handleSaveUserPrompt(userPromptInput: $userPromptInput) {
       id
       createdAt
@@ -13,9 +13,14 @@ export const SAVE_USER_PROMPT = gql`
 `;
 
 export const SAVE_USER_PROMPTS = gql`
-  mutation saveUserPrompts($userPromptInput: [userPromptInput!]!) {
-    saveUserPrompts(userPromptInput: $userPromptInput) {
-      userPrompts
+  mutation saveUserPrompts($userPromptsInput: [UserPromptInput!]!) {
+    saveUserPrompts(userPromptsInput: $userPromptsInput) {
+      userPrompts {
+        userId
+        promptId
+        answer
+        createdAt
+      }
       promptIds
     }
   }
@@ -24,7 +29,13 @@ export const SAVE_USER_PROMPTS = gql`
 export const SAVE_USER_PROMPT_ORDER = gql`
   mutation saveUserPromptsOrder($userPromptsOrderInput: UserPromptsOrderInput!) {
     saveUserPromptsOrder(userPromptsOrder: $userPromptsOrderInput) {
-      userPrompts
+      userPrompts {
+        id
+        userId
+        promptId
+        answer
+        createdAt
+      }
       promptIds
     }
   }
