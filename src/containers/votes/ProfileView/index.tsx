@@ -18,7 +18,7 @@ import { USER_SWIPER_ACTION } from "../../../services/graphql/profile/mutations"
 import { Spacing } from "../../../utils";
 import { QuotedText } from "../../../components/atoms/QuotedText";
 import LikeButtonsView from "../../../components/molecule/LikeButtonsView";
-import { logEvent, onScreenView } from "../../../analytics";
+import { logEvent } from "../../../analytics";
 import { analyticScreenNames, eventNames, screenClass } from "../../../analytics/constants";
 import { selectUser } from "../../../store/features/user/userSlice";
 import {
@@ -70,7 +70,7 @@ export const ProfileView = () => {
   const userChoices = useAppSelector(selectUserChoices);
   const userProfile = userChoices[0].profile;
   const userPrompts = useAppSelector(selectUserChoicePrompts);
-  const promptIds = userPrompts.map(prompt => prompt.promptId);
+  const promptIds = (userPrompts || []).map((prompt) => prompt.promptId);
   const allImages = useAppSelector(selectUserChoiceImages);
   const allPrompts = useAppSelector(selectAllPrompts);
 
@@ -166,7 +166,7 @@ export const ProfileView = () => {
       setMerged([]);
       for (let i = 0; i < promptIds.length; i++) {
         const id = promptIds[i];
-        if (userPrompts[id].answer !== "") {
+        if (userPrompts[id]?.answer !== "") {
           setMerged((prev: any) => [...prev, { type: "prompt", prompt: userPrompts[id] }]);
         }
       }

@@ -50,7 +50,7 @@ const onethirdScreenHeight = screenHeight / 3;
 export const UserProfileView = () => {
   const userProfile = useAppSelector(selectUserProfile);
   const userPrompts = useAppSelector(selectUserPrompts);
-  const promptIds = useAppSelector(selectUserPromptsOrder) || [];
+  const promptDisplayOrder = useAppSelector(selectUserPromptsOrder);
   const allPrompts = useAppSelector(selectAllPrompts);
   const allImages = useAppSelector(selectUserVisuals);
   const { user } = useAppSelector(selectUser);
@@ -61,6 +61,7 @@ export const UserProfileView = () => {
 
   useEffect(() => {
     const mergeData = () => {
+      const promptIds = (promptDisplayOrder || []).filter((id) => id !== undefined);
       if (promptIds.length > 0 && allImages && allImages.length > 0) {
         // get the max length of the two arrays
         const maxLength = Math.max(promptIds.length, allImages.length);
@@ -80,13 +81,13 @@ export const UserProfileView = () => {
       setMerged([]);
       for (let i = 0; i < promptIds.length; i++) {
         const id = promptIds[i];
-        if (userPrompts[id].answer !== "") {
+        if (userPrompts[id]?.answer !== "") {
           setMerged((prev: any) => [...prev, { type: "prompt", prompt: userPrompts[id] }]);
         }
       }
     };
     mergeData();
-  }, [allImages, userPrompts, promptIds]);
+  }, [allImages, userPrompts, promptDisplayOrder]);
 
   return (
     <ImageBackground
