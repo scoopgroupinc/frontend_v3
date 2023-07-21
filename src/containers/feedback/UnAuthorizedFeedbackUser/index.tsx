@@ -2,8 +2,8 @@ import React from "react";
 import { Text, View } from "react-native";
 import { GradientLayout } from "../../../components/layouts/GradientLayout";
 import { styles } from "./styles";
-import { AppButton } from "../../../components/atoms/AppButton";
 import { Typography } from "../../../utils";
+import SocialLogins from "../../../components/molecule/SocialLogins";
 
 const UnAuthorizedFeedbackUser = () => (
   <GradientLayout>
@@ -14,27 +14,14 @@ const UnAuthorizedFeedbackUser = () => (
       </Text>
     </View>
     <View style={styles.buttonsBody}>
-      <AppButton
-        style={[
-          styles.btn,
-          {
-            backgroundColor: "#4267B2",
-          },
-        ]}
-      >
+      {/* <AppButton style={styles.btn} colorScheme="blue">
         Facebook
       </AppButton>
       <AppButton style={styles.btn}>Google</AppButton>
-      <AppButton
-        style={[
-          styles.btn,
-          {
-            backgroundColor: "black",
-          },
-        ]}
-      >
+      <AppButton style={styles.btn} colorScheme="coolGray">
         Apple
-      </AppButton>
+      </AppButton> */}
+      <SocialLogins />
     </View>
   </GradientLayout>
 );
