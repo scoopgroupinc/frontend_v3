@@ -9,6 +9,7 @@ import MessagesSlice from "./features/messages/MessagesSlice";
 const persistConfig = {
   key: "root",
   storage: AsyncStorage,
+  whitelist: ["appPrompts"],
 };
 
 const rootReducer = combineReducers({

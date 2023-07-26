@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from "@reduxjs/toolkit";
-import type { PayloadAction } from "@reduxjs/toolkit";
+import type { AnyListenerPredicate, PayloadAction } from "@reduxjs/toolkit";
 import { isEqual, cloneDeep } from "lodash";
 import { multiRemove, storeObjectData } from "../../../utils/storage";
 import { UserPrompt } from "../../../utils/types";
@@ -8,7 +8,7 @@ import { UserProfile } from "./types";
 
 interface UserState {
   user: any;
-  userVisuals: any;
+  userVisuals: { [key: string]: AnyListenerPredicate };
   userProfile: UserProfile;
   userPreference: any;
   userPrompts: { [key: string]: UserPrompt };
@@ -29,7 +29,7 @@ interface UserState {
 
 const initialState: UserState = {
   user: null,
-  userVisuals: null,
+  userVisuals: {},
   userProfile: [],
   userPreference: null,
   userPrompts: {},
@@ -64,11 +64,19 @@ const UserSlice = createSlice({
       storeObjectData("user", { ...state.user, ...value });
       state.isUserDirty = !!state.originalUser && !isEqual(state.user, state.originalUser);
     },
+    setFetchedUserVisuals: (state, action: PayloadAction<any>) => {
+      const { userVisuals } = action.payload;
+      userVisuals.forEach((visual: any, index) => {
+        state.userVisuals[index] = { ...visual };
+      });
+      storeObjectData("userVisuals", action.payload);
+      state.isUserVisualsDirty =
+        !!state.originalVisuals && !isEqual(state.userVisuals, state.originalVisuals);
+    },
     setUserVisuals: (state, action: PayloadAction<any>) => {
       const { userVisuals } = action.payload;
-      state.userVisuals = userVisuals;
+      state.userVisuals = cloneDeep(userVisuals);
       storeObjectData("userVisuals", action.payload);
-      state.userVisuals = userVisuals;
       state.isUserVisualsDirty =
         !!state.originalVisuals && !isEqual(state.userVisuals, state.originalVisuals);
     },
@@ -98,7 +106,7 @@ const UserSlice = createSlice({
       state.isUserProfileDirty =
         !!state.originalProfile && !isEqual(state.userProfile, state.originalProfile);
     },
-    copyUserData: (state) => {
+    trackCurrentUserStateChanges: (state) => {
       state.originalUser = cloneDeep(state.user);
       state.originalVisuals = cloneDeep(state.userVisuals);
       state.originalProfile = cloneDeep(state.userProfile);
@@ -205,6 +213,7 @@ export const selectIsUserProfileDirty = (state: { appUser: UserState }) =>
 
 export const {
   setUser,
+  setFetchedUserVisuals,
   setUserVisuals,
   updateUser,
   setUserPreference,
@@ -215,7 +224,7 @@ export const {
   setEditPrompt,
   setPromptIdOfEditIndex,
   setPromptToEdit,
-  copyUserData,
+  trackCurrentUserStateChanges,
   clearCopyData,
   resetToCopyData,
 } = UserSlice.actions;

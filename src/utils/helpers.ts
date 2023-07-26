@@ -8,14 +8,14 @@ export const cloneArray = (array: any[]) => {
 };
 
 export const mapIndexToUserVisuals = (d: any, index: number, arr: any[]) => ({
-  id: `${index}`,
-  createdAt: "",
+  id: null,
+  createdAt: null,
   userId: "",
   videoOrPhoto: "",
   visualPromptId: "",
   deletedAt: "",
   description: "",
-  order: "",
+  order: `${index}`,
   isVisible: true,
 });
 

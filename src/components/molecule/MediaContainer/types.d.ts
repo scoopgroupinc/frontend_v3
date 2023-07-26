@@ -6,6 +6,6 @@ interface replaceImageProps {
 }
 
 export interface ScreenType {
-  images?: any[];
-  onAddImage: (uri: replaceImageProps | null) => void;
+  images?: any;
+  onAddImage: (uri: replaceImageProps | null) => Promise<void>;
 }
