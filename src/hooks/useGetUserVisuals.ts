@@ -1,8 +1,10 @@
 import { useEffect } from "react";
+
 import axios from "axios";
 import { URLS } from "../utils/constants/apis";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { selectUserId, setUserVisuals } from "../store/features/user/userSlice";
+import { selectUserId, setFetchedUserVisuals } from "../store/features/user/userSlice";
+
 
 export const useGetUserVisuals = () => {
   const dispatch = useAppDispatch();
@@ -11,21 +13,21 @@ export const useGetUserVisuals = () => {
 
   useEffect(() => {
     const getVisuals = async () => {
-      axios
-        .get(`${URLS.FILE_URL}/api/v1/visuals/${userId}`, {
+      try {
+        const res = await axios.get(`${URLS.FILE_URL}/api/v1/visuals/${userId}`, {
           headers: {
             "Content-Type": "application/json",
           },
-          method: "GET",
-        })
-        .then((res) => {
-          dispatch(
-            setUserVisuals({
-              userVisuals: res.data,
-            })
-          );
-        })
-        .catch(() => {});
+        });
+
+        dispatch(
+          setFetchedUserVisuals({
+            userVisuals: res.data,
+          })
+        );
+      } catch (error) {
+        Alert.alert(`Failed to fetch visuals: ${error}`);
+      }
     };
     getVisuals();
   }, [userId, dispatch]);

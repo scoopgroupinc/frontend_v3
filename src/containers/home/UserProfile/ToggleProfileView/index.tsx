@@ -31,7 +31,7 @@ import { screenName } from "../../../../utils/constants";
 import { useNavState } from "./hooks/useNavState";
 import { useSaveUserProfile } from "./hooks/useSaveUserProfile";
 import { useSaveUserPrompts } from "./hooks/useSaveUserPrompts";
-import { useSaveUserVisuals } from "./hooks/useSaveUserVisuals";
+import { useSaveUserVisuals } from "../../../../hooks/useSaveUserVisuals";
 
 export const ToggleProfileView = () => {
   const gradient = [Colors.RUST, Colors.RED, Colors.TEAL];
