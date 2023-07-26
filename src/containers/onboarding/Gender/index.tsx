@@ -48,8 +48,10 @@ export const GenderScreen = () => {
     }
   };
 
-  useOnScreenView({screenName:analyticScreenNames.onBoardGender,
-    screenType:screenClass.onBoarding});
+  useOnScreenView({
+    screenName: analyticScreenNames.onBoardGender,
+    screenType: screenClass.onBoarding,
+  });
 
   return (
     <GradientLayout>

@@ -1,9 +1,10 @@
 import { useEffect } from "react";
-
+import { Alert } from "react-native";
 import axios from "axios";
 import { URLS } from "../utils/constants/apis";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { selectUserId, setFetchedUserVisuals } from "../store/features/user/userSlice";
+
 
 
 export const useGetUserVisuals = () => {

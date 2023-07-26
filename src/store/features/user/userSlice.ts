@@ -67,7 +67,7 @@ const UserSlice = createSlice({
     setFetchedUserVisuals: (state, action: PayloadAction<any>) => {
       const { userVisuals } = action.payload;
       userVisuals.forEach((visual: any, index) => {
-        state.userVisuals[index] = {...visual}
+        state.userVisuals[index] = { ...visual };
       });
       storeObjectData("userVisuals", action.payload);
       state.isUserVisualsDirty =
@@ -106,7 +106,7 @@ const UserSlice = createSlice({
       state.isUserProfileDirty =
         !!state.originalProfile && !isEqual(state.userProfile, state.originalProfile);
     },
-    copyUserData: (state) => {
+    trackCurrentUserStateChanges: (state) => {
       state.originalUser = cloneDeep(state.user);
       state.originalVisuals = cloneDeep(state.userVisuals);
       state.originalProfile = cloneDeep(state.userProfile);
@@ -224,7 +224,7 @@ export const {
   setEditPrompt,
   setPromptIdOfEditIndex,
   setPromptToEdit,
-  copyUserData,
+  trackCurrentUserStateChanges,
   clearCopyData,
   resetToCopyData,
 } = UserSlice.actions;

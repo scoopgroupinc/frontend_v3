@@ -19,7 +19,7 @@ import { AppButton } from "../../../../components/atoms/AppButton";
 import { AppAlert } from "../../../../components/layouts/AppAlert";
 import {
   clearCopyData,
-  copyUserData,
+  trackCurrentUserStateChanges,
   resetToCopyData,
   selectIsDirty,
 } from "../../../../store/features/user/userSlice";
@@ -51,7 +51,7 @@ export const ToggleProfileView = () => {
 
   // make copy to allow for undoing of changes
   useEffect(() => {
-    dispatch(copyUserData());
+    dispatch(trackCurrentUserStateChanges());
   }, [dispatch]);
 
   const [saveUserVisuals] = useSaveUserVisuals();

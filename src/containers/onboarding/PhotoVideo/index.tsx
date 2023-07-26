@@ -9,16 +9,20 @@ import { GradientLayout } from "../../../components/layouts/GradientLayout";
 import { screenName } from "../../../utils/constants";
 import { AppButton } from "../../../components/atoms/AppButton";
 import { MediaContainer } from "../../../components/molecule/MediaContainer";
-import { selectUserVisuals } from "../../../store/features/user/userSlice";
+import {
+  trackCurrentUserStateChanges,
+  selectUserVisuals,
+} from "../../../store/features/user/userSlice";
 import { logEvent } from "../../../analytics";
 import { analyticScreenNames, eventNames, screenClass } from "../../../analytics/constants";
 import { useOnScreenView } from "../../../analytics/hooks/useOnScreenView";
 import { useUploadVisuals } from "../../../hooks/useUploadVisual";
 import { useSaveUserVisuals } from "../../../hooks/useSaveUserVisuals";
-import { useAppSelector } from "../../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 
 export const PhotoVideoScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
+  const dispatch = useAppDispatch();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const userVisuals = useAppSelector(selectUserVisuals);
@@ -27,6 +31,10 @@ export const PhotoVideoScreen = () => {
     screenName: analyticScreenNames.onBoardPhotos,
     screenType: screenClass.onBoarding,
   });
+
+  useEffect(() => {
+    dispatch(trackCurrentUserStateChanges());
+  }, [dispatch]);
 
   const [handleUploadImages, isUploading] = useUploadVisuals();
   const [handleSaveImages, isSaving] = useSaveUserVisuals();
