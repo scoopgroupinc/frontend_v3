@@ -5,14 +5,17 @@ import { ScreenType } from "./types";
 import { styles } from "./style";
 import { MediaPicker } from "../../atoms/MediaPicker";
 
-export const MediaContainer = ({ images = [], onAddImage }: ScreenType) => {
+export const MediaContainer = ({ images = {}, onAddImage }: ScreenType) => {
   const number = 6;
   const initialData = [...Array(number)].map(mapIndexToUserVisuals);
   const [userVisuals, setUserVisuals] = useState(initialData);
 
   const mergedData = userVisuals.map((image, index) => ({
     ...image,
-    videoOrPhoto: images ? images[index]?.videoOrPhoto : undefined,
+    ...images[index],
+    videoOrPhoto: images[index] ? images[index]?.videoOrPhoto : undefined,
+    file: images[index] ? images[index]?.file : undefined,
+    blobName: images[index] ? images[index]?.blobName : undefined,
   }));
 
   return (

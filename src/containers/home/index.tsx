@@ -192,7 +192,7 @@ export const Home = () => {
         >
           <ProfileAvatar
             displayPhoto={
-              userVisuals && userVisuals.length > 0 ? userVisuals[0]?.videoOrPhoto : null
+              userVisuals &&  userVisuals[0]? userVisuals[0]?.videoOrPhoto : null
             }
           />
         </Pressable>
@@ -204,7 +204,7 @@ export const Home = () => {
                 <ProfileAvatar
                   settings={openSettings}
                   displayPhoto={
-                    userVisuals && userVisuals.length > 0 ? userVisuals[0]?.videoOrPhoto : null
+                    userVisuals &&  userVisuals[0]? userVisuals[0]?.videoOrPhoto : null
                   }
                 />
               </View>
