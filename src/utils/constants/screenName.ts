@@ -1,4 +1,9 @@
 const screenName = {
+  FEEDBACK_SPLASH_SCREEN: "FeedbackSplashScreen",
+  FEEDBACK_IMPRESSIONS: "FeedbackImpressions",
+  UNAUTHORIZEDFEEDBACKUSER: "UnauthorizedFeedbackUser",
+  AUTHORIZEDFEEDBACKUSER: "AuthorizedFeedbackUser",
+
   // Auth Stack
   LAUNCH: "Launch",
   LOGIN: "Login",
@@ -17,6 +22,7 @@ const screenName = {
   PROFILE_NAVIGATOR: "ProfileNavigator",
 
   // ONBOARD_NAVIGATION
+  SHARE_FOR_FEEDBACK: "ShareForFeedback",
   NAME: "OnboardName",
   GENDER: "Gender",
   DATE_WHO: "DateWho",

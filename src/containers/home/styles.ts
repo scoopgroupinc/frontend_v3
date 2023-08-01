@@ -126,4 +126,15 @@ export const styles = StyleSheet.create({
     width: "100%",
     justifyContent: "space-between",
   },
+  noticeBody: {
+    flexDirection: "row",
+    borderRadius: 15,
+    padding: 20,
+    backgroundColor: Colors.TEAL,
+    justifyContent: "space-between",
+  },
+  noticeText: {
+    fontSize: 16,
+    fontFamily: Typography.FONT_CAPRIOLA_REGULAR,
+  },
 });

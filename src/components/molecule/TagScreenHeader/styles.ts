@@ -7,7 +7,7 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
     marginBottom: Spacing.SCALE_20,
-    marginHorizontal: Spacing.SCALE_30,
+    marginHorizontal: Spacing.SCALE_20,
   },
   text: {
     fontSize: 20,
