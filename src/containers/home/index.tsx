@@ -5,6 +5,7 @@ import { FontAwesome5, Ionicons, Octicons } from "@expo/vector-icons";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
 import { useMutation } from "@apollo/client";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import { ScrollableGradientLayout } from "../../components/layouts/ScrollableGradientLayout";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { SlideUpModal } from "../../components/layouts/SlideUpModal";
@@ -33,8 +34,8 @@ export const Home = () => {
   const [openSettings, setOpenSettings] = useState<boolean>(false);
 
   useEffect(() => {
-    const view = openSettings 
-    ? { screenName: analyticScreenNames.settings, screenType: screenClass.profile }
+    const view = openSettings
+      ? { screenName: analyticScreenNames.settings, screenType: screenClass.profile }
       : { screenName: analyticScreenNames.profileHome, screenType: screenClass.profile };
     onScreenView(view);
   }, [openSettings]);
@@ -195,6 +196,12 @@ export const Home = () => {
               userVisuals && userVisuals.length > 0 ? userVisuals[0]?.videoOrPhoto : null
             }
           />
+          <TouchableOpacity>
+            <View style={styles.noticeBody}>
+              <Text style={styles.noticeText}>You have got profile feedback!!!</Text>
+              <FontAwesome5 name="arrow-right" size={16} color="black" />
+            </View>
+          </TouchableOpacity>
         </Pressable>
         {openSettings ? (
           <SlideUpModal close={() => setOpenSettings(false)} state={openSettings}>

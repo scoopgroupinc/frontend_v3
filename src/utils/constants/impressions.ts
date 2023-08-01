@@ -1,0 +1,18 @@
+export const IMPRESSIONS = {
+  Accessible: "Accessible",
+  Adaptable: "Adaptable",
+  Adventurous: "Adventurous",
+  Agreeable: "Agreeable",
+  Alert: "Alert",
+  Amiable: "Amiable",
+  Appreciative: "Appreciative",
+  Articulate: "Articulate",
+  Aspiring: "Aspiring",
+  Athletic: "Athletic",
+  Balanced: "Balanced",
+  Calm: "Calm",
+  Capable: "Capable",
+  Caring: "Caring",
+  Challenging: "Challenging",
+  Charismatic: "Charismatic",
+};

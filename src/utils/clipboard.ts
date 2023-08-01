@@ -1,6 +1,6 @@
 import * as Clipboard from "expo-clipboard";
 
-const copyToClipboard = async () => Clipboard.setStringAsync("hello world");
+const copyToClipboard = async (text: string) => Clipboard.setStringAsync(text);
 
 const fetchCopiedText = async () => Clipboard.getStringAsync();
 
