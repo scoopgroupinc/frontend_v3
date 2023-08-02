@@ -261,3 +261,44 @@ export const GET_USER_LOCATION = gql`
     }
   }
 `;
+
+
+export const GET_FULL_PROFILE = gql`
+  query GetFullProfile($userId: ID!) {
+    getFullProfile(userId: $userId) {
+      userId
+      createdAt
+      displayName
+      profilePhoto
+      birthday
+      height
+      gender
+      locationId
+      jobTitle
+      company
+      homeTown
+      school
+      promptIds
+      prompts {
+        id
+        createdAt
+        userId
+        promptId
+        answer
+      }
+      tags {
+        id
+        userId
+        emoji
+        tagType
+        visible
+        userTags {
+          id
+          userId
+          tagName
+          tagType
+        }
+      }
+    }
+  }
+`;
