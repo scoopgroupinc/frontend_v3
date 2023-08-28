@@ -8,6 +8,11 @@ import axios from "axios";
 import { useMutation } from "@apollo/client";
 import { Icon, VStack } from "native-base";
 import { Ionicons } from "@expo/vector-icons";
+import {
+  GoogleSignin,
+  GoogleSigninButton,
+  statusCodes,
+} from "@react-native-google-signin/google-signin";
 import { AppButton } from "../../atoms/AppButton";
 import { PROVIDER_LOGIN } from "../../../services/graphql/auth/mutations";
 import { OAUTH } from "../../../utils/constants/apis";
@@ -24,33 +29,58 @@ const SocialLogins = () => {
   const dispatch = useAppDispatch();
   const [providerUser, setProviderUser] = useState<any>({});
 
-  const [loginWithProvider] = useMutation(PROVIDER_LOGIN);
-
-  const [googleRequest, googleResponse, googlePromptAsync] = Google.useAuthRequest({
-    expoClientId: OAUTH.EXPO_CLIENT_ID,
-    androidClientId: OAUTH.ANDROID_GOOGLE_GUID,
-    iosClientId: OAUTH.IOS_GOOGLE_GUID,
+  GoogleSignin.configure({
+    webClientId: "474530368865-qa6pks2e2s41ivpmk8i19el59qns2pb9.apps.googleusercontent.com",
+    iosClientId: "474530368865-87k3pk487b6tb58q49moahprr9usd3f2.apps.googleusercontent.com",
   });
 
-  useEffect(() => {
-    const fetchGoogleData = async () => {
-      try {
-        const userInfoResponse = await axios.get("https://www.googleapis.com/userinfo/v2/me", {
-          headers: {
-            Authorization: `Bearer ${googleResponse?.authentication?.accessToken}`,
-          },
-        });
-
-        const { email, id } = userInfoResponse.data;
-        setProviderUser({ email, id, provider: "google" });
-      } catch (err: any) {
-        Alert.alert("Google Authentication Error", err.message);
+  const googleSignIn = async () => {
+    try {
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();
+      const { email, id } = userInfo.user;
+      setProviderUser({ email, id, provider: "google" });
+    } catch (error: any) {
+      console.log(error);
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        alert("User Cancelled the Login Flow");
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+        alert("Sign In is in Progress");
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        console.log("Play Services Not Available or Outdated");
+      } else {
+        console.log("Some Other Error Happened");
       }
-    };
-    if (googleResponse?.authentication?.accessToken) {
-      fetchGoogleData();
     }
-  }, [googleResponse]);
+  };
+
+  const [loginWithProvider] = useMutation(PROVIDER_LOGIN);
+
+  // const [googleRequest, googleResponse, googlePromptAsync] = Google.useAuthRequest({
+  //   expoClientId: OAUTH.EXPO_CLIENT_ID,
+  //   androidClientId: OAUTH.ANDROID_GOOGLE_GUID,
+  //   iosClientId: OAUTH.IOS_GOOGLE_GUID,
+  // });
+
+  // useEffect(() => {
+  //   const fetchGoogleData = async () => {
+  //     try {
+  //       const userInfoResponse = await axios.get("https://www.googleapis.com/userinfo/v2/me", {
+  //         headers: {
+  //           Authorization: `Bearer ${googleResponse?.authentication?.accessToken}`,
+  //         },
+  //       });
+
+  //       const { email, id } = userInfoResponse.data;
+  //       setProviderUser({ email, id, provider: "google" });
+  //     } catch (err: any) {
+  //       Alert.alert("Google Authentication Error", err.message);
+  //     }
+  //   };
+  //   if (googleResponse?.authentication?.accessToken) {
+  //     fetchGoogleData();
+  //   }
+  // }, [googleResponse]);
 
   const handleAppleAuthentication = async () => {
     try {
@@ -79,7 +109,6 @@ const SocialLogins = () => {
             },
           },
         });
-
         const user = loginResponse?.data?.loginWithProvider?.user;
         const token = loginResponse?.data?.loginWithProvider?.token;
 
@@ -134,9 +163,8 @@ const SocialLogins = () => {
             </AppButton> */}
       <AppButton
         style={{ marginVertical: 8 }}
-        isDisabled={!googleRequest}
         onPress={() => {
-          googlePromptAsync();
+          googleSignIn();
         }}
         colorScheme="coolGray"
         leftIcon={<Icon as={Ionicons} name="logo-google" size="sm" />}
