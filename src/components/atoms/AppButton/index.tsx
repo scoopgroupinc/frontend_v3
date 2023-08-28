@@ -17,7 +17,8 @@ export const AppButton = ({ children, variant, colorScheme, ...props }: IButtonP
     variant === "ghost" ||
     colorScheme === "orange" ||
     colorScheme === "blue" ||
-    colorScheme === "coolGray"
+    colorScheme === "coolGray" ||
+    colorScheme === "teal"
   ) {
     button = (
       <Button
