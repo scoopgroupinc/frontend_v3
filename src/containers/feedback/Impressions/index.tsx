@@ -1,12 +1,17 @@
 import React, { useState } from "react";
 import { FlatList, Text } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { GradientLayout } from "../../../components/layouts/GradientLayout";
 import SearchFilter from "../../../components/templates/SearchFilter";
 import ButtonPill from "../../../components/atoms/ButtonPill";
 import { IMPRESSIONS } from "../../../utils/constants/impressions";
 import { styles } from "./styles";
+import { AppButton } from "../../../components/atoms/AppButton";
+import { screenName } from "../../../utils/constants";
 
 const FeedbackImpressions = () => {
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const [searchPhrase, setSearchPhrase] = useState("");
   const [clicked, setClicked] = useState(false);
 
@@ -76,6 +81,11 @@ const FeedbackImpressions = () => {
         keyExtractor={(item) => item}
         extraData={selectedButtons}
       />
+      <AppButton onPress={() => navigation.navigate(screenName.GO_DEEPER)}>
+        {selectedButtons.length !== 0
+          ? `Continue ${selectedButtons.length} / ${MAX_SELECTION}`
+          : "Select 3 impressions"}
+      </AppButton>
     </GradientLayout>
   );
 };

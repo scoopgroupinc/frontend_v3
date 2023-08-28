@@ -8,6 +8,7 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: Colors.WHITE,
     padding: 10,
+    marginVertical: 10,
   },
   text: {
     fontSize: 16,
@@ -21,7 +22,7 @@ export const styles = StyleSheet.create({
   },
   author: {
     alignSelf: "flex-end",
-    fontSize: 10,
+    fontSize: 13,
     color: Colors.BLACK,
     fontFamily: Typography.FONT_CAPRIOLA_REGULAR,
   },
