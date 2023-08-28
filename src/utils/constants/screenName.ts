@@ -1,8 +1,11 @@
 const screenName = {
-  FEEDBACK_SPLASH_SCREEN: "FeedbackSplashScreen",
+  REQUEST_FEEDBACK_SPLASH_SCREEN: "FeedbackSplashScreen",
   FEEDBACK_IMPRESSIONS: "FeedbackImpressions",
   UNAUTHORIZEDFEEDBACKUSER: "UnauthorizedFeedbackUser",
   AUTHORIZEDFEEDBACKUSER: "AuthorizedFeedbackUser",
+  USER_PROFILE_FEEDBACK: "UserProfileFeedback",
+  REQUEST_FEEDBACK_PROFILE: "RequestFeedbackProfile",
+  GO_DEEPER: "GoDeeper",
 
   // Auth Stack
   LAUNCH: "Launch",
@@ -20,7 +23,7 @@ const screenName = {
   ONBOARD_NAVIGATOR: "OnboardNavigator",
   VOTE_ONBOARD_NAVIGATOR: "VoteOnboardNavigator",
   PROFILE_NAVIGATOR: "ProfileNavigator",
-
+  FEEDBACK_NAVIGATOR: "FeedbackNavigator",
   // ONBOARD_NAVIGATION
   SHARE_FOR_FEEDBACK: "ShareForFeedback",
   NAME: "OnboardName",
@@ -93,6 +96,7 @@ const screenName = {
   // HOME/PROFILE
   USER_PROFILE_EDIT: "UserProfileEdit",
   USER_PROFILE_VIEW: "UserProfileView",
+  TOGGLE_PROFILE_VIEW: "ToggleProfileView",
 };
 
 export default screenName;

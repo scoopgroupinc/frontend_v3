@@ -4,9 +4,15 @@ import { View, Text } from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { LinearGradient } from "react-native-svg";
+import { useMutation } from "@apollo/client";
 import { ScrollableGradientLayout } from "../../../components/layouts/ScrollableGradientLayout";
 import { MediaContainer } from "../../../components/molecule/MediaContainer";
-import { selectUserProfile, selectUserVisuals } from "../../../store/features/user/userSlice";
+import {
+  selectUser,
+  selectUserProfile,
+  selectUserVisuals,
+} from "../../../store/features/user/userSlice";
 import { useAppSelector } from "../../../store/hooks";
 import { screenName } from "../../../utils/constants";
 import { styles } from "./styles";
@@ -15,6 +21,12 @@ import { EditPromptList } from "../../../features/Prompt/components/EditPromptLi
 import { ORIGIN } from "../../../features/Prompt/constants";
 import { useUploadVisuals } from "../../../hooks/useUploadVisual";
 import AppActivityIndicator from "../../../components/atoms/ActivityIndicator";
+import { AppButton } from "../../../components/atoms/AppButton";
+import { GradientLayout } from "../../../components/layouts/GradientLayout";
+import { Colors } from "../../../utils";
+import { useShare } from "../../../hooks/useShare";
+import { GET_USER_SHARE_PROFILE_LINK } from "../../../services/graphql/user-link/mutations";
+import { encryptData } from "../../../utils/helpers";
 
 const inputTextProps = {
   editable: false,
@@ -25,6 +37,28 @@ export const UserProfileEdit = () => {
   const userVisuals = useAppSelector(selectUserVisuals);
   const userProfile = useAppSelector(selectUserProfile);
   const [loading, setIsLoading] = useState<boolean>(false);
+
+  const { share } = useShare();
+  const { user } = useAppSelector(selectUser);
+  const userId = user?.userId;
+  const [shareLink, setShareLink] = useState<any>(null);
+
+  const [getShareLink] = useMutation(GET_USER_SHARE_PROFILE_LINK);
+  useEffect(() => {
+    getShareLink({
+      variables: {
+        userId,
+      },
+    }).then((res) => {
+      const link = res.data.getUserShareProfileLink;
+      setShareLink(link);
+    });
+  }, [getShareLink, userId]);
+
+  const shareLinkToSocialMedia = () => {
+    const cipherLink = encryptData(shareLink);
+    share(cipherLink);
+  };
 
   const insets = useSafeAreaInsets();
 
@@ -513,6 +547,11 @@ export const UserProfileEdit = () => {
           </View>
         </View>
       </ScrollableGradientLayout>
+      <View style={{ backgroundColor: Colors.TEAL, padding: 20 }}>
+        <AppButton colorScheme="coolGray" onPress={shareLinkToSocialMedia}>
+          Share Profile Link
+        </AppButton>
+      </View>
     </>
   );
 };

@@ -44,7 +44,7 @@ const UserProfile = () => (
       headerShown: false,
     }}
   >
-    <UserProfileStack.Screen name="ToggleProfileView" component={ToggleProfileView} />
+    <UserProfileStack.Screen name={screenName.TOGGLE_PROFILE_VIEW} component={ToggleProfileView} />
     <UserProfileStack.Group>
       <UserProfileStack.Screen name={screenName.JOB_TITLE} component={JobTitle} />
       <UserProfileStack.Screen name={screenName.SCHOOL} component={School} />

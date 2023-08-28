@@ -48,13 +48,14 @@ export const HeightScreen = () => {
         navigation.navigate(screenName.PHOTOS);
       });
     } catch (error) {
-      console.error(error);
       Alert.alert("Error", error.message || "Something went wrong!");
     }
   };
-  
-  useOnScreenView({screenName:analyticScreenNames.onBoardHeight,
-    screenType:screenClass.onBoarding});
+
+  useOnScreenView({
+    screenName: analyticScreenNames.onBoardHeight,
+    screenType: screenClass.onBoarding,
+  });
 
   return (
     <>

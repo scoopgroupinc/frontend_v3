@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, ImageBackground, Image, Dimensions } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
+import { useMutation } from "@apollo/client";
 import { useAppSelector } from "../../../store/hooks";
 import {
   selectUser,
@@ -9,7 +10,7 @@ import {
   selectUserVisuals,
   selectUserPromptsOrder,
 } from "../../../store/features/user/userSlice";
-import { Spacing } from "../../../utils";
+import { Colors, Spacing } from "../../../utils";
 import { QuotedText } from "../../../components/atoms/QuotedText";
 import { analyticScreenNames, screenClass } from "../../../analytics/constants";
 import {
@@ -43,6 +44,10 @@ import {
 import { styles } from "../../../features/ProfileView/styles";
 import { selectAllPrompts } from "../../../store/features/prompts/promptsSlice";
 import { useOnScreenView } from "../../../analytics/hooks/useOnScreenView";
+import { AppButton } from "../../../components/atoms/AppButton";
+import { GET_USER_SHARE_PROFILE_LINK } from "../../../services/graphql/user-link/mutations";
+import { useShare } from "../../../hooks/useShare";
+import { encryptData } from "../../../utils/helpers";
 
 const screenHeight = Dimensions.get("window").height;
 const onethirdScreenHeight = screenHeight / 3;
@@ -54,6 +59,28 @@ export const UserProfileView = () => {
   const allPrompts = useAppSelector(selectAllPrompts);
   const allImages = useAppSelector(selectUserVisuals);
   const { user } = useAppSelector(selectUser);
+  const userId = user?.userId;
+
+  const { share } = useShare();
+
+  const [shareLink, setShareLink] = useState<any>(null);
+
+  const [getShareLink] = useMutation(GET_USER_SHARE_PROFILE_LINK);
+  useEffect(() => {
+    getShareLink({
+      variables: {
+        userId,
+      },
+    }).then((res) => {
+      const link = res.data.getUserShareProfileLink;
+      setShareLink(link);
+    });
+  }, [getShareLink, userId]);
+
+  const shareLinkToSocialMedia = () => {
+    const cipherLink = encryptData(shareLink);
+    share(cipherLink);
+  };
 
   const [merged, setMerged] = useState<any>([]);
 
@@ -222,6 +249,11 @@ export const UserProfileView = () => {
           </View>
         </View>
       </ScrollView>
+      <View style={{ backgroundColor: Colors.WHITE, padding: 20 }}>
+        <AppButton colorScheme="coolGray" onPress={shareLinkToSocialMedia}>
+          Share Profile Link
+        </AppButton>
+      </View>
     </ImageBackground>
   );
 };

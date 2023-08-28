@@ -22,5 +22,4 @@ const AuthNavigator = () => (
     <AuthStack.Screen name={screenName.RESET_PASSWORD} component={ResetPassword} />
   </AuthStack.Navigator>
 );
-
 export default AuthNavigator;

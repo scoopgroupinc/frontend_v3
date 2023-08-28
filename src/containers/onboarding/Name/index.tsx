@@ -39,8 +39,10 @@ export const OnboardName = () => {
 
   const dispatch = useAppDispatch();
 
-  useOnScreenView({screenName:analyticScreenNames.onBoardName,
-    screenType:screenClass.onBoarding});
+  useOnScreenView({
+    screenName: analyticScreenNames.onBoardName,
+    screenType: screenClass.onBoarding,
+  });
 
   const schema = yup.object().shape({
     firstname: yup

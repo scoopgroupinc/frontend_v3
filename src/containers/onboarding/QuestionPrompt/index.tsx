@@ -5,6 +5,8 @@ import { useMutation } from "@apollo/client";
 import { ProgressBar } from "react-native-paper";
 
 import { ScrollView } from "react-native-gesture-handler";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { styles } from "./styles";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { SAVE_ONBOARD_STATUS } from "../../../services/graphql/profile/mutations";
@@ -21,10 +23,13 @@ import { useOnScreenView } from "../../../analytics/hooks/useOnScreenView";
 import { EditPromptList } from "../../../features/Prompt/components/EditPromptList";
 import { ORIGIN } from "../../../features/Prompt/constants";
 import { useSaveUserPrompts } from "../../home/UserProfile/ToggleProfileView/hooks/useSaveUserPrompts";
+import { screenName } from "../../../utils/constants";
 
 export const QuestionPromptScreen = () => {
   const userId = useAppSelector(selectUserId);
   const userPrompts = useAppSelector(selectUserPrompts);
+
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const dispatch = useAppDispatch();
 
@@ -46,13 +51,14 @@ export const QuestionPromptScreen = () => {
     },
     onCompleted: () => {
       // load all necessary data here for the user
-      dispatch(
-        updateUser({
-          value: {
-            isOnboarded: true,
-          },
-        })
-      );
+      // dispatch(
+      //   updateUser({
+      //     value: {
+      //       isOnboarded: true,
+      //     },
+      //   })
+      // );
+      navigation.navigate(screenName.SHARE_FOR_FEEDBACK);
       setIsLoading(false);
     },
   });
@@ -80,14 +86,11 @@ export const QuestionPromptScreen = () => {
           <ProgressBar style={styles.progressBar} progress={0.7} color="#0E0E2C" />
           <ScrollView showsVerticalScrollIndicator={false}>
             <View style={styles.mediaContainer}>
-              <EditPromptList
-                title="Add prompts"
-                origin={ORIGIN.ONBOARDING}
-              />
+              <EditPromptList title="Add prompts" origin={ORIGIN.ONBOARDING} />
             </View>
           </ScrollView>
           <View style={{ paddingHorizontal: 20 }}>
-            <AppButton isDisabled={userPrompts.length < 1} onPress={completeOnboard}>
+            <AppButton isDisabled={!userPrompts} onPress={completeOnboard}>
               {isLoading ? "Saving Prompts..." : "Complete"}
             </AppButton>
           </View>

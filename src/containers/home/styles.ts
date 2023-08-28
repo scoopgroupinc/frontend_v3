@@ -127,10 +127,11 @@ export const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   noticeBody: {
+    marginVertical: 20,
     flexDirection: "row",
     borderRadius: 15,
     padding: 20,
-    backgroundColor: Colors.TEAL,
+    backgroundColor: Colors.WHITE,
     justifyContent: "space-between",
   },
   noticeText: {
