@@ -35,6 +35,17 @@ export const GET_USER_PROFILE_BY_LINK_ID = gql`
           tagType
         }
       }
+      visuals {
+        id
+        createdAt
+        userId
+        videoOrPhoto
+        blobName
+        visualPromptId
+        deletedAt
+        description
+        isVisible
+      }
     }
   }
 `;

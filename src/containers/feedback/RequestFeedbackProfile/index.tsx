@@ -1,43 +1,61 @@
 /* eslint-disable react/no-array-index-key */
 import React, { useEffect, useState } from "react";
 import { Dimensions, ImageBackground, ScrollView, View, Text, Image } from "react-native";
-import { useQuery } from "@apollo/client";
 import moment from "moment";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useNavigation } from "@react-navigation/native";
 import { styles } from "./styles";
 import { QuotedText } from "../../../components/atoms/QuotedText";
 import { Colors, Spacing } from "../../../utils";
 import { AppButton } from "../../../components/atoms/AppButton";
-import { GET_USER_PROFILE_BY_LINK_ID } from "../../../services/graphql/user-link/queries";
+import { useAppSelector } from "../../../store/hooks";
+import { selectFeedbackUser } from "../../../store/features/feedback/feedbackSlice";
+import { screenName } from "../../../utils/constants";
 
 const screenHeight = Dimensions.get("window").height;
 const onethirdScreenHeight = screenHeight / 3;
 
-const RequestFeedbackProfile = ({ route }: any) => {
-  const [profile, setProfile] = useState<any>([]);
+const RequestFeedbackProfile = () => {
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const [merged, setMerged] = useState<any>([]);
-  // const flex = route.params.profileData;
-  // console.log("flex", flex);
-
-  const { data: userProfileData } = useQuery(GET_USER_PROFILE_BY_LINK_ID, {
-    variables: {
-      id: "87c7a6d3-3ae4-458a-925d-b7be1425a8f4",
-    },
-  });
+  const { prompts, visuals, height, displayName, birthday, promptIds } =
+    useAppSelector(selectFeedbackUser);
 
   useEffect(() => {
-    if (userProfileData) {
-      const userProfile = userProfileData?.getUserProfileByLinkId;
-      setProfile(userProfile);
-    }
-  }, []);
+    const mergeData = () => {
+      if (promptIds.length > 0 && visuals && visuals.length > 0) {
+        const maxLength = Math.max(promptIds.length, visuals.length);
+        setMerged([]);
+        for (let i = 0; i < maxLength; i++) {
+          if (visuals[i]) {
+            setMerged((prev: any) => [...prev, { type: "image", image: visuals[i] }]);
+          }
+          const id = promptIds[i];
+          if (id) {
+            if (prompts[i]?.answer) {
+              setMerged((prev: any) => [...prev, { type: "prompt", prompt: prompts[i] }]);
+            }
+          }
+        }
+      } else {
+        setMerged([]);
+        for (let i = 0; i < promptIds.length; i++) {
+          const id = promptIds[i];
+          if (prompts[id]?.answer !== "") {
+            setMerged((prev: any) => [...prev, { type: "prompt", prompt: prompts[id] }]);
+          }
+        }
+      }
+    };
+    mergeData();
+  }, [visuals, prompts, promptIds]);
 
   return (
     <ImageBackground
       style={{ flex: 1 }}
       resizeMode="cover"
       source={{
-        //   uri: allImages ? allImages[0]?.videoOrPhoto : "../../assets/splash.png",
-        uri: "../../../assets/images/natalie.jpeg",
+        uri: visuals ? visuals[0]?.videoOrPhoto : "../../assets/splash.png",
       }}
     >
       <ScrollView
@@ -58,23 +76,10 @@ const RequestFeedbackProfile = ({ route }: any) => {
           }}
         >
           <View style={styles.descriptionContainer}>
-            {/* <View style={styles.section}>
-              <Text style={styles.descriptionHeader}>Prompts</Text>
-              <View style={styles.content}>
-                {prompts?.map((item: any) => {
-                  if (item.promptId !== "" || item.answer !== "")
-                    return (
-                      <Text style={styles.descriptionText}>
-                        {item.promptId}: {item.answer}
-                      </Text>
-                    );
-                })}
-              </View>
-            </View> */}
             <View style={styles.section}>
-              {/* <Text style={styles.name}>{displayName}</Text>
-              <Text style={styles.age}>{moment().diff(birthday, "years")} years old</Text> */}
-              {/* <Text style={styles.city}> {user?.location?.city}</Text> */}
+              <Text style={styles.name}>{displayName}</Text>
+              <Text style={styles.age}>{moment().diff(birthday, "years")} years old</Text>
+              <Text style={styles.age}>{height}</Text>
 
               <Text style={styles.descriptionHeader}>My Basics</Text>
 
@@ -114,20 +119,18 @@ const RequestFeedbackProfile = ({ route }: any) => {
             </View>
 
             {/* alternate prompts and images */}
-            {/* <View style={styles.content}>
+            <View style={styles.content}>
               {merged.map((item: any, index: any) => {
                 if (item?.type === "prompt") {
                   return (
                     <View
                       key={index}
                       style={{
-                        // backgroundColor: 'red',
                         padding: Spacing.SCALE_20,
                       }}
                     >
                       <QuotedText
-                        
-                        title={allPrompts[item.prompt.promptId]?.prompt}
+                        title={prompts[item.prompt.promptId]?.prompt}
                         text={item.prompt.answer}
                       />
                     </View>
@@ -141,7 +144,6 @@ const RequestFeedbackProfile = ({ route }: any) => {
                     }}
                   >
                     <Image
-                      // resizeMode='cover'
                       source={{
                         uri: item?.image?.videoOrPhoto,
                       }}
@@ -154,7 +156,7 @@ const RequestFeedbackProfile = ({ route }: any) => {
                   </View>
                 );
               })}
-            </View> */}
+            </View>
             <View
               style={{
                 paddingHorizontal: 40,
@@ -165,7 +167,7 @@ const RequestFeedbackProfile = ({ route }: any) => {
       </ScrollView>
       <View
         style={{
-          backgroundColor: "white",
+          backgroundColor: Colors.WHITE,
           padding: Spacing.SCALE_20,
         }}
       >
@@ -173,6 +175,7 @@ const RequestFeedbackProfile = ({ route }: any) => {
           style={{
             backgroundColor: Colors.TEAL,
           }}
+          onPress={() => navigation.navigate(screenName.FEEDBACK_IMPRESSIONS)}
         >
           Continue to share your thoughts
         </AppButton>

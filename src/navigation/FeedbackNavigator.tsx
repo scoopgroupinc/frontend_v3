@@ -7,24 +7,31 @@ import RequestFeedbackProfile from "../containers/feedback/RequestFeedbackProfil
 import { GET_USER_PROFILE_BY_LINK_ID } from "../services/graphql/user-link/queries";
 import GoDeeper from "../containers/feedback/GoDeeper";
 import FeedbackImpressions from "../containers/feedback/Impressions";
+import { useAppDispatch } from "../store/hooks";
+import { setFeedbackUser } from "../store/features/feedback/feedbackSlice";
 
 const FeedbackStack = createNativeStackNavigator();
 
 const FeedbackNavigator = ({ route }: any) => {
   const { sharedLink } = route?.params?.link;
-  const [profileData, setProfileData] = useState<any>(null);
   const { data } = useQuery(GET_USER_PROFILE_BY_LINK_ID, {
     variables: {
       id: sharedLink?.id,
     },
   });
 
+  const dispatch = useAppDispatch();
+
   useEffect(() => {
     if (data === null) return;
     if (data?.getUserProfileByLinkId) {
-      setProfileData(data.getUserProfileByLinkId);
+      dispatch(
+        setFeedbackUser({
+          feedbackUser: data.getUserProfileByLinkId,
+        })
+      );
     }
-  }, [data, sharedLink]);
+  }, [data, sharedLink, dispatch]);
 
   return (
     <FeedbackStack.Navigator
@@ -40,7 +47,6 @@ const FeedbackNavigator = ({ route }: any) => {
       <FeedbackStack.Screen
         name={screenName.REQUEST_FEEDBACK_PROFILE}
         component={RequestFeedbackProfile}
-        initialParams={{ profileData }}
       />
       <FeedbackStack.Screen name={screenName.GO_DEEPER} component={GoDeeper} />
       <FeedbackStack.Screen

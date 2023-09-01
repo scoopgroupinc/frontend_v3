@@ -6,9 +6,12 @@ import { GradientLayout } from "../../../components/layouts/GradientLayout";
 import { styles } from "./styles";
 import { AppButton } from "../../../components/atoms/AppButton";
 import { screenName } from "../../../utils/constants";
+import { useAppSelector } from "../../../store/hooks";
+import { selectFeedbackUser } from "../../../store/features/feedback/feedbackSlice";
 
 const RequestFeedbackSplash = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
+  const { visuals } = useAppSelector(selectFeedbackUser);
 
   return (
     <GradientLayout>
@@ -18,7 +21,9 @@ const RequestFeedbackSplash = () => {
           style={{ height: 80, width: 80 }}
         />
         <Image
-          source={require("../../../assets/images/natalie.jpeg")}
+          source={{
+            uri: visuals[0]?.videoOrPhoto,
+          }}
           style={{ height: 160, width: 160, borderRadius: 100 }}
         />
         <View style={styles.requestBody}>
@@ -33,7 +38,7 @@ const RequestFeedbackSplash = () => {
       <View style={styles.buttonsBody}>
         <AppButton
           style={styles.btn}
-          onPress={() => navigation.navigate(screenName.FEEDBACK_IMPRESSIONS)}
+          onPress={() => navigation.navigate(screenName.REQUEST_FEEDBACK_PROFILE)}
         >
           Accept Request
         </AppButton>

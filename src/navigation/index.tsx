@@ -4,48 +4,24 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import * as Linking from "expo-linking";
-import { useAppSelector } from "../store/hooks";
+import { useLazyQuery } from "@apollo/client";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
 import AuthNavigator from "./AuthNavigator";
 import screenName from "../utils/constants/screenName";
 import ProfileNavigator from "./ProfileNavigator/ProfileNavigator";
 import { navigationRef } from "./RootNavigation";
-import RequestFeedbackProfile from "../containers/feedback/RequestFeedbackProfile";
-import GoDeeper from "../containers/feedback/GoDeeper";
-import ShareForFeedback from "../containers/onboarding/ShareForFeedback";
-import UserProfileFeedback from "../containers/feedback/UserProfileFeedback";
 import { decryptData } from "../utils/helpers";
 import FeedbackNavigator from "./FeedbackNavigator";
+import { GET_USER_PROFILE_BY_LINK_ID } from "../services/graphql/user-link/queries";
+import { setFeedbackUser } from "../store/features/feedback/feedbackSlice";
 
 const Stack = createNativeStackNavigator();
-// const prefix = Linking.createURL("/");
-
-const useIniitalLink = () => {
-  const [url, setUrl] = useState<any>(null);
-  const [error, setError] = useState<any>(null);
-
-  useEffect(() => {
-    const getUrlAsync = async () => {
-      try {
-        const initialUrl = await Linking.getInitialURL();
-        setUrl(initialUrl);
-      } catch (e) {
-        setError(e);
-      }
-    };
-
-    getUrlAsync();
-  }, []);
-
-  return { url, error };
-};
 
 const Navigator = () => {
   const [sharedLink, setSharedLink] = useState<any>(null);
   const linking = {
     prefixes: ["https://www.scoop.love/app/", "scoop://"],
   };
-
-  const { url: initialUrl, error } = useIniitalLink();
 
   Linking.addEventListener("url", (url) => {
     const encryptedData = url.url.split("/app/")[1];
@@ -55,13 +31,32 @@ const Navigator = () => {
 
   const { user } = useAppSelector((state) => state.appUser);
 
+  const [loadLink, { data: linkData }] = useLazyQuery(GET_USER_PROFILE_BY_LINK_ID, {
+    variables: {
+      id: sharedLink?.id,
+    },
+  });
   useEffect(() => {
     if (sharedLink) {
-      navigationRef.current?.navigate(screenName.FEEDBACK_NAVIGATOR, {
-        link: { sharedLink },
+      loadLink().then(() => {
+        navigationRef.current?.navigate(screenName.FEEDBACK_NAVIGATOR, {
+          link: { sharedLink },
+        });
       });
     }
-  }, [sharedLink]);
+  }, [sharedLink, loadLink]);
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (linkData?.getUserProfileByLinkId) {
+      dispatch(
+        setFeedbackUser({
+          feedbackUser: linkData.getUserProfileByLinkId,
+        })
+      );
+    }
+  }, [linkData, sharedLink, dispatch]);
 
   return (
     <View style={{ flex: 1 }}>

@@ -81,7 +81,14 @@ const FeedbackImpressions = () => {
         keyExtractor={(item) => item}
         extraData={selectedButtons}
       />
-      <AppButton onPress={() => navigation.navigate(screenName.GO_DEEPER)}>
+      <AppButton
+        disabled={selectedButtons.length !== 3}
+        onPress={() => {
+          navigation.navigate(screenName.GO_DEEPER, {
+            selectedButtons,
+          });
+        }}
+      >
         {selectedButtons.length !== 0
           ? `Continue ${selectedButtons.length} / ${MAX_SELECTION}`
           : "Select 3 impressions"}
