@@ -7,6 +7,8 @@ import { ErrorCodes, URLS } from "../../utils/constants/apis";
 import { getStringData } from "../../utils/storage";
 import { setUser } from "../../store/features/user/userSlice";
 import { store } from "../../store";
+import { navigationRef } from "../../navigation/RootNavigation";
+import { screenName } from "../../utils/constants";
 
 export const getToken = async () => getStringData("userToken");
 const errorLink = onError(({ graphQLErrors, networkError }) => {
@@ -30,6 +32,9 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
           break;
         case ErrorCodes.INTERNAL_SERVER_ERROR:
           console.log("INTERNAL_SERVER_ERROR", err.message);
+          navigationRef.current?.navigate(screenName.ERROR_SCREEN, {
+            error: err.message,
+          });
           break;
         case ErrorCodes.GRAPHQL_VALIDATION_FAILED:
           console.log("GRAPHQL_VALIDATION_FAILED", err.message);

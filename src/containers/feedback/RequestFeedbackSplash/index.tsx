@@ -11,7 +11,9 @@ import { selectFeedbackUser } from "../../../store/features/feedback/feedbackSli
 
 const RequestFeedbackSplash = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
-  const { visuals } = useAppSelector(selectFeedbackUser);
+  const { visuals } = useAppSelector(selectFeedbackUser) || {
+    visuals: [],
+  };
 
   return (
     <GradientLayout>
@@ -42,7 +44,12 @@ const RequestFeedbackSplash = () => {
         >
           Accept Request
         </AppButton>
-        <AppButton style={styles.btn}>Decline Request</AppButton>
+        <AppButton
+          style={styles.btn}
+          onPress={() => navigation.navigate(screenName.PROFILE_NAVIGATOR)}
+        >
+          Decline Request
+        </AppButton>
       </View>
     </GradientLayout>
   );

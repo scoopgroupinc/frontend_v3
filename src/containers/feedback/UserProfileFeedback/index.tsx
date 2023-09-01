@@ -96,7 +96,7 @@ const UserProfileFeedback = () => {
   const [activateProfileLink, { data: activateLinkData, loading: activateProfileLinkLoading }] =
     useMutation(ACTIVATE_PROFILE_LINK, {
       variables: {
-        id: "87c7a6d3-3ae4-458a-925d-b7be1425a8f4",
+        id: shareLink?.id,
       },
     });
   useEffect(() => {
@@ -163,6 +163,7 @@ const UserProfileFeedback = () => {
               }}
             >
               <AppButton
+                style={{ flex: 2 }}
                 colorScheme="teal"
                 isDisabled={shareLink?.state === "inactive"}
                 onPress={shareLinkToSocialMedia}

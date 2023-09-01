@@ -14,6 +14,7 @@ import { decryptData } from "../utils/helpers";
 import FeedbackNavigator from "./FeedbackNavigator";
 import { GET_USER_PROFILE_BY_LINK_ID } from "../services/graphql/user-link/queries";
 import { setFeedbackUser } from "../store/features/feedback/feedbackSlice";
+import ErrorScreen from "../containers/ErrorScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -39,6 +40,7 @@ const Navigator = () => {
   useEffect(() => {
     if (sharedLink) {
       loadLink().then(() => {
+        setSharedLink(null);
         navigationRef.current?.navigate(screenName.FEEDBACK_NAVIGATOR, {
           link: { sharedLink },
         });
@@ -72,6 +74,7 @@ const Navigator = () => {
             <Stack.Screen name={screenName.AUTH_NAVIGATOR} component={AuthNavigator} />
           )}
           <Stack.Screen name={screenName.FEEDBACK_NAVIGATOR} component={FeedbackNavigator} />
+          <Stack.Screen name={screenName.ERROR_SCREEN} component={ErrorScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </View>

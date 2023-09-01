@@ -1,5 +1,5 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useQuery } from "@apollo/client";
 import { screenName } from "../utils/constants";
 import RequestFeedbackSplash from "../containers/feedback/RequestFeedbackSplash";
@@ -24,7 +24,6 @@ const FeedbackNavigator = ({ route }: any) => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (data === null) return;
     if (data?.getUserProfileByLinkId) {
       dispatch(
         setFeedbackUser({
@@ -45,6 +44,7 @@ const FeedbackNavigator = ({ route }: any) => {
         name={screenName.REQUEST_FEEDBACK_SPLASH_SCREEN}
         component={RequestFeedbackSplash}
       />
+
       <FeedbackStack.Screen
         name={screenName.REQUEST_FEEDBACK_PROFILE}
         component={RequestFeedbackProfile}
