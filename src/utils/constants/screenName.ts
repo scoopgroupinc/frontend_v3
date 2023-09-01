@@ -6,6 +6,7 @@ const screenName = {
   USER_PROFILE_FEEDBACK: "UserProfileFeedback",
   REQUEST_FEEDBACK_PROFILE: "RequestFeedbackProfile",
   GO_DEEPER: "GoDeeper",
+  ERROR_SCREEN: "ErrorScreen",
 
   // Auth Stack
   LAUNCH: "Launch",
@@ -15,6 +16,7 @@ const screenName = {
   RESET_PASSWORD: "ResetPassword",
 
   //   Navigators
+  NAVIGATOR: "Navigator",
   APP_NAVIGATOR: "AppNavigator",
   AUTH_NAVIGATOR: "AuthNavigator",
   VOTE_NAVIGATOR: "VoteNavigator",
