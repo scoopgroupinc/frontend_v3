@@ -79,18 +79,12 @@ const UserProfileFeedback = () => {
     });
   }, [getShareLink, userId]);
 
-  // useEffect(() => {
-  //   if (profileLinkData) {
-  //     setActivate(profileLinkData.getUserShareProfileLink.state);
-  //   }
-  // }, [profileLinkData]);
-
   const [
     deactivateProfileLink,
     { data: deactivateLinkData, loading: deactivateProfileLinkLoading },
   ] = useMutation(DEACTIVATE_PROFILE_LINK, {
     variables: {
-      id: "87c7a6d3-3ae4-458a-925d-b7be1425a8f4",
+      id: shareLink?.id,
     },
   });
   useEffect(() => {
@@ -145,10 +139,6 @@ const UserProfileFeedback = () => {
       );
     }
   };
-
-  // const copyShareLink = () => {
-  //   copyToClipboard("https://scoop.love/feedback/1234");
-  // };
 
   const shareLinkToSocialMedia = () => {
     const cipherLink = encryptData(shareLink);
@@ -207,7 +197,7 @@ const UserProfileFeedback = () => {
             <View style={styles.tagsBody}>
               {pesPercentage?.map((pes: any) => (
                 <View key={pes.name} style={styles.tagsBody}>
-                  <Tags title={`${pes.percentage}% ${pes.name}`} />
+                  <Tags title={`${Math.trunc(pes.percentage)}% ${pes.name}`} />
                 </View>
               ))}
             </View>

@@ -9,11 +9,12 @@ import GoDeeper from "../containers/feedback/GoDeeper";
 import FeedbackImpressions from "../containers/feedback/Impressions";
 import { useAppDispatch } from "../store/hooks";
 import { setFeedbackUser } from "../store/features/feedback/feedbackSlice";
+import AuthorizedFeedbackUser from "../containers/feedback/AuthorizedFeedbackUser";
 
 const FeedbackStack = createNativeStackNavigator();
 
 const FeedbackNavigator = ({ route }: any) => {
-  const { sharedLink } = route?.params?.link;
+  const { sharedLink } = route.params.link;
   const { data } = useQuery(GET_USER_PROFILE_BY_LINK_ID, {
     variables: {
       id: sharedLink?.id,
@@ -52,6 +53,10 @@ const FeedbackNavigator = ({ route }: any) => {
       <FeedbackStack.Screen
         name={screenName.FEEDBACK_IMPRESSIONS}
         component={FeedbackImpressions}
+      />
+      <FeedbackStack.Screen
+        name={screenName.AUTHORIZEDFEEDBACKUSER}
+        component={AuthorizedFeedbackUser}
       />
       {/* <FeedbackStack.Screen name={screenName.SHARE_FOR_FEEDBACK} component={ShareForFeedback} /> */}
       {/* <FeedbackStack.Screen name={screenName.USER_PROFILE_FEEDBACK} component={UserProfileFeedback} /> */}
