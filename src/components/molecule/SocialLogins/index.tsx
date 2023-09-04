@@ -1,25 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { Alert, View } from "react-native";
-import * as Google from "expo-auth-session/providers/google";
 import * as AppleAuthentication from "expo-apple-authentication";
 import { AppleAuthenticationCredential } from "expo-apple-authentication";
 import * as WebBrowser from "expo-web-browser";
-import axios from "axios";
 import { useMutation } from "@apollo/client";
-import { Icon, VStack } from "native-base";
+import { Icon } from "native-base";
 import { Ionicons } from "@expo/vector-icons";
-import {
-  GoogleSignin,
-  GoogleSigninButton,
-  statusCodes,
-} from "@react-native-google-signin/google-signin";
+import { GoogleSignin, statusCodes } from "@react-native-google-signin/google-signin";
 import { AppButton } from "../../atoms/AppButton";
 import { PROVIDER_LOGIN } from "../../../services/graphql/auth/mutations";
-import { OAUTH } from "../../../utils/constants/apis";
 import { useAppDispatch } from "../../../store/hooks";
 import { storeStringData } from "../../../utils/storage";
 import { setUser } from "../../../store/features/user/userSlice";
-import { styles } from "./styles";
 // import * as AuthSession from "expo-auth-session";
 // import * as Facebook from "expo-auth-session/providers/facebook";
 
@@ -55,32 +47,6 @@ const SocialLogins = () => {
   };
 
   const [loginWithProvider] = useMutation(PROVIDER_LOGIN);
-
-  // const [googleRequest, googleResponse, googlePromptAsync] = Google.useAuthRequest({
-  //   expoClientId: OAUTH.EXPO_CLIENT_ID,
-  //   androidClientId: OAUTH.ANDROID_GOOGLE_GUID,
-  //   iosClientId: OAUTH.IOS_GOOGLE_GUID,
-  // });
-
-  // useEffect(() => {
-  //   const fetchGoogleData = async () => {
-  //     try {
-  //       const userInfoResponse = await axios.get("https://www.googleapis.com/userinfo/v2/me", {
-  //         headers: {
-  //           Authorization: `Bearer ${googleResponse?.authentication?.accessToken}`,
-  //         },
-  //       });
-
-  //       const { email, id } = userInfoResponse.data;
-  //       setProviderUser({ email, id, provider: "google" });
-  //     } catch (err: any) {
-  //       Alert.alert("Google Authentication Error", err.message);
-  //     }
-  //   };
-  //   if (googleResponse?.authentication?.accessToken) {
-  //     fetchGoogleData();
-  //   }
-  // }, [googleResponse]);
 
   const handleAppleAuthentication = async () => {
     try {
