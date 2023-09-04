@@ -1,21 +1,21 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React, { useEffect } from "react";
-import { useQuery } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { screenName } from "../utils/constants";
 import RequestFeedbackSplash from "../containers/feedback/RequestFeedbackSplash";
 import RequestFeedbackProfile from "../containers/feedback/RequestFeedbackProfile";
-import { GET_USER_PROFILE_BY_LINK_ID } from "../services/graphql/user-link/queries";
 import GoDeeper from "../containers/feedback/GoDeeper";
 import FeedbackImpressions from "../containers/feedback/Impressions";
 import { useAppDispatch } from "../store/hooks";
 import { setFeedbackUser } from "../store/features/feedback/feedbackSlice";
 import AuthorizedFeedbackUser from "../containers/feedback/AuthorizedFeedbackUser";
+import { GET_USER_PROFILE_BY_LINK_ID } from "../services/graphql/user-link/mutations";
 
 const FeedbackStack = createNativeStackNavigator();
 
 const FeedbackNavigator = ({ route }: any) => {
   const { sharedLink } = route.params.link;
-  const { data } = useQuery(GET_USER_PROFILE_BY_LINK_ID, {
+  const [loadLink] = useMutation(GET_USER_PROFILE_BY_LINK_ID, {
     variables: {
       id: sharedLink?.id,
     },
@@ -24,14 +24,14 @@ const FeedbackNavigator = ({ route }: any) => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (data?.getUserProfileByLinkId) {
-      dispatch(
-        setFeedbackUser({
-          feedbackUser: data.getUserProfileByLinkId,
-        })
-      );
+    if (sharedLink?.id) {
+      loadLink().then((res) => {
+        if (res?.data?.getUserProfileByLinkId) {
+          dispatch(setFeedbackUser(res?.data?.getUserProfileByLinkId));
+        }
+      });
     }
-  }, [data, sharedLink, dispatch]);
+  }, [sharedLink, loadLink, dispatch]);
 
   return (
     <FeedbackStack.Navigator

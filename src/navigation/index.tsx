@@ -4,7 +4,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import * as Linking from "expo-linking";
-import { useLazyQuery } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import AuthNavigator from "./AuthNavigator";
 import screenName from "../utils/constants/screenName";
@@ -12,9 +12,8 @@ import ProfileNavigator from "./ProfileNavigator/ProfileNavigator";
 import { navigationRef } from "./RootNavigation";
 import { decryptData } from "../utils/helpers";
 import FeedbackNavigator from "./FeedbackNavigator";
-import { GET_USER_PROFILE_BY_LINK_ID } from "../services/graphql/user-link/queries";
-import { setFeedbackUser } from "../store/features/feedback/feedbackSlice";
 import ErrorScreen from "../containers/ErrorScreen";
+import { GET_USER_PROFILE_BY_LINK_ID } from "../services/graphql/user-link/mutations";
 
 const Stack = createNativeStackNavigator();
 
@@ -32,33 +31,24 @@ const Navigator = () => {
 
   const { user } = useAppSelector((state) => state.appUser);
 
-  const [loadLink, { data: linkData }] = useLazyQuery(GET_USER_PROFILE_BY_LINK_ID, {
+  const [loadLink] = useMutation(GET_USER_PROFILE_BY_LINK_ID, {
     variables: {
       id: sharedLink?.id,
     },
   });
-  useEffect(() => {
-    if (sharedLink) {
-      loadLink().then(() => {
-        setSharedLink(null);
-        navigationRef.current?.navigate(screenName.FEEDBACK_NAVIGATOR, {
-          link: { sharedLink },
-        });
-      });
-    }
-  }, [sharedLink, loadLink]);
 
   const dispatch = useAppDispatch();
-
   useEffect(() => {
-    if (linkData?.getUserProfileByLinkId) {
-      dispatch(
-        setFeedbackUser({
-          feedbackUser: linkData.getUserProfileByLinkId,
-        })
-      );
+    if (sharedLink?.id) {
+      loadLink().then((res) => {
+        if (res?.data?.getUserProfileByLinkId) {
+          navigationRef.current?.navigate(screenName.FEEDBACK_NAVIGATOR, {
+            link: { sharedLink },
+          });
+        }
+      });
     }
-  }, [linkData, sharedLink, dispatch]);
+  }, [sharedLink, loadLink, dispatch]);
 
   return (
     <View style={{ flex: 1 }}>
