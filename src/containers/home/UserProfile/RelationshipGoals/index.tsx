@@ -1,3 +1,4 @@
+import React from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { styles } from "./styles";
@@ -33,7 +34,7 @@ const RelationshipGoals = ({ navigation, route }: any) => {
 
   useOnScreenView({
     screenName: analyticScreenNames.relationshipGoals,
-    screenType: screenClass.profile
+    screenType: screenClass.profile,
   });
 
   return (
