@@ -27,7 +27,11 @@ const FeedbackNavigator = ({ route }: any) => {
     if (sharedLink?.id) {
       loadLink().then((res) => {
         if (res?.data?.getUserProfileByLinkId) {
-          dispatch(setFeedbackUser(res?.data?.getUserProfileByLinkId));
+          dispatch(
+            setFeedbackUser({
+              feedbackUser: res?.data?.getUserProfileByLinkId,
+            })
+          );
         }
       });
     }
