@@ -56,7 +56,9 @@ const UserProfileFeedback = () => {
         const percentage = ((personalityCount[personality] / totalFeedbacks) * 100).toFixed(2);
         result.push({ name: personality, percentage });
       }
-      setPesPercentage(result);
+
+      result.sort((a, b) => Number(b.percentage) - Number(a.percentage));
+      setPesPercentage(result.slice(0, 3));
     }
 
     calculatePersonalityPercentages(feedback);
@@ -157,25 +159,17 @@ const UserProfileFeedback = () => {
               justifyContent: "space-between",
             }}
           >
-            <View
-              style={{
-                width: 150,
-              }}
+            <AppButton
+              style={{ flex: 2, marginRight: 12 }}
+              colorScheme="teal"
+              isDisabled={shareLink?.state === "inactive"}
+              onPress={shareLinkToSocialMedia}
             >
-              <AppButton
-                style={{ flex: 2 }}
-                colorScheme="teal"
-                isDisabled={shareLink?.state === "inactive"}
-                onPress={shareLinkToSocialMedia}
-              >
-                Copy share link
-              </AppButton>
-            </View>
+              Copy share link
+            </AppButton>
             {shareLink?.state === "inactive" ? (
               <AppButton
-                style={{
-                  width: 150,
-                }}
+                style={{ flex: 1 }}
                 onPress={() => {
                   handleActivation("activate");
                 }}
@@ -183,12 +177,7 @@ const UserProfileFeedback = () => {
                 Activate
               </AppButton>
             ) : (
-              <AppButton
-                style={{
-                  width: 150,
-                }}
-                onPress={() => handleActivation("deactivate")}
-              >
+              <AppButton style={{ flex: 1 }} onPress={() => handleActivation("deactivate")}>
                 Deactivate
               </AppButton>
             )}
