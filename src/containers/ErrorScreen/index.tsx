@@ -19,7 +19,9 @@ const ErrorScreen = ({ route }: any) => {
           style={{ height: 80, width: 80 }}
         />
         <View style={styles.requestBody}>
-          <Text style={styles.title}>Error</Text>
+          <Text style={styles.title}>
+            {error.includes("UserLink is inactive") ? "Oops Sorry!" : "Something went wrong"}
+          </Text>
           <Image
             source={require("../../assets/images/back-tears.png")}
             style={{ height: 80, width: 80, borderRadius: 100 }}
