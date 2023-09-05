@@ -5,7 +5,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Switch, TextArea } from "native-base";
 import { useMutation } from "@apollo/client";
 import TagScreenHeader from "../../../components/molecule/TagScreenHeader";
-import { Colors, Spacing, Typography } from "../../../utils";
+import { Typography } from "../../../utils";
 import { GradientLayout } from "../../../components/layouts/GradientLayout";
 import { AppButton } from "../../../components/atoms/AppButton";
 import { CREATE_SHARE_PROFILE_FEEDBACK } from "../../../services/graphql/share-profile/mutations";
@@ -14,6 +14,7 @@ import { selectUser } from "../../../store/features/user/userSlice";
 import { selectFeedbackUser } from "../../../store/features/feedback/feedbackSlice";
 import AppActivityIndicator from "../../../components/atoms/ActivityIndicator";
 import { screenName } from "../../../utils/constants";
+import { styles } from "./styles";
 
 const GoDeeper = ({ route }: any) => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
@@ -45,8 +46,7 @@ const GoDeeper = ({ route }: any) => {
             <Text
               style={{
                 fontSize: 20,
-                color: "white",
-                fontFamily: Typography.FONT_CAPRIOLA_REGULAR,
+                color: "#fff",
                 marginBottom: 10,
               }}
             >
@@ -66,58 +66,10 @@ const GoDeeper = ({ route }: any) => {
             />
           </View>
           <View style={{ marginTop: 20 }}>
-            <Text
-              style={{
-                fontSize: 20,
-                color: "white",
-                fontFamily: Typography.FONT_CAPRIOLA_REGULAR,
-              }}
-            >
-              Name (Optional)
-            </Text>
-            <Text
-              style={{
-                fontSize: 12,
-                color: "white",
-                fontFamily: Typography.FONT_CAPRIOLA_REGULAR,
-              }}
-            >
-              let them know who is helping them
-            </Text>
-            <View
-              style={{
-                width: "100%",
-                position: "relative",
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "space-between",
-              }}
-            >
-              <TextInput
-                style={{
-                  borderWidth: 4,
-                  width: "100%",
-                  borderRadius: Spacing.SCALE_8,
-                  padding: Spacing.SCALE_12,
-                  borderColor: Colors.INPUT_BORDER,
-                  backgroundColor: Colors.INPUT_BG,
-                  fontFamily: Typography.FONT_POPPINS_REGULAR,
-                  fontSize: Typography.FONT_SIZE_16,
-                  marginTop: Spacing.SCALE_8,
-                  overflow: "hidden",
-                  shadowColor: Colors.BLACK,
-                  shadowOffset: {
-                    width: 9,
-                    height: 1,
-                  },
-                  shadowOpacity: 0.15,
-                  shadowRadius: 14,
-                  elevation: -8,
-                }}
-                value={name}
-                onChangeText={setName}
-              />
+            <Text style={styles.name}>Name (Optional)</Text>
+            <Text style={styles.info}>let them know who is helping them</Text>
+            <View style={styles.inputBody}>
+              <TextInput style={styles.input} value={name} onChangeText={setName} />
             </View>
           </View>
         </View>
@@ -128,15 +80,7 @@ const GoDeeper = ({ route }: any) => {
           }}
         >
           <View>
-            <Text
-              style={{
-                fontSize: 16,
-                color: "white",
-                fontFamily: Typography.FONT_CAPRIOLA_REGULAR,
-              }}
-            >
-              Allow users to chat with you
-            </Text>
+            <Text style={styles.switchText}>Allow users to chat with you</Text>
             <Switch size="sm" colorScheme="emerald" />
           </View>
           <AppButton
