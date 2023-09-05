@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, TextInput } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -17,9 +17,9 @@ import { screenName } from "../../../utils/constants";
 
 const GoDeeper = ({ route }: any) => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
-  const [description, setDescription] = React.useState("");
+  const [description, setDescription] = useState("");
   const { user } = useAppSelector(selectUser);
-  const [name, setName] = React.useState("");
+  const [name, setName] = useState("");
   const feedBackUser = useAppSelector(selectFeedbackUser);
 
   const { selectedButtons } = route.params;
@@ -27,8 +27,8 @@ const GoDeeper = ({ route }: any) => {
   const [createShareProfileFeedback, { loading }] = useMutation(CREATE_SHARE_PROFILE_FEEDBACK);
 
   useEffect(() => {
-    setName(`${feedBackUser?.firstName} ${feedBackUser?.lastName}`);
-  }, [user, feedBackUser]);
+    setName(`${user?.firstName} ${user?.lastName}`);
+  }, [user]);
 
   return (
     <>
@@ -60,7 +60,7 @@ const GoDeeper = ({ route }: any) => {
               numberOfLines={4}
               fontFamily={Typography.FONT_CAPRIOLA_REGULAR}
               style={{
-                backgroundColor: "white",
+                backgroundColor: "#fff",
               }}
               onChangeText={(text) => setDescription(text)}
             />
@@ -80,12 +80,10 @@ const GoDeeper = ({ route }: any) => {
                 fontSize: 12,
                 color: "white",
                 fontFamily: Typography.FONT_CAPRIOLA_REGULAR,
-                // marginBottom: 20,
               }}
             >
               let them know who is helping them
             </Text>
-            {/* <AppInput placeholder="Name" value={name} onChangeText={(text) => setName(text)} /> */}
             <View
               style={{
                 width: "100%",
@@ -117,7 +115,8 @@ const GoDeeper = ({ route }: any) => {
                   shadowRadius: 14,
                   elevation: -8,
                 }}
-                onChangeText={(text) => setName(text)}
+                value={name}
+                onChangeText={setName}
               />
             </View>
           </View>
@@ -153,7 +152,7 @@ const GoDeeper = ({ route }: any) => {
                     personality: button,
                   })),
                   profileFeedbackInput: {
-                    name,
+                    name: name ? "" : "Anonymous",
                     description,
                   },
                 },
