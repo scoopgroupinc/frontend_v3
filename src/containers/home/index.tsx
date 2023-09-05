@@ -221,7 +221,7 @@ export const Home = () => {
           <TouchableOpacity onPress={() => navigation.navigate(screenName.USER_PROFILE_FEEDBACK)}>
             <View style={styles.noticeBody}>
               <Text style={styles.noticeText}>You have got profile feedback!!!</Text>
-              <FontAwesome5 name="arrow-right" size={16} color="black" />
+              <Ionicons name="ios-chevron-forward" size={24} color="black" />
             </View>
           </TouchableOpacity>
         )}

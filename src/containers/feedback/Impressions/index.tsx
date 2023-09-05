@@ -9,6 +9,7 @@ import { IMPRESSIONS } from "../../../utils/constants/impressions";
 import { styles } from "./styles";
 import { AppButton } from "../../../components/atoms/AppButton";
 import { screenName } from "../../../utils/constants";
+import TagScreenHeader from "../../../components/molecule/TagScreenHeader";
 
 const FeedbackImpressions = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
@@ -60,20 +61,18 @@ const FeedbackImpressions = () => {
 
   return (
     <GradientLayout>
+      <TagScreenHeader title="First Impressions" close={() => navigation.goBack()} />
+      <Text style={styles.cancel}> What does this profile say about me? Select 3</Text>
       <SearchFilter
         searchPhrase={searchPhrase}
         setSearchPhrase={setSearchPhrase}
         clicked={clicked}
         setClicked={setClicked}
       />
-      {selectedButtons.length === 3 && (
-        <Text style={styles.cancel}>You cant select more than 3 impressions</Text>
-      )}
       <FlatList
-        numColumns={4}
+        numColumns={100}
         columnWrapperStyle={{
           flexWrap: "wrap",
-          flexDirection: "row",
         }}
         horizontal={false}
         data={Object.values(IMPRESSIONS)}
@@ -82,7 +81,7 @@ const FeedbackImpressions = () => {
         extraData={selectedButtons}
       />
       <AppButton
-        disabled={selectedButtons.length !== 3}
+        isDisabled={selectedButtons.length !== 3}
         onPress={() => {
           navigation.navigate(screenName.GO_DEEPER, {
             selectedButtons,

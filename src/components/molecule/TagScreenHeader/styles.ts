@@ -7,7 +7,6 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
     marginBottom: Spacing.SCALE_20,
-    paddingHorizontal: Spacing.SCALE_20,
   },
   text: {
     fontSize: 20,

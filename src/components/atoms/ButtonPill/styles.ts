@@ -1,18 +1,21 @@
 import { StyleSheet } from "react-native";
+import { Colors } from "../../../utils";
 
 export const styles = StyleSheet.create({
   body: {
-    backgroundColor: "#F2F2F2",
-    borderRadius: 15,
-    padding: 10,
+    backgroundColor: "transparent",
+    borderRadius: 50,
+    paddingVertical: 8,
+    paddingHorizontal: 15,
     borderWidth: 1,
-    borderColor: "#F2F2F2",
-    margin: 3,
+    borderColor: "#fff",
+    marginBottom: 8,
+    marginRight: 8,
   },
   disabled: {
-    backgroundColor: "gray",
+    backgroundColor: Colors.SLATE,
   },
   selectedButton: {
-    backgroundColor: "goldenrod",
+    backgroundColor: "#fff",
   },
 });

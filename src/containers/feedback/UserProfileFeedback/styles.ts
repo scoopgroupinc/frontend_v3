@@ -30,11 +30,11 @@ export const styles = StyleSheet.create({
   traitsText: {
     color: Colors.WHITE,
     fontFamily: Typography.FONT_CAPRIOLA_REGULAR,
-    marginVertical: 10,
+    marginVertical: 5,
   },
   tagsBody: {
     flexDirection: "row",
     justifyContent: "space-evenly",
-    marginVertical: 10,
+    marginBottom: 10,
   },
 });

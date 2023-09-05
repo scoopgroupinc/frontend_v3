@@ -1,6 +1,7 @@
 import React from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { View } from "react-native";
 import { styles } from "./styles";
 import { Colors } from "../../../../utils";
 import { DRINKS } from "../../../../utils/types/TAGS";
@@ -23,7 +24,7 @@ const Drink = ({ navigation, route }: NavigationScreenProps) => {
 
   useOnScreenView({
     screenName: analyticScreenNames.drink,
-    screenType: screenClass.profile
+    screenType: screenClass.profile,
   });
 
   const pageTitle = "Drinks";
@@ -41,7 +42,9 @@ const Drink = ({ navigation, route }: NavigationScreenProps) => {
   return (
     <LinearGradient style={styles.container} colors={gradient}>
       <SafeAreaView style={{ flex: 1 }} edges={["left", "right", "top"]}>
-        <TagScreenHeader close={goBackHome} title={pageTitle} />
+        <View style={{ marginHorizontal: "3%" }}>
+          <TagScreenHeader close={goBackHome} title={pageTitle} />
+        </View>
         <TagsView currentTagType={currentTagType} tags={drinksTag} typeOf={TypeOf.ARRAY} />
       </SafeAreaView>
     </LinearGradient>

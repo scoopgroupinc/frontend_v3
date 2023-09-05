@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, Text, TextInput } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Switch, TextArea } from "native-base";
 import { useMutation } from "@apollo/client";
 import TagScreenHeader from "../../../components/molecule/TagScreenHeader";
-import { Typography } from "../../../utils";
+import { Colors, Spacing, Typography } from "../../../utils";
 import { GradientLayout } from "../../../components/layouts/GradientLayout";
 import { AppButton } from "../../../components/atoms/AppButton";
 import { CREATE_SHARE_PROFILE_FEEDBACK } from "../../../services/graphql/share-profile/mutations";
@@ -18,13 +18,17 @@ import { screenName } from "../../../utils/constants";
 const GoDeeper = ({ route }: any) => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const [description, setDescription] = React.useState("");
-  const [name, setName] = React.useState("");
   const { user } = useAppSelector(selectUser);
+  const [name, setName] = React.useState("");
   const feedBackUser = useAppSelector(selectFeedbackUser);
 
   const { selectedButtons } = route.params;
 
   const [createShareProfileFeedback, { loading }] = useMutation(CREATE_SHARE_PROFILE_FEEDBACK);
+
+  useEffect(() => {
+    setName(`${feedBackUser?.firstName} ${feedBackUser?.lastName}`);
+  }, [user, feedBackUser]);
 
   return (
     <>
@@ -43,7 +47,7 @@ const GoDeeper = ({ route }: any) => {
                 fontSize: 20,
                 color: "white",
                 fontFamily: Typography.FONT_CAPRIOLA_REGULAR,
-                marginVertical: 20,
+                marginBottom: 10,
               }}
             >
               What does my profile say to you?
@@ -76,15 +80,46 @@ const GoDeeper = ({ route }: any) => {
                 fontSize: 12,
                 color: "white",
                 fontFamily: Typography.FONT_CAPRIOLA_REGULAR,
-                marginBottom: 20,
+                // marginBottom: 20,
               }}
             >
               let them know who is helping them
             </Text>
-            <TextInput
-              style={{ backgroundColor: "white", padding: 10 }}
-              onChangeText={(text) => setName(text)}
-            />
+            {/* <AppInput placeholder="Name" value={name} onChangeText={(text) => setName(text)} /> */}
+            <View
+              style={{
+                width: "100%",
+                position: "relative",
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+            >
+              <TextInput
+                style={{
+                  borderWidth: 4,
+                  width: "100%",
+                  borderRadius: Spacing.SCALE_8,
+                  padding: Spacing.SCALE_12,
+                  borderColor: Colors.INPUT_BORDER,
+                  backgroundColor: Colors.INPUT_BG,
+                  fontFamily: Typography.FONT_POPPINS_REGULAR,
+                  fontSize: Typography.FONT_SIZE_16,
+                  marginTop: Spacing.SCALE_8,
+                  overflow: "hidden",
+                  shadowColor: Colors.BLACK,
+                  shadowOffset: {
+                    width: 9,
+                    height: 1,
+                  },
+                  shadowOpacity: 0.15,
+                  shadowRadius: 14,
+                  elevation: -8,
+                }}
+                onChangeText={(text) => setName(text)}
+              />
+            </View>
           </View>
         </View>
         <View

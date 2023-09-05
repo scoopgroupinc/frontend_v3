@@ -1,5 +1,7 @@
 import { LinearGradient } from "expo-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { View } from "react-native";
+import React from "react";
 import { Colors } from "../../../../utils";
 import TagScreenHeader from "../../../../components/molecule/TagScreenHeader";
 import TagsView from "../../../../components/molecule/TagsView";
@@ -20,7 +22,7 @@ const EducationLevel = ({ navigation, route }: { navigation: any; route: any }) 
 
   useOnScreenView({
     screenName: analyticScreenNames.educationLevel,
-    screenType: screenClass.profile
+    screenType: screenClass.profile,
   });
 
   const eduTags = EDUCATION_LEVEL;
@@ -38,7 +40,9 @@ const EducationLevel = ({ navigation, route }: { navigation: any; route: any }) 
   return (
     <LinearGradient style={{ flex: 1 }} colors={gradient}>
       <SafeAreaView style={{ flex: 1 }} edges={["left", "right", "top"]}>
-        <TagScreenHeader close={goBackHome} title={pageTitle} />
+        <View style={{ marginHorizontal: "3%" }}>
+          <TagScreenHeader close={goBackHome} title={pageTitle} />
+        </View>
         <TagsView currentTagType={currentTagType} tags={eduTags} typeOf={TypeOf.SINGLE} />
       </SafeAreaView>
     </LinearGradient>
