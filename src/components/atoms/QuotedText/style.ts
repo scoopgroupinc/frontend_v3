@@ -27,21 +27,14 @@ export const styles = StyleSheet.create({
     opacity: 0.3,
   },
   title: {
-    color: Colors.BLACK,
-    fontFamily: Typography.FONT_FAMILY.Capriola_400Regular,
-    fontSize: Typography.FONT_SIZE_16,
-    paddingLeft: Spacing.SCALE_20,
+    color: Colors.SLATE,
+    fontSize: 12,
     paddingRight: Spacing.SCALE_20,
     marginBottom: Spacing.SCALE_8,
   },
   text: {
     color: Colors.BLACK,
     fontSize: Typography.FONT_SIZE_20,
-    fontFamily: Typography.FONT_FAMILY.Poppins_400Regular,
-    paddingLeft: Spacing.SCALE_20,
     paddingRight: Spacing.SCALE_20,
   },
-  // svg: {
-  //   position: 'absolute',
-  // },
 });

@@ -2,8 +2,9 @@ import { StyleSheet, Dimensions } from "react-native";
 import { Colors, Spacing, Typography } from "../../../utils";
 
 const windowHeight = Dimensions.get("window").height;
-
+const onethirdScreenHeight = windowHeight / 3;
 export const styles = StyleSheet.create({
+  buttonBody: { backgroundColor: Colors.WHITE, padding: Spacing.SCALE_20 },
   modal: {
     paddingTop: 44,
     justifyContent: "flex-end",
@@ -60,7 +61,13 @@ export const styles = StyleSheet.create({
     backgroundColor: "transparent",
   },
   section: { marginBottom: 20, paddingHorizontal: 20 },
-  content: {
-    // padding: 5,
+  bio: {
+    width: "100%",
+    height: "100%",
+    marginTop: onethirdScreenHeight,
+    marginBottom: "10%",
+    backgroundColor: "white",
+    borderTopRightRadius: 110,
+    padding: 20,
   },
 });

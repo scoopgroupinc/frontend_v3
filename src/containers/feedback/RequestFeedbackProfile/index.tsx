@@ -1,6 +1,6 @@
 /* eslint-disable react/no-array-index-key */
-import React, { useEffect, useState } from "react";
-import { Dimensions, ImageBackground, ScrollView, View, Text, Image } from "react-native";
+import React, { useEffect, useMemo, useState } from "react";
+import { ImageBackground, ScrollView, View, Text, Image } from "react-native";
 import moment from "moment";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
@@ -11,15 +11,19 @@ import { AppButton } from "../../../components/atoms/AppButton";
 import { useAppSelector } from "../../../store/hooks";
 import { selectFeedbackUser } from "../../../store/features/feedback/feedbackSlice";
 import { screenName } from "../../../utils/constants";
-
-const screenHeight = Dimensions.get("window").height;
-const onethirdScreenHeight = screenHeight / 3;
+import { selectAllPrompts } from "../../../store/features/prompts/promptsSlice";
 
 const RequestFeedbackProfile = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const [merged, setMerged] = useState<any>([]);
   const { prompts, visuals, height, displayName, birthday, promptIds } =
     useAppSelector(selectFeedbackUser);
+  const appPromptsRedux = useAppSelector(selectAllPrompts);
+
+  const appPrompts = useMemo(() => {
+    const ppts = Object.values(appPromptsRedux);
+    return ppts;
+  }, [appPromptsRedux]);
 
   useEffect(() => {
     const mergeData = () => {
@@ -32,8 +36,20 @@ const RequestFeedbackProfile = () => {
           }
           const id = promptIds[i];
           if (id) {
+            // search appPrompts for prompt that matches id
+            const { prompt } = appPrompts.find((p) => p.promptId === id);
+
             if (prompts[i]?.answer) {
-              setMerged((prev: any) => [...prev, { type: "prompt", prompt: prompts[i] }]);
+              setMerged((prev: any) => [
+                ...prev,
+                {
+                  type: "prompt",
+                  prompt: {
+                    ...prompts[i],
+                    prompt,
+                  },
+                },
+              ]);
             }
           }
         }
@@ -41,14 +57,26 @@ const RequestFeedbackProfile = () => {
         setMerged([]);
         for (let i = 0; i < promptIds.length; i++) {
           const id = promptIds[i];
+          const { prompt } = appPrompts.find((p) => p.promptId === id);
           if (prompts[id]?.answer !== "") {
-            setMerged((prev: any) => [...prev, { type: "prompt", prompt: prompts[id] }]);
+            setMerged((prev: any) => [
+              ...prev,
+              {
+                type: "prompt",
+                prompt: {
+                  ...prompts[i],
+                  prompt,
+                },
+              },
+            ]);
           }
         }
       }
     };
     mergeData();
-  }, [visuals, prompts, promptIds]);
+  }, [visuals, prompts, promptIds, appPrompts]);
+
+  console.log("merged", merged);
 
   return (
     <ImageBackground
@@ -64,17 +92,7 @@ const RequestFeedbackProfile = () => {
           flex: 1,
         }}
       >
-        <View
-          style={{
-            width: "100%",
-            height: "100%",
-            marginTop: onethirdScreenHeight,
-            marginBottom: "10%",
-            backgroundColor: "white",
-            borderTopRightRadius: 110,
-            padding: 20,
-          }}
-        >
+        <View style={styles.bio}>
           <View style={styles.descriptionContainer}>
             <View style={styles.section}>
               <Text style={styles.name}>{displayName}</Text>
@@ -83,7 +101,7 @@ const RequestFeedbackProfile = () => {
 
               <Text style={styles.descriptionHeader}>My Basics</Text>
 
-              <View style={[styles.content, { flexDirection: "column" }]}>
+              <View style={{ flexDirection: "column" }}>
                 {/* {getRelationshipGoalsDetails(userProfile)}
                   {getRelationshipTypesDetails(userProfile)}
                   {getParentingGoalDetails(userProfile)}
@@ -107,7 +125,7 @@ const RequestFeedbackProfile = () => {
             {/* {getLanguagesDetails(userProfile)} */}
             <View style={styles.section}>
               <Text style={styles.descriptionHeader}>My Interests</Text>
-              <View style={styles.content}>
+              <View>
                 {/* {getMusicGenreDetails(userProfile)}
                   {getBookGenreDetails(userProfile)}
                   {getPetsDetails(userProfile)}
@@ -119,7 +137,7 @@ const RequestFeedbackProfile = () => {
             </View>
 
             {/* alternate prompts and images */}
-            <View style={styles.content}>
+            <View>
               {merged.map((item: any, index: any) => {
                 if (item?.type === "prompt") {
                   return (
@@ -129,10 +147,7 @@ const RequestFeedbackProfile = () => {
                         padding: Spacing.SCALE_20,
                       }}
                     >
-                      <QuotedText
-                        title={prompts[item.prompt.promptId]?.prompt}
-                        text={item.prompt.answer}
-                      />
+                      <QuotedText title={item.prompt.prompt} text={item.prompt.answer} />
                     </View>
                   );
                 }
@@ -165,12 +180,7 @@ const RequestFeedbackProfile = () => {
           </View>
         </View>
       </ScrollView>
-      <View
-        style={{
-          backgroundColor: Colors.WHITE,
-          padding: Spacing.SCALE_20,
-        }}
-      >
+      <View style={styles.buttonBody}>
         <AppButton
           style={{
             backgroundColor: Colors.TEAL,
