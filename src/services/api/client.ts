@@ -17,11 +17,11 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
       switch (err.extensions?.code) {
         case ErrorCodes.UNAUTHENTICATED:
           console.log("UNAUTHENTICATED");
-          store.dispatch(
-            setUser({
-              user: null,
-            })
-          );
+          // store.dispatch(
+          //   setUser({
+          //     user: null,
+          //   })
+          // );
           break;
         case ErrorCodes.BAD_USER_INPUT:
           console.log("BAD_USER_INPUT", err.message);

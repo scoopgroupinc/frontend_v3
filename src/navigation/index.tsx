@@ -14,6 +14,8 @@ import { decryptData } from "../utils/helpers";
 import FeedbackNavigator from "./FeedbackNavigator";
 import ErrorScreen from "../containers/ErrorScreen";
 import { GET_USER_PROFILE_BY_LINK_ID } from "../services/graphql/user-link/mutations";
+import { getObjectData } from "../utils/storage";
+import { setUser } from "../store/features/user/userSlice";
 
 const Stack = createNativeStackNavigator();
 
@@ -49,6 +51,19 @@ const Navigator = () => {
       });
     }
   }, [sharedLink, loadLink, dispatch]);
+
+  useEffect(() => {
+    const getUser = async () => {
+      const { user } = await getObjectData("user");
+      if (user)
+        dispatch(
+          setUser({
+            user,
+          })
+        );
+    };
+    getUser();
+  }, [dispatch]);
 
   return (
     <View style={{ flex: 1 }}>
