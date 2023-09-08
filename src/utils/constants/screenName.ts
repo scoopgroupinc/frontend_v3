@@ -7,6 +7,7 @@ const screenName = {
   REQUEST_FEEDBACK_PROFILE: "RequestFeedbackProfile",
   GO_DEEPER: "GoDeeper",
   ERROR_SCREEN: "ErrorScreen",
+  APPLE_EMAIL: "AppleEmail",
 
   // Auth Stack
   LAUNCH: "Launch",
