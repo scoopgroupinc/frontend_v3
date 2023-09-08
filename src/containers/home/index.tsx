@@ -6,6 +6,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
 import { useMutation, useQuery } from "@apollo/client";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import * as AppleAuthentication from "expo-apple-authentication";
 import { ScrollableGradientLayout } from "../../components/layouts/ScrollableGradientLayout";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { SlideUpModal } from "../../components/layouts/SlideUpModal";
@@ -73,6 +74,18 @@ export const Home = () => {
     if (supported) await Linking.openURL(url);
   }, []);
 
+  const revokeAppleSignInPermission = async () => {
+    try {
+      AppleAuthentication.signOutAsync({
+        user: user?.providerUserId,
+      }).then(() => {
+        dispatch({
+          type: "appUser/logout",
+        });
+      });
+    } catch (error) {}
+  };
+
   const createLogoutAlert = () => {
     //   logEvent({
     //     eventName: eventNames.logoutAccountButton,
@@ -91,9 +104,7 @@ export const Home = () => {
         style: "destructive",
         onPress: () => {
           setOpenSettings(false);
-          dispatch({
-            type: "appUser/logout",
-          });
+          revokeAppleSignInPermission();
         },
       },
     ]);
