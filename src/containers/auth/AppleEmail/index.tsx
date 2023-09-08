@@ -1,8 +1,6 @@
 import React from "react";
 import { View, Text } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Heading, VStack } from "native-base";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
@@ -22,13 +20,13 @@ import { setUser } from "../../../store/features/user/userSlice";
 const AppleEmail = ({ route }: any) => {
   const dispatch = useAppDispatch();
 
-  const { credential } = route.params;
-
   useOnScreenView({ screenName: analyticScreenNames.signIn, screenType: screenClass.auth });
 
   const schema = yup.object().shape({
     email: yup.string().email().required("Email is required."),
   });
+
+  const { credential } = route.params;
 
   const [loginWithProvider] = useMutation(PROVIDER_LOGIN);
 

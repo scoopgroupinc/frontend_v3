@@ -47,7 +47,7 @@ const SocialLogins = () => {
 
   const [loginWithProvider] = useMutation(PROVIDER_LOGIN);
 
-  const handleAppleAuthentication = async () => {
+  const fetchAppleEmail = async () => {
     try {
       const credential: AppleAuthenticationCredential = await AppleAuthentication.signInAsync({
         requestedScopes: [
@@ -134,7 +134,7 @@ const SocialLogins = () => {
           width: "100%",
           height: 44,
         }}
-        onPress={handleAppleAuthentication}
+        onPress={fetchAppleEmail}
       />
     </View>
   );
