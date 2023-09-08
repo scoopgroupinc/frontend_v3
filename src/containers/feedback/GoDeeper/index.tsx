@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, TextInput } from "react-native";
+import { View, Text, TextInput, Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { Switch, TextArea } from "native-base";
+import { Switch } from "native-base";
 import { useMutation } from "@apollo/client";
 import TagScreenHeader from "../../../components/molecule/TagScreenHeader";
-import { Typography } from "../../../utils";
 import { GradientLayout } from "../../../components/layouts/GradientLayout";
 import { AppButton } from "../../../components/atoms/AppButton";
 import { CREATE_SHARE_PROFILE_FEEDBACK } from "../../../services/graphql/share-profile/mutations";
@@ -52,16 +51,11 @@ const GoDeeper = ({ route }: any) => {
             >
               What does my profile say to you?
             </Text>
-            <TextArea
-              h={20}
+            <TextInput
+              multiline
               placeholder="Details"
-              w="100%"
-              autoCompleteType={undefined}
-              numberOfLines={4}
-              fontFamily={Typography.FONT_CAPRIOLA_REGULAR}
-              style={{
-                backgroundColor: "#fff",
-              }}
+              style={[styles.textAreaContainer, styles.textarea]}
+              value={description}
               onChangeText={(text) => setDescription(text)}
             />
           </View>
@@ -81,7 +75,13 @@ const GoDeeper = ({ route }: any) => {
         >
           <View>
             <Text style={styles.switchText}>Allow users to chat with you</Text>
-            <Switch size="sm" colorScheme="emerald" />
+            <Switch
+              size="sm"
+              colorScheme="emerald"
+              onToggle={() => {
+                Alert.alert("Feature Coming Soon");
+              }}
+            />
           </View>
           <AppButton
             onPress={() => {

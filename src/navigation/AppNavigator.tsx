@@ -22,18 +22,9 @@ import ShareForFeedback from "../containers/onboarding/ShareForFeedback";
 const AppTabStack = createBottomTabNavigator();
 
 const AppNavigator = () => {
-  const { user } = useAppSelector(selectUser);
-  const location = user?.location;
-  const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const isOnboarded = useAppSelector(selectUserIsOnboarded);
   // const isOnboarded = true;
   // const firstTime = true;
-
-  useEffect(() => {
-    if (location) {
-      navigation.navigate(screenName.USER_PROFILE);
-    }
-  }, [location, navigation]);
 
   // if (firstTime) {
   //   return <ShareForFeedback />;

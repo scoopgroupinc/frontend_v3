@@ -4,7 +4,7 @@ import { View, Text, Alert } from "react-native";
 
 import { LinearGradient } from "expo-linear-gradient";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import {
   NativeStackNavigationProp,
   createNativeStackNavigator,
@@ -33,7 +33,8 @@ import { useSaveUserProfile } from "./hooks/useSaveUserProfile";
 import { useSaveUserPrompts } from "./hooks/useSaveUserPrompts";
 import { useSaveUserVisuals } from "../../../../hooks/useSaveUserVisuals";
 
-export const ToggleProfileView = () => {
+export const ToggleProfileView = ({ route }: any) => {
+  // const { value } = route.params;
   const gradient = [Colors.RUST, Colors.RED, Colors.TEAL];
   const insets = useSafeAreaInsets();
 
@@ -48,6 +49,9 @@ export const ToggleProfileView = () => {
   const isDirty = useAppSelector(selectIsDirty);
 
   const dispatch = useAppDispatch();
+
+  const routee = useRoute();
+  const history = routee.state?.history;
 
   // make copy to allow for undoing of changes
   useEffect(() => {
@@ -93,13 +97,15 @@ export const ToggleProfileView = () => {
   }, [dispatch, navigation, saveUserPrompts, saveUserProfile, saveUserVisuals]);
 
   const cancelChanges = () => {
+    console.log("history", route);
     dispatch(resetToCopyData());
     logEvent({
       eventName: eventNames.cancelProfileButton,
       params: {},
     });
     setModalState(false);
-    navigation.goBack();
+    // navigation.goBack();
+    navigation.popToTop();
   };
 
   const handleCancelButton = () => {
@@ -119,6 +125,11 @@ export const ToggleProfileView = () => {
             screenOptions={{
               headerShown: false,
             }}
+            // initialRouteName={
+            //   value && value === "edit"
+            //     ? screenName.USER_PROFILE_EDIT
+            //     : screenName.USER_PROFILE_VIEW
+            // }
           >
             <Stack.Screen name={screenName.USER_PROFILE_EDIT} component={UserProfileEdit} />
             <Stack.Screen name={screenName.USER_PROFILE_VIEW} component={UserProfileView} />

@@ -33,4 +33,21 @@ export const styles = StyleSheet.create({
   name: { fontSize: 20, color: "#fff" },
   info: { fontSize: 12, color: "#fff" },
   switchText: { fontSize: 16, color: "#fff" },
+  textAreaContainer: {
+    backgroundColor: Colors.WHITE,
+    marginBottom: Spacing.SCALE_18,
+    borderRadius: Spacing.SCALE_8,
+    padding: Spacing.SCALE_12,
+    borderColor: Colors.INPUT_BORDER,
+    shadowOffset: {
+      width: 9,
+      height: 1,
+    },
+    shadowOpacity: 0.15,
+    shadowRadius: 14,
+  },
+  textarea: {
+    backgroundColor: Colors.WHITE,
+    height: 150,
+  },
 });

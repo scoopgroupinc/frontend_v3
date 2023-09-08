@@ -32,11 +32,11 @@ const AuthorizedFeedbackUser = () => {
     });
   }, [getShareLink, userId]);
 
-  const gotoProfileEditView = () => {
+  const gotoProfileEditView = (value: string) => {
     dispatch(
       updateUser({
         value: {
-          location: screenName.TOGGLE_PROFILE_VIEW,
+          location: { name: screenName.TOGGLE_PROFILE_VIEW, value },
         },
       })
     );
@@ -62,10 +62,10 @@ const AuthorizedFeedbackUser = () => {
         >
           Get Share Link
         </AppButton>
-        <AppButton style={styles.btn} onPress={gotoProfileEditView}>
+        <AppButton style={styles.btn} onPress={() => gotoProfileEditView("View")}>
           Preview Profile
         </AppButton>
-        <AppButton style={styles.btn} onPress={gotoProfileEditView}>
+        <AppButton style={styles.btn} onPress={() => gotoProfileEditView("Edit")}>
           Continue Editing Profile
         </AppButton>
       </View>

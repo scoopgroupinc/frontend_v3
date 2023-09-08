@@ -53,7 +53,7 @@ export const PhotoVideoScreen = () => {
     //   params: {},
     // });
 
-    await handleSaveImages();
+    // await handleSaveImages();
     navigation.navigate(screenName.QUESTION_PROMPT);
   };
 
@@ -69,10 +69,10 @@ export const PhotoVideoScreen = () => {
           <ProgressBar progress={0.6} color="#0E0E2C" />
           <Heading>Photos & Videos</Heading>
           <MediaContainer images={userVisuals} onAddImage={onAddImage} />
-          <AppButton isDisabled={Object.values(userVisuals).length < 1} onPress={saveImages}>
+          {/* <AppButton isDisabled={Object.values(userVisuals).length < 1} onPress={saveImages}>
             Upload Photos
-          </AppButton>
-          {/* <AppButton onPress={saveImages}>Upload Photos</AppButton> */}
+          </AppButton> */}
+          <AppButton onPress={saveImages}>Upload Photos</AppButton>
         </VStack>
       </GradientLayout>
     </>

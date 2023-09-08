@@ -32,9 +32,11 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
           break;
         case ErrorCodes.INTERNAL_SERVER_ERROR:
           console.log("INTERNAL_SERVER_ERROR", err.message);
-          navigationRef.current?.navigate(screenName.ERROR_SCREEN, {
-            error: err.message,
-          });
+          if (err.message.includes("UserLink is inactive")) {
+            navigationRef.current?.navigate(screenName.ERROR_SCREEN, {
+              error: err.message,
+            });
+          }
           break;
         case ErrorCodes.GRAPHQL_VALIDATION_FAILED:
           console.log("GRAPHQL_VALIDATION_FAILED", err.message);

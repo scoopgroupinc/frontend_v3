@@ -24,7 +24,7 @@ const RequestFeedbackSplash = () => {
         />
         <Image
           source={{
-            uri: visuals[0]?.videoOrPhoto,
+            uri: visuals && visuals[0] ? visuals[0]?.videoOrPhoto : null,
           }}
           style={{ height: 160, width: 160, borderRadius: 100 }}
         />

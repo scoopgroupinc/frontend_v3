@@ -1,9 +1,6 @@
 import React from "react";
-
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-
 import { screenName } from "../../../utils/constants";
-
 import School from "./School";
 import JobTitle from "./JobTitle";
 import EducationLevel from "./EducationLevel";
@@ -85,5 +82,4 @@ const UserProfile = () => (
     <UserProfileStack.Screen name={screenName.PROMPT_ANSWER} component={EditPromptAnswer} />
   </UserProfileStack.Navigator>
 );
-
 export default UserProfile;

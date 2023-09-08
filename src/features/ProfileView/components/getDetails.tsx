@@ -8,11 +8,10 @@ const getJobDetails = (userProfile: any) => {
   const companyString = company?.userTags[0]?.tagName ? `@ ${company?.userTags[0]?.tagName}` : "";
   const job = userProfile?.find((item: any) => item.tagType === "job");
   const jobString = job?.userTags[0]?.tagName ? `${job?.userTags[0]?.tagName} ` : "";
-  if (job?.userTags[0]?.tagName !== "" && job?.visible) {
+  if (job?.userTags.length > 0 && job?.visible) {
     return (
       <Text style={[styles.descriptionText]}>
-        {userProfile?.find((item: any) => item.tagType === "job")?.emoji} {jobString}
-        {companyString}
+        {jobString} {companyString}
       </Text>
     );
   }
@@ -201,7 +200,7 @@ const getPoliticsDetails = (userProfile: any) => {
 };
 
 const getAlcoholDetails = (userProfile: any) => {
-  const alcohol = userProfile?.find((item: any) => item.tagType === "alcohol");
+  const alcohol = userProfile?.find((item: any) => item.tagType === "alcohol_usage");
   const alcoholName = alcohol?.userTags[0]?.tagName;
   if (alcohol?.visible && alcoholName) {
     return (

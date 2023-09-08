@@ -12,11 +12,38 @@ import { useAppSelector } from "../../../store/hooks";
 import { selectFeedbackUser } from "../../../store/features/feedback/feedbackSlice";
 import { screenName } from "../../../utils/constants";
 import { selectAllPrompts } from "../../../store/features/prompts/promptsSlice";
+import {
+  getAlcoholDetails,
+  getBookGenreDetails,
+  getCannabisDetails,
+  getCreativeOuletDetails,
+  getDietDetails,
+  getDrinkDetails,
+  getDrugsDetails,
+  getEducationLevelDetails,
+  getEthnicityDetails,
+  getGoingOutDetails,
+  getHometownDetails,
+  getJobDetails,
+  getMeyerBriggsDetails,
+  getMusicGenreDetails,
+  getParentingGoalDetails,
+  getPetsDetails,
+  getPoliticsDetails,
+  getRelationshipGoalsDetails,
+  getRelationshipTypesDetails,
+  getReligionsDetails,
+  getSchoolDetails,
+  getSmokingDetails,
+  getSportsDetails,
+  getStayingInDetails,
+  getZodiacDetails,
+} from "../../../features/ProfileView/components/getDetails";
 
 const RequestFeedbackProfile = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const [merged, setMerged] = useState<any>([]);
-  const { prompts, visuals, height, displayName, birthday, promptIds } =
+  const { prompts, visuals, height, displayName, birthday, promptIds, tags } =
     useAppSelector(selectFeedbackUser);
   const appPromptsRedux = useAppSelector(selectAllPrompts);
 
@@ -76,8 +103,6 @@ const RequestFeedbackProfile = () => {
     mergeData();
   }, [visuals, prompts, promptIds, appPrompts]);
 
-  console.log("merged", merged);
-
   return (
     <ImageBackground
       style={{ flex: 1 }}
@@ -102,37 +127,37 @@ const RequestFeedbackProfile = () => {
               <Text style={styles.descriptionHeader}>My Basics</Text>
 
               <View style={{ flexDirection: "column" }}>
-                {/* {getRelationshipGoalsDetails(userProfile)}
-                  {getRelationshipTypesDetails(userProfile)}
-                  {getParentingGoalDetails(userProfile)}
-                  {getHometownDetails(userProfile)}
-                  {getEthnicityDetails(userProfile)}
-                  {getJobDetails(userProfile)}
-                  {getSchoolDetails(userProfile)}
-                  {getEducationLevelDetails(userProfile)}
-                  {getReligionsDetails(userProfile)}
-                  {getZodiacDetails(userProfile)}
-                  {getMeyerBriggsDetails(userProfile)}
-                  {getPoliticsDetails(userProfile)}
-                  {getDietDetails(userProfile)}
-                  {getDrinkDetails(userProfile)}
-                  {getAlcoholDetails(userProfile)}
-                  {getSmokingDetails(userProfile)}
-                  {getDrugsDetails(userProfile)}
-                  {getCannabisDetails(userProfile)} */}
+                {getAlcoholDetails(tags)}
+                {getRelationshipGoalsDetails(tags)}
+                {getRelationshipTypesDetails(tags)}
+                {getParentingGoalDetails(tags)}
+                {getHometownDetails(tags)}
+                {getEthnicityDetails(tags)}
+                {getJobDetails(tags)}
+                {getSchoolDetails(tags)}
+                {getEducationLevelDetails(tags)}
+                {getReligionsDetails(tags)}
+                {getZodiacDetails(tags)}
+                {getMeyerBriggsDetails(tags)}
+                {getPoliticsDetails(tags)}
+                {getDietDetails(tags)}
+                {getDrinkDetails(tags)}
+                {getSmokingDetails(tags)}
+                {getDrugsDetails(tags)}
+                {getCannabisDetails(tags)}
               </View>
             </View>
             {/* {getLanguagesDetails(userProfile)} */}
             <View style={styles.section}>
               <Text style={styles.descriptionHeader}>My Interests</Text>
               <View>
-                {/* {getMusicGenreDetails(userProfile)}
-                  {getBookGenreDetails(userProfile)}
-                  {getPetsDetails(userProfile)}
-                  {getSportsDetails(userProfile)}
-                  {getGoingOutDetails(userProfile)}
-                  {getStayingInDetails(userProfile)}
-                  {getCreativeOuletDetails(userProfile)} */}
+                {getMusicGenreDetails(tags)}
+                {getBookGenreDetails(tags)}
+                {getPetsDetails(tags)}
+                {getSportsDetails(tags)}
+                {getGoingOutDetails(tags)}
+                {getStayingInDetails(tags)}
+                {getCreativeOuletDetails(tags)}
               </View>
             </View>
 

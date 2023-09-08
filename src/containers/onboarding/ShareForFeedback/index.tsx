@@ -6,7 +6,7 @@ import { GradientLayout } from "../../../components/layouts/GradientLayout";
 import { styles } from "./styles";
 import { AppButton } from "../../../components/atoms/AppButton";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
-import { selectUser, setLocation, updateUser } from "../../../store/features/user/userSlice";
+import { selectUser, updateUser } from "../../../store/features/user/userSlice";
 import { useShare } from "../../../hooks/useShare";
 import { GET_USER_SHARE_PROFILE_LINK } from "../../../services/graphql/user-link/mutations";
 import { encryptData } from "../../../utils/helpers";
@@ -32,12 +32,11 @@ const ShareForFeedback = () => {
     });
   }, [getShareLink, userId]);
 
-  const gotoProfileEditView = () => {
+  const gotoProfileEditView = (value: string) => {
     dispatch(
       updateUser({
         value: {
-          isOnboarded: true,
-          location: screenName.TOGGLE_PROFILE_VIEW,
+          location: { name: screenName.TOGGLE_PROFILE_VIEW, value },
         },
       })
     );
@@ -63,10 +62,10 @@ const ShareForFeedback = () => {
         >
           Get Share Link
         </AppButton>
-        <AppButton style={styles.btn} onPress={gotoProfileEditView}>
-          Profile View
+        <AppButton style={styles.btn} onPress={() => gotoProfileEditView("View")}>
+          Preview Profile
         </AppButton>
-        <AppButton style={styles.btn} onPress={gotoProfileEditView}>
+        <AppButton style={styles.btn} onPress={() => gotoProfileEditView("Edit")}>
           Continue Editing Profile
         </AppButton>
       </View>
