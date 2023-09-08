@@ -10,6 +10,7 @@ import { useAppDispatch } from "../store/hooks";
 import { setFeedbackUser } from "../store/features/feedback/feedbackSlice";
 import AuthorizedFeedbackUser from "../containers/feedback/AuthorizedFeedbackUser";
 import { GET_USER_PROFILE_BY_LINK_ID } from "../services/graphql/user-link/mutations";
+import UnAuthorizedFeedbackUser from "../containers/feedback/UnAuthorizedFeedbackUser";
 
 const FeedbackStack = createNativeStackNavigator();
 
@@ -62,6 +63,10 @@ const FeedbackNavigator = ({ route }: any) => {
         name={screenName.AUTHORIZEDFEEDBACKUSER}
         component={AuthorizedFeedbackUser}
       />
+      {/* <FeedbackStack.Screen
+        name={screenName.UNAUTHORIZEDFEEDBACKUSER}
+        component={UnAuthorizedFeedbackUser}
+      /> */}
       {/* <FeedbackStack.Screen name={screenName.SHARE_FOR_FEEDBACK} component={ShareForFeedback} /> */}
       {/* <FeedbackStack.Screen name={screenName.USER_PROFILE_FEEDBACK} component={UserProfileFeedback} /> */}
     </FeedbackStack.Navigator>

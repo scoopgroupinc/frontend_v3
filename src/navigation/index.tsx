@@ -16,6 +16,7 @@ import ErrorScreen from "../containers/ErrorScreen";
 import { GET_USER_PROFILE_BY_LINK_ID } from "../services/graphql/user-link/mutations";
 import { getObjectData } from "../utils/storage";
 import { setUser } from "../store/features/user/userSlice";
+import UnAuthorizedFeedbackUser from "../containers/feedback/UnAuthorizedFeedbackUser";
 
 const Stack = createNativeStackNavigator();
 
@@ -64,6 +65,8 @@ const Navigator = () => {
     };
     getUser();
   }, [dispatch]);
+
+  console.log("user", user);
 
   return (
     <View style={{ flex: 1 }}>

@@ -65,6 +65,7 @@ const SocialLogins = () => {
         });
       }
     } catch (err: any) {
+      console.log("err", err);
       // Alert.alert("Apple Authentication Error", err.message);
     }
   };

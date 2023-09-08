@@ -2,6 +2,8 @@
 import { Image, Text, View } from "react-native";
 import React, { useEffect } from "react";
 import { useMutation } from "@apollo/client";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useNavigation } from "@react-navigation/native";
 import { GradientLayout } from "../../../components/layouts/GradientLayout";
 import { styles } from "./styles";
 import { AppButton } from "../../../components/atoms/AppButton";
@@ -11,12 +13,15 @@ import { useShare } from "../../../hooks/useShare";
 import { GET_USER_SHARE_PROFILE_LINK } from "../../../services/graphql/user-link/mutations";
 import { encryptData } from "../../../utils/helpers";
 import { screenName } from "../../../utils/constants";
+import { useNavState } from "../../home/UserProfile/ToggleProfileView/hooks/useNavState";
+import { navigationRef } from "../../../navigation/RootNavigation";
 
 const ShareForFeedback = () => {
   const { user } = useAppSelector(selectUser);
   const userId = user?.userId;
   const dispatch = useAppDispatch();
   const { share } = useShare();
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const [link, setLink] = React.useState<string>("");
 
@@ -33,13 +38,15 @@ const ShareForFeedback = () => {
   }, [getShareLink, userId]);
 
   const gotoProfileEditView = (value: string) => {
-    dispatch(
-      updateUser({
-        value: {
-          location: { name: screenName.TOGGLE_PROFILE_VIEW, value },
-        },
-      })
-    );
+    console.log("hey");
+    navigationRef.current?.navigate(screenName.PROFILE_NAVIGATOR);
+    // dispatch(
+    //   updateUser({
+    //     value: {
+    //       location: { name: screenName.TOGGLE_PROFILE_VIEW, value },
+    //     },
+    //   })
+    // );
   };
 
   return (

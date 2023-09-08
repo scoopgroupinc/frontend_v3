@@ -34,7 +34,7 @@ import { useSaveUserPrompts } from "./hooks/useSaveUserPrompts";
 import { useSaveUserVisuals } from "../../../../hooks/useSaveUserVisuals";
 
 export const ToggleProfileView = ({ route }: any) => {
-  // const { value } = route.params;
+  const { value } = route.params;
   const gradient = [Colors.RUST, Colors.RED, Colors.TEAL];
   const insets = useSafeAreaInsets();
 
@@ -50,8 +50,13 @@ export const ToggleProfileView = ({ route }: any) => {
 
   const dispatch = useAppDispatch();
 
-  const routee = useRoute();
-  const history = routee.state?.history;
+  useEffect(() => {
+    if (value === "View") {
+      navState[0].onPress();
+    } else {
+      navState[1].onPress();
+    }
+  }, [value]);
 
   // make copy to allow for undoing of changes
   useEffect(() => {
@@ -97,15 +102,14 @@ export const ToggleProfileView = ({ route }: any) => {
   }, [dispatch, navigation, saveUserPrompts, saveUserProfile, saveUserVisuals]);
 
   const cancelChanges = () => {
-    console.log("history", route);
     dispatch(resetToCopyData());
     logEvent({
       eventName: eventNames.cancelProfileButton,
       params: {},
     });
     setModalState(false);
-    // navigation.goBack();
-    navigation.popToTop();
+    navigation.goBack();
+    // navigation.popToTop();
   };
 
   const handleCancelButton = () => {

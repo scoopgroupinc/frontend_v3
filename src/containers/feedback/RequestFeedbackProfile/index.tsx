@@ -191,6 +191,7 @@ const RequestFeedbackProfile = () => {
                         width: "100%",
                         height: 300,
                         resizeMode: "cover",
+                        borderRadius: 20,
                       }}
                     />
                   </View>

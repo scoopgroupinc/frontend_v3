@@ -11,12 +11,14 @@ import { selectUser, updateUser } from "../../../store/features/user/userSlice";
 import { GET_USER_SHARE_PROFILE_LINK } from "../../../services/graphql/user-link/mutations";
 import { screenName } from "../../../utils/constants";
 import { encryptData } from "../../../utils/helpers";
+import { useNavState } from "../../home/UserProfile/ToggleProfileView/hooks/useNavState";
 
 const AuthorizedFeedbackUser = () => {
   const { user } = useAppSelector(selectUser);
   const userId = user?.userId;
   const dispatch = useAppDispatch();
   const { share } = useShare();
+  const [navState] = useNavState();
 
   const [link, setLink] = React.useState<string>("");
 
@@ -33,13 +35,19 @@ const AuthorizedFeedbackUser = () => {
   }, [getShareLink, userId]);
 
   const gotoProfileEditView = (value: string) => {
-    dispatch(
-      updateUser({
-        value: {
-          location: { name: screenName.TOGGLE_PROFILE_VIEW, value },
-        },
-      })
-    );
+    if (value === "View") {
+      navState[1].onPress();
+    } else {
+      navState[0].onPress();
+    }
+
+    // dispatch(
+    //   updateUser({
+    //     value: {
+    //       location: { name: screenName.TOGGLE_PROFILE_VIEW, value },
+    //     },
+    //   })
+    // );
   };
 
   return (

@@ -19,12 +19,14 @@ import { useGetUserChoices } from "../../hooks/useGetUserChoices";
 import UserProfileFeedback from "../../containers/feedback/UserProfileFeedback";
 import { useAppSelector } from "../../store/hooks";
 import { selectUser } from "../../store/features/user/userSlice";
+import { useNavState } from "../../containers/home/UserProfile/ToggleProfileView/hooks/useNavState";
 
 const HomeStack = createNativeStackNavigator();
 
 const ProfileNavigator = () => {
   const { user } = useAppSelector(selectUser);
   const location = user?.location;
+  const [navState] = useNavState();
 
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
@@ -38,6 +40,14 @@ const ProfileNavigator = () => {
       });
     }
   }, [location, navigation, user]);
+
+  // useEffect(() => {
+  //   if (location?.name === screenName.TOGGLE_PROFILE_VIEW) {
+  //     navState[1].onPress();
+  //   } else {
+  //     navState[0].onPress();
+  //   }
+  // }, [navState, location, user]);
 
   useGetUserConversations(true);
   useGetUserPreference();
