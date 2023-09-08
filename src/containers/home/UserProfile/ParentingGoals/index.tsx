@@ -1,5 +1,7 @@
 import { LinearGradient } from "expo-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
+import React from "react";
+import { View } from "react-native";
 import { styles } from "./styles";
 import { Colors } from "../../../../utils";
 import { PARENTING_GOALS } from "../../../../utils/types/TAGS";
@@ -33,13 +35,15 @@ const ParentingGoals = ({ navigation, route }: any) => {
 
   useOnScreenView({
     screenName: analyticScreenNames.parentingGoal,
-    screenType: screenClass.profile
+    screenType: screenClass.profile,
   });
 
   return (
     <LinearGradient style={styles.container} colors={gradient}>
       <SafeAreaView style={{ flex: 1 }} edges={["left", "right", "top"]}>
-        <TagScreenHeader close={goBackHome} title={pageTitle} />
+        <View style={{ marginHorizontal: "3%" }}>
+          <TagScreenHeader close={goBackHome} title={pageTitle} />
+        </View>
         <TagsView currentTagType={currentTagType} tags={parentingGoalsTags} typeOf={TypeOf.ARRAY} />
       </SafeAreaView>
     </LinearGradient>

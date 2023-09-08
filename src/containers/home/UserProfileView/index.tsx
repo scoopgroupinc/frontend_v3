@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { View, Text, ImageBackground, Image, Dimensions } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
+import { useMutation } from "@apollo/client";
 import { useAppSelector } from "../../../store/hooks";
 import {
   selectUser,
@@ -9,7 +10,7 @@ import {
   selectUserVisuals,
   selectUserPromptsOrder,
 } from "../../../store/features/user/userSlice";
-import { Spacing } from "../../../utils";
+import { Colors, Spacing } from "../../../utils";
 import { QuotedText } from "../../../components/atoms/QuotedText";
 import { analyticScreenNames, screenClass } from "../../../analytics/constants";
 import {
@@ -43,6 +44,10 @@ import {
 import { styles } from "../../../features/ProfileView/styles";
 import { selectAllPrompts } from "../../../store/features/prompts/promptsSlice";
 import { useOnScreenView } from "../../../analytics/hooks/useOnScreenView";
+import { AppButton } from "../../../components/atoms/AppButton";
+import { GET_USER_SHARE_PROFILE_LINK } from "../../../services/graphql/user-link/mutations";
+import { useShare } from "../../../hooks/useShare";
+import { encryptData } from "../../../utils/helpers";
 
 const screenHeight = Dimensions.get("window").height;
 const onethirdScreenHeight = screenHeight / 3;
@@ -52,8 +57,36 @@ export const UserProfileView = () => {
   const userPrompts = useAppSelector(selectUserPrompts);
   const promptDisplayOrder = useAppSelector(selectUserPromptsOrder);
   const allPrompts = useAppSelector(selectAllPrompts);
-  const allImages = useAppSelector(selectUserVisuals);
+  const allImagesRedux = useAppSelector(selectUserVisuals);
+
+  const allImages = useMemo(() => {
+    const images = Object.values(allImagesRedux);
+    return images;
+  }, [allImagesRedux]);
+
   const { user } = useAppSelector(selectUser);
+  const userId = user?.userId;
+
+  const { share } = useShare();
+
+  const [shareLink, setShareLink] = useState<any>(null);
+
+  const [getShareLink] = useMutation(GET_USER_SHARE_PROFILE_LINK);
+  useEffect(() => {
+    getShareLink({
+      variables: {
+        userId,
+      },
+    }).then((res) => {
+      const link = res.data.getUserShareProfileLink;
+      setShareLink(link);
+    });
+  }, [getShareLink, userId]);
+
+  const shareLinkToSocialMedia = () => {
+    const cipherLink = encryptData(shareLink);
+    share(cipherLink);
+  };
 
   const [merged, setMerged] = useState<any>([]);
 
@@ -63,7 +96,6 @@ export const UserProfileView = () => {
     const mergeData = () => {
       const promptIds = (promptDisplayOrder || []).filter((id) => id !== undefined);
       if (promptIds.length > 0 && allImages && allImages.length > 0) {
-        // get the max length of the two arrays
         const maxLength = Math.max(promptIds.length, allImages.length);
         setMerged([]);
         for (let i = 0; i < maxLength; i++) {
@@ -73,21 +105,22 @@ export const UserProfileView = () => {
           const id = promptIds[i];
           if (id) {
             if (userPrompts[id]?.answer) {
-              setMerged((prev: any) => [...prev, { type: "prompt", prompt: userPrompts[i] }]);
+              setMerged((prev: any) => [...prev, { type: "prompt", prompt: userPrompts[id] }]);
             }
           }
         }
-      }
-      setMerged([]);
-      for (let i = 0; i < promptIds.length; i++) {
-        const id = promptIds[i];
-        if (userPrompts[id]?.answer !== "") {
-          setMerged((prev: any) => [...prev, { type: "prompt", prompt: userPrompts[id] }]);
+      } else {
+        setMerged([]);
+        for (let i = 0; i < promptIds.length; i++) {
+          const id = promptIds[i];
+          if (userPrompts[id]?.answer !== "") {
+            setMerged((prev: any) => [...prev, { type: "prompt", prompt: userPrompts[id] }]);
+          }
         }
       }
     };
     mergeData();
-  }, [allImages, userPrompts, promptDisplayOrder]);
+  }, [allImages, promptDisplayOrder, userPrompts]);
 
   return (
     <ImageBackground
@@ -115,19 +148,6 @@ export const UserProfileView = () => {
           }}
         >
           <View style={styles.descriptionContainer}>
-            {/* <View style={styles.section}>
-                <Text style={styles.descriptionHeader}>Prompts</Text>
-                <View style={styles.content}>
-                  {prompts.map((item: any) => {
-                    if (item.prompt !== '' || item.answer !== '')
-                      return (
-                        <Text style={styles.descriptionText}>
-                          {item.prompt}: {item.answer}
-                        </Text>
-                      )
-                  })}
-                </View>
-              </View> */}
             <View style={styles.section}>
               <Text style={styles.name}>{`${user?.firstName} ${user?.lastName}`}</Text>
               {/* <Text style={styles.age}>
@@ -184,10 +204,9 @@ export const UserProfileView = () => {
                         padding: Spacing.SCALE_20,
                       }}
                     >
-                      {/* <Text>{item.prompt.answer}</Text> */}
                       <QuotedText
-                        title={allPrompts[item.prompt.promptId]?.prompt}
-                        text={item.prompt.answer}
+                        title={allPrompts[item?.prompt?.promptId]?.prompt}
+                        text={item?.prompt?.answer}
                       />
                     </View>
                   );
@@ -222,6 +241,11 @@ export const UserProfileView = () => {
           </View>
         </View>
       </ScrollView>
+      <View style={{ backgroundColor: Colors.WHITE, padding: 20 }}>
+        <AppButton colorScheme="coolGray" onPress={shareLinkToSocialMedia}>
+          Share Profile Link
+        </AppButton>
+      </View>
     </ImageBackground>
   );
 };

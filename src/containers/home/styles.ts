@@ -127,14 +127,17 @@ export const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   noticeBody: {
+    marginVertical: 20,
     flexDirection: "row",
+    alignItems: "center",
     borderRadius: 15,
-    padding: 20,
-    backgroundColor: Colors.TEAL,
+    padding: 10,
+    backgroundColor: Colors.WHITE,
     justifyContent: "space-between",
   },
   noticeText: {
     fontSize: 16,
-    fontFamily: Typography.FONT_CAPRIOLA_REGULAR,
+    paddingLeft: 10,
+    paddingVertical: 10,
   },
 });

@@ -1,14 +1,12 @@
 import { StyleSheet } from "react-native";
-import { Typography } from "../../../utils";
 
 export const styles = StyleSheet.create({
   cancel: {
     fontSize: 18,
     marginLeft: 10,
-    fontFamily: Typography.FONT_CAPRIOLA_REGULAR,
   },
   container: {
-    marginBottom: 10,
+    marginBottom: 30,
     justifyContent: "flex-start",
     alignItems: "center",
     flexDirection: "row",
@@ -17,16 +15,16 @@ export const styles = StyleSheet.create({
     padding: 10,
     flexDirection: "row",
     width: "95%",
-    backgroundColor: "#d9dbda",
-    borderRadius: 15,
+    backgroundColor: "#fff",
+    borderRadius: 10,
     alignItems: "center",
   },
   searchBar__clicked: {
     padding: 10,
     flexDirection: "row",
     width: "80%",
-    backgroundColor: "#d9dbda",
-    borderRadius: 15,
+    backgroundColor: "#fff",
+    borderRadius: 10,
     alignItems: "center",
     justifyContent: "space-evenly",
   },

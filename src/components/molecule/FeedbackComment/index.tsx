@@ -1,5 +1,6 @@
 import React from "react";
 import { View, Text } from "react-native";
+import moment from "moment";
 import { Colors, Typography } from "../../../utils";
 import Tags from "../../atoms/Tags";
 import { styles } from "./styles";
@@ -13,32 +14,34 @@ const customStyles = {
 };
 
 const FeedbackComment = (props: any) => {
-  //   const { text,tags,name,dateTime } = props;
-  const text = "Nice overall! Try putting a better picture for your main one";
-  const tags = ["cliff", "kwadwo", "owusu"];
-  const name = "Michelle";
-  const dateTime = "July 25, 2021";
+  const { feedback } = props;
 
   return (
-    <View style={styles.body}>
-      <View style={styles.tagsBody}>
-        {tags.map((name) => (
-          <Tags title={name} style={customStyles} />
-        ))}
-      </View>
-      <Text style={styles.text}>{text}</Text>
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "flex-end",
-        }}
-      >
-        <View>
-          <Text style={styles.author}>{name}</Text>
-          <Text style={styles.dateTime}>{dateTime}</Text>
+    <>
+      {feedback.map((fb: any) => (
+        <View style={styles.body} key={fb.id}>
+          <View style={styles.tagsBody}>
+            {fb?.personalityFeedbacks.map((item: any) => (
+              <Tags key={item?.id} title={item?.personality} style={customStyles} />
+            ))}
+          </View>
+          <Text style={styles.text}>{fb?.profileFeedback?.description}</Text>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "flex-end",
+            }}
+          >
+            <View>
+              <Text style={styles.author}>{fb?.profileFeedback?.name}</Text>
+              <Text style={styles.dateTime}>
+                {moment(feedback?.profileFeedback?.createdAt).format("DD MMM YYYY")}
+              </Text>
+            </View>
+          </View>
         </View>
-      </View>
-    </View>
+      ))}
+    </>
   );
 };
 

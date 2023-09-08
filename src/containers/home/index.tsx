@@ -4,7 +4,7 @@ import { View, Text, Pressable, Linking, Alert } from "react-native";
 import { FontAwesome5, Ionicons, Octicons } from "@expo/vector-icons";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
-import { useMutation } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { ScrollableGradientLayout } from "../../components/layouts/ScrollableGradientLayout";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
@@ -18,12 +18,16 @@ import OptionTab from "../../components/atoms/OptionsTabs";
 import { analyticScreenNames, eventNames, screenClass } from "../../analytics/constants";
 import { logEvent, onScreenView } from "../../analytics";
 import { selectUser, selectUserVisuals } from "../../store/features/user/userSlice";
+import { GET_SHARE_PROFILE_FEEDBACK } from "../../services/graphql/share-profile/queries";
+import { selectFeedbacks, setFeedback } from "../../store/features/feedback/feedbackSlice";
 
 export const Home = () => {
   const { user } = useAppSelector(selectUser);
   const firstName = user?.firstName;
   const email = user?.email;
   const userId = user?.userId;
+
+  const fdback = useAppSelector(selectFeedbacks);
 
   const dispatch = useAppDispatch();
 
@@ -173,6 +177,24 @@ export const Home = () => {
     );
   }, [dispatch, criteriaData]);
 
+  const { data: ShareProfileFeedbackData, loading: ShareProfileFeedbackLoading } = useQuery(
+    GET_SHARE_PROFILE_FEEDBACK,
+    {
+      variables: {
+        userId,
+      },
+    }
+  );
+
+  useEffect(() => {
+    if (ShareProfileFeedbackData) {
+      const feedback = ShareProfileFeedbackData.getShareProfileFeedback;
+      if (feedback) {
+        dispatch(setFeedback({ feedback }));
+      }
+    }
+  }, [ShareProfileFeedbackData, ShareProfileFeedbackLoading, dispatch]);
+
   return (
     <ScrollableGradientLayout>
       <>
@@ -192,17 +214,17 @@ export const Home = () => {
           }}
         >
           <ProfileAvatar
-            displayPhoto={
-              userVisuals &&  userVisuals[0]? userVisuals[0]?.videoOrPhoto : null
-            }
+            displayPhoto={userVisuals && userVisuals[0] ? userVisuals[0]?.videoOrPhoto : null}
           />
-          <TouchableOpacity>
+        </Pressable>
+        {fdback && fdback.length > 0 && (
+          <TouchableOpacity onPress={() => navigation.navigate(screenName.USER_PROFILE_FEEDBACK)}>
             <View style={styles.noticeBody}>
               <Text style={styles.noticeText}>You have got profile feedback!!!</Text>
-              <FontAwesome5 name="arrow-right" size={16} color="black" />
+              <Ionicons name="ios-chevron-forward" size={24} color="black" />
             </View>
           </TouchableOpacity>
-        </Pressable>
+        )}
         {openSettings ? (
           <SlideUpModal close={() => setOpenSettings(false)} state={openSettings}>
             <View style={{ flex: 1 }}>
@@ -210,9 +232,7 @@ export const Home = () => {
               <View style={styles.modalContainerHeader}>
                 <ProfileAvatar
                   settings={openSettings}
-                  displayPhoto={
-                    userVisuals &&  userVisuals[0]? userVisuals[0]?.videoOrPhoto : null
-                  }
+                  displayPhoto={userVisuals && userVisuals[0] ? userVisuals[0]?.videoOrPhoto : null}
                 />
               </View>
 

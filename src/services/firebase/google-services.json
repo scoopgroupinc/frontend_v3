@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:501079367587:android:fbc08007ea75c6b5dcc416",
         "android_client_info": {
-          "package_name": "com.scoop.love"
+          "package_name": "com.scoop-app"
         }
       },
       "oauth_client": [
@@ -34,7 +34,7 @@
               "client_id": "501079367587-hb7ft6hku532p8k6h2npc3em5ug0goa2.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.scoop.love"
+                "bundle_id": "com.scoop-app"
               }
             }
           ]

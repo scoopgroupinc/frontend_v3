@@ -2,7 +2,6 @@ import { ExpoConfig, ConfigContext } from "expo/config";
 
 // trim for windows which leaves in trailing spaces...
 const environment = (process.env.NODE_ENV || "development").trim();
-
 const oauth = {
   production: {
     EXPO_CLIENT_ID: process.env.EXPO_CLIENT_ID,
@@ -44,10 +43,20 @@ const config = {
   ios: {
     jsEngine: "jsc",
     supportsTablet: true,
-    buildNumber: "1.0.0",
+    buildNumber: "2.0.0",
     bundleIdentifier: "com.scoop.love",
     icon: "src/assets/icon.png",
     googleServicesFile: "src/services/firebase/GoogleService-Info.plist",
+    associatedDomains: ["applinks:scoop.love"],
+    infoPlist: {
+      CFBundleURLTypes: [
+        {
+          CFBundleURLSchemes: [
+            "com.googleusercontent.apps.474530368865-87k3pk487b6tb58q49moahprr9usd3f2",
+          ],
+        },
+      ],
+    },
   },
   android: {
     package: "com.scoop.love",
@@ -63,12 +72,13 @@ const config = {
   },
   extra: {
     eas: {
-      projectId: process.env.EAS_PROJECT_ID,
+      projectId: "c7bc250b-d451-49fd-b042-5a9fae365906",
     },
   },
   scheme: ["scoop", `fb${oauth[environment].FACEBOOK_APP_ID}`],
   owner: "scoopgroup",
   plugins: [
+    "@react-native-google-signin/google-signin",
     "@react-native-firebase/app",
     [
       "expo-build-properties",
@@ -78,7 +88,7 @@ const config = {
         },
       },
     ],
-    "expo-apple-authentication",
+    // "expo-apple-authentication",
     [
       "expo-image-picker",
       {

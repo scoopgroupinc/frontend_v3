@@ -14,26 +14,76 @@ export const GET_USER_SHARE_PROFILE_LINK = gql`
 `;
 
 export const DEACTIVATE_PROFILE_LINK = gql`
-mutation DeactivateProfileLink($id: String!) {    
-  updateUserLinkState(id: $id, state: USER_LINK_STATE.INACTIVE) {
-        id
-        userId
-        createdAt
-        state
-        templateId
-        }
+  mutation DeactivateProfileLink($id: String!) {
+    updateUserLinkState(id: $id, state: "inactive") {
+      id
+      userId
+      createdAt
+      state
+      templateId
     }
+  }
 `;
 
 export const ACTIVATE_PROFILE_LINK = gql`
-mutation ActivateProfileLink($id: String!) {    
-  updateUserLinkState(id: $id, state: USER_LINK_STATE.ACTIVE) {
-        id
-        userId
-        createdAt
-        state
-        templateId
-        }
+  mutation ActivateProfileLink($id: String!) {
+    updateUserLinkState(id: $id, state: "active") {
+      id
+      userId
+      createdAt
+      state
+      templateId
     }
+  }
 `;
 
+export const GET_USER_PROFILE_BY_LINK_ID = gql`
+  mutation GetUserProfileByLinkId($id: String!) {
+    getUserProfileByLinkId(id: $id) {
+      userId
+      createdAt
+      profilePhoto
+      displayName
+      birthday
+      height
+      gender
+      locationId
+      jobTitle
+      company
+      homeTown
+      school
+      promptIds
+      prompts {
+        id
+        createdAt
+        userId
+        promptId
+        answer
+      }
+      tags {
+        id
+        userId
+        tagType
+        visible
+        emoji
+        userTags {
+          id
+          userId
+          tagName
+          tagType
+        }
+      }
+      visuals {
+        id
+        createdAt
+        userId
+        videoOrPhoto
+        blobName
+        visualPromptId
+        deletedAt
+        description
+        isVisible
+      }
+    }
+  }
+`;

@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { Colors, Typography } from "../../../utils";
+import { Colors } from "../../../utils";
 
 export const styles = StyleSheet.create({
   body: {
@@ -8,11 +8,11 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: Colors.WHITE,
     padding: 10,
+    marginVertical: 10,
   },
   text: {
     fontSize: 16,
     color: Colors.BLACK,
-    fontFamily: Typography.FONT_CAPRIOLA_REGULAR,
   },
   tagsBody: {
     flexDirection: "row",
@@ -21,13 +21,11 @@ export const styles = StyleSheet.create({
   },
   author: {
     alignSelf: "flex-end",
-    fontSize: 10,
-    color: Colors.BLACK,
-    fontFamily: Typography.FONT_CAPRIOLA_REGULAR,
+    fontSize: 13,
+    color: Colors.SLATE,
   },
   dateTime: {
     fontSize: 10,
-    color: Colors.BLACK,
-    fontFamily: Typography.FONT_CAPRIOLA_REGULAR,
+    color: Colors.SLATE,
   },
 });

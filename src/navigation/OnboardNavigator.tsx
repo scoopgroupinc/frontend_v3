@@ -11,6 +11,7 @@ import { PhotoVideoScreen } from "../containers/onboarding/PhotoVideo";
 import { QuestionPromptScreen } from "../containers/onboarding/QuestionPrompt";
 import AllPrompts from "../features/Prompt/AllPrompts";
 import OnboardPromptAnswer from "../containers/onboarding/PromptAnswer";
+import ShareForFeedback from "../containers/onboarding/ShareForFeedback";
 
 const OnboardStack = createNativeStackNavigator();
 
@@ -23,7 +24,6 @@ export const OnboardNavigator = () => (
     <OnboardStack.Screen name={screenName.NAME} component={OnboardName} />
     <OnboardStack.Screen name={screenName.GENDER} component={GenderScreen} />
     <OnboardStack.Screen name={screenName.DATE_WHO} component={DateWhoScreen} />
-
     <OnboardStack.Screen name={screenName.BIRTHDAY} component={OnboardBirthdayScreen} />
     <OnboardStack.Screen name={screenName.HEIGHT} component={HeightScreen} />
     <OnboardStack.Screen name={screenName.PHOTOS} component={PhotoVideoScreen} />
@@ -38,5 +38,6 @@ export const OnboardNavigator = () => (
     <OnboardStack.Screen name={screenName.QUESTION_PROMPT} component={QuestionPromptScreen} />
     <OnboardStack.Screen name={screenName.ALLPROMPTS} component={AllPrompts} />
     <OnboardStack.Screen name={screenName.PROMPT_ANSWER} component={OnboardPromptAnswer} />
+    <OnboardStack.Screen name={screenName.SHARE_FOR_FEEDBACK} component={ShareForFeedback} />
   </OnboardStack.Navigator>
 );

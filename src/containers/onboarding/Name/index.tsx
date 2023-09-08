@@ -17,7 +17,6 @@ import { styles } from "./styles";
 import { GradientLayout } from "../../../components/layouts/GradientLayout";
 import FieldComponent from "../../../components/molecule/FormField";
 import { AppButton } from "../../../components/atoms/AppButton";
-import { Colors } from "../../../utils";
 import AppActivityIndicator from "../../../components/atoms/ActivityIndicator";
 import { updateUser } from "../../../store/features/user/userSlice";
 import { logEvent } from "../../../analytics";
@@ -39,8 +38,10 @@ export const OnboardName = () => {
 
   const dispatch = useAppDispatch();
 
-  useOnScreenView({screenName:analyticScreenNames.onBoardName,
-    screenType:screenClass.onBoarding});
+  useOnScreenView({
+    screenName: analyticScreenNames.onBoardName,
+    screenType: screenClass.onBoarding,
+  });
 
   const schema = yup.object().shape({
     firstname: yup

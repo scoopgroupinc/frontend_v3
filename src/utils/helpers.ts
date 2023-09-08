@@ -1,4 +1,5 @@
 import { cloneDeep } from "lodash";
+import CryptoJS from "react-native-crypto-js";
 
 export const cloneArray = (array: any[]) => {
   if (array) {
@@ -26,6 +27,19 @@ export const mapIndexToPrompts = (d: any, index: number, arr: any[]) => ({
   prompt: "",
   answer: "",
 });
+
+export const decryptData = (ciphertext: string) => {
+  const key = "5a9fae365906c7bc250b";
+  const bytes = CryptoJS.AES.decrypt(ciphertext, "secret key 123");
+  const decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+  return decryptedData;
+};
+
+export const encryptData = (obj: any) => {
+  const key = "5a9fae365906c7bc250b";
+  const ciphertext = CryptoJS.AES.encrypt(JSON.stringify(obj), "secret key 123").toString();
+  return ciphertext;
+};
 
 export type Item = ReturnType<typeof mapIndexToPrompts>;
 export type UserVisualsType = ReturnType<typeof mapIndexToUserVisuals>;

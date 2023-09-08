@@ -32,6 +32,7 @@ export const GenderScreen = () => {
         userId,
         gender,
       };
+      console.log("data", data);
       logEvent({
         eventName: eventNames.submitOnBoardGenderButton,
         params: { ...data, screenClass: screenClass.onBoarding },

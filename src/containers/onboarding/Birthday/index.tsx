@@ -32,8 +32,10 @@ export const OnboardBirthdayScreen = () => {
     setModalState(false);
   };
 
-  useOnScreenView({screenName:analyticScreenNames.onBoardBirthday,
-    screenType:screenClass.onBoarding});
+  useOnScreenView({
+    screenName: analyticScreenNames.onBoardBirthday,
+    screenType: screenClass.onBoarding,
+  });
 
   useEffect(() => {
     if (date !== null) {

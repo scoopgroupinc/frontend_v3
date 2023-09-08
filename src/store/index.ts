@@ -5,6 +5,7 @@ import UserSlice from "./features/user/userSlice";
 import PromptSlice from "./features/prompts/promptsSlice";
 import MatchSlice from "./features/matches/matchSlice";
 import MessagesSlice from "./features/messages/MessagesSlice";
+import FeedbackSlice from "./features/feedback/feedbackSlice";
 
 const persistConfig = {
   key: "root",
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
   appPrompts: PromptSlice,
   matches: MatchSlice,
   messages: MessagesSlice,
+  feedbacks: FeedbackSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

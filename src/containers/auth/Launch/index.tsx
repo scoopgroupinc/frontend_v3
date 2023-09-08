@@ -10,19 +10,17 @@ import { GradientLayout } from "../../../components/layouts/GradientLayout";
 
 const Launch = () => {
   useOnScreenView({ screenName: analyticScreenNames.welcome, screenType: screenClass.auth });
-
   return (
     <GradientLayout>
       <View style={[styles.container]}>
         <Image
+          // eslint-disable-next-line global-require
           source={require("../../../assets/images/scoop-logo.png")}
           style={{ height: 250, width: 250 }}
         />
         <Text style={styles.title}>SCOOP UPDATE</Text>
         <Text style={styles.blur}>Date Smarter. Live Fuller.</Text>
       </View>
-      {/* <View style={styles.btnContainer}>
-      </View> */}
       <SocialLogins />
     </GradientLayout>
   );

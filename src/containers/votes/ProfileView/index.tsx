@@ -200,19 +200,6 @@ export const ProfileView = () => {
           }}
         >
           <View style={styles.descriptionContainer}>
-            {/* <View style={styles.section}>
-                <Text style={styles.descriptionHeader}>Prompts</Text>
-                <View style={styles.content}>
-                  {prompts.map((item: any) => {
-                    if (item.prompt !== '' || item.answer !== '')
-                      return (
-                        <Text style={styles.descriptionText}>
-                          {item.prompt}: {item.answer}
-                        </Text>
-                      )
-                  })}
-                </View>
-              </View> */}
             <View style={styles.section}>
               <Text style={styles.name}>{userChoices[0].choiceName}</Text>
               <Text style={styles.age}>{/* {age} years old, {height} */}</Text>
