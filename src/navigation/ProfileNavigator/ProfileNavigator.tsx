@@ -1,9 +1,5 @@
-import React, { useEffect } from "react";
-import {
-  NativeStackNavigationProp,
-  createNativeStackNavigator,
-} from "@react-navigation/native-stack";
-import { useNavigation } from "@react-navigation/native";
+import React from "react";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { screenName } from "../../utils/constants";
 import UserProfile from "../../containers/home/UserProfile";
 import AppNavigator from "../AppNavigator";
@@ -15,40 +11,12 @@ import { useGetUserPreference } from "../../hooks/useGetUserPreference";
 import { useGetUserPrompts } from "../../hooks/useGetUserPrompts";
 import { useGetUserTags } from "../../hooks/useGetUserTags";
 import { useGetUserVisuals } from "../../hooks/useGetUserVisuals";
-import { useGetUserChoices } from "../../hooks/useGetUserChoices";
 import UserProfileFeedback from "../../containers/feedback/UserProfileFeedback";
-import { useAppSelector } from "../../store/hooks";
-import { selectUser } from "../../store/features/user/userSlice";
-import { useNavState } from "../../containers/home/UserProfile/ToggleProfileView/hooks/useNavState";
+import ShareForFeedback from "../../containers/onboarding/ShareForFeedback";
 
 const HomeStack = createNativeStackNavigator();
 
 const ProfileNavigator = () => {
-  const { user } = useAppSelector(selectUser);
-  const location = user?.location;
-  const [navState] = useNavState();
-
-  const navigation = useNavigation<NativeStackNavigationProp<any>>();
-
-  useEffect(() => {
-    if (location?.name === screenName.TOGGLE_PROFILE_VIEW) {
-      navigation.navigate(screenName.USER_PROFILE, {
-        screen: screenName.TOGGLE_PROFILE_VIEW,
-        params: {
-          value: location?.value,
-        },
-      });
-    }
-  }, [location, navigation, user]);
-
-  // useEffect(() => {
-  //   if (location?.name === screenName.TOGGLE_PROFILE_VIEW) {
-  //     navState[1].onPress();
-  //   } else {
-  //     navState[0].onPress();
-  //   }
-  // }, [navState, location, user]);
-
   useGetUserConversations(true);
   useGetUserPreference();
   useGetUserPrompts();
@@ -69,6 +37,7 @@ const ProfileNavigator = () => {
       <HomeStack.Screen name={screenName.USER_PROFILE} component={UserProfile} />
       <HomeStack.Screen name={screenName.MESSAGES} component={Messages} />
       <HomeStack.Screen name={screenName.USER_PROFILE_FEEDBACK} component={UserProfileFeedback} />
+      <HomeStack.Screen name={screenName.SHARE_FOR_FEEDBACK} component={ShareForFeedback} />
     </HomeStack.Navigator>
   );
 };

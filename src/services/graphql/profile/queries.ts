@@ -262,7 +262,6 @@ export const GET_USER_LOCATION = gql`
   }
 `;
 
-
 export const GET_FULL_PROFILE = gql`
   query GetFullProfile($userId: ID!) {
     getFullProfile(userId: $userId) {

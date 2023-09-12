@@ -1,34 +1,20 @@
 /* eslint-disable react/no-unstable-nested-components */
-import React, { useEffect } from "react";
+import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import VoteNavigator from "./VoteNavigator";
 import { screenName } from "../utils/constants";
 import { useAppSelector } from "../store/hooks";
 import { Colors } from "../utils";
-// import VoteOnboardNavigator from "./VoteOnboardNavigator";
-import {
-  selectLocation,
-  selectUser,
-  selectUserIsOnboarded,
-} from "../store/features/user/userSlice";
+import { selectUserIsOnboarded } from "../store/features/user/userSlice";
 import { OnboardNavigator } from "./OnboardNavigator";
 import { Home } from "../containers/home";
 import ChatNavigator from "./ChatNavigator";
 import { FloatingNavButton } from "../components/molecule/FloatingNav/FloatingNavButton";
-import ShareForFeedback from "../containers/onboarding/ShareForFeedback";
 
 const AppTabStack = createBottomTabNavigator();
 
 const AppNavigator = () => {
   const isOnboarded = useAppSelector(selectUserIsOnboarded);
-  // const isOnboarded = true;
-  // const firstTime = true;
-
-  // if (firstTime) {
-  //   return <ShareForFeedback />;
-  // }
 
   return isOnboarded ? (
     <AppTabStack.Navigator
@@ -61,7 +47,6 @@ const AppNavigator = () => {
     >
       <AppTabStack.Screen
         name={screenName.VOTE}
-        // component={isVoteOnboarded ? VoteNavigator : VoteOnboardNavigator}
         component={VoteNavigator}
         options={{
           tabBarItemStyle: {

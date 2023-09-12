@@ -34,7 +34,7 @@ const ErrorScreen = ({ route }: any) => {
         </View>
       </View>
       <View style={styles.buttonsBody}>
-        <AppButton style={styles.btn} onPress={() => navigation.goBack()}>
+        <AppButton style={styles.btn} onPress={() => navigation.popToTop()}>
           Go to home
         </AppButton>
       </View>

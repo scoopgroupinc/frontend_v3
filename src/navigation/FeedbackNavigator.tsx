@@ -63,12 +63,10 @@ const FeedbackNavigator = ({ route }: any) => {
         name={screenName.AUTHORIZEDFEEDBACKUSER}
         component={AuthorizedFeedbackUser}
       />
-      {/* <FeedbackStack.Screen
+      <FeedbackStack.Screen
         name={screenName.UNAUTHORIZEDFEEDBACKUSER}
         component={UnAuthorizedFeedbackUser}
-      /> */}
-      {/* <FeedbackStack.Screen name={screenName.SHARE_FOR_FEEDBACK} component={ShareForFeedback} /> */}
-      {/* <FeedbackStack.Screen name={screenName.USER_PROFILE_FEEDBACK} component={UserProfileFeedback} /> */}
+      />
     </FeedbackStack.Navigator>
   );
 };
