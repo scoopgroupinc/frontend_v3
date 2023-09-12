@@ -1,24 +1,25 @@
 import React, { useEffect } from "react";
 import { Text, View } from "react-native";
 import { useMutation } from "@apollo/client";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { GradientLayout } from "../../../components/layouts/GradientLayout";
 import { styles } from "./styles";
 import { AppButton } from "../../../components/atoms/AppButton";
 import { Typography } from "../../../utils";
 import { useShare } from "../../../hooks/useShare";
-import { useAppDispatch, useAppSelector } from "../../../store/hooks";
-import { selectUser, updateUser } from "../../../store/features/user/userSlice";
+import { useAppSelector } from "../../../store/hooks";
+import { selectUser } from "../../../store/features/user/userSlice";
 import { GET_USER_SHARE_PROFILE_LINK } from "../../../services/graphql/user-link/mutations";
 import { screenName } from "../../../utils/constants";
 import { encryptData } from "../../../utils/helpers";
-import { useNavState } from "../../home/UserProfile/ToggleProfileView/hooks/useNavState";
 
 const AuthorizedFeedbackUser = () => {
   const { user } = useAppSelector(selectUser);
   const userId = user?.userId;
-  const dispatch = useAppDispatch();
   const { share } = useShare();
-  const [navState] = useNavState();
+
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const [link, setLink] = React.useState<string>("");
 
@@ -35,19 +36,10 @@ const AuthorizedFeedbackUser = () => {
   }, [getShareLink, userId]);
 
   const gotoProfileEditView = (value: string) => {
-    if (value === "View") {
-      navState[1].onPress();
-    } else {
-      navState[0].onPress();
-    }
-
-    // dispatch(
-    //   updateUser({
-    //     value: {
-    //       location: { name: screenName.TOGGLE_PROFILE_VIEW, value },
-    //     },
-    //   })
-    // );
+    navigation.navigate(screenName.PROFILE_NAVIGATOR, {
+      screen: screenName.USER_PROFILE,
+      params: { screen: screenName.TOGGLE_PROFILE_VIEW, params: { value } },
+    });
   };
 
   return (
