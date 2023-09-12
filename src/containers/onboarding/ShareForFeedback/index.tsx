@@ -13,8 +13,6 @@ import { useShare } from "../../../hooks/useShare";
 import { GET_USER_SHARE_PROFILE_LINK } from "../../../services/graphql/user-link/mutations";
 import { encryptData } from "../../../utils/helpers";
 import { screenName } from "../../../utils/constants";
-import { useNavState } from "../../home/UserProfile/ToggleProfileView/hooks/useNavState";
-import { navigationRef } from "../../../navigation/RootNavigation";
 
 const ShareForFeedback = () => {
   const { user } = useAppSelector(selectUser);
@@ -38,15 +36,17 @@ const ShareForFeedback = () => {
   }, [getShareLink, userId]);
 
   const gotoProfileEditView = (value: string) => {
-    console.log("hey");
-    navigationRef.current?.navigate(screenName.PROFILE_NAVIGATOR);
-    // dispatch(
-    //   updateUser({
-    //     value: {
-    //       location: { name: screenName.TOGGLE_PROFILE_VIEW, value },
-    //     },
-    //   })
-    // );
+    dispatch(
+      updateUser({
+        value: {
+          isOnboarded: true,
+        },
+      })
+    );
+    navigation.navigate(screenName.USER_PROFILE, {
+      screen: screenName.TOGGLE_PROFILE_VIEW,
+      params: { value },
+    });
   };
 
   return (

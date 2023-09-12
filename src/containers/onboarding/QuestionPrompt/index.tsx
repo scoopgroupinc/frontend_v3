@@ -8,16 +8,12 @@ import { ScrollView } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { styles } from "./styles";
-import { useAppDispatch, useAppSelector } from "../../../store/hooks";
+import { useAppSelector } from "../../../store/hooks";
 import { SAVE_ONBOARD_STATUS } from "../../../services/graphql/profile/mutations";
 import { GradientLayout } from "../../../components/layouts/GradientLayout";
 import { AppButton } from "../../../components/atoms/AppButton";
 import AppActivityIndicator from "../../../components/atoms/ActivityIndicator";
-import {
-  selectUserId,
-  updateUser,
-  selectUserPrompts,
-} from "../../../store/features/user/userSlice";
+import { selectUserId, selectUserPrompts } from "../../../store/features/user/userSlice";
 import { analyticScreenNames, screenClass } from "../../../analytics/constants";
 import { useOnScreenView } from "../../../analytics/hooks/useOnScreenView";
 import { EditPromptList } from "../../../features/Prompt/components/EditPromptList";
@@ -30,8 +26,6 @@ export const QuestionPromptScreen = () => {
   const userPrompts = useAppSelector(selectUserPrompts);
 
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
-
-  const dispatch = useAppDispatch();
 
   useOnScreenView({
     screenName: analyticScreenNames.onBoardAllPrompts,
@@ -50,14 +44,6 @@ export const QuestionPromptScreen = () => {
       },
     },
     onCompleted: () => {
-      // load all necessary data here for the user
-      // dispatch(
-      //   updateUser({
-      //     value: {
-      //       isOnboarded: true,
-      //     },
-      //   })
-      // );
       navigation.navigate(screenName.SHARE_FOR_FEEDBACK);
       setIsLoading(false);
     },
