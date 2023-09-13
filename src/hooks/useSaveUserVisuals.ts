@@ -5,7 +5,6 @@ import {
   selectisUserVisualsDirty,
   selectUserId,
   selectUserVisuals,
-  setFetchedUserVisuals,
   setUserVisuals,
 } from "../store/features/user/userSlice";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
@@ -35,7 +34,7 @@ export const useSaveUserVisuals = (): [() => Promise<any>, boolean] => {
         );
 
         setIsLoading(false);
-        
+
         if (response.status === 201) {
           dispatch(setUserVisuals({ userVisuals: response.data }));
 
