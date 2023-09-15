@@ -43,7 +43,8 @@ const config = {
   ios: {
     jsEngine: "jsc",
     supportsTablet: true,
-    buildNumber: "2.0.0",
+    buildNumber: "2.0.7",
+    version: "1.0.0",
     bundleIdentifier: "com.scoop.love",
     icon: "src/assets/icon.png",
     googleServicesFile: "src/services/firebase/GoogleService-Info.plist",
@@ -88,7 +89,6 @@ const config = {
         },
       },
     ],
-    // "expo-apple-authentication",
     [
       "expo-image-picker",
       {
