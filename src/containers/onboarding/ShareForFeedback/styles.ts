@@ -17,6 +17,7 @@ export const styles = StyleSheet.create({
     marginTop: Spacing.SCALE_8,
     marginBottom: Spacing.SCALE_12,
     letterSpacing: Spacing.SCALE_2,
+    textAlign: "center",
   },
   textBody: {
     width: "50%",

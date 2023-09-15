@@ -47,22 +47,6 @@ const SocialLogins = () => {
 
   const [loginWithProvider] = useMutation(PROVIDER_LOGIN);
 
-  // const handleAppleAuthentication = async () => {
-  //   try {
-  //     const credential: AppleAuthenticationCredential = await AppleAuthentication.signInAsync({
-  //       requestedScopes: [
-  //         AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
-  //         AppleAuthentication.AppleAuthenticationScope.EMAIL,
-  //       ],
-  //     });
-
-  //     const { email, user: id } = credential;
-  //     setProviderUser({ email, id, provider: "apple" });
-  //   } catch (err: any) {
-  //     // Alert.alert("Apple Authentication Error", err.message);
-  //   }
-  // };
-
   const fetchAppleEmail = async () => {
     try {
       const credential: AppleAuthenticationCredential = await AppleAuthentication.signInAsync({
@@ -72,41 +56,19 @@ const SocialLogins = () => {
         ],
       });
 
-      console.log("credential", credential);
-
       const { email, user: id } = credential;
       if (email) {
-        console.log("email", email);
-        const localStorageCredentials = await storeStringData(
-          "appleCredentials",
-          JSON.stringify(credential)
-        );
         setProviderUser({ email, id, provider: "apple" });
       } else {
-        navigationRef.current?.navigate(screenName.APPLE_EMAIL, { id });
+        navigationRef.current?.navigate(screenName.APPLE_EMAIL, {
+          credential: JSON.stringify({ ...credential, provider: "apple" }),
+        });
       }
     } catch (err: any) {
+      console.log("err", err);
       // Alert.alert("Apple Authentication Error", err.message);
     }
   };
-
-  const checkAppleLoginStatus = async () => {
-    try {
-      const credentialState = await AppleAuthentication.getCredentialStateAsync("");
-      if (credentialState === AppleAuthentication.AppleAuthenticationCredentialState.AUTHORIZED) {
-        console.log("Apple Authorized");
-        fetchAppleEmail();
-      } else {
-        console.log("Apple Not Authorized");
-      }
-    } catch (err: any) {
-      console.log(err);
-    }
-  };
-
-  useEffect(() => {
-    checkAppleLoginStatus();
-  }, []);
 
   useEffect(() => {
     const loginUser = async () => {
@@ -128,6 +90,7 @@ const SocialLogins = () => {
           await storeObjectData("user", {
             ...user,
             token,
+            providerUserId: providerUser.id,
             provider: providerUser.provider,
           }).then(() => {
             // Note once set, user will be redirected and considered logged in
@@ -136,6 +99,8 @@ const SocialLogins = () => {
                 user: {
                   ...user,
                   token,
+                  providerUserId: providerUser.id,
+                  currentProvider: providerUser.provider,
                 },
               })
             );

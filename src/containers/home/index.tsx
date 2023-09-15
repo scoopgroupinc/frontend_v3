@@ -73,6 +73,14 @@ export const Home = () => {
     if (supported) await Linking.openURL(url);
   }, []);
 
+  const revokeAppleSignInPermission = async () => {
+    try {
+      dispatch({
+        type: "appUser/logout",
+      });
+    } catch (error) {}
+  };
+
   const createLogoutAlert = () => {
     //   logEvent({
     //     eventName: eventNames.logoutAccountButton,
@@ -91,9 +99,7 @@ export const Home = () => {
         style: "destructive",
         onPress: () => {
           setOpenSettings(false);
-          dispatch({
-            type: "appUser/logout",
-          });
+          revokeAppleSignInPermission();
         },
       },
     ]);

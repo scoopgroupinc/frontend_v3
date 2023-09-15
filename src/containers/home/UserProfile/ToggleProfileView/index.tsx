@@ -4,7 +4,7 @@ import { View, Text, Alert } from "react-native";
 
 import { LinearGradient } from "expo-linear-gradient";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import {
   NativeStackNavigationProp,
   createNativeStackNavigator,
@@ -34,13 +34,13 @@ import { useSaveUserPrompts } from "./hooks/useSaveUserPrompts";
 import { useSaveUserVisuals } from "../../../../hooks/useSaveUserVisuals";
 
 export const ToggleProfileView = ({ route }: any) => {
-  // const { value } = route.params;
+  const { value } = route.params || { value: "Edit" };
   const gradient = [Colors.RUST, Colors.RED, Colors.TEAL];
   const insets = useSafeAreaInsets();
 
   const Stack = createNativeStackNavigator();
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
-  const [navState] = useNavState();
+  const [navState] = useNavState(value === "Edit");
 
   const [modalState, setModalState] = useState<boolean>(false);
   const [saving, isSaving] = useState<boolean>(false);
@@ -49,9 +49,6 @@ export const ToggleProfileView = ({ route }: any) => {
   const isDirty = useAppSelector(selectIsDirty);
 
   const dispatch = useAppDispatch();
-
-  const routee = useRoute();
-  const history = routee.state?.history;
 
   // make copy to allow for undoing of changes
   useEffect(() => {
@@ -97,15 +94,15 @@ export const ToggleProfileView = ({ route }: any) => {
   }, [dispatch, navigation, saveUserPrompts, saveUserProfile, saveUserVisuals]);
 
   const cancelChanges = () => {
-    console.log("history", route);
     dispatch(resetToCopyData());
     logEvent({
       eventName: eventNames.cancelProfileButton,
       params: {},
     });
     setModalState(false);
-    // navigation.goBack();
-    navigation.popToTop();
+    navigation.navigate(screenName.APP_NAVIGATOR, {
+      screen: screenName.PROFILE_HOME,
+    });
   };
 
   const handleCancelButton = () => {
@@ -125,11 +122,6 @@ export const ToggleProfileView = ({ route }: any) => {
             screenOptions={{
               headerShown: false,
             }}
-            // initialRouteName={
-            //   value && value === "edit"
-            //     ? screenName.USER_PROFILE_EDIT
-            //     : screenName.USER_PROFILE_VIEW
-            // }
           >
             <Stack.Screen name={screenName.USER_PROFILE_EDIT} component={UserProfileEdit} />
             <Stack.Screen name={screenName.USER_PROFILE_VIEW} component={UserProfileView} />

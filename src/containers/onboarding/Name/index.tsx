@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useMutation } from "@apollo/client";
 import { View, Text } from "react-native";
 import { ProgressBar } from "react-native-paper";
@@ -12,7 +12,6 @@ import { Heading, VStack } from "native-base";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { SAVE_USER_NAME } from "../../../services/graphql/onboarding/mutations";
 import { screenName } from "../../../utils/constants";
-import { initialData } from "./utils/util";
 import { styles } from "./styles";
 import { GradientLayout } from "../../../components/layouts/GradientLayout";
 import FieldComponent from "../../../components/molecule/FormField";
@@ -65,12 +64,6 @@ export const OnboardName = () => {
       lastname: lastName,
     },
   });
-
-  const [userData, setUserData] = useState<UserData>(initialData);
-
-  // const screenProgress = COMPLETE_SCREEN.find(
-  //   (item) => item.name === ONBOARD_NAVIGATION.NAME
-  // )?.progress;
 
   const [updateUserNames, { loading }] = useMutation(SAVE_USER_NAME);
   const saveUserNames = async (formData: any) => {

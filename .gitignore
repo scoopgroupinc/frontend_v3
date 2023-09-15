@@ -11,6 +11,8 @@ npm-debug.*
 web-build/
 yarn-error.log
 
+.env*
+
 # Direnv files
 .direnv
 .envrc

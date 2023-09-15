@@ -17,11 +17,6 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
       switch (err.extensions?.code) {
         case ErrorCodes.UNAUTHENTICATED:
           console.log("UNAUTHENTICATED");
-          // store.dispatch(
-          //   setUser({
-          //     user: null,
-          //   })
-          // );
           break;
         case ErrorCodes.BAD_USER_INPUT:
           console.log("BAD_USER_INPUT", err.message);
@@ -31,7 +26,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
           Alert.alert("Error", err.message);
           break;
         case ErrorCodes.INTERNAL_SERVER_ERROR:
-          console.log("INTERNAL_SERVER_ERROR", err.message);
+          console.log("INTERNAL_SERVER_ERROR", err);
           if (err.message.includes("UserLink is inactive")) {
             navigationRef.current?.navigate(screenName.ERROR_SCREEN, {
               error: err.message,

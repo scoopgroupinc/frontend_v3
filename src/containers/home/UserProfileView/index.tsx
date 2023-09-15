@@ -219,7 +219,6 @@ export const UserProfileView = () => {
                     }}
                   >
                     <Image
-                      // resizeMode='cover'
                       source={{
                         uri: item?.image?.videoOrPhoto,
                       }}
@@ -227,6 +226,7 @@ export const UserProfileView = () => {
                         width: "100%",
                         height: 300,
                         resizeMode: "cover",
+                        borderRadius: 20,
                       }}
                     />
                   </View>

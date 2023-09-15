@@ -42,15 +42,28 @@ const Navigator = () => {
   const dispatch = useAppDispatch();
   useEffect(() => {
     if (sharedLink?.id) {
-      loadLink().then((res) => {
-        if (res?.data?.getUserProfileByLinkId) {
-          navigationRef.current?.navigate(screenName.FEEDBACK_NAVIGATOR, {
-            link: { sharedLink },
-          });
-        }
-      });
+      loadLink()
+        .then((res) => {
+          if (res?.data?.getUserProfileByLinkId) {
+            navigationRef.current?.navigate(screenName.FEEDBACK_NAVIGATOR, {
+              link: { sharedLink },
+            });
+          }
+        })
+        .catch((err) => {});
     }
   }, [sharedLink, loadLink, dispatch]);
+
+  useEffect(() => {
+    // Check for an initial deep link when the app starts
+    Linking.getInitialURL().then((url) => {
+      if (url) {
+        const encryptedData = url.split("/app/")[1];
+        const decryptedData = decryptData(encryptedData);
+        setSharedLink(decryptedData);
+      }
+    });
+  }, []);
 
   useEffect(() => {
     const getUser = async () => {
@@ -78,8 +91,14 @@ const Navigator = () => {
           ) : (
             <Stack.Screen name={screenName.AUTH_NAVIGATOR} component={AuthNavigator} />
           )}
-          <Stack.Screen name={screenName.FEEDBACK_NAVIGATOR} component={FeedbackNavigator} />
-          <Stack.Screen name={screenName.ERROR_SCREEN} component={ErrorScreen} />
+          <Stack.Group>
+            <Stack.Screen
+              navigationKey={user ? screenName.PROFILE_NAVIGATOR : screenName.AUTH_NAVIGATOR}
+              name={screenName.FEEDBACK_NAVIGATOR}
+              component={FeedbackNavigator}
+            />
+            <Stack.Screen name={screenName.ERROR_SCREEN} component={ErrorScreen} />
+          </Stack.Group>
         </Stack.Navigator>
       </NavigationContainer>
     </View>

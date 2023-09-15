@@ -2,6 +2,8 @@
 import { Image, Text, View } from "react-native";
 import React, { useEffect } from "react";
 import { useMutation } from "@apollo/client";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useNavigation } from "@react-navigation/native";
 import { GradientLayout } from "../../../components/layouts/GradientLayout";
 import { styles } from "./styles";
 import { AppButton } from "../../../components/atoms/AppButton";
@@ -17,6 +19,7 @@ const ShareForFeedback = () => {
   const userId = user?.userId;
   const dispatch = useAppDispatch();
   const { share } = useShare();
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const [link, setLink] = React.useState<string>("");
 
@@ -36,10 +39,14 @@ const ShareForFeedback = () => {
     dispatch(
       updateUser({
         value: {
-          location: { name: screenName.TOGGLE_PROFILE_VIEW, value },
+          isOnboarded: true,
         },
       })
     );
+    navigation.navigate(screenName.USER_PROFILE, {
+      screen: screenName.TOGGLE_PROFILE_VIEW,
+      params: { value },
+    });
   };
 
   return (

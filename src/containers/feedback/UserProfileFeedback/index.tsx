@@ -75,10 +75,12 @@ const UserProfileFeedback = () => {
       variables: {
         userId,
       },
-    }).then((res) => {
-      const link = res.data.getUserShareProfileLink;
-      setShareLink(link);
-    });
+    })
+      .then((res) => {
+        const link = res.data.getUserShareProfileLink;
+        setShareLink(link);
+      })
+      .catch((err) => {});
   }, [getShareLink, userId]);
 
   const [
@@ -135,7 +137,9 @@ const UserProfileFeedback = () => {
           },
           {
             text: "Deactivate",
-            onPress: () => deactivateProfileLink(),
+            onPress: () => {
+              deactivateProfileLink();
+            },
           },
         ]
       );

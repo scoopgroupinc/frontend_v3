@@ -26,11 +26,15 @@ const ErrorScreen = ({ route }: any) => {
             source={require("../../assets/images/back-tears.png")}
             style={{ height: 80, width: 80, borderRadius: 100 }}
           />
-          <Text style={styles.title}>{error}</Text>
+          <Text style={styles.title}>
+            {error.includes("UserLink is inactive")
+              ? "This user link has been deactivated"
+              : `${error.message}`}
+          </Text>
         </View>
       </View>
       <View style={styles.buttonsBody}>
-        <AppButton style={styles.btn} onPress={() => navigation.goBack()}>
+        <AppButton style={styles.btn} onPress={() => navigation.popToTop()}>
           Go to home
         </AppButton>
       </View>

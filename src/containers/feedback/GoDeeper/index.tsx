@@ -14,6 +14,7 @@ import { selectFeedbackUser } from "../../../store/features/feedback/feedbackSli
 import AppActivityIndicator from "../../../components/atoms/ActivityIndicator";
 import { screenName } from "../../../utils/constants";
 import { styles } from "./styles";
+import { navigationRef } from "../../../navigation/RootNavigation";
 
 const GoDeeper = ({ route }: any) => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
@@ -27,7 +28,9 @@ const GoDeeper = ({ route }: any) => {
   const [createShareProfileFeedback, { loading }] = useMutation(CREATE_SHARE_PROFILE_FEEDBACK);
 
   useEffect(() => {
-    setName(`${user?.firstName} ${user?.lastName}`);
+    if (user !== null) {
+      setName(`${user?.firstName} ${user?.lastName}`);
+    }
   }, [user]);
 
   return (
@@ -84,25 +87,30 @@ const GoDeeper = ({ route }: any) => {
             />
           </View>
           <AppButton
+            isDisabled={description === ""}
             onPress={() => {
               createShareProfileFeedback({
                 variables: {
                   feedbackGroupInput: {
                     userId: feedBackUser?.userId,
-                    raterId: user?.id,
+                    raterId: user ? user?.userId : null,
                     templateId: "share_profile",
                   },
                   personalityFeedbacksInput: selectedButtons.map((button: any) => ({
                     personality: button,
                   })),
                   profileFeedbackInput: {
-                    name: name ? "" : "Anonymous",
+                    name: name || "Anonymous",
                     description,
                   },
                 },
               })
                 .then(() => {
-                  navigation.navigate(screenName.AUTHORIZEDFEEDBACKUSER);
+                  if (user !== null) {
+                    navigation.navigate(screenName.AUTHORIZEDFEEDBACKUSER);
+                  } else {
+                    navigationRef.current?.navigate(screenName.UNAUTHORIZEDFEEDBACKUSER);
+                  }
                 })
                 .catch(() => {});
             }}
