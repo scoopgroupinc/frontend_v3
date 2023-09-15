@@ -1,12 +1,12 @@
 /* eslint-disable import/prefer-default-export */
 import React, { useState } from "react";
-import { View, Text, Alert } from "react-native";
+import { View, Alert } from "react-native";
 import { ProgressBar } from "react-native-paper";
 import { useMutation } from "@apollo/client";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { Slider } from "@miblanchard/react-native-slider";
 import { Heading, VStack } from "native-base";
+import { Picker } from "react-native-wheel-pick";
 import { styles } from "./styles";
 import { useAppSelector } from "../../../store/hooks";
 import { SAVE_USER_HEIGHT } from "../../../services/graphql/onboarding/mutations";
@@ -17,8 +17,7 @@ import { AppButton } from "../../../components/atoms/AppButton";
 import { logEvent } from "../../../analytics";
 import { analyticScreenNames, eventNames, screenClass } from "../../../analytics/constants";
 import { useOnScreenView } from "../../../analytics/hooks/useOnScreenView";
-
-// TODO: replace with better slider
+import { heightData } from "../../../utils/constants/heights";
 
 export const HeightScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
@@ -26,15 +25,14 @@ export const HeightScreen = () => {
   const { user } = useAppSelector((state: any) => state.appUser);
   const userId = user?.userId;
 
-  const [heightFt, setHeightFt] = useState(5);
-  const [heightInches, setHeightInches] = useState(5.1);
+  const [height, setHeight] = useState("");
 
   const [saveUserProfile, { loading }] = useMutation(SAVE_USER_HEIGHT);
   const saveUserHeight = async () => {
     try {
       const data = {
         userId,
-        height: `${heightFt}'${heightInches}"`,
+        height: `${height}`,
       };
       logEvent({
         eventName: eventNames.nextOnBoardNotificationButton,
@@ -65,48 +63,25 @@ export const HeightScreen = () => {
           <ProgressBar progress={0.5} color="#0E0E2C" />
           <View style={styles.sliderContainer}>
             <VStack space={24}>
-              <Heading>How tall are you?</Heading>
+              <Heading style={{ textAlign: "center" }}>How tall are you?</Heading>
             </VStack>
-            <View style={styles.titleContainer}>
-              <Text style={styles.value}>
-                {Array.isArray(heightFt) ? heightFt.join(" - ") : heightFt} ft
-              </Text>
-            </View>
-            <Slider
-              value={heightFt}
-              minimumValue={3}
-              maximumValue={7}
-              step={1}
-              animateTransitions
-              minimumTrackTintColor="#d14ba6"
-              thumbStyle={styles.thumb}
-              trackStyle={styles.track}
-              onValueChange={(val: any) => {
-                val = Array.isArray(val) ? val[0] : val;
-                setHeightFt(val);
+            {/* <View style={styles.titleContainer}>
+              <Text style={styles.value}>{height}</Text>
+            </View> */}
+            <Picker
+              textColor="black"
+              textSize="40"
+              style={{
+                backgroundColor: "white",
+                borderRadius: 10,
+                marginTop: 20,
               }}
-            />
-            <View style={styles.titleContainer}>
-              <Text style={styles.value}>
-                {Array.isArray(heightInches) ? heightInches.join(" - ") : heightInches}
-              </Text>
-            </View>
-            <Slider
-              value={heightInches}
-              minimumValue={0}
-              maximumValue={11}
-              step={1}
-              animateTransitions
-              minimumTrackTintColor="#d14ba6"
-              thumbStyle={styles.thumb}
-              trackStyle={styles.track}
-              onValueChange={(val: any) => {
-                val = Array.isArray(val) ? val[0] : val;
-                setHeightInches(val);
-              }}
+              selectedValue={height}
+              pickerData={heightData}
+              onValueChange={setHeight}
             />
           </View>
-          <AppButton isDisabled={heightInches === 5.1} onPress={saveUserHeight}>
+          <AppButton isDisabled={!height} onPress={saveUserHeight}>
             Next
           </AppButton>
         </View>
