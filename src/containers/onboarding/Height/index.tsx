@@ -63,14 +63,13 @@ export const HeightScreen = () => {
           <ProgressBar progress={0.5} color="#0E0E2C" />
           <View style={styles.sliderContainer}>
             <VStack space={24}>
-              <Heading style={{ textAlign: "center" }}>How tall are you?</Heading>
+              <Heading>How tall are you?</Heading>
             </VStack>
             {/* <View style={styles.titleContainer}>
               <Text style={styles.value}>{height}</Text>
             </View> */}
             <Picker
               textColor="black"
-              textSize="40"
               style={{
                 backgroundColor: "white",
                 borderRadius: 10,
