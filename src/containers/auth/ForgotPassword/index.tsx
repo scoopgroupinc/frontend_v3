@@ -65,7 +65,6 @@ const ForgotPassword = () => {
           setModalState(true);
         })
         .catch((e) => {
-          console.log("error", e);
         });
     } catch (e) {
       /* empty block */

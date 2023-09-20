@@ -15,18 +15,21 @@ const getJobDetails = (userProfile: any) => {
       </Text>
     );
   }
+  return null;
 };
 
 const getSchoolDetails = (userProfile: any) => {
   const schoolName = userProfile?.find((item: any) => item.tagType === "school")?.userTags[0]
     ?.tagName;
   const school = userProfile?.find((item: any) => item.tagType === "school");
-  if (school?.visible && schoolName)
+  if (school?.visible && schoolName) {
     return (
       <Text style={[styles.descriptionText]}>
         {school?.emoji} {schoolName}
       </Text>
     );
+  }
+  return null;
 };
 
 const getLanguagesDetails = (userProfile: any) => {
@@ -49,6 +52,7 @@ const getLanguagesDetails = (userProfile: any) => {
       </View>
     );
   }
+  return null;
 };
 
 const getMusicGenreDetails = (userProfile: any) => {
@@ -66,6 +70,7 @@ const getMusicGenreDetails = (userProfile: any) => {
       </Text>
     );
   }
+  return null;
 };
 
 const getBookGenreDetails = (userProfile: any) => {
@@ -83,6 +88,7 @@ const getBookGenreDetails = (userProfile: any) => {
       </Text>
     );
   }
+  return null;
 };
 
 const getPetsDetails = (userProfile: any) => {
@@ -100,6 +106,7 @@ const getPetsDetails = (userProfile: any) => {
       </Text>
     );
   }
+  return null;
 };
 
 const getSportsDetails = (userProfile: any) => {
@@ -117,6 +124,7 @@ const getSportsDetails = (userProfile: any) => {
       </Text>
     );
   }
+  return null;
 };
 
 const getGoingOutDetails = (userProfile: any) => {
@@ -134,6 +142,7 @@ const getGoingOutDetails = (userProfile: any) => {
       </Text>
     );
   }
+  return null;
 };
 
 const getCreativeOuletDetails = (userProfile: any) => {
@@ -151,6 +160,7 @@ const getCreativeOuletDetails = (userProfile: any) => {
       </Text>
     );
   }
+  return null;
 };
 
 const getStayingInDetails = (userProfile: any) => {
@@ -168,6 +178,7 @@ const getStayingInDetails = (userProfile: any) => {
       </Text>
     );
   }
+  return null;
 };
 
 const getDrinkDetails = (userProfile: any) => {
@@ -185,6 +196,7 @@ const getDrinkDetails = (userProfile: any) => {
       </Text>
     );
   }
+  return null;
 };
 
 const getPoliticsDetails = (userProfile: any) => {
@@ -197,6 +209,7 @@ const getPoliticsDetails = (userProfile: any) => {
       </Text>
     );
   }
+  return null;
 };
 
 const getAlcoholDetails = (userProfile: any) => {
@@ -209,6 +222,7 @@ const getAlcoholDetails = (userProfile: any) => {
       </Text>
     );
   }
+  return null;
 };
 
 const getSmokingDetails = (userProfile: any) => {
@@ -221,6 +235,7 @@ const getSmokingDetails = (userProfile: any) => {
       </Text>
     );
   }
+  return null;
 };
 
 const getDrugsDetails = (userProfile: any) => {
@@ -233,6 +248,7 @@ const getDrugsDetails = (userProfile: any) => {
       </Text>
     );
   }
+  return null;
 };
 
 const getZodiacDetails = (userProfile: any) => {
@@ -245,6 +261,7 @@ const getZodiacDetails = (userProfile: any) => {
       </Text>
     );
   }
+  return null;
 };
 
 const getMeyerBriggsDetails = (userProfile: any) => {
@@ -257,6 +274,7 @@ const getMeyerBriggsDetails = (userProfile: any) => {
       </Text>
     );
   }
+  return null;
 };
 
 const getParentingGoalDetails = (userProfile: any) => {
@@ -274,6 +292,7 @@ const getParentingGoalDetails = (userProfile: any) => {
       </Text>
     );
   }
+  return null;
 };
 
 const getEducationLevelDetails = (userProfile: any) => {
@@ -286,17 +305,20 @@ const getEducationLevelDetails = (userProfile: any) => {
       </Text>
     );
   }
+  return null;
 };
 
 const getHometownDetails = (userProfile: any) => {
   const hometown = userProfile?.find((item: any) => item.tagType === "homeTown");
   const hometownName = hometown?.userTags[0]?.tagName;
-  if (hometown?.visible && hometownName)
+  if (hometown?.visible && hometownName) {
     return (
       <Text style={[styles.descriptionText]}>
         {hometown?.emoji} {hometownName}
       </Text>
     );
+  }
+  return null;
 };
 
 const getDietDetails = (userProfile: any) => {
@@ -314,6 +336,7 @@ const getDietDetails = (userProfile: any) => {
       </Text>
     );
   }
+  return null;
 };
 
 const getEthnicityDetails = (userProfile: any) => {
@@ -331,6 +354,7 @@ const getEthnicityDetails = (userProfile: any) => {
       </Text>
     );
   }
+  return null;
 };
 
 const getReligionsDetails = (userProfile: any) => {
@@ -352,6 +376,7 @@ const getReligionsDetails = (userProfile: any) => {
       </Text>
     );
   }
+  return null;
 };
 
 const getRelationshipGoalsDetails = (userProfile: any) => {
@@ -370,6 +395,7 @@ const getRelationshipGoalsDetails = (userProfile: any) => {
       </Text>
     );
   }
+  return null;
 };
 
 const getRelationshipTypesDetails = (userProfile: any) => {
@@ -382,6 +408,7 @@ const getRelationshipTypesDetails = (userProfile: any) => {
       </Text>
     );
   }
+  return null;
 };
 
 const getCannabisDetails = (userProfile: any) => {
@@ -394,6 +421,7 @@ const getCannabisDetails = (userProfile: any) => {
       </Text>
     );
   }
+  return null;
 };
 
 export {

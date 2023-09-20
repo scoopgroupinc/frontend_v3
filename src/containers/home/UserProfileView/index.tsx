@@ -53,6 +53,9 @@ const screenHeight = Dimensions.get("window").height;
 const onethirdScreenHeight = screenHeight / 3;
 
 export const UserProfileView = () => {
+  const [myInterestHeading, setMyInterestHeading] = useState<boolean>(false);
+  const [myBasicsHeading, setMyBasicsHeading] = useState<boolean>(false);
+
   const userProfile = useAppSelector(selectUserProfile);
   const userPrompts = useAppSelector(selectUserPrompts);
   const promptDisplayOrder = useAppSelector(selectUserPromptsOrder);
@@ -122,6 +125,48 @@ export const UserProfileView = () => {
     mergeData();
   }, [allImages, promptDisplayOrder, userPrompts]);
 
+  useEffect(() => {
+    const myInterestArrays = [
+      getMusicGenreDetails(userProfile),
+      getBookGenreDetails(userProfile),
+      getPetsDetails(userProfile),
+      getSportsDetails(userProfile),
+      getGoingOutDetails(userProfile),
+      getStayingInDetails(userProfile),
+      getCreativeOuletDetails(userProfile),
+    ];
+    const myInterestArraysWithData = myInterestArrays.filter((item) => item !== null);
+    if (myInterestArraysWithData.length !== 0) {
+      setMyInterestHeading(true);
+    }
+
+    const myBasicArrays = [
+      getRelationshipGoalsDetails(userProfile),
+      getRelationshipTypesDetails(userProfile),
+      getParentingGoalDetails(userProfile),
+      getHometownDetails(userProfile),
+      getEthnicityDetails(userProfile),
+      getJobDetails(userProfile),
+      getSchoolDetails(userProfile),
+      getEducationLevelDetails(userProfile),
+      getReligionsDetails(userProfile),
+      getZodiacDetails(userProfile),
+      getMeyerBriggsDetails(userProfile),
+      getPoliticsDetails(userProfile),
+      getDietDetails(userProfile),
+      getDrinkDetails(userProfile),
+      getAlcoholDetails(userProfile),
+      getSmokingDetails(userProfile),
+      getDrugsDetails(userProfile),
+      getCannabisDetails(userProfile),
+    ];
+    const myBasicArraysWithData = myBasicArrays.filter((item) => item !== null);
+
+    if (myBasicArraysWithData.length !== 0) {
+      setMyBasicsHeading(true);
+    }
+  }, [userProfile, setMyInterestHeading, setMyBasicsHeading, myBasicsHeading, myInterestHeading]);
+
   return (
     <ImageBackground
       style={{ flex: 1 }}
@@ -154,8 +199,7 @@ export const UserProfileView = () => {
                 {age} years old, {height}
               </Text> */}
               <Text style={styles.city}> {user?.location?.city}</Text>
-
-              <Text style={styles.descriptionHeader}>My Basics</Text>
+              {myBasicsHeading && <Text style={styles.descriptionHeader}>My Basics</Text>}
 
               <View style={[styles.content, { flexDirection: "column" }]}>
                 {getRelationshipGoalsDetails(userProfile)}
@@ -180,7 +224,7 @@ export const UserProfileView = () => {
             </View>
             {getLanguagesDetails(userProfile)}
             <View style={styles.section}>
-              <Text style={styles.descriptionHeader}>My Interests</Text>
+              {myInterestHeading && <Text style={styles.descriptionHeader}>My Interests</Text>}
               <View style={styles.content}>
                 {getMusicGenreDetails(userProfile)}
                 {getBookGenreDetails(userProfile)}
