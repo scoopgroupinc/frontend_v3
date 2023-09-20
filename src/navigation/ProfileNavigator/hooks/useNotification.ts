@@ -42,7 +42,6 @@ export const useNotification = () => {
     });
 
     const notifyMe = Notifications.addNotificationReceivedListener((notification) => {
-      console.log(notification);
     });
 
     const responseListener = Notifications.addNotificationResponseReceivedListener(
