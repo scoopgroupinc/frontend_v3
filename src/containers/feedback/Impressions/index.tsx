@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { FlatList, Text } from "react-native";
+import { FlatList, SectionList, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { GradientLayout } from "../../../components/layouts/GradientLayout";
 import SearchFilter from "../../../components/templates/SearchFilter";
 import ButtonPill from "../../../components/atoms/ButtonPill";
-import { IMPRESSIONS } from "../../../utils/constants/impressions";
+import { IMPRESSIONS_FORMATTED } from "../../../utils/constants/impressions";
 import { styles } from "./styles";
 import { AppButton } from "../../../components/atoms/AppButton";
 import { screenName } from "../../../utils/constants";
@@ -59,6 +59,20 @@ const FeedbackImpressions = () => {
     return null;
   };
 
+  const renderSection = ({ item }) => (
+    <FlatList
+      data={item.list}
+      numColumns={100}
+      columnWrapperStyle={{
+        flexWrap: "wrap",
+      }}
+      horizontal={false}
+      renderItem={renderSearchWord}
+      keyExtractor={(item) => item}
+      extraData={selectedButtons}
+    />
+  );
+
   return (
     <GradientLayout>
       <TagScreenHeader title="First Impressions" close={() => navigation.goBack()} />
@@ -69,16 +83,14 @@ const FeedbackImpressions = () => {
         clicked={clicked}
         setClicked={setClicked}
       />
-      <FlatList
-        numColumns={100}
-        columnWrapperStyle={{
-          flexWrap: "wrap",
-        }}
-        horizontal={false}
-        data={Object.values(IMPRESSIONS)}
-        renderItem={renderSearchWord}
-        keyExtractor={(item) => item}
-        extraData={selectedButtons}
+      <SectionList
+        showsVerticalScrollIndicator={false}
+        sections={IMPRESSIONS_FORMATTED}
+        keyExtractor={(item, index) => item.title + index}
+        renderSectionHeader={({ section: { title } }) => (
+          <Text style={styles.sectionHeader}>{title}</Text>
+        )}
+        renderItem={renderSection}
       />
       <AppButton
         isDisabled={selectedButtons.length !== 3}
