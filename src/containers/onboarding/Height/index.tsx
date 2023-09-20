@@ -65,9 +65,6 @@ export const HeightScreen = () => {
             <VStack space={24}>
               <Heading>How tall are you?</Heading>
             </VStack>
-            {/* <View style={styles.titleContainer}>
-              <Text style={styles.value}>{height}</Text>
-            </View> */}
             <Picker
               textColor="black"
               style={{
