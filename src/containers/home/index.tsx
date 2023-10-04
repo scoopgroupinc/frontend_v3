@@ -1,11 +1,10 @@
 /* eslint-disable import/prefer-default-export */
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { View, Text, Pressable, Linking, Alert } from "react-native";
+import { View, Text, Pressable, Linking, Alert, TouchableOpacity } from "react-native";
 import { FontAwesome5, Ionicons, Octicons } from "@expo/vector-icons";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
 import { useMutation, useQuery } from "@apollo/client";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import { ScrollableGradientLayout } from "../../components/layouts/ScrollableGradientLayout";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { SlideUpModal } from "../../components/layouts/SlideUpModal";

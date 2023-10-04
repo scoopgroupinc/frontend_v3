@@ -1,6 +1,5 @@
-import "react-native-gesture-handler";
 import React, { useEffect, useCallback } from "react";
-import { View } from "react-native";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Provider } from "react-redux";
 import { ApolloProvider } from "@apollo/client";
 import { NativeBaseProvider, extendTheme } from "native-base";
@@ -41,9 +40,9 @@ const App = () => {
         <Provider store={store}>
           <PersistGate persistor={persistor} loading={null}>
             <PaperProvider>
-              <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
+              <GestureHandlerRootView style={{ flex: 1 }} onLayout={onLayoutRootView}>
                 <Navigator />
-              </View>
+              </GestureHandlerRootView>
             </PaperProvider>
           </PersistGate>
         </Provider>
