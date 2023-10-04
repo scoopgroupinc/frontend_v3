@@ -8,4 +8,10 @@ export const styles = StyleSheet.create({
     color: "#fff",
     paddingBottom: 20,
   },
+  sectionHeader: {
+    fontSize: 20,
+    fontFamily: Typography.FONT_CAPRIOLA_REGULAR,
+    color: "#fff",
+    paddingVertical: 10,
+  },
 });

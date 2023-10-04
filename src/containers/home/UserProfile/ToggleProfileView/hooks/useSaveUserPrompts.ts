@@ -40,7 +40,6 @@ export const useSaveUserPrompts = () => {
       userPromptsInput: promptsToSave,
     },
     onError: (error) => {
-      console.log("saveUserPrompts", promptsToSave, error.message);
       throw new Error(error.message);
     },
   });
