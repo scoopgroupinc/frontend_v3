@@ -4,7 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { View } from "react-native";
 import { styles } from "./styles";
 import { Colors } from "../../../../utils";
-import { CANNABIS } from "../../../../utils/types/TAGS";
+import { CANNABIS_USAGE } from "../../../../utils/types/TAGS";
 import TagScreenHeader from "../../../../components/molecule/TagScreenHeader";
 import TagsView from "../../../../components/molecule/TagsView";
 import { logEvent } from "../../../../analytics";
@@ -28,7 +28,7 @@ const Cannabis = ({ navigation, route }: any) => {
 
   const pageTitle = "Cannabis";
 
-  const cannabisTags = CANNABIS;
+  const cannabisTags = CANNABIS_USAGE;
 
   const goBackHome = () => {
     logEvent({

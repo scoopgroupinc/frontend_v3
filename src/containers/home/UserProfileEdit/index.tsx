@@ -4,13 +4,12 @@ import { View, Text } from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { LinearGradient } from "react-native-svg";
 import { useMutation } from "@apollo/client";
 import { ScrollableGradientLayout } from "../../../components/layouts/ScrollableGradientLayout";
 import { MediaContainer } from "../../../components/molecule/MediaContainer";
 import {
   selectUser,
-  selectUserProfile,
+  selectUserTags,
   selectUserVisuals,
 } from "../../../store/features/user/userSlice";
 import { useAppSelector } from "../../../store/hooks";
@@ -22,11 +21,11 @@ import { ORIGIN } from "../../../features/Prompt/constants";
 import { useUploadVisuals } from "../../../hooks/useUploadVisual";
 import AppActivityIndicator from "../../../components/atoms/ActivityIndicator";
 import { AppButton } from "../../../components/atoms/AppButton";
-import { GradientLayout } from "../../../components/layouts/GradientLayout";
 import { Colors } from "../../../utils";
 import { useShare } from "../../../hooks/useShare";
 import { GET_USER_SHARE_PROFILE_LINK } from "../../../services/graphql/user-link/mutations";
 import { encryptData } from "../../../utils/helpers";
+import { TAG_VISIBLE_TYPES } from "../../../utils/types/TAGS";
 
 const inputTextProps = {
   editable: false,
@@ -35,7 +34,7 @@ const inputTextProps = {
 export const UserProfileEdit = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const userVisuals = useAppSelector(selectUserVisuals);
-  const userProfile = useAppSelector(selectUserProfile);
+  const userTags = useAppSelector(selectUserTags);
   const [loading, setIsLoading] = useState<boolean>(false);
 
   const { share } = useShare();
@@ -96,72 +95,65 @@ export const UserProfileEdit = () => {
           >
             <AppInput
               _typeOf="tag_field"
-              value={userProfile
-                ?.find((item: any) => item.tagType === "relationship_goal")
-                ?.userTags.map((item: any) => item.tagName)
+              value={userTags[TAG_VISIBLE_TYPES.relationship_goal]?.userTags
+                .map((item: any) => item.tagName)
                 .join(", ")}
-              visible={
-                userProfile?.find((item: any) => item.tagType === "relationship_goal")?.visible
-              }
+              visible={userTags[TAG_VISIBLE_TYPES.relationship_goal]?.visible}
               label="Relationship Goals"
               placeholder="Long Term, Short Term, Casual, Friends With Benefits"
               onPressIn={() => {
                 navigation.navigate(screenName.RELATIONSHIP_GOALS, {
-                  currentTagType: "relationship_goal",
+                  currentTagType: TAG_VISIBLE_TYPES.relationship_goal,
                 });
               }}
               {...inputTextProps}
             />
             <AppInput
               _typeOf="tag_field"
-              value={userProfile
-                ?.find((item: any) => item.tagType === "parenting_goal")
-                ?.userTags.map((item: any) => item.tagName)
+              value={userTags[TAG_VISIBLE_TYPES.parenting_goal]?.userTags
+                .map((item: any) => item.tagName)
                 .join(", ")}
-              visible={userProfile?.find((item: any) => item.tagType === "parenting_goal")?.visible}
-              label="Parenting Goals"
-              placeholder="Have Kids, Want Kids, Don’t Want Kids"
+              visible={userTags[TAG_VISIBLE_TYPES.parenting_goal]?.visible}
+              label="Children"
+              placeholder="Have and want more"
               onPressIn={() => {
                 navigation.navigate(screenName.PARENTING_GOALS, {
-                  currentTagType: "parenting_goal",
+                  currentTagType: TAG_VISIBLE_TYPES.parenting_goal,
                 });
               }}
               {...inputTextProps}
             />
             <AppInput
               _typeOf="tag_field"
-              visible={userProfile?.find((item: any) => item.tagType === "homeTown")?.visible}
-              value={
-                userProfile?.find((item: any) => item.tagType === "homeTown")?.userTags[0]?.tagName
-              }
+              visible={userTags[TAG_VISIBLE_TYPES.home_town]?.visible}
+              value={userTags[TAG_VISIBLE_TYPES.home_town]?.userTags[0]?.tagName}
               label="Hometown"
               placeholder="New York, NY"
               onPressIn={() => {
                 navigation.navigate(screenName.HOMETOWN, {
-                  currentTagType: "homeTown",
+                  currentTagType: TAG_VISIBLE_TYPES.home_town,
                 });
               }}
               {...inputTextProps}
             />
             <AppInput
               _typeOf="tag_field"
-              value={userProfile
-                ?.find((item: any) => item.tagType === "ethnicity")
-                ?.userTags.map((item: any) => item.tagName)
+              value={userTags[TAG_VISIBLE_TYPES.ethnicity]?.userTags
+                .map((item: any) => item.tagName)
                 .join(", ")}
-              visible={userProfile?.find((item: any) => item.tagType === "ethnicity")?.visible}
+              visible={userTags[TAG_VISIBLE_TYPES.ethnicity]?.visible}
               label="Ethnicity"
               placeholder="Asian, Black/African, Hispanic/Latinx, White/Caucasian"
               onPressIn={() => {
                 navigation.navigate(screenName.ETHNICITY, {
-                  currentTagType: "ethnicity",
+                  currentTagType: TAG_VISIBLE_TYPES.ethnicity,
                 });
               }}
               {...inputTextProps}
             />
             <AppInput
               onChangeText={(text: string) => {
-                userProfile?.map((item: any) => {
+                userTags?.map((item: any) => {
                   const { tagType, userTags } = item;
                   if (tagType === "job") {
                     return {
@@ -176,321 +168,294 @@ export const UserProfileEdit = () => {
                 });
               }}
               _typeOf="tag_field"
-              visible={userProfile?.find((item: any) => item.tagType === "job")?.visible}
-              value={
-                userProfile?.find((item: any) => item.tagType === "job")?.userTags?.[0]?.tagName
-              }
+              visible={userTags[TAG_VISIBLE_TYPES.job]?.visible}
+              value={userTags[TAG_VISIBLE_TYPES.job]?.userTags?.[0]?.tagName}
               label="Job Title"
               placeholder="Founder & CEO"
               {...inputTextProps}
               onPressIn={() => {
                 navigation.navigate(screenName.JOB_TITLE, {
-                  currentTagType: "job",
+                  currentTagType: TAG_VISIBLE_TYPES.job,
                 });
               }}
             />
             <AppInput
               _typeOf="tag_field"
-              visible={userProfile?.find((item: any) => item.tagType === "company")?.visible}
-              value={
-                userProfile?.find((item: any) => item.tagType === "company")?.userTags[0]?.tagName
-              }
+              visible={userTags[TAG_VISIBLE_TYPES.company]?.visible}
+              value={userTags[TAG_VISIBLE_TYPES.company]?.userTags[0]?.tagName}
               label="Company"
               placeholder="Scoop LLC"
               onPressIn={() => {
                 navigation.navigate(screenName.COMPANY, {
-                  currentTagType: "company",
+                  currentTagType: TAG_VISIBLE_TYPES.company,
                 });
               }}
               {...inputTextProps}
             />
             <AppInput
               _typeOf="tag_field"
-              visible={userProfile?.find((item: any) => item.tagType === "school")?.visible}
-              value={
-                userProfile?.find((item: any) => item.tagType === "school")?.userTags[0]?.tagName
-              }
+              visible={userTags[TAG_VISIBLE_TYPES.school]?.visible}
+              value={userTags[TAG_VISIBLE_TYPES.school]?.userTags[0]?.tagName}
               label="School"
               placeholder="University of Michigan"
               onPressIn={() => {
                 navigation.navigate(screenName.SCHOOL, {
-                  currentTagType: "school",
+                  currentTagType: TAG_VISIBLE_TYPES.school,
                 });
               }}
               {...inputTextProps}
             />
             <AppInput
               _typeOf="tag_field"
-              value={userProfile
-                ?.find((item: any) => item.tagType === "education")
-                ?.userTags.map((item: any) => item.tagName)
+              value={userTags[TAG_VISIBLE_TYPES.education]?.userTags
+                .map((item: any) => item.tagName)
                 .join(", ")}
-              visible={userProfile?.find((item: any) => item.tagType === "education")?.visible}
+              visible={userTags[TAG_VISIBLE_TYPES.school]?.visible}
               label="Education Level"
               placeholder="Graduate"
               onPressIn={() => {
                 navigation.navigate(screenName.EDUCATION_LEVEL, {
-                  currentTagType: "education",
+                  currentTagType: TAG_VISIBLE_TYPES.education,
                 });
               }}
               {...inputTextProps}
             />
             <AppInput
               _typeOf="tag_field"
-              value={userProfile
-                ?.find((item: any) => item.tagType === "religion")
-                ?.userTags.map((item: any) => item.tagName)
+              value={userTags[TAG_VISIBLE_TYPES.religion]?.userTags
+                .map((item: any) => item.tagName)
                 .join(", ")}
-              visible={userProfile?.find((item: any) => item.tagType === "religion")?.visible}
+              visible={userTags[TAG_VISIBLE_TYPES.religion]?.visible}
               label="Religion"
               placeholder="Christianity, Judaism, Islam, Buddhism, Hinduism"
               onPressIn={() => {
                 navigation.navigate(screenName.RELIGIONS, {
-                  currentTagType: "religion",
+                  currentTagType: TAG_VISIBLE_TYPES.religion,
                 });
               }}
               {...inputTextProps}
             />
             <AppInput
               _typeOf="tag_field"
-              value={userProfile
-                ?.find((item: any) => item.tagType === "religious_practice")
-                ?.userTags.map((item: any) => item.tagName)
+              value={userTags[TAG_VISIBLE_TYPES.religious_practice]?.userTags
+                .map((item: any) => item.tagName)
                 .join(", ")}
-              visible={
-                userProfile?.find((item: any) => item.tagType === "religious_practice")?.visible
-              }
+              visible={userTags[TAG_VISIBLE_TYPES.religious_practice]?.visible}
               label="Religious Practice"
               placeholder="Active, Somewhat Active, Not Active"
               onPressIn={() => {
                 navigation.navigate(screenName.RELIGIOUS_PRACTICES, {
-                  currentTagType: "religious_practice",
+                  currentTagType: TAG_VISIBLE_TYPES.religious_practice,
                 });
               }}
               {...inputTextProps}
             />
             <AppInput
               _typeOf="tag_field"
-              value={userProfile
-                ?.find((item: any) => item.tagType === "zodiac")
-                ?.userTags.map((item: any) => item.tagName)
+              value={userTags[TAG_VISIBLE_TYPES.zodiac]?.userTags
+                .map((item: any) => item.tagName)
                 .join(", ")}
-              visible={userProfile?.find((item: any) => item.tagType === "zodiac")?.visible}
+              visible={userTags[TAG_VISIBLE_TYPES.zodiac]?.visible}
               label="Zodiac Sign"
               placeholder="Aries, Taurus, Gemini, Cancer, Leo, Virgo, Libra, Scorpio, Sagittarius, Capricorn, Aquarius, Pisces"
               onPressIn={() => {
                 navigation.navigate(screenName.ZODIAC, {
-                  currentTagType: "zodiac",
+                  currentTagType: TAG_VISIBLE_TYPES.zodiac,
                 });
               }}
               {...inputTextProps}
             />
             <AppInput
               _typeOf="tag_field"
-              value={userProfile
-                ?.find((item: any) => item.tagType === "meyer_briggs")
-                ?.userTags.map((item: any) => item.tagName)
+              value={userTags[TAG_VISIBLE_TYPES.meyer_briggs]?.userTags
+                .map((item: any) => item.tagName)
                 .join(", ")}
-              visible={userProfile?.find((item: any) => item.tagType === "meyer_briggs")?.visible}
+              visible={userTags[TAG_VISIBLE_TYPES.meyer_briggs]?.visible}
               label="Meyer Briggs"
               placeholder="ISTJ, ISFJ, INFJ, INTJ, ISTP, ISFP, INFP, INTP, ESTP, ESFP, ENFP, ENTP, ESTJ, ESFJ, ENFJ, ENTP"
               onPressIn={() => {
                 navigation.navigate(screenName.MEYER_BRIGGS, {
-                  currentTagType: "meyer_briggs",
+                  currentTagType: TAG_VISIBLE_TYPES.meyer_briggs,
                 });
               }}
               {...inputTextProps}
             />
             <AppInput
               _typeOf="tag_field"
-              value={userProfile
-                ?.find((item: any) => item.tagType === "politics")
-                ?.userTags.map((item: any) => item.tagName)
+              value={userTags[TAG_VISIBLE_TYPES.politics]?.userTags
+                .map((item: any) => item.tagName)
                 .join(", ")}
-              visible={userProfile?.find((item: any) => item.tagType === "politics")?.visible}
+              visible={userTags[TAG_VISIBLE_TYPES.politics]?.visible}
               label="Politics"
               placeholder="Apolitical"
               onPressIn={() => {
                 navigation.navigate(screenName.POLITICS, {
-                  currentTagType: "politics",
+                  currentTagType: TAG_VISIBLE_TYPES.politics,
                 });
               }}
               {...inputTextProps}
             />
             <AppInput
               _typeOf="tag_field"
-              value={userProfile
-                ?.find((item: any) => item.tagType === "diet")
-                ?.userTags.map((item: any) => item.tagName)
+              value={userTags[TAG_VISIBLE_TYPES.diet]?.userTags
+                .map((item: any) => item.tagName)
                 .join(", ")}
-              visible={userProfile?.find((item: any) => item.tagType === "diet")?.visible}
+              visible={userTags[TAG_VISIBLE_TYPES.diet]?.visible}
               label="Diet"
               placeholder="Vegetarian, Vegan, Gluten-Free, Dairy-Free, Kosher"
               onPressIn={() => {
                 navigation.navigate(screenName.DIET, {
-                  currentTagType: "diet",
+                  currentTagType: TAG_VISIBLE_TYPES.diet,
                 });
               }}
               {...inputTextProps}
             />
             <AppInput
               _typeOf="tag_field"
-              value={userProfile
-                ?.find((item: any) => item.tagType === "drink")
-                ?.userTags.map((item: any) => item.tagName)
+              value={userTags[TAG_VISIBLE_TYPES.drink]?.userTags
+                .map((item: any) => item.tagName)
                 .join(", ")}
-              visible={userProfile?.find((item: any) => item.tagType === "drink")?.visible}
+              visible={userTags[TAG_VISIBLE_TYPES.drink]?.visible}
               label="Drink"
               placeholder="Yes"
               onPressIn={() => {
                 navigation.navigate(screenName.DRINK, {
-                  currentTagType: "drink",
+                  currentTagType: TAG_VISIBLE_TYPES.drink,
                 });
               }}
               {...inputTextProps}
             />
             <AppInput
               _typeOf="tag_field"
-              value={userProfile
-                ?.find((item: any) => item.tagType === "smoking")
-                ?.userTags.map((item: any) => item.tagName)
+              value={userTags[TAG_VISIBLE_TYPES.smoking_usage]?.userTags
+                .map((item: any) => item.tagName)
                 .join(", ")}
-              visible={userProfile?.find((item: any) => item.tagType === "smoking")?.visible}
+              visible={userTags[TAG_VISIBLE_TYPES.smoking_usage]?.visible}
               label="Smoking"
               placeholder="Yes"
               onPressIn={() => {
                 navigation.navigate(screenName.SMOKING, {
-                  currentTagType: "smoking",
+                  currentTagType: TAG_VISIBLE_TYPES.smoking_usage,
                 });
               }}
               {...inputTextProps}
             />
             <AppInput
               _typeOf="tag_field"
-              value={userProfile
-                ?.find((item: any) => item.tagType === "alcohol_usage")
-                ?.userTags.map((item: any) => item.tagName)
+              value={userTags[TAG_VISIBLE_TYPES.alcohol_usage]?.userTags
+                .map((item: any) => item.tagName)
                 .join(", ")}
-              visible={userProfile?.find((item: any) => item.tagType === "alcohol_usage")?.visible}
+              visible={userTags[TAG_VISIBLE_TYPES.alcohol_usage]?.visible}
               label="Alcohol"
               placeholder="Yes"
               onPressIn={() => {
                 navigation.navigate(screenName.ALCOHOL, {
-                  currentTagType: "alcohol_usage",
+                  currentTagType: TAG_VISIBLE_TYPES.alcohol_usage,
                 });
               }}
               {...inputTextProps}
             />
             <AppInput
               _typeOf="tag_field"
-              value={userProfile
-                ?.find((item: any) => item.tagType === "cannibis_usage")
-                ?.userTags.map((item: any) => item.tagName)
+              value={userTags[TAG_VISIBLE_TYPES.cannibis_usage]?.userTags
+                .map((item: any) => item.tagName)
                 .join(", ")}
-              visible={userProfile?.find((item: any) => item.tagType === "cannibis_usage")?.visible}
+              visible={userTags[TAG_VISIBLE_TYPES.cannibis_usage]?.visible}
               label="Cannabis"
               placeholder="Yes"
               onPressIn={() => {
                 navigation.navigate(screenName.CANNABIS, {
-                  currentTagType: "cannibis_usage",
+                  currentTagType: TAG_VISIBLE_TYPES.cannibis_usage,
                 });
               }}
               {...inputTextProps}
             />
             <AppInput
               _typeOf="tag_field"
-              value={userProfile
-                ?.find((item: any) => item.tagType === "drug_usage")
-                ?.userTags.map((item: any) => item.tagName)
+              value={userTags[TAG_VISIBLE_TYPES.drug_usage]?.userTags
+                .map((item: any) => item.tagName)
                 .join(", ")}
-              visible={userProfile?.find((item: any) => item.tagType === "drug_usage")?.visible}
+              visible={userTags[TAG_VISIBLE_TYPES.drug_usage]?.visible}
               label="Drugs"
               placeholder="Yes"
               onPressIn={() => {
                 navigation.navigate(screenName.DRUGS, {
-                  currentTagType: "drug_usage",
+                  currentTagType: TAG_VISIBLE_TYPES.drug_usage,
                 });
               }}
               {...inputTextProps}
             />
             <AppInput
               _typeOf="tag_field"
-              value={userProfile
-                ?.find((item: any) => item.tagType === "language")
-                ?.userTags.map((item: any) => item.tagName)
+              value={userTags[TAG_VISIBLE_TYPES.language]?.userTags
+                .map((item: any) => item.tagName)
                 .join(", ")}
-              visible={userProfile?.find((item: any) => item.tagType === "language")?.visible}
+              visible={userTags[TAG_VISIBLE_TYPES.language]?.visible}
               label="Languages"
               placeholder="English, Spanish, French, German, Italian"
               onPressIn={() => {
                 navigation.navigate(screenName.LANGUAGES, {
-                  currentTagType: "language",
+                  currentTagType: TAG_VISIBLE_TYPES.language,
                 });
               }}
               {...inputTextProps}
             />
             <AppInput
               _typeOf="tag_field"
-              value={userProfile
-                ?.find((item: any) => item.tagType === "music_genre")
-                ?.userTags.map((item: any) => item.tagName)
+              value={userTags[TAG_VISIBLE_TYPES.music_genre]?.userTags
+                .map((item: any) => item.tagName)
                 .join(", ")}
-              visible={userProfile?.find((item: any) => item.tagType === "music_genre")?.visible}
+              visible={userTags[TAG_VISIBLE_TYPES.music_genre]?.visible}
               label="Music Genres"
               placeholder="Pop, Rock, Hip-Hop, R&B, Country"
               onPressIn={() => {
                 navigation.navigate(screenName.MUSIC_GENRES, {
-                  currentTagType: "music_genre",
+                  currentTagType: TAG_VISIBLE_TYPES.music_genre,
                 });
               }}
               {...inputTextProps}
             />
             <AppInput
               _typeOf="tag_field"
-              value={userProfile
-                ?.find((item: any) => item.tagType === "book_genre")
-                ?.userTags.map((item: any) => item.tagName)
+              value={userTags[TAG_VISIBLE_TYPES.book_genre]?.userTags
+                .map((item: any) => item.tagName)
                 .join(", ")}
-              visible={userProfile?.find((item: any) => item.tagType === "book_genre")?.visible}
+              visible={userTags[TAG_VISIBLE_TYPES.book_genre]?.visible}
               label="Book Genres"
               placeholder="Fiction, Non-Fiction, Romance, Mystery, Thriller"
               onPressIn={() => {
                 navigation.navigate(screenName.BOOK_GENRES, {
-                  currentTagType: "book_genre",
+                  currentTagType: TAG_VISIBLE_TYPES.book_genre,
                 });
               }}
               {...inputTextProps}
             />
             <AppInput
               _typeOf="tag_field"
-              value={userProfile
-                ?.find((item: any) => item.tagType === "pets")
-                ?.userTags.map((item: any) => item.tagName)
+              value={userTags[TAG_VISIBLE_TYPES.pets]?.userTags
+                .map((item: any) => item.tagName)
                 .join(", ")}
-              visible={userProfile?.find((item: any) => item.tagType === "pets")?.visible}
+              visible={userTags[TAG_VISIBLE_TYPES.pets]?.visible}
               label="Pets"
               placeholder="Dog, Cat, Fish, Bird, Reptile"
               onPressIn={() => {
                 navigation.navigate(screenName.PETS, {
-                  currentTagType: "pets",
+                  currentTagType: TAG_VISIBLE_TYPES.pets,
                 });
               }}
               {...inputTextProps}
             />
             <AppInput
               _typeOf="tag_field"
-              value={userProfile
-                ?.find((item: any) => item.tagType === "physical_activity")
-                ?.userTags.map((item: any) => item.tagName)
+              value={userTags[TAG_VISIBLE_TYPES.physical_activity]?.userTags
+                .map((item: any) => item.tagName)
                 .join(", ")}
-              visible={
-                userProfile?.find((item: any) => item.tagType === "physical_activity")?.visible
-              }
+              visible={userTags[TAG_VISIBLE_TYPES.physical_activity]?.visible}
               label="Sports"
               placeholder="Basketball, Football, Soccer, Tennis, Volleyball"
               onPressIn={() => {
-                navigation.navigate(screenName.SPORTS, {
-                  currentTagType: "physical_activity",
+                navigation.navigate(screenName.PHYSICAL_ACTIVITY, {
+                  currentTagType: TAG_VISIBLE_TYPES.physical_activity,
                 });
               }}
               {...inputTextProps}
@@ -498,48 +463,45 @@ export const UserProfileEdit = () => {
 
             <AppInput
               _typeOf="tag_field"
-              value={userProfile
-                ?.find((item: any) => item.tagType === "going_out")
-                ?.userTags.map((item: any) => item.tagName)
+              value={userTags[TAG_VISIBLE_TYPES.going_out]?.userTags
+                .map((item: any) => item.tagName)
                 .join(", ")}
-              visible={userProfile?.find((item: any) => item.tagType === "going_out")?.visible}
+              visible={userTags[TAG_VISIBLE_TYPES.going_out]?.visible}
               label="Going Out"
               placeholder="Bars, Clubs, Concerts, Movies, Sports"
               onPressIn={() => {
                 navigation.navigate(screenName.GOING_OUT, {
-                  currentTagType: "going_out",
+                  currentTagType: TAG_VISIBLE_TYPES.going_out,
                 });
               }}
               {...inputTextProps}
             />
             <AppInput
               _typeOf="tag_field"
-              value={userProfile
-                ?.find((item: any) => item.tagType === "staying_in")
-                ?.userTags.map((item: any) => item.tagName)
+              value={userTags[TAG_VISIBLE_TYPES.staying_in]?.userTags
+                .map((item: any) => item.tagName)
                 .join(", ")}
-              visible={userProfile?.find((item: any) => item.tagType === "staying_in")?.visible}
+              visible={userTags[TAG_VISIBLE_TYPES.staying_in]?.visible}
               label="Staying In"
               placeholder="Watching TV, Cooking, Reading, Gaming, Bingeing"
               onPressIn={() => {
                 navigation.navigate(screenName.STAYING_IN, {
-                  currentTagType: "staying_in",
+                  currentTagType: TAG_VISIBLE_TYPES.staying_in,
                 });
               }}
               {...inputTextProps}
             />
             <AppInput
               _typeOf="tag_field"
-              value={userProfile
-                ?.find((item: any) => item.tagType === "creative")
-                ?.userTags.map((item: any) => item.tagName)
+              value={userTags[TAG_VISIBLE_TYPES.creative]?.userTags
+                .map((item: any) => item.tagName)
                 .join(", ")}
-              visible={userProfile?.find((item: any) => item.tagType === "creative")?.visible}
+              visible={userTags[TAG_VISIBLE_TYPES.creative]?.visible}
               label="Creative Outlet"
               placeholder="Writing, Painting, Photography, Music, Film"
               onPressIn={() => {
                 navigation.navigate(screenName.CREATIVE_OUTLET, {
-                  currentTagType: "creative",
+                  currentTagType: TAG_VISIBLE_TYPES.creative,
                 });
               }}
               {...inputTextProps}

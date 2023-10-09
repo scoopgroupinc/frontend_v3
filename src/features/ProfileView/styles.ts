@@ -2,6 +2,8 @@ import { Dimensions, StyleSheet } from "react-native";
 import { Colors, Spacing, Typography } from "../../utils";
 
 const windowHeight = Dimensions.get("window").height;
+const screenHeight = Dimensions.get("window").height;
+const onethirdScreenHeight = screenHeight / 3;
 
 export const styles = StyleSheet.create({
   modal: {
@@ -19,9 +21,18 @@ export const styles = StyleSheet.create({
     padding: 10,
     marginBottom: Spacing.SCALE_40,
   },
+  whiteArc: {
+    width: "100%",
+    height: "100%",
+    marginTop: onethirdScreenHeight,
+    marginBottom: "10%",
+    backgroundColor: "white",
+    borderTopRightRadius: 110,
+    padding: 20,
+  },
   descriptionContainer: {
-    marginTop: Spacing.SCALE_30,
-    marginBottom: Spacing.SCALE_30,
+    marginTop: Spacing.SCALE_18,
+    marginBottom: Spacing.SCALE_18,
   },
   descriptionHeader: {
     marginBottom: Spacing.SCALE_10,
@@ -45,7 +56,21 @@ export const styles = StyleSheet.create({
     color: Colors.DARK_GRAY_BLUE,
     marginBottom: Spacing.SCALE_10,
   },
-
+  badgeContainer: {
+    display: "flex",
+    flexDirection: "row",
+    flexWrap: "wrap",
+  },
+  badge: {
+    color: Colors.DARK_GRAY_BLUE,
+    backgroundColor: Colors.LIGHT_GRAY,
+    borderRadius: 50,
+    paddingHorizontal: Spacing.SCALE_10,
+    paddingVertical: Spacing.SCALE_4,
+    flexDirection: "row",
+    flexWrap: "wrap",
+    margin: Spacing.SCALE_4,
+  },
   city: {
     fontFamily: Typography.FONT_CAPRIOLA_REGULAR,
     fontSize: Typography.FONT_SIZE_20,
@@ -63,4 +88,6 @@ export const styles = StyleSheet.create({
   content: {
     // padding: 5,
   },
+  buttonBody: { 
+    backgroundColor: Colors.WHITE, padding: Spacing.SCALE_20 },
 });

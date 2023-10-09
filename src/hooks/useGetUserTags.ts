@@ -2,7 +2,8 @@ import { useEffect } from "react";
 import { useQuery } from "@apollo/client";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { GET_USER_TAGS_TYPE_VISIBLE } from "../services/graphql/profile/queries";
-import { selectUserId, setUserProfile } from "../store/features/user/userSlice";
+import { selectUserId, setUserProfileVisibilityData } from "../store/features/user/userSlice";
+import { UserTagsTypeVisibleEnity } from "../store/features/user/types";
 
 export const useGetUserTags = () => {
   const dispatch = useAppDispatch();
@@ -10,37 +11,40 @@ export const useGetUserTags = () => {
   const userId = useAppSelector(selectUserId);
 
   const {
-    data: userProfileResult,
+    data: userTagsResult,
     error,
-    loading: userProfileLoading,
+    loading: userTagsLoading,
   } = useQuery(GET_USER_TAGS_TYPE_VISIBLE, {
     variables: { userId },
   });
 
   useEffect(() => {
-    if (userProfileResult && !userProfileLoading) {
-      const { getAllUserTagsTypeVisible } = userProfileResult;
-      const modifiedResult: any = getAllUserTagsTypeVisible.map((item: any) => ({
-        userId: item.userId,
-        tagType: item.tagType,
-        userTags:
-          item.userTags.length === 0
-            ? item.userTags
-            : item.userTags?.map((tag: any) => ({
-                userId: item.userId,
-                tagName: tag.tagName,
-                tagType: tag.tagType,
-              })),
-        visible: item.visible,
-        emoji: item.emoji,
-      }));
+    if (userTagsResult && !userTagsLoading) {
+      const { getAllUserTagsTypeVisible } = userTagsResult;
+      const userProfileVisibility = {};
+      getAllUserTagsTypeVisible.forEach((item: UserTagsTypeVisibleEnity) => {
+        userProfileVisibility[item.tagType] = {
+          userId: item.userId,
+          tagType: item.tagType,
+          userTags:
+            item.userTags.length === 0
+              ? item.userTags
+              : item.userTags?.map((tag: any) => ({
+                  userId: item.userId,
+                  tagName: tag.tagName,
+                  tagType: tag.tagType,
+                })),
+          visible: item.visible,
+        };
+      });
+
       dispatch(
-        setUserProfile({
-          userProfile: modifiedResult,
+        setUserProfileVisibilityData({
+          userTags: userProfileVisibility,
         })
       );
     }
-  }, [userProfileResult, userProfileLoading, dispatch]);
+  }, [userTagsResult, userTagsLoading, dispatch]);
 
   return [error];
 };

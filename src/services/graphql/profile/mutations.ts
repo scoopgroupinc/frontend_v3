@@ -93,7 +93,7 @@ export const SAVE_USER_NAME = gql`
 export const SAVE_USER_TAGS_TYPE_VISIBLE = gql`
   mutation saveUserTagsTypeVisible($userTagsTypeVisibleInput: [UserTagsTypeVisibleInput!]!) {
     saveUserTagsTypeVisible(userTagsTypeVisibleInput: $userTagsTypeVisibleInput) {
-      emoji
+      userId
     }
   }
 `;

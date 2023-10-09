@@ -16,10 +16,27 @@ export interface NavigationScreenProps {
 }
 
 export interface TagProps {
+  id: string;
   name: string;
 }
 
-export interface EduProps {
+export interface Tag {
+  id: number;
+  type: tag_type;
   name: string;
+  visible: boolean;
   emoji: string;
+  order?: number;
+}
+
+export interface TagsById {
+  [tagType: tag_type]: {
+    [id: number]: Tag;
+  };
+}
+
+export interface TagsByName {
+  [tagType: string]: {
+    [name: tag_type]: Tag;
+  };
 }

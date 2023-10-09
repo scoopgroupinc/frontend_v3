@@ -6,7 +6,7 @@ import { styles } from "./styles";
 import { Colors } from "../../../../utils";
 import TagScreenHeader from "../../../../components/molecule/TagScreenHeader";
 import TagsView from "../../../../components/molecule/TagsView";
-import { SPORTS } from "../../../../utils/types/TAGS";
+import { PHYSICAL_ACTIVITY } from "../../../../utils/types/TAGS";
 import { analyticScreenNames, eventNames, screenClass } from "../../../../analytics/constants";
 import { logEvent } from "../../../../analytics";
 import { useOnScreenView } from "../../../../analytics/hooks/useOnScreenView";
@@ -23,7 +23,7 @@ const Sports = ({ navigation, route }: any) => {
 
   const pageTitle = "Sports";
 
-  const sportsTag = SPORTS;
+  const sportsTag = PHYSICAL_ACTIVITY;
 
   useOnScreenView({
     screenName: analyticScreenNames.sports,

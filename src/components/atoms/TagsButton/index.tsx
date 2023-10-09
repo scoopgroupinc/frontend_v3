@@ -1,5 +1,5 @@
 /* eslint-disable import/prefer-default-export */
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { TouchableOpacity, Text, View } from "react-native";
 
@@ -8,13 +8,12 @@ import { styles } from "./styles";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import {
   selectUserId,
-  selectUserProfile,
-  setUserProfile,
+  selectUserTags,
+  setUserProfileVisibilityData,
 } from "../../../store/features/user/userSlice";
 
 interface TagButtonProps {
   typeOf?: string;
-  type: string;
   data: Tag;
   currentTagType: string;
 }
@@ -34,12 +33,9 @@ export const TagsButton = ({ currentTagType, typeOf, data }: TagButtonProps) => 
 
   const dispatch = useAppDispatch();
   const userId = useAppSelector(selectUserId);
-  const userProfile = useAppSelector(selectUserProfile);
+  const userTagsVisible = useAppSelector(selectUserTags);
 
-  const handleMulipleBtns = () => {
-    const index = userProfile.findIndex((item: any) => item.tagType === currentTagType);
-    const rst = userProfile?.find((item: any) => item.tagType === currentTagType);
-    const profile = [...userProfile];
+  const handleMulipleBtns = useCallback(() => {
     const isExist = tags?.find((item: any) => item.tagName === data.name);
     let userTags = [];
     if (isExist) {
@@ -48,32 +44,34 @@ export const TagsButton = ({ currentTagType, typeOf, data }: TagButtonProps) => 
       userTags = [...tags, { userId, tagName: data.name, tagType: currentTagType }];
     }
     setTags(userTags);
-    profile[index] = {
-      ...rst,
-      userTags,
+    const profile = {
+      ...userTagsVisible,
+      [currentTagType]: {
+        ...userTagsVisible[currentTagType],
+        userTags,
+      },
     };
-    dispatch(setUserProfile({ userProfile: profile }));
-  };
+    dispatch(setUserProfileVisibilityData({ userTags: profile }));
+  }, [currentTagType, data, dispatch, tags, userTagsVisible, userId]);
 
   const handleSingleBtn = () => {
-    const rst = userProfile.find((item: any) => item.tagType === currentTagType);
     dispatch(
-      setUserProfile({
-        userProfile: [
-          ...userProfile.filter((item: any) => item.tagType !== currentTagType),
-          {
-            ...rst,
+      setUserProfileVisibilityData({
+        userTags: {
+          ...userTagsVisible,
+          [currentTagType]: {
+            ...userTagsVisible[currentTagType],
             userTags: [{ userId, tagName: data.name, tagType: currentTagType }],
           },
-        ],
+        },
       })
     );
   };
 
   useEffect(() => {
-    const rst = userProfile?.find((item: any) => item.tagType === currentTagType);
-    setTags(rst?.userTags);
-  }, [userProfile, currentTagType]);
+    const rst = userTagsVisible[currentTagType];
+    setTags(rst?.userTags || []);
+  }, [currentTagType, userTagsVisible]);
 
   return (
     <TouchableOpacity onPress={typeOf === TypeOf.ARRAY ? handleMulipleBtns : handleSingleBtn}>

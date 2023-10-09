@@ -2,45 +2,53 @@ import React from "react";
 import { View, Text } from "react-native";
 import { styles } from "../styles";
 import { Spacing } from "../../../utils";
+import { TAGS, TAG_VISIBLE_TYPES } from "../../../utils/types/TAGS";
 
-const getJobDetails = (userProfile: any) => {
-  const company = userProfile?.find((item: any) => item.tagType === "company");
-  const companyString = company?.userTags[0]?.tagName ? `@ ${company?.userTags[0]?.tagName}` : "";
-  const job = userProfile?.find((item: any) => item.tagType === "job");
-  const jobString = job?.userTags[0]?.tagName ? `${job?.userTags[0]?.tagName} ` : "";
-  if (job?.userTags.length > 0 && job?.visible) {
+const getHometownDetails = (userTags: any) => {
+  const hometown = userTags[TAG_VISIBLE_TYPES.home_town];
+  const hometownName = hometown?.userTags[0]?.tagName;
+  if (hometown?.visible && hometownName) {
+    return <Text style={[styles.descriptionText]}>🏠 {hometownName}</Text>;
+  }
+  return null;
+};
+
+const getJobDetails = (userTags: any) => {
+  const company = userTags[TAG_VISIBLE_TYPES.company];
+  const companyString =
+    company?.visible && company?.userTags[0]?.tagName ? `@ ${company?.userTags[0]?.tagName}` : "";
+  const job = userTags[TAG_VISIBLE_TYPES.job];
+  const jobString =
+    job?.visible && job?.userTags[0]?.tagName ? `${job?.userTags[0]?.tagName} ` : "";
+  if (jobString || companyString) {
     return (
       <Text style={[styles.descriptionText]}>
-        {jobString} {companyString}
+        👨🏻‍💻 {jobString}
+        {companyString}
       </Text>
     );
   }
   return null;
 };
 
-const getSchoolDetails = (userProfile: any) => {
-  const schoolName = userProfile?.find((item: any) => item.tagType === "school")?.userTags[0]
-    ?.tagName;
-  const school = userProfile?.find((item: any) => item.tagType === "school");
+const getSchoolDetails = (userTags: any) => {
+  const school = userTags[TAG_VISIBLE_TYPES.school];
+  const schoolName = school?.userTags[0]?.tagName;
   if (school?.visible && schoolName) {
-    return (
-      <Text style={[styles.descriptionText]}>
-        {school?.emoji} {schoolName}
-      </Text>
-    );
+    return <Text style={[styles.descriptionText]}>🎓 {schoolName}</Text>;
   }
   return null;
 };
 
-const getLanguagesDetails = (userProfile: any) => {
-  const languages = userProfile?.find((item: any) => item.tagType === "language");
+const getLanguagesDetails = (userTags: any) => {
+  const languages = userTags[TAG_VISIBLE_TYPES.language];
   if (languages?.userTags.length > 0 && languages?.visible) {
     return (
       <View>
         <View style={styles.section}>
           <Text style={styles.descriptionHeader}>Languages I know</Text>
           <Text style={[styles.descriptionText]}>
-            {userProfile?.find((item: any) => item.tagType === "language")?.emoji}&nbsp;
+            {userTags[TAG_VISIBLE_TYPES.language].emoji}&nbsp;
             {languages?.userTags.map((item: any, index: any) => (
               <Text key={index}>
                 {item.tagName}
@@ -55,12 +63,15 @@ const getLanguagesDetails = (userProfile: any) => {
   return null;
 };
 
-const getMusicGenreDetails = (userProfile: any) => {
-  const music = userProfile?.find((item: any) => item.tagType === "music_genre");
+const getMusicGenreDetails = (userTags: any) => {
+  const music = userTags[TAG_VISIBLE_TYPES.music_genre];
+  const emoji = TAGS[TAG_VISIBLE_TYPES.school].find(
+    (item) => item.tagName === music.tagName
+  )?.emoji;
   if (music?.userTags.length > 0 && music?.visible) {
     return (
       <Text style={[styles.descriptionText]}>
-        {userProfile?.find((item: any) => item.tagType === "music_genre")?.emoji}&nbsp;
+        {userTags[TAG_VISIBLE_TYPES.music_genre].emoji}&nbsp;
         {music?.userTags.map((item: any, index: any) => (
           <Text key={index}>
             {item.tagName}
@@ -73,12 +84,12 @@ const getMusicGenreDetails = (userProfile: any) => {
   return null;
 };
 
-const getBookGenreDetails = (userProfile: any) => {
-  const book = userProfile?.find((item: any) => item.tagType === "book_genre");
+const getBookGenreDetails = (userTags: any) => {
+  const book = userTags[TAG_VISIBLE_TYPES.book_genre];
   if (book?.userTags.length > 0 && book?.visible) {
     return (
       <Text style={[styles.descriptionText]}>
-        {userProfile?.find((item: any) => item.tagType === "book_genre")?.emoji}&nbsp;
+        {userTags[TAG_VISIBLE_TYPES.book_genre].emoji}&nbsp;
         {book?.userTags.map((item: any, index: any) => (
           <Text key={index}>
             {item.tagName}
@@ -91,12 +102,12 @@ const getBookGenreDetails = (userProfile: any) => {
   return null;
 };
 
-const getPetsDetails = (userProfile: any) => {
-  const pets = userProfile?.find((item: any) => item.tagType === "pets");
+const getPetsDetails = (userTags: any) => {
+  const pets = userTags[TAG_VISIBLE_TYPES.pets];
   if (pets?.userTags.length > 0 && pets?.visible) {
     return (
       <Text style={[styles.descriptionText]}>
-        {userProfile?.find((item: any) => item.tagType === "pets")?.emoji}&nbsp;
+        {userTags[TAG_VISIBLE_TYPES.pets].emoji}&nbsp;
         {pets?.userTags.map((item: any, index: any) => (
           <Text key={index}>
             {item.tagName}
@@ -109,12 +120,12 @@ const getPetsDetails = (userProfile: any) => {
   return null;
 };
 
-const getSportsDetails = (userProfile: any) => {
-  const sports = userProfile?.find((item: any) => item.tagType === "physical_activity");
+const getSportsDetails = (userTags: any) => {
+  const sports = userTags[TAG_VISIBLE_TYPES.physical_activity];
   if (sports?.userTags.length > 0 && sports?.visible) {
     return (
       <Text style={[styles.descriptionText]}>
-        {userProfile?.find((item: any) => item.tagType === "physical_activity")?.emoji}&nbsp;
+        {userTags[TAG_VISIBLE_TYPES.physical_activity].emoji}&nbsp;
         {sports?.userTags.map((item: any, index: any) => (
           <Text key={index}>
             {item.tagName}
@@ -127,12 +138,12 @@ const getSportsDetails = (userProfile: any) => {
   return null;
 };
 
-const getGoingOutDetails = (userProfile: any) => {
-  const goingOut = userProfile?.find((item: any) => item.tagType === "going_out");
+const getGoingOutDetails = (userTags: any) => {
+  const goingOut = userTags[TAG_VISIBLE_TYPES.going_out];
   if (goingOut?.userTags.length > 0 && goingOut?.visible) {
     return (
       <Text style={[styles.descriptionText]}>
-        {userProfile?.find((item: any) => item.tagType === "going_out")?.emoji}&nbsp;
+        {userTags[TAG_VISIBLE_TYPES.going_out].emoji}&nbsp;
         {goingOut?.userTags.map((item: any, index: any) => (
           <Text key={index}>
             {item.tagName}
@@ -145,12 +156,12 @@ const getGoingOutDetails = (userProfile: any) => {
   return null;
 };
 
-const getCreativeOuletDetails = (userProfile: any) => {
-  const creative = userProfile?.find((item: any) => item.tagType === "creative");
+const getCreativeOuletDetails = (userTags: any) => {
+  const creative = userTags[TAG_VISIBLE_TYPES.creative];
   if (creative?.userTags.length > 0 && creative?.visible) {
     return (
       <Text style={[styles.descriptionText]}>
-        {userProfile?.find((item: any) => item.tagType === "creative")?.emoji}&nbsp;
+        {userTags[TAG_VISIBLE_TYPES.creative].emoji}&nbsp;
         {creative?.userTags.map((item: any, index: any) => (
           <Text key={index}>
             {item.tagName}
@@ -163,12 +174,12 @@ const getCreativeOuletDetails = (userProfile: any) => {
   return null;
 };
 
-const getStayingInDetails = (userProfile: any) => {
-  const stayingIn = userProfile?.find((item: any) => item.tagType === "staying_in");
+const getStayingInDetails = (userTags: any) => {
+  const stayingIn = userTags[TAG_VISIBLE_TYPES.staying_in];
   if (stayingIn?.userTags.length > 0 && stayingIn?.visible) {
     return (
       <Text style={[styles.descriptionText]}>
-        {userProfile?.find((item: any) => item.tagType === "staying_in")?.emoji}&nbsp;
+        {userTags[TAG_VISIBLE_TYPES.staying_in].emoji}&nbsp;
         {stayingIn?.userTags.map((item: any, index: any) => (
           <Text key={index}>
             {item.tagName}
@@ -181,12 +192,12 @@ const getStayingInDetails = (userProfile: any) => {
   return null;
 };
 
-const getDrinkDetails = (userProfile: any) => {
-  const drink = userProfile?.find((item: any) => item.tagType === "drink");
+const getDrinkDetails = (userTags: any) => {
+  const drink = userTags[TAG_VISIBLE_TYPES.drink];
   if (drink?.userTags.length > 0 && drink?.visible) {
     return (
       <Text style={[styles.descriptionText]}>
-        {userProfile?.find((item: any) => item.tagType === "drink")?.emoji}&nbsp;
+        {userTags[TAG_VISIBLE_TYPES.drink].emoji}&nbsp;
         {drink?.userTags.map((item: any, index: any) => (
           <Text key={index}>
             {item.tagName}
@@ -199,8 +210,8 @@ const getDrinkDetails = (userProfile: any) => {
   return null;
 };
 
-const getPoliticsDetails = (userProfile: any) => {
-  const politics = userProfile?.find((item: any) => item.tagType === "politics");
+const getPoliticsDetails = (userTags: any) => {
+  const politics = userTags[TAG_VISIBLE_TYPES.politics];
   const politicsName = politics?.userTags[0]?.tagName;
   if (politics?.visible && politicsName) {
     return (
@@ -212,8 +223,8 @@ const getPoliticsDetails = (userProfile: any) => {
   return null;
 };
 
-const getAlcoholDetails = (userProfile: any) => {
-  const alcohol = userProfile?.find((item: any) => item.tagType === "alcohol_usage");
+const getAlcoholDetails = (userTags: any) => {
+  const alcohol = userTags[TAG_VISIBLE_TYPES.alcohol_usage];
   const alcoholName = alcohol?.userTags[0]?.tagName;
   if (alcohol?.visible && alcoholName) {
     return (
@@ -225,8 +236,8 @@ const getAlcoholDetails = (userProfile: any) => {
   return null;
 };
 
-const getSmokingDetails = (userProfile: any) => {
-  const smoking = userProfile?.find((item: any) => item.tagType === "smoking");
+const getSmokingDetails = (userTags: any) => {
+  const smoking = userTags[TAG_VISIBLE_TYPES.smoking];
   const smokingName = smoking?.userTags[0]?.tagName;
   if (smoking?.visible && smokingName) {
     return (
@@ -238,8 +249,8 @@ const getSmokingDetails = (userProfile: any) => {
   return null;
 };
 
-const getDrugsDetails = (userProfile: any) => {
-  const drug = userProfile?.find((item: any) => item.tagType === "drug_usage");
+const getDrugsDetails = (userTags: any) => {
+  const drug = userTags[TAG_VISIBLE_TYPES.drug_usage];
   const drugName = drug?.userTags[0]?.tagName;
   if (drug?.visible && drugName) {
     return (
@@ -251,8 +262,8 @@ const getDrugsDetails = (userProfile: any) => {
   return null;
 };
 
-const getZodiacDetails = (userProfile: any) => {
-  const zodiac = userProfile?.find((item: any) => item.tagType === "zodiac");
+const getZodiacDetails = (userTags: any) => {
+  const zodiac = userTags[TAG_VISIBLE_TYPES.zodiac];
   const zodiacName = zodiac?.userTags[0]?.tagName;
   if (zodiac?.visible && zodiacName) {
     return (
@@ -264,8 +275,8 @@ const getZodiacDetails = (userProfile: any) => {
   return null;
 };
 
-const getMeyerBriggsDetails = (userProfile: any) => {
-  const meyerBriggs = userProfile?.find((item: any) => item.tagType === "meyer_briggs");
+const getMeyerBriggsDetails = (userTags: any) => {
+  const meyerBriggs = userTags[TAG_VISIBLE_TYPES.meyer_briggs];
   const meyerBriggsName = meyerBriggs?.userTags[0]?.tagName;
   if (meyerBriggs?.visible && meyerBriggsName) {
     return (
@@ -277,8 +288,8 @@ const getMeyerBriggsDetails = (userProfile: any) => {
   return null;
 };
 
-const getParentingGoalDetails = (userProfile: any) => {
-  const parentingGoal = userProfile?.find((item: any) => item.tagType === "parenting_goal");
+const getParentingGoalDetails = (userTags: any) => {
+  const parentingGoal = userTags[TAG_VISIBLE_TYPES.parenting_goal];
   if (parentingGoal?.visible && parentingGoal?.userTags.length > 0) {
     return (
       <Text style={[styles.descriptionText]}>
@@ -295,8 +306,8 @@ const getParentingGoalDetails = (userProfile: any) => {
   return null;
 };
 
-const getEducationLevelDetails = (userProfile: any) => {
-  const education = userProfile?.find((item: any) => item.tagType === "education");
+const getEducationLevelDetails = (userTags: any) => {
+  const education = userTags[TAG_VISIBLE_TYPES.education];
   const educationName = education?.userTags[0]?.tagName;
   if (education?.visible && educationName) {
     return (
@@ -308,21 +319,8 @@ const getEducationLevelDetails = (userProfile: any) => {
   return null;
 };
 
-const getHometownDetails = (userProfile: any) => {
-  const hometown = userProfile?.find((item: any) => item.tagType === "homeTown");
-  const hometownName = hometown?.userTags[0]?.tagName;
-  if (hometown?.visible && hometownName) {
-    return (
-      <Text style={[styles.descriptionText]}>
-        {hometown?.emoji} {hometownName}
-      </Text>
-    );
-  }
-  return null;
-};
-
-const getDietDetails = (userProfile: any) => {
-  const diet = userProfile?.find((item: any) => item.tagType === "diet");
+const getDietDetails = (userTags: any) => {
+  const diet = userTags[TAG_VISIBLE_TYPES.diet];
   if (diet?.visible && diet?.userTags.length) {
     return (
       <Text style={[styles.descriptionText]}>
@@ -339,8 +337,8 @@ const getDietDetails = (userProfile: any) => {
   return null;
 };
 
-const getEthnicityDetails = (userProfile: any) => {
-  const ethnicity = userProfile?.find((item: any) => item.tagType === "ethnicity");
+const getEthnicityDetails = (userTags: any) => {
+  const ethnicity = userTags[TAG_VISIBLE_TYPES.ethnicity];
   if (ethnicity?.userTags.length > 0 && ethnicity?.visible) {
     return (
       <Text style={[styles.descriptionText]}>
@@ -357,11 +355,11 @@ const getEthnicityDetails = (userProfile: any) => {
   return null;
 };
 
-const getReligionsDetails = (userProfile: any) => {
-  const religion = userProfile?.find((item: any) => item.tagType === "religion");
+const getReligionsDetails = (userTags: any) => {
+  const religion = userTags[TAG_VISIBLE_TYPES.religion];
   const religionName = religion?.userTags[0]?.tagName;
 
-  const religiousPractice = userProfile?.find((item: any) => item.tagType === "religious_practice");
+  const religiousPractice = userTags[TAG_VISIBLE_TYPES.religious_practice];
   const religiousPracticeName = religiousPractice?.userTags[0]?.tagName;
 
   if (
@@ -379,8 +377,8 @@ const getReligionsDetails = (userProfile: any) => {
   return null;
 };
 
-const getRelationshipGoalsDetails = (userProfile: any) => {
-  const relationshipGoal = userProfile?.find((item: any) => item.tagType === "relationship_goal");
+const getRelationshipGoalsDetails = (userTags: any) => {
+  const relationshipGoal = userTags[TAG_VISIBLE_TYPES.relationship_goal];
   const relationshipTags = relationshipGoal?.userTags;
   if (relationshipGoal?.visible && relationshipTags.length > 0) {
     return (
@@ -398,8 +396,8 @@ const getRelationshipGoalsDetails = (userProfile: any) => {
   return null;
 };
 
-const getRelationshipTypesDetails = (userProfile: any) => {
-  const relationshipType = userProfile?.find((item: any) => item.tagType === "relationship_type");
+const getRelationshipTypesDetails = (userTags: any) => {
+  const relationshipType = userTags[TAG_VISIBLE_TYPES.relationship_type];
   const relationshipTypeName = relationshipType?.userTags[0]?.tagName;
   if (relationshipType?.visible && relationshipTypeName) {
     return (
@@ -411,8 +409,8 @@ const getRelationshipTypesDetails = (userProfile: any) => {
   return null;
 };
 
-const getCannabisDetails = (userProfile: any) => {
-  const cannibisUsage = userProfile?.find((item: any) => item.tagType === "cannibis_usage");
+const getCannabisDetails = (userTags: any) => {
+  const cannibisUsage = userTags[TAG_VISIBLE_TYPES.cannibis_usage];
   const cannibisUsageName = cannibisUsage?.userTags[0]?.tagName;
   if (cannibisUsage?.visible && cannibisUsageName) {
     return (

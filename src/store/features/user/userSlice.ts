@@ -4,13 +4,16 @@ import type { AnyListenerPredicate, PayloadAction } from "@reduxjs/toolkit";
 import { isEqual, cloneDeep } from "lodash";
 import { multiRemove, storeObjectData } from "../../../utils/storage";
 import { UserPrompt } from "../../../utils/types";
-import { UserProfile } from "./types";
+import { UserTagsEntity, UserTagsTypeVisibleEnity, UserProfileEntity } from "./types";
+import { UserVisualsType } from "../../../utils/helpers";
+import { TAG_VISIBLE_TYPES } from "../../../utils/types/TAGS";
 
 interface UserState {
   user: any;
-  userVisuals: { [key: string]: AnyListenerPredicate };
-  userProfile: UserProfile;
+  userVisuals: { [key: string]: AnyListenerPredicate<UserVisualsType> };
+  userTags: { [key: string]: UserTagsTypeVisibleEnity };
   userPreference: any;
+  userProfile: UserProfileEntity;
   userPrompts: { [key: string]: UserPrompt };
   userPromptsOrder: any[];
   editPromptIndex: any;
@@ -27,12 +30,24 @@ interface UserState {
   isUserProfileDirty: boolean;
 }
 
+const userProfileVisibility: { [key: string]: UserTagsTypeVisibleEnity } = {};
+Object.keys(TAG_VISIBLE_TYPES).forEach((tag) => {
+  userProfileVisibility[tag] = {
+    id: "",
+    userId: "",
+    visible: true,
+    tagType: tag,
+    userTags: [] as UserTagsEntity[],
+  };
+});
+
 const initialState: UserState = {
   user: null,
   userVisuals: {},
-  userProfile: [],
+  userTags: userProfileVisibility,
   userPreference: null,
   userPrompts: {},
+  userProfile: {} as UserProfileEntity,
   userPromptsOrder: [],
   editPromptIndex: null,
   editPrompt: null,
@@ -83,6 +98,9 @@ const UserSlice = createSlice({
     setUserPreference: (state, action: PayloadAction<any>) => {
       state.userPreference = cloneDeep(action.payload.userPreference);
     },
+    setUserProfile: (state, action: PayloadAction<any>) => {
+      state.userProfile = cloneDeep(action.payload.userProfile);
+    },
     setUserPrompts: (state, action: PayloadAction<any>) => {
       const { userPrompts } = action.payload;
       const prompts = cloneDeep(userPrompts);
@@ -100,16 +118,16 @@ const UserSlice = createSlice({
     setUserPromptsOrder: (state, action: PayloadAction<any>) => {
       state.userPromptsOrder = cloneDeep(action.payload.userPromptsOrder) || [];
     },
-    setUserProfile: (state, action: PayloadAction<any>) => {
-      const { userProfile } = action.payload;
-      state.userProfile = userProfile;
+    setUserProfileVisibilityData: (state, action: PayloadAction<any>) => {
+      const { userTags } = action.payload;
+      state.userTags = userTags;
       state.isUserProfileDirty =
-        !!state.originalProfile && !isEqual(state.userProfile, state.originalProfile);
+        !!state.originalProfile && !isEqual(state.userTags, state.originalProfile);
     },
     trackCurrentUserStateChanges: (state) => {
       state.originalUser = cloneDeep(state.user);
       state.originalVisuals = cloneDeep(state.userVisuals);
-      state.originalProfile = cloneDeep(state.userProfile);
+      state.originalProfile = cloneDeep(state.userTags);
       state.originalPrompts = cloneDeep(state.userPrompts);
       state.isUserDirty = false;
       state.isUserPromptsDirty = false;
@@ -120,7 +138,7 @@ const UserSlice = createSlice({
     resetToCopyData: (state) => {
       state.user = cloneDeep(state.originalUser);
       state.userVisuals = cloneDeep(state.originalVisuals);
-      state.userProfile = cloneDeep(state.originalProfile);
+      state.userTags = cloneDeep(state.originalProfile);
       state.userPrompts = cloneDeep(state.originalPrompts);
       state.originalVisuals = null;
       state.originalProfile = null;
@@ -184,11 +202,12 @@ export const selectUserIsOnboarded = (state: { appUser: UserState }) =>
 export const selectIsVoteOnboarded = (state: { appUser: UserState }) =>
   state.appUser.user?.isVoteOnboarded;
 export const selectUserId = (state: { appUser: UserState }) => state.appUser.user?.userId;
-export const selectUserProfile = (state: { appUser: UserState }) => state.appUser.userProfile;
+export const selectUserTags = (state: { appUser: UserState }) => state.appUser.userTags;
 export const selectUserVisuals = (state: { appUser: UserState }) => state.appUser.userVisuals;
 export const selectUserPrompts = (state: { appUser: UserState }) => state.appUser.userPrompts || {};
 export const selectUserPromptsOrder = (state: { appUser: UserState }) =>
   state.appUser.userPromptsOrder || [];
+export const selectUserProfile = (state: { appUser: UserState }) => state.appUser.userProfile;
 export const selectEditPromptIndex = (state: { appUser: UserState }) =>
   state.appUser.editPromptIndex;
 export const selectEditPrompt = (state: { appUser: UserState }) => state.appUser.editPrompt;
@@ -218,6 +237,7 @@ export const {
   updateUser,
   setUserPreference,
   setUserProfile,
+  setUserProfileVisibilityData,
   setUserPrompts,
   setUserPromptsOrder,
   setEditPromptIndex,

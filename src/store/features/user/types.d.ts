@@ -6,10 +6,6 @@ export interface UserProfile {
   height: string;
   gender: string;
   locationId: string;
-  jobTitle: string;
-  company: string;
-  homeTown: string;
-  school: string;
 }
 
 export interface UserPromptsOrderInput {
@@ -20,7 +16,6 @@ export interface UserPromptsOrderInput {
 export interface UserTagsTypeVisibleInput {
   userId: string!;
   visible: string!;
-  emoji: string!;
   tagType: tag_type!;
   userTags: [UserTagsInput!];
 }
@@ -34,15 +29,25 @@ export interface UserTagsInput {
 export interface UserTagsTypeVisibleEnity {
   id: string;
   userId: string;
-  emoji: string;
-  tagType: string!;
-  visible: string!;
-  userTags: [UserTagsEntity!]!;
+  tagType: tag_type!;
+  visible: boolean;
+  userTags: UserTagsEntity[];
 }
 
 export interface UserTagsEntity {
   id: string!;
   userId: string;
   tagName: string!;
-  tagType: string!;
+  tagType: tag_type!;
+}
+
+export interface UserProfileEntity {
+  userId: string
+  createdAt: Date
+  displayName?: string
+  profilePhoto?: string
+  birthday?: string
+  height?: number
+  gender?: string
+  locationId?: string;
 }

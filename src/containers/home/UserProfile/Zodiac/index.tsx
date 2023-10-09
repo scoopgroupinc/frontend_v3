@@ -4,7 +4,7 @@ import { View } from "react-native";
 import React from "react";
 import { styles } from "./styles";
 import { Colors } from "../../../../utils";
-import { ZODIAC } from "../../../../utils/types/TAGS";
+import { ZODIAC_SIGNS } from "../../../../utils/types/TAGS";
 import TagScreenHeader from "../../../../components/molecule/TagScreenHeader";
 import TagsView from "../../../../components/molecule/TagsView";
 import { logEvent } from "../../../../analytics";
@@ -23,7 +23,7 @@ const Zodiac = ({ navigation, route }: any) => {
 
   const pageTitle = "Zodiac";
 
-  const zodiacTags = ZODIAC;
+  const zodiacTags = ZODIAC_SIGNS;
 
   const goBackHome = () => {
     logEvent({

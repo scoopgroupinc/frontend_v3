@@ -7,8 +7,8 @@ import { Colors } from "../../../../utils";
 import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
 import {
   selectUser,
-  selectUserProfile,
-  setUserProfile,
+  selectUserTags,
+  setUserProfileVisibilityData,
 } from "../../../../store/features/user/userSlice";
 import TagScreenHeader from "../../../../components/molecule/TagScreenHeader";
 import { AppInput } from "../../../../components/atoms/AppInput";
@@ -18,7 +18,7 @@ import { logEvent } from "../../../../analytics";
 import { useOnScreenView } from "../../../../analytics/hooks/useOnScreenView";
 
 const School = ({ navigation, route }: any) => {
-  const userProfile = useAppSelector(selectUserProfile);
+  const userTags = useAppSelector(selectUserTags);
   const dispatch = useAppDispatch();
   const { user } = useAppSelector(selectUser);
   const userId = user?.userId;
@@ -58,28 +58,19 @@ const School = ({ navigation, route }: any) => {
         </View>
         <View style={styles.input}>
           <AppInput
-            value={
-              userProfile?.find((item: any) => item.tagType === currentTagType)?.userTags?.[0]
-                ?.tagName
-            }
+            value={userTags[currentTagType]?.userTags?.[0]?.tagName}
             onChangeText={(text: string) => {
-              const data = userProfile?.map((item: any) => {
-                const { tagType, userTags } = item;
-                if (tagType === currentTagType) {
-                  return {
-                    ...item,
-                    userTags: [{ userId, tagType: currentTagType, tagName: text }],
-                  };
-                }
-                return {
-                  ...item,
-                  tagType,
-                  userTags,
-                };
-              });
+              const data = {
+                ...userTags,
+                [currentTagType]: {
+                  ...userTags[currentTagType],
+                  userTags: [{ userId, tagType: currentTagType, tagName: text }],
+                },
+              };
+
               dispatch(
-                setUserProfile({
-                  userProfile: data,
+                setUserProfileVisibilityData({
+                  userTags: data,
                 })
               );
             }}

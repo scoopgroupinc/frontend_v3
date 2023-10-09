@@ -28,14 +28,15 @@ export const mapIndexToPrompts = (d: any, index: number, arr: any[]) => ({
   answer: "",
 });
 
-export const decryptData = (ciphertext: string) => {
-  const bytes = CryptoJS.AES.decrypt(ciphertext, "secret key 123");
-  const decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
-  return decryptedData;
-};
+export const decryptData = (ciphertext: string) =>
+  // const bytes = CryptoJS.AES.decrypt(ciphertext, "secret key 123");
+  // const decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+  // return decryptedData;
+  ({ id: ciphertext });
 
 export const encryptData = (obj: any) => {
-  const ciphertext = CryptoJS.AES.encrypt(JSON.stringify(obj), "secret key 123").toString();
+  // const ciphertext = CryptoJS.AES.encrypt(JSON.stringify(obj), "secret key 123").toString();
+  const ciphertext = obj.id; // JSON.stringify(obj);
   return ciphertext;
 };
 

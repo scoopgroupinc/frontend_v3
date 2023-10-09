@@ -4,7 +4,7 @@ import { View } from "react-native";
 import React from "react";
 import { styles } from "./styles";
 import { Colors } from "../../../../utils";
-import { DRUGS } from "../../../../utils/types/TAGS";
+import { DRUG_USAGE } from "../../../../utils/types/TAGS";
 import TagScreenHeader from "../../../../components/molecule/TagScreenHeader";
 import TagsView from "../../../../components/molecule/TagsView";
 import { logEvent } from "../../../../analytics";
@@ -23,7 +23,7 @@ const Drugs = ({ navigation, route }: any) => {
 
   const pageTitle = "Drugs";
 
-  const drugsTags = DRUGS;
+  const drugsTags = DRUG_USAGE;
 
   const goBackHome = () => {
     logEvent({

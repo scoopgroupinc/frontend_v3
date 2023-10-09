@@ -7,13 +7,8 @@ export const styles = StyleSheet.create({
     marginTop: Spacing.SCALE_24,
     padding: Spacing.SCALE_20,
     borderRadius: Spacing.SCALE_16,
-    backgroundColor: "rgba(250, 250, 250, 0.7)",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
+    backgroundColor: "rgba(220, 230, 230, 0.5)",
+
     shadowRadius: 4,
     elevation: 5,
   },
@@ -28,7 +23,7 @@ export const styles = StyleSheet.create({
   },
   title: {
     color: Colors.SLATE,
-    fontSize: 12,
+    fontSize: Typography.FONT_SIZE_18,
     paddingRight: Spacing.SCALE_20,
     marginBottom: Spacing.SCALE_8,
   },

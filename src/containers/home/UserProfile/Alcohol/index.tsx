@@ -4,7 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { View } from "react-native";
 import { styles } from "./styles";
 import { Colors } from "../../../../utils";
-import { ALCOHOL } from "../../../../utils/types/TAGS";
+import { ALCOHOL_USAGE } from "../../../../utils/types/TAGS";
 import TagScreenHeader from "../../../../components/molecule/TagScreenHeader";
 import TagsView from "../../../../components/molecule/TagsView";
 import { logEvent } from "../../../../analytics";
@@ -22,7 +22,7 @@ const Alcohol = ({ navigation, route }: any) => {
 
   const pageTitle = "Alcohol";
 
-  const alcoholTags = ALCOHOL;
+  const alcoholTags = ALCOHOL_USAGE;
 
   const goBackHome = () => {
     logEvent({

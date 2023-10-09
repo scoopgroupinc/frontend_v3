@@ -2,11 +2,13 @@ import React, { useEffect, useMemo, useState } from "react";
 import { View, Text, ImageBackground, Image, Dimensions } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { useMutation } from "@apollo/client";
+import moment from "moment";
 import { useAppSelector } from "../../../store/hooks";
 import {
   selectUser,
-  selectUserProfile,
+  selectUserTags,
   selectUserPrompts,
+  selectUserProfile,
   selectUserVisuals,
   selectUserPromptsOrder,
 } from "../../../store/features/user/userSlice";
@@ -14,32 +16,9 @@ import { Colors, Spacing } from "../../../utils";
 import { QuotedText } from "../../../components/atoms/QuotedText";
 import { analyticScreenNames, screenClass } from "../../../analytics/constants";
 import {
-  getRelationshipGoalsDetails,
-  getRelationshipTypesDetails,
-  getParentingGoalDetails,
   getHometownDetails,
-  getEthnicityDetails,
   getJobDetails,
   getSchoolDetails,
-  getEducationLevelDetails,
-  getReligionsDetails,
-  getZodiacDetails,
-  getMeyerBriggsDetails,
-  getPoliticsDetails,
-  getLanguagesDetails,
-  getMusicGenreDetails,
-  getBookGenreDetails,
-  getPetsDetails,
-  getSportsDetails,
-  getGoingOutDetails,
-  getStayingInDetails,
-  getDrinkDetails,
-  getDietDetails,
-  getAlcoholDetails,
-  getSmokingDetails,
-  getDrugsDetails,
-  getCannabisDetails,
-  getCreativeOuletDetails,
 } from "../../../features/ProfileView/components/getDetails";
 import { styles } from "../../../features/ProfileView/styles";
 import { selectAllPrompts } from "../../../store/features/prompts/promptsSlice";
@@ -48,16 +27,13 @@ import { AppButton } from "../../../components/atoms/AppButton";
 import { GET_USER_SHARE_PROFILE_LINK } from "../../../services/graphql/user-link/mutations";
 import { useShare } from "../../../hooks/useShare";
 import { encryptData } from "../../../utils/helpers";
-
-const screenHeight = Dimensions.get("window").height;
-const onethirdScreenHeight = screenHeight / 3;
+import { ProfilePageDetails } from "../../../features/ProfileView/components/ProfilePageDetails";
+import { heightsByInch } from "../../../utils/constants/heights";
 
 export const UserProfileView = () => {
-  const [myInterestHeading, setMyInterestHeading] = useState<boolean>(false);
-  const [myBasicsHeading, setMyBasicsHeading] = useState<boolean>(false);
-
-  const userProfile = useAppSelector(selectUserProfile);
+  const userTags = useAppSelector(selectUserTags);
   const userPrompts = useAppSelector(selectUserPrompts);
+  const userProfile = useAppSelector(selectUserProfile);
   const promptDisplayOrder = useAppSelector(selectUserPromptsOrder);
   const allPrompts = useAppSelector(selectAllPrompts);
   const allImagesRedux = useAppSelector(selectUserVisuals);
@@ -125,48 +101,6 @@ export const UserProfileView = () => {
     mergeData();
   }, [allImages, promptDisplayOrder, userPrompts]);
 
-  useEffect(() => {
-    const myInterestArrays = [
-      getMusicGenreDetails(userProfile),
-      getBookGenreDetails(userProfile),
-      getPetsDetails(userProfile),
-      getSportsDetails(userProfile),
-      getGoingOutDetails(userProfile),
-      getStayingInDetails(userProfile),
-      getCreativeOuletDetails(userProfile),
-    ];
-    const myInterestArraysWithData = myInterestArrays.filter((item) => item !== null);
-    if (myInterestArraysWithData.length !== 0) {
-      setMyInterestHeading(true);
-    }
-
-    const myBasicArrays = [
-      getRelationshipGoalsDetails(userProfile),
-      getRelationshipTypesDetails(userProfile),
-      getParentingGoalDetails(userProfile),
-      getHometownDetails(userProfile),
-      getEthnicityDetails(userProfile),
-      getJobDetails(userProfile),
-      getSchoolDetails(userProfile),
-      getEducationLevelDetails(userProfile),
-      getReligionsDetails(userProfile),
-      getZodiacDetails(userProfile),
-      getMeyerBriggsDetails(userProfile),
-      getPoliticsDetails(userProfile),
-      getDietDetails(userProfile),
-      getDrinkDetails(userProfile),
-      getAlcoholDetails(userProfile),
-      getSmokingDetails(userProfile),
-      getDrugsDetails(userProfile),
-      getCannabisDetails(userProfile),
-    ];
-    const myBasicArraysWithData = myBasicArrays.filter((item) => item !== null);
-
-    if (myBasicArraysWithData.length !== 0) {
-      setMyBasicsHeading(true);
-    }
-  }, [userProfile, setMyInterestHeading, setMyBasicsHeading, myBasicsHeading, myInterestHeading]);
-
   return (
     <ImageBackground
       style={{ flex: 1 }}
@@ -181,61 +115,28 @@ export const UserProfileView = () => {
           flex: 1,
         }}
       >
-        <View
-          style={{
-            width: "100%",
-            height: "100%",
-            marginTop: onethirdScreenHeight,
-            marginBottom: "10%",
-            backgroundColor: "white",
-            borderTopRightRadius: 110,
-            padding: 20,
-          }}
-        >
+        <View style={styles.whiteArc}>
           <View style={styles.descriptionContainer}>
             <View style={styles.section}>
-              <Text style={styles.name}>{`${user?.firstName} ${user?.lastName}`}</Text>
-              {/* <Text style={styles.age}>
-                {age} years old, {height}
-              </Text> */}
-              <Text style={styles.city}> {user?.location?.city}</Text>
-              {myBasicsHeading && <Text style={styles.descriptionHeader}>My Basics</Text>}
-
-              <View style={[styles.content, { flexDirection: "column" }]}>
-                {getRelationshipGoalsDetails(userProfile)}
-                {getRelationshipTypesDetails(userProfile)}
-                {getParentingGoalDetails(userProfile)}
-                {getHometownDetails(userProfile)}
-                {getEthnicityDetails(userProfile)}
-                {getJobDetails(userProfile)}
-                {getSchoolDetails(userProfile)}
-                {getEducationLevelDetails(userProfile)}
-                {getReligionsDetails(userProfile)}
-                {getZodiacDetails(userProfile)}
-                {getMeyerBriggsDetails(userProfile)}
-                {getPoliticsDetails(userProfile)}
-                {getDietDetails(userProfile)}
-                {getDrinkDetails(userProfile)}
-                {getAlcoholDetails(userProfile)}
-                {getSmokingDetails(userProfile)}
-                {getDrugsDetails(userProfile)}
-                {getCannabisDetails(userProfile)}
-              </View>
+              <Text style={styles.name}>{userProfile?.displayName}</Text>
+              {userProfile?.birthday && (
+                <Text style={styles.descriptionText}>
+                  {moment().diff(userProfile?.birthday, "years")} years old
+                </Text>
+              )}
+              {userProfile?.height && (
+                <Text style={styles.descriptionText}>
+                  {heightsByInch[userProfile?.height]?.label}
+                </Text>
+              )}
+              {userProfile?.location?.city && (
+                <Text style={styles.descriptionText}>{userProfile?.location?.city}</Text>
+              )}
+              {getHometownDetails(userTags)}
+              {getJobDetails(userTags)}
+              {getSchoolDetails(userTags)}
+              <ProfilePageDetails userTags={userTags} />
             </View>
-            {getLanguagesDetails(userProfile)}
-            <View style={styles.section}>
-              {myInterestHeading && <Text style={styles.descriptionHeader}>My Interests</Text>}
-              <View style={styles.content}>
-                {getMusicGenreDetails(userProfile)}
-                {getBookGenreDetails(userProfile)}
-                {getPetsDetails(userProfile)}
-                {getSportsDetails(userProfile)}
-                {getGoingOutDetails(userProfile)}
-                {getStayingInDetails(userProfile)}
-                {getCreativeOuletDetails(userProfile)}
-              </View>
-            </View>
-
             {/* alternate prompts and images */}
             <View style={styles.content}>
               {merged.map((item: any, index: any) => {
