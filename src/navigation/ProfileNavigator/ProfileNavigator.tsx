@@ -19,7 +19,7 @@ const HomeStack = createNativeStackNavigator();
 
 const ProfileNavigator = () => {
   useGetUserConversations(true);
-  useGetUserPreference();
+  // useGetUserPreference();
   useGetUserPrompts();
   useGetUserTags();
   useGetUserProfile();
