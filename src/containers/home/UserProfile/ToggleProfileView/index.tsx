@@ -66,7 +66,7 @@ export const ToggleProfileView = ({ route }: any) => {
       params: {},
     });
     try {
-      const saveCalls = [saveUserProfile, saveUserPrompts, saveUserVisuals].filter(
+      const saveCalls = [saveUserVisuals, saveUserProfile, saveUserPrompts].filter(
         (item) => item !== null
       );
 

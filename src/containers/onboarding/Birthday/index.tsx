@@ -49,6 +49,7 @@ export const OnboardBirthdayScreen = () => {
     try {
       const data = {
         userId,
+        displayName: user?.firstName,
         birthday: moment(date).format("YYYY-MM-DD"),
       };
       logEvent({

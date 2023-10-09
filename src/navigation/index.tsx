@@ -14,7 +14,7 @@ import { decryptData } from "../utils/helpers";
 import FeedbackNavigator from "./FeedbackNavigator";
 import ErrorScreen from "../containers/ErrorScreen";
 import { GET_USER_PROFILE_BY_LINK_ID } from "../services/graphql/user-link/mutations";
-import {  getObjectData } from "../utils/storage";
+import { getObjectData } from "../utils/storage";
 import { setUser } from "../store/features/user/userSlice";
 
 const Stack = createNativeStackNavigator();

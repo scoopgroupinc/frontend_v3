@@ -5,6 +5,7 @@ import { ImageBackground, ScrollView, Text, View, Image, Dimensions } from "reac
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
 import { useMutation } from "@apollo/client";
+import moment from "moment";
 import { screenName } from "../../../utils/constants";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import {
@@ -22,36 +23,14 @@ import { logEvent } from "../../../analytics";
 import { analyticScreenNames, eventNames, screenClass } from "../../../analytics/constants";
 import { selectUser } from "../../../store/features/user/userSlice";
 import {
-  getRelationshipGoalsDetails,
-  getRelationshipTypesDetails,
-  getParentingGoalDetails,
   getHometownDetails,
-  getEthnicityDetails,
   getJobDetails,
   getSchoolDetails,
-  getEducationLevelDetails,
-  getReligionsDetails,
-  getZodiacDetails,
-  getMeyerBriggsDetails,
-  getPoliticsDetails,
-  getLanguagesDetails,
-  getMusicGenreDetails,
-  getBookGenreDetails,
-  getPetsDetails,
-  getSportsDetails,
-  getGoingOutDetails,
-  getStayingInDetails,
-  getDrinkDetails,
-  getDietDetails,
-  getAlcoholDetails,
-  getSmokingDetails,
-  getDrugsDetails,
-  getCannabisDetails,
-  getCreativeOuletDetails,
 } from "../../../features/ProfileView/components/getDetails";
 import { styles } from "../../../features/ProfileView/styles";
 import { useOnScreenView } from "../../../analytics/hooks/useOnScreenView";
 import { selectAllPrompts } from "../../../store/features/prompts/promptsSlice";
+import { ProfilePageDetails } from "../../../features/ProfileView/components/ProfilePageDetails";
 
 const screenHeight = Dimensions.get("window").height;
 const onethirdScreenHeight = screenHeight / 3;
@@ -68,7 +47,7 @@ export const ProfileView = () => {
   const { user } = useAppSelector(selectUser);
   const userId = user?.id;
   const userChoices = useAppSelector(selectUserChoices);
-  const userProfile = userChoices[0].profile;
+  const userTags = userChoices[0].profile;
   const userPrompts = useAppSelector(selectUserChoicePrompts);
   const promptIds = (userPrompts || []).map((prompt) => prompt.promptId);
   const allImages = useAppSelector(selectUserChoiceImages);
@@ -202,42 +181,15 @@ export const ProfileView = () => {
           <View style={styles.descriptionContainer}>
             <View style={styles.section}>
               <Text style={styles.name}>{userChoices[0].choiceName}</Text>
-              <Text style={styles.age}>{/* {age} years old, {height} */}</Text>
+              <Text style={styles.descriptionText}>{/* {age} years old, {height} */}</Text>
               <Text style={styles.descriptionHeader}>My Basics</Text>
             </View>
             <View style={[styles.content, { flexDirection: "column" }]}>
-              {getRelationshipGoalsDetails(userProfile)}
-              {getRelationshipTypesDetails(userProfile)}
-              {getParentingGoalDetails(userProfile)}
-              {getHometownDetails(userProfile)}
-              {getEthnicityDetails(userProfile)}
-              {getJobDetails(userProfile)}
-              {getSchoolDetails(userProfile)}
-              {getEducationLevelDetails(userProfile)}
-              {getReligionsDetails(userProfile)}
-              {getZodiacDetails(userProfile)}
-              {getMeyerBriggsDetails(userProfile)}
-              {getPoliticsDetails(userProfile)}
-              {getDietDetails(userProfile)}
-              {getDrinkDetails(userProfile)}
-              {getAlcoholDetails(userProfile)}
-              {getSmokingDetails(userProfile)}
-              {getDrugsDetails(userProfile)}
-              {getCannabisDetails(userProfile)}
+              {getHometownDetails(userTags)}
+              {getJobDetails(userTags)}
+              {getSchoolDetails(userTags)}
             </View>
-          </View>
-          {getLanguagesDetails(userProfile)}
-          <View style={styles.section}>
-            <Text style={styles.descriptionHeader}>My Interests</Text>
-            <View style={styles.content}>
-              {getMusicGenreDetails(userProfile)}
-              {getBookGenreDetails(userProfile)}
-              {getPetsDetails(userProfile)}
-              {getSportsDetails(userProfile)}
-              {getGoingOutDetails(userProfile)}
-              {getStayingInDetails(userProfile)}
-              {getCreativeOuletDetails(userProfile)}
-            </View>
+            <ProfilePageDetails userTags={userTags} />
           </View>
           <View>
             {/* alternate prompts and images */}

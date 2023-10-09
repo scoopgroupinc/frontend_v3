@@ -136,7 +136,6 @@ export const IMPRESSIONS_FORMATTED = [
           "Logical",
           "Methodical",
           "Punctual",
-          "Resourceful",
         ],
       },
     ],

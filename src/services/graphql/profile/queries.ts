@@ -117,10 +117,6 @@ export const GET_USER_PROFILE = gql`
       height
       gender
       locationId
-      jobTitle
-      company
-      homeTown
-      school
     }
   }
 `;
@@ -142,7 +138,6 @@ export const GET_USER_TAGS_TYPE_VISIBLE = gql`
   query getAllUserTagsTypeVisible($userId: String!) {
     getAllUserTagsTypeVisible(userId: $userId) {
       userId
-      emoji
       tagType
       visible
       userTags {

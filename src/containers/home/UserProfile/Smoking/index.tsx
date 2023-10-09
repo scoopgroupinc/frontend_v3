@@ -4,7 +4,7 @@ import React from "react";
 import { View } from "react-native";
 import { styles } from "./styles";
 import { Colors } from "../../../../utils";
-import { SMOKING } from "../../../../utils/types/TAGS";
+import { SMOKING_USAGE } from "../../../../utils/types/TAGS";
 import TagScreenHeader from "../../../../components/molecule/TagScreenHeader";
 import TagsView from "../../../../components/molecule/TagsView";
 import { logEvent } from "../../../../analytics";
@@ -23,7 +23,7 @@ const Smoking = ({ navigation, route }: any) => {
 
   const pageTitle = "Smoking";
 
-  const smokingTags = SMOKING;
+  const smokingTags = SMOKING_USAGE;
 
   const goBackHome = () => {
     logEvent({

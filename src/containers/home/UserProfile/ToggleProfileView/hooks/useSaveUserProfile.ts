@@ -1,21 +1,21 @@
-import { SAVE_USER_TAGS_TYPE_VISIBLE } from "../../../../../services/graphql/profile/mutations";
 import { useMutation } from "@apollo/client";
+import { SAVE_USER_TAGS_TYPE_VISIBLE } from "../../../../../services/graphql/profile/mutations";
 import { useAppSelector } from "../../../../../store/hooks";
 import {
-  selectUserProfile,
+  selectUserTags,
   selectIsUserProfileDirty,
 } from "../../../../../store/features/user/userSlice";
 
 export const useSaveUserProfile = () => {
-  const userProfile = useAppSelector(selectUserProfile);
+  const userTags = useAppSelector(selectUserTags);
   const isUserProfileDirty = useAppSelector(selectIsUserProfileDirty);
 
   const [save] = useMutation(SAVE_USER_TAGS_TYPE_VISIBLE, {
     variables: {
-      userTagsTypeVisibleInput: userProfile,
+      userTagsTypeVisibleInput: Object.values(userTags),
     },
   });
 
   // handles whether we need to save user tags
-  return [!userProfile || !isUserProfileDirty ? null : save];
+  return [!userTags || !isUserProfileDirty ? null : save];
 };

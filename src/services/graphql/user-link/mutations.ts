@@ -48,10 +48,6 @@ export const GET_USER_PROFILE_BY_LINK_ID = gql`
       height
       gender
       locationId
-      jobTitle
-      company
-      homeTown
-      school
       promptIds
       prompts {
         id
@@ -65,7 +61,6 @@ export const GET_USER_PROFILE_BY_LINK_ID = gql`
         userId
         tagType
         visible
-        emoji
         userTags {
           id
           userId

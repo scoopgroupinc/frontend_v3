@@ -71,7 +71,7 @@ export const analyticScreenNames = {
   meyerBriggs: "Meyer Briggs",
   characteristics: "Characteristics",
   politics: "politics",
-  parentingGoal: "Parenting Goal",
+  parentingGoal: "Children",
   relationshipGoals: "Relationship Goals",
   relationshipTypes: "Relationship Types",
   stayingIn: "Staying In",

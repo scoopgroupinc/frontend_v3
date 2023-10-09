@@ -61,7 +61,7 @@ const screenName = {
   HOMETOWN: "Hometown",
   COMPANY: "Company",
   ETHNICITY: "Ethnicity",
-  SPORTS: "Sports",
+  PHYSICAL_ACTIVITY: "Sports",
   SMOKING: "Smoking",
   CANNABIS: "Cannabis",
   ALCOHOL: "Alcohol",

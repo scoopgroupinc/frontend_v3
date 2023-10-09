@@ -5,7 +5,10 @@ import { Colors } from "../../../utils";
 import { styles } from "./styles";
 import { TagsViewProps } from "./types";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
-import { selectUserProfile, setUserProfile } from "../../../store/features/user/userSlice";
+import {
+  selectUserTags,
+  setUserProfileVisibilityData,
+} from "../../../store/features/user/userSlice";
 import { TagsButton } from "../../atoms/TagsButton";
 
 const TypeOf = {
@@ -14,28 +17,21 @@ const TypeOf = {
 };
 
 const TagsView = ({ currentTagType, tags, typeOf }: TagsViewProps) => {
-  const userProfile = useAppSelector(selectUserProfile);
+  const userTags = useAppSelector(selectUserTags);
   const dispatch = useAppDispatch();
 
   const toggleSwitch = () => {
-    const data = ([...userProfile] || []).map((item: any) => {
-      const { tagType, visible } = item;
-      if (tagType === currentTagType) {
-        return {
-          ...item,
-          visible: !visible,
-        };
-      }
-      return {
-        ...item,
-        tagType,
-        visible,
-      };
-    });
-    
+    const data = {
+      ...userTags,
+      [currentTagType]: {
+        ...userTags[currentTagType],
+        visible: !userTags[currentTagType]?.visible,
+      },
+    };
+
     dispatch(
-      setUserProfile({
-        userProfile: data,
+      setUserProfileVisibilityData({
+        userTags: data,
       })
     );
   };
@@ -52,12 +48,11 @@ const TagsView = ({ currentTagType, tags, typeOf }: TagsViewProps) => {
 
           <ScrollView showsVerticalScrollIndicator={false} style={styles.scroll}>
             <View>
-              {tags?.map((tag: any, index) => (
+              {tags?.map((tag: any) => (
                 <TagsButton
                   currentTagType={currentTagType}
                   typeOf={typeOf}
-                  type={tag}
-                  key={index}
+                  key={tag.id}
                   data={tag}
                 />
               ))}
@@ -66,7 +61,7 @@ const TagsView = ({ currentTagType, tags, typeOf }: TagsViewProps) => {
         </>
       )}
       <View style={styles.switch}>
-        {userProfile?.find((item: any) => item.tagType === currentTagType)?.visible ? (
+        {userTags[currentTagType]?.visible ? (
           <Text style={{ fontSize: 12 }}>visible</Text>
         ) : (
           <Text style={{ fontSize: 12 }}>not visible</Text>
@@ -76,7 +71,7 @@ const TagsView = ({ currentTagType, tags, typeOf }: TagsViewProps) => {
           thumbColor={Colors.WHITE}
           ios_backgroundColor={Colors.GRAY_BLUE}
           onValueChange={toggleSwitch}
-          value={userProfile?.find((item: any) => item.tagType === currentTagType)?.visible}
+          value={userTags[currentTagType]?.visible}
         />
       </View>
     </View>

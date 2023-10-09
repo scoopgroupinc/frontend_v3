@@ -17,7 +17,7 @@ import { AppButton } from "../../../components/atoms/AppButton";
 import { logEvent } from "../../../analytics";
 import { analyticScreenNames, eventNames, screenClass } from "../../../analytics/constants";
 import { useOnScreenView } from "../../../analytics/hooks/useOnScreenView";
-import { heightData } from "../../../utils/constants/heights";
+import { heights } from "../../../utils/constants/heights";
 
 export const HeightScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
@@ -32,7 +32,7 @@ export const HeightScreen = () => {
     try {
       const data = {
         userId,
-        height: `${height}`,
+        height,
       };
       logEvent({
         eventName: eventNames.nextOnBoardNotificationButton,
@@ -73,7 +73,7 @@ export const HeightScreen = () => {
                 marginTop: 20,
               }}
               selectedValue={height}
-              pickerData={heightData}
+              pickerData={heights}
               onValueChange={setHeight}
             />
           </View>

@@ -4,7 +4,7 @@ import { ImageBackground, ScrollView, View, Text, Image } from "react-native";
 import moment from "moment";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
-import { styles } from "./styles";
+import { styles } from "../../../features/ProfileView/styles";
 import { QuotedText } from "../../../components/atoms/QuotedText";
 import { Colors, Spacing } from "../../../utils";
 import { AppButton } from "../../../components/atoms/AppButton";
@@ -13,38 +13,22 @@ import { selectFeedbackUser } from "../../../store/features/feedback/feedbackSli
 import { screenName } from "../../../utils/constants";
 import { selectAllPrompts } from "../../../store/features/prompts/promptsSlice";
 import {
-  getAlcoholDetails,
-  getBookGenreDetails,
-  getCannabisDetails,
-  getCreativeOuletDetails,
-  getDietDetails,
-  getDrinkDetails,
-  getDrugsDetails,
-  getEducationLevelDetails,
-  getEthnicityDetails,
-  getGoingOutDetails,
   getHometownDetails,
   getJobDetails,
-  getMeyerBriggsDetails,
-  getMusicGenreDetails,
-  getParentingGoalDetails,
-  getPetsDetails,
-  getPoliticsDetails,
-  getRelationshipGoalsDetails,
-  getRelationshipTypesDetails,
-  getReligionsDetails,
   getSchoolDetails,
-  getSmokingDetails,
-  getSportsDetails,
-  getStayingInDetails,
-  getZodiacDetails,
 } from "../../../features/ProfileView/components/getDetails";
+import { ProfilePageDetails } from "../../../features/ProfileView/components/ProfilePageDetails";
+import { heightsByInch } from "../../../utils/constants/heights";
 
 const RequestFeedbackProfile = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const [merged, setMerged] = useState<any>([]);
-  const { prompts, visuals, height, displayName, birthday, promptIds, tags } =
-    useAppSelector(selectFeedbackUser);
+  const user = useAppSelector(selectFeedbackUser);
+  const { prompts, visuals, height, firstName, birthday, promptIds, tags, location } = user;
+  const userTags = {};
+  Object.values(tags).forEach((tag) => {
+    userTags[tag.tagId] = tag;
+  });
   const appPromptsRedux = useAppSelector(selectAllPrompts);
 
   const appPrompts = useMemo(() => {
@@ -117,48 +101,21 @@ const RequestFeedbackProfile = () => {
           flex: 1,
         }}
       >
-        <View style={styles.bio}>
+        <View style={styles.whiteArc}>
           <View style={styles.descriptionContainer}>
             <View style={styles.section}>
-              <Text style={styles.name}>{displayName}</Text>
-              <Text style={styles.age}>{moment().diff(birthday, "years")} years old</Text>
-              <Text style={styles.age}>{height}</Text>
-
-              <Text style={styles.descriptionHeader}>My Basics</Text>
-
-              <View style={{ flexDirection: "column" }}>
-                {getAlcoholDetails(tags)}
-                {getRelationshipGoalsDetails(tags)}
-                {getRelationshipTypesDetails(tags)}
-                {getParentingGoalDetails(tags)}
-                {getHometownDetails(tags)}
-                {getEthnicityDetails(tags)}
-                {getJobDetails(tags)}
-                {getSchoolDetails(tags)}
-                {getEducationLevelDetails(tags)}
-                {getReligionsDetails(tags)}
-                {getZodiacDetails(tags)}
-                {getMeyerBriggsDetails(tags)}
-                {getPoliticsDetails(tags)}
-                {getDietDetails(tags)}
-                {getDrinkDetails(tags)}
-                {getSmokingDetails(tags)}
-                {getDrugsDetails(tags)}
-                {getCannabisDetails(tags)}
-              </View>
-            </View>
-            {/* {getLanguagesDetails(userProfile)} */}
-            <View style={styles.section}>
-              <Text style={styles.descriptionHeader}>My Interests</Text>
-              <View>
-                {getMusicGenreDetails(tags)}
-                {getBookGenreDetails(tags)}
-                {getPetsDetails(tags)}
-                {getSportsDetails(tags)}
-                {getGoingOutDetails(tags)}
-                {getStayingInDetails(tags)}
-                {getCreativeOuletDetails(tags)}
-              </View>
+              <Text style={styles.name}>{firstName}</Text>
+              {birthday && (
+                <Text style={styles.descriptionText}>
+                  {moment().diff(birthday, "years")} years old
+                </Text>
+              )}
+              {height && <Text style={styles.descriptionText}>{heightsByInch[height]?.label}</Text>}
+              {location?.city && <Text style={styles.descriptionText}>{location?.city}</Text>}
+              {getHometownDetails(userTags)}
+              {getJobDetails(userTags)}
+              {getSchoolDetails(userTags)}
+              <ProfilePageDetails userTags={userTags} />
             </View>
 
             {/* alternate prompts and images */}
@@ -204,18 +161,16 @@ const RequestFeedbackProfile = () => {
               }}
             />
           </View>
+          <View style={styles.buttonBody}>
+            <AppButton
+              colorScheme="teal"
+              onPress={() => navigation.navigate(screenName.FEEDBACK_IMPRESSIONS)}
+            >
+              Continue to share your thoughts
+            </AppButton>
+          </View>
         </View>
       </ScrollView>
-      <View style={styles.buttonBody}>
-        <AppButton
-          style={{
-            backgroundColor: Colors.TEAL,
-          }}
-          onPress={() => navigation.navigate(screenName.FEEDBACK_IMPRESSIONS)}
-        >
-          Continue to share your thoughts
-        </AppButton>
-      </View>
     </ImageBackground>
   );
 };

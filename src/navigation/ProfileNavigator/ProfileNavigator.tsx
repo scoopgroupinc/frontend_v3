@@ -9,6 +9,7 @@ import { useUpdateUserLocation } from "../../hooks/useLocation";
 import { useGetUserConversations } from "../../hooks/useGetUserConversations";
 import { useGetUserPreference } from "../../hooks/useGetUserPreference";
 import { useGetUserPrompts } from "../../hooks/useGetUserPrompts";
+import { useGetUserProfile } from "../../hooks/useGetUserProfile";
 import { useGetUserTags } from "../../hooks/useGetUserTags";
 import { useGetUserVisuals } from "../../hooks/useGetUserVisuals";
 import UserProfileFeedback from "../../containers/feedback/UserProfileFeedback";
@@ -21,6 +22,7 @@ const ProfileNavigator = () => {
   useGetUserPreference();
   useGetUserPrompts();
   useGetUserTags();
+  useGetUserProfile();
   useGetUserVisuals();
   useFetchStaticData();
   useUpdateUserLocation();

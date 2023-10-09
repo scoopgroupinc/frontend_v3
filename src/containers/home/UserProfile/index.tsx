@@ -50,7 +50,7 @@ const UserProfile = () => (
       <UserProfileStack.Screen name={screenName.COMPANY} component={Company} />
 
       <UserProfileStack.Screen name={screenName.ETHNICITY} component={Ethnicity} />
-      <UserProfileStack.Screen name={screenName.SPORTS} component={Sports} />
+      <UserProfileStack.Screen name={screenName.PHYSICAL_ACTIVITY} component={Sports} />
       <UserProfileStack.Screen name={screenName.SMOKING} component={Smoking} />
       <UserProfileStack.Screen name={screenName.CANNABIS} component={Cannabis} />
       <UserProfileStack.Screen name={screenName.ALCOHOL} component={Alcohol} />
