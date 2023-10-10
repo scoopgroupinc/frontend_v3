@@ -38,7 +38,7 @@ export const ACTIVATE_PROFILE_LINK = gql`
 `;
 
 export const GET_USER_PROFILE_BY_LINK_ID = gql`
-  mutation GetUserProfileByLinkId($id: String!) {
+  query GetUserProfileByLinkId($id: String!) {
     getUserProfileByLinkId(id: $id) {
       userId
       createdAt
