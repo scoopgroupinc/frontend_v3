@@ -30,13 +30,9 @@ export interface Tag {
 }
 
 export interface TagsById {
-  [tagType: tag_type]: {
     [id: number]: Tag;
-  };
 }
 
 export interface TagsByName {
-  [tagType: string]: {
     [name: tag_type]: Tag;
-  };
 }

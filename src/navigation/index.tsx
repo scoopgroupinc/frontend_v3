@@ -4,16 +4,15 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import * as Linking from "expo-linking";
-import { useMutation } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import AuthNavigator from "./AuthNavigator";
 import screenName from "../utils/constants/screenName";
 import ProfileNavigator from "./ProfileNavigator/ProfileNavigator";
 import { navigationRef } from "./RootNavigation";
-import { decryptData } from "../utils/helpers";
 import FeedbackNavigator from "./FeedbackNavigator";
 import ErrorScreen from "../containers/ErrorScreen";
-import { GET_USER_PROFILE_BY_LINK_ID } from "../services/graphql/user-link/mutations";
+import { GET_USER_PROFILE_BY_LINK_ID } from "../services/graphql/user-link/queries";
 import { getObjectData } from "../utils/storage";
 import { setUser } from "../store/features/user/userSlice";
 
@@ -21,48 +20,32 @@ const Stack = createNativeStackNavigator();
 
 const Navigator = () => {
   const [sharedLink, setSharedLink] = useState<any>(null);
+
   const linking = {
     prefixes: ["https://www.scoop.love/app/", "scoop://"],
   };
 
   Linking.addEventListener("url", (url) => {
-    const encryptedData = url.url.split("/app/")[1];
-    const decryptedData = decryptData(encryptedData);
-    setSharedLink(decryptedData);
+    setSharedLink(url.url.split("/app/")[1]);
   });
 
   const { user } = useAppSelector((state) => state.appUser);
-  const [loadLink] = useMutation(GET_USER_PROFILE_BY_LINK_ID, {
+  const { data } = useQuery(GET_USER_PROFILE_BY_LINK_ID, {
     variables: {
-      id: sharedLink?.id,
+      id: sharedLink,
     },
   });
 
+  console.log("data", data);
+
   const dispatch = useAppDispatch();
   useEffect(() => {
-    if (sharedLink?.id) {
-      loadLink()
-        .then((res) => {
-          if (res?.data?.getUserProfileByLinkId) {
-            navigationRef.current?.navigate(screenName.FEEDBACK_NAVIGATOR, {
-              link: { sharedLink },
-            });
-          }
-        })
-        .catch((err) => {});
+    if (sharedLink && data?.getUserProfileByLinkId) {
+      navigationRef.current?.navigate(screenName.FEEDBACK_NAVIGATOR, {
+        link: { sharedLink },
+      });
     }
-  }, [sharedLink, loadLink, dispatch]);
-
-  useEffect(() => {
-    // Check for an initial deep link when the app starts
-    Linking.getInitialURL().then((url) => {
-      if (url) {
-        const encryptedData = url.split("/app/")[1];
-        const decryptedData = decryptData(encryptedData);
-        setSharedLink(decryptedData);
-      }
-    });
-  }, []);
+  }, [data, sharedLink]);
 
   useEffect(() => {
     const getUser = async () => {

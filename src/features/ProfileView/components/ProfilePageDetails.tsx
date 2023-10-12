@@ -1,12 +1,12 @@
 import React from "react";
 import { View, Text } from "react-native";
-import { TAGS_BY_NAME, TAG_VISIBLE_TYPES } from "../../../utils/types/TAGS";
+import { TAGS_BY_ID, TAG_VISIBLE_TYPES } from "../../../utils/types/TAGS";
 import { styles } from "../styles";
 import { UserTagsEntity, UserTagsTypeVisibleEnity } from "../../../store/features/user/types";
 
 function getSectionBadges(tags: UserTagsEntity[]) {
   return tags.map((tag) => {
-    const emoji = TAGS_BY_NAME[tag.tagType][tag.tagName]?.emoji;
+    const emoji = TAGS_BY_ID[tag.tagId]?.emoji;
     return (
       <View key={tag.id} style={styles.badge}>
         <Text>
@@ -25,8 +25,7 @@ export const ProfilePageDetails = ({
   userTags: { [key: string]: UserTagsTypeVisibleEnity };
 }) => (
   <>
-    {(
-      userTags[TAG_VISIBLE_TYPES.education]?.userTags?.length > 0 ||
+    {(userTags[TAG_VISIBLE_TYPES.education]?.userTags?.length > 0 ||
       userTags[TAG_VISIBLE_TYPES.ethnicity]?.userTags?.length > 0 ||
       userTags[TAG_VISIBLE_TYPES.politics]?.userTags?.length > 0 ||
       userTags[TAG_VISIBLE_TYPES.zodiac]?.userTags?.length > 0 ||

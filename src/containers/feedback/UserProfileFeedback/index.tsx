@@ -13,15 +13,12 @@ import { styles } from "./styles";
 import {
   DEACTIVATE_PROFILE_LINK,
   ACTIVATE_PROFILE_LINK,
-  GET_USER_SHARE_PROFILE_LINK,
 } from "../../../services/graphql/user-link/mutations";
 import { AppButton } from "../../../components/atoms/AppButton";
 import AppActivityIndicator from "../../../components/atoms/ActivityIndicator";
-import { useShare } from "../../../hooks/useShare";
 import { useAppSelector } from "../../../store/hooks";
-import { selectUser } from "../../../store/features/user/userSlice";
 import { selectFeedbacks } from "../../../store/features/feedback/feedbackSlice";
-import { encryptData } from "../../../utils/helpers";
+import { useGetShareLink } from "../../../hooks/useGetShareLink";
 
 interface PersonalityFeedback {
   personality: string;
@@ -32,8 +29,6 @@ interface Feedback {
 }
 
 const UserProfileFeedback = () => {
-  const { user } = useAppSelector(selectUser);
-  const userId = user?.userId;
 
   const feedback = useAppSelector(selectFeedbacks);
 
@@ -65,23 +60,8 @@ const UserProfileFeedback = () => {
   }, [feedback]);
 
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
-  const [shareLink, setShareLink] = useState<any>(null);
 
-  const { share } = useShare();
-
-  const [getShareLink] = useMutation(GET_USER_SHARE_PROFILE_LINK);
-  useEffect(() => {
-    getShareLink({
-      variables: {
-        userId,
-      },
-    })
-      .then((res) => {
-        const link = res.data.getUserShareProfileLink;
-        setShareLink(link);
-      })
-      .catch((err) => {});
-  }, [getShareLink, userId]);
+  const [shareLinkToSocialMedia, shareLink, setShareLink] = useGetShareLink();
 
   const [
     deactivateProfileLink,
@@ -92,10 +72,10 @@ const UserProfileFeedback = () => {
     },
   });
   useEffect(() => {
-    if (deactivateLinkData) {
+    if (deactivateLinkData && setShareLink) {
       setShareLink(deactivateLinkData.updateUserLinkState);
     }
-  }, [deactivateLinkData]);
+  }, [deactivateLinkData, setShareLink]);
 
   const [activateProfileLink, { data: activateLinkData, loading: activateProfileLinkLoading }] =
     useMutation(ACTIVATE_PROFILE_LINK, {
@@ -104,10 +84,10 @@ const UserProfileFeedback = () => {
       },
     });
   useEffect(() => {
-    if (activateLinkData) {
+    if (activateLinkData && setShareLink) {
       setShareLink(activateLinkData.updateUserLinkState);
     }
-  }, [activateLinkData]);
+  }, [activateLinkData, setShareLink]);
 
   const handleActivation = (state: string) => {
     if (state === "activate") {
@@ -146,10 +126,6 @@ const UserProfileFeedback = () => {
     }
   };
 
-  const shareLinkToSocialMedia = () => {
-    const cipherLink = encryptData(shareLink);
-    share(cipherLink);
-  };
 
   return (
     <>

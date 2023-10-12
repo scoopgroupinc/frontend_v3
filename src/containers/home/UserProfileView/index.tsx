@@ -1,11 +1,9 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { View, Text, ImageBackground, Image, Dimensions } from "react-native";
+import { View, Text, ImageBackground, Image } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import { useMutation } from "@apollo/client";
 import moment from "moment";
 import { useAppSelector } from "../../../store/hooks";
 import {
-  selectUser,
   selectUserTags,
   selectUserPrompts,
   selectUserProfile,
@@ -24,11 +22,9 @@ import { styles } from "../../../features/ProfileView/styles";
 import { selectAllPrompts } from "../../../store/features/prompts/promptsSlice";
 import { useOnScreenView } from "../../../analytics/hooks/useOnScreenView";
 import { AppButton } from "../../../components/atoms/AppButton";
-import { GET_USER_SHARE_PROFILE_LINK } from "../../../services/graphql/user-link/mutations";
-import { useShare } from "../../../hooks/useShare";
-import { encryptData } from "../../../utils/helpers";
 import { ProfilePageDetails } from "../../../features/ProfileView/components/ProfilePageDetails";
 import { heightsByInch } from "../../../utils/constants/heights";
+import { useGetShareLink } from "../../../hooks/useGetShareLink";
 
 export const UserProfileView = () => {
   const userTags = useAppSelector(selectUserTags);
@@ -43,29 +39,7 @@ export const UserProfileView = () => {
     return images;
   }, [allImagesRedux]);
 
-  const { user } = useAppSelector(selectUser);
-  const userId = user?.userId;
-
-  const { share } = useShare();
-
-  const [shareLink, setShareLink] = useState<any>(null);
-
-  const [getShareLink] = useMutation(GET_USER_SHARE_PROFILE_LINK);
-  useEffect(() => {
-    getShareLink({
-      variables: {
-        userId,
-      },
-    }).then((res) => {
-      const link = res.data.getUserShareProfileLink;
-      setShareLink(link);
-    });
-  }, [getShareLink, userId]);
-
-  const shareLinkToSocialMedia = () => {
-    const cipherLink = encryptData(shareLink);
-    share(cipherLink);
-  };
+  const [shareLinkToSocialMedia] = useGetShareLink();
 
   const [merged, setMerged] = useState<any>([]);
 

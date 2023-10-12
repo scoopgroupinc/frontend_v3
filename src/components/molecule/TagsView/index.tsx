@@ -18,6 +18,7 @@ const TypeOf = {
 
 const TagsView = ({ currentTagType, tags, typeOf }: TagsViewProps) => {
   const userTags = useAppSelector(selectUserTags);
+
   const dispatch = useAppDispatch();
 
   const toggleSwitch = () => {
