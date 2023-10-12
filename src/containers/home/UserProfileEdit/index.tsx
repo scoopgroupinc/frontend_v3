@@ -4,11 +4,9 @@ import { View, Text } from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useMutation } from "@apollo/client";
 import { ScrollableGradientLayout } from "../../../components/layouts/ScrollableGradientLayout";
 import { MediaContainer } from "../../../components/molecule/MediaContainer";
 import {
-  selectUser,
   selectUserTags,
   selectUserVisuals,
 } from "../../../store/features/user/userSlice";
@@ -22,10 +20,8 @@ import { useUploadVisuals } from "../../../hooks/useUploadVisual";
 import AppActivityIndicator from "../../../components/atoms/ActivityIndicator";
 import { AppButton } from "../../../components/atoms/AppButton";
 import { Colors } from "../../../utils";
-import { useShare } from "../../../hooks/useShare";
-import { GET_USER_SHARE_PROFILE_LINK } from "../../../services/graphql/user-link/mutations";
-import { encryptData } from "../../../utils/helpers";
 import { TAG_VISIBLE_TYPES } from "../../../utils/types/TAGS";
+import { useGetShareLink } from "../../../hooks/useGetShareLink";
 
 const inputTextProps = {
   editable: false,
@@ -37,27 +33,7 @@ export const UserProfileEdit = () => {
   const userTags = useAppSelector(selectUserTags);
   const [loading, setIsLoading] = useState<boolean>(false);
 
-  const { share } = useShare();
-  const { user } = useAppSelector(selectUser);
-  const userId = user?.userId;
-  const [shareLink, setShareLink] = useState<any>(null);
-
-  const [getShareLink] = useMutation(GET_USER_SHARE_PROFILE_LINK);
-  useEffect(() => {
-    getShareLink({
-      variables: {
-        userId,
-      },
-    }).then((res) => {
-      const link = res.data.getUserShareProfileLink;
-      setShareLink(link);
-    });
-  }, [getShareLink, userId]);
-
-  const shareLinkToSocialMedia = () => {
-    const cipherLink = encryptData(shareLink);
-    share(cipherLink);
-  };
+  const [shareLinkToSocialMedia] = useGetShareLink();
 
   const insets = useSafeAreaInsets();
 

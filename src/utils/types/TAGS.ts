@@ -1910,22 +1910,18 @@ export const TAG_VISIBLE_TYPES = {
   going_out: "going_out",
 };
 
-export const TAGS_BY_ID: TagsById = Object.fromEntries(
-  Object.entries(TAGS).map(([type, array]) => [
-    type,
-    array.reduce((acc: { [id: number]: Tag }, obj: Tag) => {
-      acc[obj.id] = obj;
-      return acc;
-    }, {}),
-  ])
+export const TAGS_BY_ID: TagsById = {};
+Object.values(TAGS).forEach((array) =>
+  array.reduce((acc, obj) => {
+    acc[obj.id] = obj;
+    return acc;
+  }, TAGS_BY_ID)
 );
 
-export const TAGS_BY_NAME: TagsByName = Object.fromEntries(
-  Object.entries(TAGS).map(([type, array]) => [
-    type,
-    array.reduce((acc: { [id: number]: Tag }, obj: Tag) => {
-      acc[obj.name] = obj;
-      return acc;
-    }, {}),
-  ])
+export const TAGS_BY_NAME: TagsByName = {};
+Object.values(TAGS).forEach((array) =>
+  array.reduce((acc, obj) => {
+    acc[obj.name] = obj;
+    return acc;
+  }, TAGS_BY_NAME)
 );

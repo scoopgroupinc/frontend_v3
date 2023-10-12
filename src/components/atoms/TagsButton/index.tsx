@@ -25,6 +25,16 @@ const TypeOf = {
 
 interface Tag {
   name: string;
+  emoji: string;
+  id: number;
+  visible: boolean;
+}
+
+interface UserTag {
+  userId: string;
+  tagName: string;
+  tagId: number;
+  tagType: string;
 }
 
 export const TagsButton = ({ currentTagType, typeOf, data }: TagButtonProps) => {
@@ -41,7 +51,7 @@ export const TagsButton = ({ currentTagType, typeOf, data }: TagButtonProps) => 
     if (isExist) {
       userTags = [...tags.filter((item: any) => item.tagName !== data.name)];
     } else {
-      userTags = [...tags, { userId, tagName: data.name, tagType: currentTagType }];
+      userTags = [...tags, { userId, tagName: data.name, tagType: currentTagType, tagId: data.id }];
     }
     setTags(userTags);
     const profile = {
@@ -61,7 +71,7 @@ export const TagsButton = ({ currentTagType, typeOf, data }: TagButtonProps) => 
           ...userTagsVisible,
           [currentTagType]: {
             ...userTagsVisible[currentTagType],
-            userTags: [{ userId, tagName: data.name, tagType: currentTagType }],
+            userTags: [{ userId, tagName: data.name, tagType: currentTagType, tagId: data.id }],
           },
         },
       })
