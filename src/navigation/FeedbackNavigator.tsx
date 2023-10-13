@@ -16,24 +16,23 @@ const FeedbackStack = createNativeStackNavigator();
 
 const FeedbackNavigator = ({ route }: any) => {
   const { sharedLink } = route.params.link;
-  const {data: profileLinkData} = useQuery(GET_USER_PROFILE_BY_LINK_ID, {
+  const { data } = useQuery(GET_USER_PROFILE_BY_LINK_ID, {
     variables: {
-      id: sharedLink
+      id: sharedLink,
     },
   });
 
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (sharedLink?.id) {
-      if(profileLinkData?.getUserProfileByLinkId) {
-        dispatch(
-          setFeedbackUser({
-            feedbackUser: profileLinkData?.getUserProfileByLinkId,
-          })
-        );
-    }}
-  }, [sharedLink, profileLinkData, dispatch]);
+    if (sharedLink && data?.getUserProfileByLinkId) {
+      dispatch(
+        setFeedbackUser({
+          feedbackUser: data?.getUserProfileByLinkId,
+        })
+      );
+    }
+  }, [sharedLink, data, dispatch]);
 
   return (
     <FeedbackStack.Navigator
