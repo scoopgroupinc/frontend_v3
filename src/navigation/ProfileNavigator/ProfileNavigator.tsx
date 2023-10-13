@@ -5,7 +5,6 @@ import UserProfile from "../../containers/home/UserProfile";
 import AppNavigator from "../AppNavigator";
 import Messages from "../../containers/chat/Messages";
 import { useFetchStaticData } from "./hooks/useFetchStaticData";
-import { useUpdateUserLocation } from "../../hooks/useLocation";
 import { useGetUserConversations } from "../../hooks/useGetUserConversations";
 import { useGetUserPreference } from "../../hooks/useGetUserPreference";
 import { useGetUserPrompts } from "../../hooks/useGetUserPrompts";
@@ -25,7 +24,6 @@ const ProfileNavigator = () => {
   useGetUserProfile();
   useGetUserVisuals();
   useFetchStaticData();
-  useUpdateUserLocation();
   // useGetUserChoices();
 
   return (
