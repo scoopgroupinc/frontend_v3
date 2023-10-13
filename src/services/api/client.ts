@@ -58,10 +58,5 @@ const authLink = setContext(async (_, { headers }) => {
 
 export const client = new ApolloClient({
   cache: new InMemoryCache(),
-  // link: from([errorLink, authLink, new HttpLink({ uri: `${URLS.CLIENT_URL}/graphql` })]),
-  link: from([
-    errorLink,
-    authLink,
-    new HttpLink({ uri: "https://scoop-dev-backend.azurewebsites.net/graphql" }),
-  ]),
+  link: from([errorLink, authLink, new HttpLink({ uri: `${URLS.CLIENT_URL}/graphql` })]),
 });
