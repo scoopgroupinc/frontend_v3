@@ -30,22 +30,32 @@ const Navigator = () => {
   });
 
   const { user } = useAppSelector((state) => state.appUser);
-  const { data } = useQuery(GET_USER_PROFILE_BY_LINK_ID, {
+  const {data: profileLinkData} = useQuery(GET_USER_PROFILE_BY_LINK_ID, {
     variables: {
       id: sharedLink,
     },
   });
 
-  console.log("data", data);
 
   const dispatch = useAppDispatch();
   useEffect(() => {
-    if (sharedLink && data?.getUserProfileByLinkId) {
-      navigationRef.current?.navigate(screenName.FEEDBACK_NAVIGATOR, {
-        link: { sharedLink },
-      });
+    if (sharedLink?.id) {
+      if(profileLinkData?.getUserProfileByLinkId) {
+        navigationRef.current?.navigate(screenName.FEEDBACK_NAVIGATOR, {
+          link: { sharedLink },
+        });
     }
-  }, [data, sharedLink]);
+  }
+  }, [sharedLink, dispatch, profileLinkData]);
+
+  useEffect(() => {
+    // Check for an initial deep link when the app starts
+    Linking.getInitialURL().then((url) => {
+      if (url) {
+        setSharedLink(url.split("/app/")[1]);
+      }
+    });
+  }, []);
 
   useEffect(() => {
     const getUser = async () => {

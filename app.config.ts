@@ -1,5 +1,4 @@
 import { ExpoConfig, ConfigContext } from "expo/config";
-
 // trim for windows which leaves in trailing spaces...
 const environment = (process.env.NODE_ENV || "development").trim();
 const oauth = {
@@ -43,7 +42,7 @@ const config = {
   ios: {
     jsEngine: "jsc",
     supportsTablet: true,
-    buildNumber: "2.0.7",
+    buildNumber: "2.1.5",
     version: "1.0.0",
     bundleIdentifier: "com.scoop.love",
     icon: "src/assets/icon.png",
@@ -135,13 +134,25 @@ const environments = {
     extra: {
       ...config.extra,
       ENV: environment,
-      CLIENT_URL: process.env.CLIENT_URL,
-      CHATSERVICE_BASE_URL: process.env.CHATSERVICE_BASE_URL,
-      FILE_URL: process.env.FILE_URL,
-      NOTIFICATION_URL: process.env.NOTIFICATION_URL,
+      CLIENT_URL: process.env.DEV_CLIENT_URL,
+      CHATSERVICE_BASE_URL: process.env.DEV_CHATSERVICE_BASE_URL,
+      FILE_URL: process.env.DEV_FILE_URL,
+      NOTIFICATION_URL: process.env.DEV_NOTIFICATION_URL,
       ...oauth.production,
     },
   },
 };
 
-export default ({ config }: ConfigContext): ExpoConfig => environments[environment];
+// export default ({ config }: ConfigContext): ExpoConfig => environments[environment];
+
+module.exports = () => {
+  if (environment === "development") {
+    console.log("Doreen Dev", environments.development.extra);
+    return environments.development;
+  } else if (environment === "production") {
+    console.log("Doreen Prod", environments.production.extra);
+    return environments.production;
+  }
+  console.log("Doreen Local", environments.local.extra);
+  return environments.local;
+};

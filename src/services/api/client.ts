@@ -5,10 +5,10 @@ import { Alert } from "react-native";
 import { setContext } from "@apollo/client/link/context";
 import { ErrorCodes, URLS } from "../../utils/constants/apis";
 import { getStringData } from "../../utils/storage";
-import { setUser } from "../../store/features/user/userSlice";
-import { store } from "../../store";
 import { navigationRef } from "../../navigation/RootNavigation";
 import { screenName } from "../../utils/constants";
+
+console.log('client url', URLS.CLIENT_URL)
 
 export const getToken = async () => getStringData("userToken");
 const errorLink = onError(({ graphQLErrors, networkError }) => {
@@ -60,5 +60,7 @@ const authLink = setContext(async (_, { headers }) => {
 
 export const client = new ApolloClient({
   cache: new InMemoryCache(),
-  link: from([errorLink, authLink, new HttpLink({ uri: `${URLS.CLIENT_URL}/graphql` })]),
+  // link: from([errorLink, authLink, new HttpLink({ uri: `${URLS.CLIENT_URL}/graphql` })]),
+  link: from([errorLink, authLink, new HttpLink({ uri: "https://scoop-dev-backend.azurewebsites.net/graphql" })]),
+
 });
