@@ -18,8 +18,9 @@ const FeedbackNavigator = ({ route }: any) => {
   const { sharedLink } = route.params.link;
   const { data } = useQuery(GET_USER_PROFILE_BY_LINK_ID, {
     variables: {
-      id: sharedLink
+      id: sharedLink,
     },
+    skip: !sharedLink,
   });
 
   const dispatch = useAppDispatch();

@@ -26,14 +26,14 @@ const TypeOf = {
 interface Tag {
   name: string;
   emoji: string;
-  id: number;
+  id: string;
   visible: boolean;
 }
 
 interface UserTag {
   userId: string;
   tagName: string;
-  tagId: number;
+  tagId: string;
   tagType: string;
 }
 

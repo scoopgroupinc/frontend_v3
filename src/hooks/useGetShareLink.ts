@@ -1,11 +1,10 @@
 import { Alert } from "react-native";
 import { useMutation } from "@apollo/client";
+import { useState } from "react";
 import { GET_USER_SHARE_PROFILE_LINK } from "../services/graphql/user-link/mutations";
 import { useShare } from "./useShare";
 import { useAppSelector } from "../store/hooks";
 import { selectUser } from "../store/features/user/userSlice";
-import { useState } from "react";
-import { set } from "lodash";
 
 export const useGetShareLink = () => {
   const { user } = useAppSelector(selectUser);

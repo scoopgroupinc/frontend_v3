@@ -3,12 +3,12 @@ import { SAVE_USER_TAGS_TYPE_VISIBLE } from "../../../../../services/graphql/pro
 import { useAppSelector } from "../../../../../store/hooks";
 import {
   selectUserTags,
-  selectIsUserProfileDirty,
+  selectisUserTagsDirty,
 } from "../../../../../store/features/user/userSlice";
 
 export const useSaveUserProfile = () => {
   const userTags = useAppSelector(selectUserTags);
-  const isUserProfileDirty = useAppSelector(selectIsUserProfileDirty);
+  const isUserTagsDirty = useAppSelector(selectisUserTagsDirty);
 
   const [save] = useMutation(SAVE_USER_TAGS_TYPE_VISIBLE, {
     variables: {
@@ -17,5 +17,5 @@ export const useSaveUserProfile = () => {
   });
 
   // handles whether we need to save user tags
-  return [!userTags || !isUserProfileDirty ? null : save];
+  return [!userTags || !isUserTagsDirty ? null : save];
 };

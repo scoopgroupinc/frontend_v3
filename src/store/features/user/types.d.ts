@@ -39,15 +39,16 @@ export interface UserTagsEntity {
   userId: string;
   tagName: string!;
   tagType: tag_type!;
+  tagId: string;
 }
 
 export interface UserProfileEntity {
-  userId: string
-  createdAt: Date
-  displayName?: string
-  profilePhoto?: string
-  birthday?: string
-  height?: number
-  gender?: string
+  userId: string;
+  createdAt: Date;
+  displayName?: string;
+  profilePhoto?: string;
+  birthday?: string;
+  height?: number;
+  gender?: string;
   locationId?: string;
 }

@@ -33,6 +33,7 @@ export const useGetUserTags = () => {
                   userId: item.userId,
                   tagName: tag.tagName,
                   tagType: tag.tagType,
+                  tagId: tag.tagId,
                 })),
           visible: item.visible,
         };

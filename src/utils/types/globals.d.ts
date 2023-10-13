@@ -21,7 +21,7 @@ export interface TagProps {
 }
 
 export interface Tag {
-  id: number;
+  id: string;
   type: tag_type;
   name: string;
   visible: boolean;
@@ -30,7 +30,7 @@ export interface Tag {
 }
 
 export interface TagsById {
-    [id: number]: Tag;
+    [id: string]: Tag;
 }
 
 export interface TagsByName {
