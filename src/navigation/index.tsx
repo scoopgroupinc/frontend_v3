@@ -22,7 +22,7 @@ const Navigator = () => {
   const [sharedLink, setSharedLink] = useState<any>(null);
 
   const linking = {
-    prefixes: ["https://www.scoop.love/app/", "scoop://"],
+    prefixes: ["https://www.scoop.love/app/", "scoop://", "https://www.scoop.love/shareprofile/"],
   };
 
   Linking.addEventListener("url", (url) => {
@@ -34,9 +34,8 @@ const Navigator = () => {
     variables: {
       id: sharedLink,
     },
+    skip: !sharedLink,
   });
-
-  console.log("data", data);
 
   const dispatch = useAppDispatch();
   useEffect(() => {

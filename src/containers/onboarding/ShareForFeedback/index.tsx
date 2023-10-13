@@ -1,7 +1,6 @@
 /* eslint-disable global-require */
 import { Image, Text, View } from "react-native";
-import React, { useEffect } from "react";
-import { useMutation } from "@apollo/client";
+import React from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
 import { GradientLayout } from "../../../components/layouts/GradientLayout";

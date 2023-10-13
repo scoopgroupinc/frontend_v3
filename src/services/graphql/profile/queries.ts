@@ -27,21 +27,21 @@ export const GET_PROMPTS = gql`
   }
 `;
 
-export const GET_PROMPTS_ORDER = gql`
-  query getUserPromptsOrder($userPromptsOrder: GetPromptOrderInput!) {
-    getUserPromptsOrder(userPromptsOrder: $userPromptsOrder) {
-      userPrompts {
-        id
-        createdAt
-        userId
-        promptId
-        prompt
-        answer
-      }
-      promptIds
-    }
-  }
-`;
+// export const GET_PROMPTS_ORDER = gql`
+//   query getUserPromptsOrder($userPromptsOrder: GetPromptOrderInput!) {
+//     getUserPromptsOrder(userPromptsOrder: $userPromptsOrder) {
+//       userPrompts {
+//         id
+//         createdAt
+//         userId
+//         promptId
+//         prompt
+//         answer
+//       }
+//       promptIds
+//     }
+//   }
+// `;
 
 export const GET_DISPLAYED_PROMPTS = gql`
   query getUserPromptsDisplayed($userId: String!) {
@@ -107,20 +107,6 @@ export const GET_BIRTHDAY_HEIGHT = gql`
   }
 `;
 
-export const GET_USER_PROFILE = gql`
-  query getUserProfile($userId: String!) {
-    getUserProfile(userId: $userId) {
-      userId
-      createdAt
-      profilePhoto
-      birthday
-      height
-      gender
-      locationId
-    }
-  }
-`;
-
 export const GET_TAGS = gql`
   query getTags {
     getTags(tagType: "") {
@@ -145,6 +131,7 @@ export const GET_USER_TAGS_TYPE_VISIBLE = gql`
         userId
         tagName
         tagType
+        tagId
       }
     }
   }
@@ -187,6 +174,7 @@ export const GET_USER_CHOICES = gql`
           userId
           tagName
           tagType
+          tagId
         }
       }
       visual {
@@ -258,7 +246,7 @@ export const GET_USER_LOCATION = gql`
 `;
 
 export const GET_FULL_PROFILE = gql`
-  query GetFullProfile($userId: ID!) {
+  query GetFullProfile($userId: String!) {
     getFullProfile(userId: $userId) {
       userId
       createdAt
@@ -268,10 +256,6 @@ export const GET_FULL_PROFILE = gql`
       height
       gender
       locationId
-      jobTitle
-      company
-      homeTown
-      school
       promptIds
       prompts {
         id
@@ -280,17 +264,28 @@ export const GET_FULL_PROFILE = gql`
         promptId
         answer
       }
-      tags {
+      visuals {
         id
+        createdAt
         userId
-        emoji
+        videoOrPhoto
+        blobName
+        visualPromptId
+        deletedAt
+        description
+        isVisible
+      }
+      tags {
         tagType
         visible
+        userId
+        id
         userTags {
           id
           userId
           tagName
           tagType
+          tagId
         }
       }
     }

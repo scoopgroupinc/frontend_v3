@@ -24,11 +24,9 @@ const RequestFeedbackProfile = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const [merged, setMerged] = useState<any>([]);
   const user = useAppSelector(selectFeedbackUser);
-  const { prompts, visuals, height, firstName, birthday, promptIds, tags, location } = user;
-  const userTags = {};
-  Object.values(tags).forEach((tag) => {
-    userTags[tag.tagId] = tag;
-  });
+  const { prompts, visuals, height, gender, displayName, birthday, promptIds, tags, location } =
+    user;
+
   const appPromptsRedux = useAppSelector(selectAllPrompts);
 
   const appPrompts = useMemo(() => {
@@ -36,9 +34,20 @@ const RequestFeedbackProfile = () => {
     return ppts;
   }, [appPromptsRedux]);
 
+  const userTags = {};
+  Object.values(tags).forEach((tag) => {
+    userTags[tag.tagType] = tag;
+  });
+
+  const hometownDetails = getHometownDetails(userTags);
+  const jobDetails = getJobDetails(userTags);
+  const schoolDetails = getSchoolDetails(userTags);
+
+  const heightLabel = heightsByInch[height]?.label;
+
   useEffect(() => {
     const mergeData = () => {
-      if (promptIds.length > 0 && visuals && visuals.length > 0) {
+      if (promptIds.length > 0 || (visuals && visuals.length > 0)) {
         const maxLength = Math.max(promptIds.length, visuals.length);
         setMerged([]);
         for (let i = 0; i < maxLength; i++) {
@@ -104,13 +113,18 @@ const RequestFeedbackProfile = () => {
         <View style={styles.whiteArc}>
           <View style={styles.descriptionContainer}>
             <View style={styles.section}>
-              <Text style={styles.name}>{firstName}</Text>
-              {birthday && (
+              <Text style={styles.name}>{displayName}</Text>
+
+              {(birthday || gender || heightLabel) && (
                 <Text style={styles.descriptionText}>
-                  {moment().diff(birthday, "years")} years old
+                  {birthday && moment().diff(birthday, "years")}
+                  {birthday && gender && " | "}
+                  {gender}
+                  {gender && heightLabel && " | "}
+                  {heightLabel}
                 </Text>
               )}
-              {height && <Text style={styles.descriptionText}>{heightsByInch[height]?.label}</Text>}
+
               {location?.city && <Text style={styles.descriptionText}>{location?.city}</Text>}
               {getHometownDetails(userTags)}
               {getJobDetails(userTags)}

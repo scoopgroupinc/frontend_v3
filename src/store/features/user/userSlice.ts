@@ -20,14 +20,16 @@ interface UserState {
   editPrompt: any;
   originalUser: any;
   originalVisuals: any;
+  originalTags: any;
   originalProfile: any;
   originalPrompts: any;
   isUserDirty: boolean;
+  isUserProfileDirty: boolean;
   isEditPromptDirty: boolean;
   isUserPromptsDirty: boolean;
   isUserPromptsOrderDirty: boolean;
   isUserVisualsDirty: boolean;
-  isUserProfileDirty: boolean;
+  isUserTagsDirty: boolean;
 }
 
 const userProfileVisibility: { [key: string]: UserTagsTypeVisibleEnity } = {};
@@ -53,14 +55,16 @@ const initialState: UserState = {
   editPrompt: null,
   originalUser: null,
   originalVisuals: null,
+  originalTags: null,
   originalProfile: null,
   originalPrompts: null,
   isUserDirty: false,
+  isUserProfileDirty: false,
   isEditPromptDirty: false,
   isUserPromptsDirty: false,
   isUserPromptsOrderDirty: false,
   isUserVisualsDirty: false,
-  isUserProfileDirty: false,
+  isUserTagsDirty: false,
 };
 
 const UserSlice = createSlice({
@@ -99,7 +103,18 @@ const UserSlice = createSlice({
       state.userPreference = cloneDeep(action.payload.userPreference);
     },
     setUserProfile: (state, action: PayloadAction<any>) => {
-      state.userProfile = cloneDeep(action.payload.userProfile);
+      state.userProfile = {
+        userId: action.payload.userProfile.userId,
+        createdAt: action.payload.userProfile.createdAt,
+        displayName: action.payload.userProfile.displayName,
+        profilePhoto: action.payload.userProfile.profilePhoto,
+        birthday: action.payload.userProfile.birthday,
+        height: action.payload.userProfile.height,
+        gender: action.payload.userProfile.gender,
+        locationId: action.payload.userProfile.locationId,
+      };
+      state.isUserProfileDirty =
+        state.originalProfile !== null && !isEqual(state.userProfile, state.originalProfile);
     },
     setUserPrompts: (state, action: PayloadAction<any>) => {
       const { userPrompts } = action.payload;
@@ -121,44 +136,47 @@ const UserSlice = createSlice({
     setUserProfileVisibilityData: (state, action: PayloadAction<any>) => {
       const { userTags } = action.payload;
       state.userTags = userTags;
-      state.isUserProfileDirty =
-        !!state.originalProfile && !isEqual(state.userTags, state.originalProfile);
+      state.isUserTagsDirty = !!state.originalTags && !isEqual(state.userTags, state.originalTags);
     },
     trackCurrentUserStateChanges: (state) => {
       state.originalUser = cloneDeep(state.user);
       state.originalVisuals = cloneDeep(state.userVisuals);
-      state.originalProfile = cloneDeep(state.userTags);
+      state.originalProfile = cloneDeep(state.userProfile);
+      state.originalTags = cloneDeep(state.userTags);
       state.originalPrompts = cloneDeep(state.userPrompts);
       state.isUserDirty = false;
+      state.isUserProfileDirty = false;
       state.isUserPromptsDirty = false;
       state.isUserPromptsOrderDirty = false;
       state.isUserVisualsDirty = false;
-      state.isUserProfileDirty = false;
+      state.isUserTagsDirty = false;
     },
     resetToCopyData: (state) => {
       state.user = cloneDeep(state.originalUser);
       state.userVisuals = cloneDeep(state.originalVisuals);
-      state.userTags = cloneDeep(state.originalProfile);
+      state.userTags = cloneDeep(state.originalTags);
       state.userPrompts = cloneDeep(state.originalPrompts);
       state.originalVisuals = null;
-      state.originalProfile = null;
+      state.originalTags = null;
       state.originalPrompts = null;
       state.isUserDirty = false;
+      state.isUserProfileDirty = false;
       state.isUserPromptsDirty = false;
       state.isUserPromptsOrderDirty = false;
       state.isUserVisualsDirty = false;
-      state.isUserProfileDirty = false;
+      state.isUserTagsDirty = false;
     },
     clearCopyData: (state) => {
       state.originalUser = null;
       state.originalVisuals = null;
-      state.originalProfile = null;
+      state.originalTags = null;
       state.originalPrompts = null;
       state.isUserDirty = false;
+      state.isUserProfileDirty = false;
       state.isUserPromptsDirty = false;
       state.isUserPromptsOrderDirty = false;
       state.isUserVisualsDirty = false;
-      state.isUserProfileDirty = false;
+      state.isUserTagsDirty = false;
     },
     setEditPromptIndex: (state, action: PayloadAction<any>) => {
       const { editPromptIndex } = action.payload;
@@ -214,11 +232,13 @@ export const selectEditPrompt = (state: { appUser: UserState }) => state.appUser
 export const selectEditPromptAnswer = (state: { appUser: UserState }) =>
   state.appUser.editPrompt.answer;
 export const selectIsDirty = ({
-  appUser: { isUserDirty, isUserPromptsDirty, isUserVisualsDirty, isUserProfileDirty },
+  appUser: { isUserDirty, isUserPromptsDirty, isUserVisualsDirty, isUserTagsDirty },
 }: {
   appUser: UserState;
-}) => isUserDirty || isUserPromptsDirty || isUserVisualsDirty || isUserProfileDirty;
+}) => isUserDirty || isUserPromptsDirty || isUserVisualsDirty || isUserTagsDirty;
 export const selectIsUserDirty = (state: { appUser: UserState }) => state.appUser.isUserDirty;
+export const selectIsEditProfileDirty = (state: { appUser: UserState }) =>
+  state.appUser.isUserProfileDirty;
 export const selectIsEditPromptDirty = (state: { appUser: UserState }) =>
   state.appUser.isEditPromptDirty;
 export const selectIsUserPromptsDirty = (state: { appUser: UserState }) =>
@@ -227,8 +247,8 @@ export const selectIsUserPromptsOrderDirty = (state: { appUser: UserState }) =>
   state.appUser.isUserPromptsOrderDirty;
 export const selectisUserVisualsDirty = (state: { appUser: UserState }) =>
   state.appUser.isUserVisualsDirty;
-export const selectIsUserProfileDirty = (state: { appUser: UserState }) =>
-  state.appUser.isUserProfileDirty;
+export const selectisUserTagsDirty = (state: { appUser: UserState }) =>
+  state.appUser.isUserTagsDirty;
 
 export const {
   setUser,

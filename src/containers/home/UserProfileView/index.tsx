@@ -28,16 +28,17 @@ import { useGetShareLink } from "../../../hooks/useGetShareLink";
 
 export const UserProfileView = () => {
   const userTags = useAppSelector(selectUserTags);
+
   const userPrompts = useAppSelector(selectUserPrompts);
   const userProfile = useAppSelector(selectUserProfile);
   const promptDisplayOrder = useAppSelector(selectUserPromptsOrder);
   const allPrompts = useAppSelector(selectAllPrompts);
-  const allImagesRedux = useAppSelector(selectUserVisuals);
+  const visualsRedux = useAppSelector(selectUserVisuals);
 
-  const allImages = useMemo(() => {
-    const images = Object.values(allImagesRedux);
+  const visuals = useMemo(() => {
+    const images = Object.values(visualsRedux);
     return images;
-  }, [allImagesRedux]);
+  }, [visualsRedux]);
 
   const [shareLinkToSocialMedia] = useGetShareLink();
 
@@ -48,12 +49,12 @@ export const UserProfileView = () => {
   useEffect(() => {
     const mergeData = () => {
       const promptIds = (promptDisplayOrder || []).filter((id) => id !== undefined);
-      if (promptIds.length > 0 && allImages && allImages.length > 0) {
-        const maxLength = Math.max(promptIds.length, allImages.length);
+      if (promptIds.length > 0 || (visuals && visuals.length > 0)) {
+        const maxLength = Math.max(promptIds.length, visuals.length);
         setMerged([]);
         for (let i = 0; i < maxLength; i++) {
-          if (allImages[i]) {
-            setMerged((prev: any) => [...prev, { type: "image", image: allImages[i] }]);
+          if (visuals[i]) {
+            setMerged((prev: any) => [...prev, { type: "image", image: visuals[i] }]);
           }
           const id = promptIds[i];
           if (id) {
@@ -73,14 +74,14 @@ export const UserProfileView = () => {
       }
     };
     mergeData();
-  }, [allImages, promptDisplayOrder, userPrompts]);
+  }, [visuals, promptDisplayOrder, userPrompts]);
 
   return (
     <ImageBackground
       style={{ flex: 1 }}
       resizeMode="cover"
       source={{
-        uri: allImages ? allImages[0]?.videoOrPhoto : "../../assets/splash.png",
+        uri: visuals ? visuals[0]?.videoOrPhoto : "../../assets/splash.png",
       }}
     >
       <ScrollView
@@ -106,6 +107,7 @@ export const UserProfileView = () => {
               {userProfile?.location?.city && (
                 <Text style={styles.descriptionText}>{userProfile?.location?.city}</Text>
               )}
+
               {getHometownDetails(userTags)}
               {getJobDetails(userTags)}
               {getSchoolDetails(userTags)}

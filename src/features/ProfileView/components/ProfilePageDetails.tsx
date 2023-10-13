@@ -8,7 +8,7 @@ function getSectionBadges(tags: UserTagsEntity[]) {
   return tags.map((tag) => {
     const emoji = TAGS_BY_ID[tag.tagId]?.emoji;
     return (
-      <View key={tag.id} style={styles.badge}>
+      <View key={tag.tagId} style={styles.badge}>
         <Text>
           {emoji}
           {emoji && tag.tagName && " "}
