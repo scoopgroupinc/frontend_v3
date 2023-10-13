@@ -134,25 +134,13 @@ const environments = {
     extra: {
       ...config.extra,
       ENV: environment,
-      CLIENT_URL: process.env.DEV_CLIENT_URL,
-      CHATSERVICE_BASE_URL: process.env.DEV_CHATSERVICE_BASE_URL,
-      FILE_URL: process.env.DEV_FILE_URL,
-      NOTIFICATION_URL: process.env.DEV_NOTIFICATION_URL,
+      CLIENT_URL: process.env.CLIENT_URL,
+      CHATSERVICE_BASE_URL: process.env.CHATSERVICE_BASE_URL,
+      FILE_URL: process.env.FILE_URL,
+      NOTIFICATION_URL: process.env.NOTIFICATION_URL,
       ...oauth.production,
     },
   },
 };
 
-// export default ({ config }: ConfigContext): ExpoConfig => environments[environment];
-
-module.exports = () => {
-  if (environment === "development") {
-    console.log("Doreen Dev", environments.development.extra);
-    return environments.development;
-  } else if (environment === "production") {
-    console.log("Doreen Prod", environments.production.extra);
-    return environments.production;
-  }
-  console.log("Doreen Local", environments.local.extra);
-  return environments.local;
-};
+export default ({ config }: ConfigContext): ExpoConfig => environments[environment];
