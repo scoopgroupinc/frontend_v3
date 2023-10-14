@@ -61,7 +61,7 @@ export const GetLocationsScreen = () => {
           CreateLocationInput,
         },
       }).then(() => {
-        navigation.navigate(screenName.NOTIFICATIONS);
+        navigation.navigate(screenName.BIRTHDAY);
       });
     } catch (error) {
       console.log("save location error", error);
