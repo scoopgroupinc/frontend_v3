@@ -1,132 +1,73 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, Platform, Alert } from "react-native";
-import * as Location from "expo-location";
-import * as Device from "expo-device";
+import React, { useRef, useState } from "react";
+import { View, Text, Alert } from "react-native";
 import { ProgressBar } from "react-native-paper";
 import { useMutation } from "@apollo/client";
 import { GradientLayout } from "../../../components/layouts/GradientLayout";
 import { SAVE_USER_LOCATION } from "../../../services/graphql/onboarding/mutations";
 import { useAppSelector } from "../../../store/hooks";
-import { selectUser } from "../../../store/features/user/userSlice";
-import { logEvent } from "../../../analytics";
-import { eventNames, screenClass, analyticScreenNames } from "../../../analytics/constants";
-import { styles } from "./styles";
 import { AppButton } from "../../../components/atoms/AppButton";
-import { NavigationScreenType } from "../../../types/globals";
+import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
+import { styles } from "./styles";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useNavigation } from "@react-navigation/native";
 import { screenName } from "../../../utils/constants";
-import { useOnScreenView } from "../../../analytics/hooks/useOnScreenView";
 
-const locationObject = {
-  latitude: 0,
-  longitude: 0,
-  accuracy: 0,
-  altitude: 0,
-  altitudeAccuracy: 0,
-  heading: 0,
-  speed: 0,
-};
-
-export const GetLocationsScreen = ({ navigation }: NavigationScreenType) => {
+export const GetLocationsScreen = () => {
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const { user } = useAppSelector((state: any) => state.appUser);
   const userId = user?.userId;
-
-  const [location, setLocation] = useState<any>(null);
-  const [, setErrorMsg] = useState<string | null>(null);
+  const [inputLocation, setInputLocation] = useState<any>();
+  const [googleLocs, setGoogleLocs] = useState<any>();
 
   const [saveUserLocation, { loading }] = useMutation(SAVE_USER_LOCATION);
-  const saveUserLocationMutation = async () => {
-    try {
-      const data = {
-        userId,
-        latitude: location?.latitude.toString(),
-        longitude: location?.longitude.toString(),
-      };
 
+  const placesRef = useRef<any>(null);
+
+  const EmptyListComponent = () => (
+    <View style={{ height: 100, justifyContent: "center", alignItems: "center" }}>
+      <Text style={{ color: "#fff" }}>No results found</Text>
+    </View>
+  );
+
+  const saveLocationToDb = async () => {
+    const { lat, lng } = googleLocs?.geometry?.location;
+    const { city, state, country }: any = googleLocs?.address_components.reduce(
+      (acc: any, curr: any) => {
+        if (curr.types.includes("locality")) {
+          acc.city = curr.long_name;
+        }
+        if (curr.types.includes("administrative_area_level_1")) {
+          acc.state = curr.long_name;
+        }
+        if (curr.types.includes("country")) {
+          acc.country = curr.long_name;
+        }
+        return acc;
+      }
+    );
+    const CreateLocationInput = {
+      userId,
+      latitude: lat.toString(),
+      longitude: lng.toString(),
+      addressLine1: inputLocation,
+      city,
+      stateProvince: state,
+      country,
+    };
+
+    try {
       await saveUserLocation({
         variables: {
-          CreateLocationInput: data,
+          CreateLocationInput,
         },
+      }).then(() => {
+        navigation.navigate(screenName.NOTIFICATIONS);
       });
-      navigation.navigate(screenName.NOTIFICATIONS);
-    } catch (err) {
-      Alert.alert("Error", error.message || "Something went wrong!");
+    } catch (error) {
+      console.log("save location error", error);
     }
   };
 
-  useOnScreenView({
-    screenName: analyticScreenNames.onBoardLocation,
-    screenType: screenClass.onBoarding,
-  });
-
-  useEffect(() => {
-    (async () => {
-      if (Platform.OS === "android" && !Device.isDevice) {
-        setErrorMsg(
-          "Oops, this will not work on Snack in an Android emulator. Try it on your device!"
-        );
-        return;
-      }
-      const { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== "granted") {
-        setErrorMsg("Permission to access location was denied");
-        return;
-      }
-
-      const currLocation = await Location.getCurrentPositionAsync({});
-      setLocation(currLocation.coords);
-    })();
-  }, []);
-
-  const allowLocation = async () => {
-    const { status } = await Location.requestForegroundPermissionsAsync();
-    if (status === "granted") {
-      await Location.watchPositionAsync(
-        {
-          accuracy: Location.Accuracy.BestForNavigation,
-          timeInterval: 3600000,
-        },
-        (loc) => {
-          logEvent({
-            eventName: eventNames.submitOnBoardLocationButton,
-            params: { location: loc, screenClass: screenClass.onBoarding },
-          });
-        }
-      );
-      saveUserLocationMutation();
-    }
-  };
-
-  const dontAllow = () => {
-    Alert.alert("Sorry", "You need to allow location to use Scoop", [
-      {
-        text: "Don't Allow",
-        style: "cancel",
-      },
-      { text: "Allow", onPress: allowLocation },
-    ]);
-  };
-
-  const requestLocation = () => {
-    if (location === null) {
-      Alert.alert(
-        "Scoop would like to use your location",
-        `Turn on Location Services to allow "Scoop" to determine your location`,
-        [
-          {
-            text: "Don't Allow",
-            onPress: dontAllow,
-            style: "cancel",
-          },
-          { text: "Allow", onPress: allowLocation },
-        ]
-      );
-    } else {
-      saveUserLocationMutation();
-      navigation.navigate("SendNotification");
-    }
-  };
-
-  // TODO: set progress amount
   return (
     <GradientLayout>
       <View style={styles.container}>
@@ -136,12 +77,28 @@ export const GetLocationsScreen = ({ navigation }: NavigationScreenType) => {
           <Text style={[styles.text, styles.textMinor]}>
             The best way to get to know someone is to meet them in person.
           </Text>
+          <GooglePlacesAutocomplete
+            textInputProps={{
+              onChangeText: (text) => {
+                setInputLocation(text);
+              },
+            }}
+            ref={placesRef}
+            placeholder="Search Address"
+            fetchDetails={true}
+            onPress={(data, details = null) => {
+              setGoogleLocs(details);
+            }}
+            onFail={(error) => console.error(error)}
+            query={{
+              key: "AIzaSyB2Iyg4yEI2tjyHKy6sprw8ait4bGxvOrg",
+              language: "en",
+            }}
+            listEmptyComponent={<EmptyListComponent />}
+          />
         </View>
-        <AppButton
-          isDisabled={location === null}
-          isLoading={!!loading}
-          onPress={() => requestLocation()}
-        >
+
+        <AppButton isDisabled={!inputLocation} isLoading={!!loading} onPress={saveLocationToDb}>
           Add my location
         </AppButton>
       </View>
