@@ -15,6 +15,9 @@ export const SAVE_USER_LOCATION = gql`
       userId
       latitude
       longitude
+      addressLine1
+      stateProvince
+      country
       zipPostal
     }
   }
