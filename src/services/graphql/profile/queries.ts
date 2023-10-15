@@ -255,7 +255,16 @@ export const GET_FULL_PROFILE = gql`
       birthday
       height
       gender
-      locationId
+      location {
+        latitude
+        longitude
+        addressLine1
+        addressLine2
+        stateProvince
+        country
+        city
+        zipPostal
+      }
       promptIds
       prompts {
         id

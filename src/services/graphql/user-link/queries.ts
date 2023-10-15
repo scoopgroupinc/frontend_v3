@@ -10,7 +10,17 @@ export const GET_USER_PROFILE_BY_LINK_ID = gql`
       birthday
       height
       gender
-      locationId
+      location {
+        userId
+        latitude
+        longitude
+        addressLine1
+        addressLine2
+        stateProvince
+        country
+        city
+        zipPostal
+      }
       promptIds
       prompts {
         id
