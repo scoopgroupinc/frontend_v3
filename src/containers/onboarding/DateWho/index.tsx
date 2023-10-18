@@ -42,7 +42,7 @@ export const DateWhoScreen = () => {
           userPreferenceInput: data,
         },
       }).then(async () => {
-        navigation.navigate(screenName.BIRTHDAY);
+        navigation.navigate(screenName.LOCATION);
       });
     } catch (err) {
       Alert.alert("Error", err.message || "Something went wrong!");
