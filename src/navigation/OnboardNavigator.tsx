@@ -11,6 +11,7 @@ import { PhotoVideoScreen } from "../containers/onboarding/PhotoVideo";
 import { QuestionPromptScreen } from "../containers/onboarding/QuestionPrompt";
 import AllPrompts from "../features/Prompt/AllPrompts";
 import OnboardPromptAnswer from "../containers/onboarding/PromptAnswer";
+import { GetLocationsScreen } from "../containers/onboarding/GetLocation";
 
 const OnboardStack = createNativeStackNavigator();
 
@@ -26,10 +27,7 @@ export const OnboardNavigator = () => (
     <OnboardStack.Screen name={screenName.BIRTHDAY} component={OnboardBirthdayScreen} />
     <OnboardStack.Screen name={screenName.HEIGHT} component={HeightScreen} />
     <OnboardStack.Screen name={screenName.PHOTOS} component={PhotoVideoScreen} />
-    {/* <OnboardStack.Screen
-        name={screenName.LOCATION}
-        component={GetLocationsScreen}
-      /> */}
+    <OnboardStack.Screen name={screenName.LOCATION} component={GetLocationsScreen} />
     {/* <OnboardStack.Screen
         name={screenName.NOTIFICATIONS}
         component={SendNotificationScreen}
