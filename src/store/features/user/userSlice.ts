@@ -111,7 +111,7 @@ const UserSlice = createSlice({
         birthday: action.payload.userProfile.birthday,
         height: action.payload.userProfile.height,
         gender: action.payload.userProfile.gender,
-        locationId: action.payload.userProfile.locationId,
+        location: action.payload.userProfile.location,
       };
       state.isUserProfileDirty =
         state.originalProfile !== null && !isEqual(state.userProfile, state.originalProfile);
