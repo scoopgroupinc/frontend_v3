@@ -32,6 +32,7 @@ import { useNavState } from "./hooks/useNavState";
 import { useSaveUserProfile } from "./hooks/useSaveUserProfile";
 import { useSaveUserPrompts } from "./hooks/useSaveUserPrompts";
 import { useSaveUserVisuals } from "../../../../hooks/useSaveUserVisuals";
+import { useSaveUserLocation } from "./hooks/useSaveUserLocation";
 
 export const ToggleProfileView = ({ route }: any) => {
   const { value } = route.params || { value: "Edit" };
@@ -58,6 +59,7 @@ export const ToggleProfileView = ({ route }: any) => {
   const [saveUserVisuals] = useSaveUserVisuals();
   const [saveUserProfile] = useSaveUserProfile();
   const [saveUserPrompts] = useSaveUserPrompts();
+  const [saveUserLocation] = useSaveUserLocation();
 
   const saveChanges = useCallback(async () => {
     isSaving(true);
@@ -66,9 +68,12 @@ export const ToggleProfileView = ({ route }: any) => {
       params: {},
     });
     try {
-      const saveCalls = [saveUserVisuals, saveUserProfile, saveUserPrompts].filter(
-        (item) => item !== null
-      );
+      const saveCalls = [
+        saveUserVisuals,
+        saveUserProfile,
+        saveUserPrompts,
+        saveUserLocation,
+      ].filter((item) => item !== null);
 
       await Promise.all(saveCalls.map((func) => func()));
 
@@ -127,6 +132,7 @@ export const ToggleProfileView = ({ route }: any) => {
             <Stack.Screen name={screenName.USER_PROFILE_VIEW} component={UserProfileView} />
           </Stack.Navigator>
         </View>
+
         <View
           style={{
             position: "absolute",
@@ -167,6 +173,7 @@ export const ToggleProfileView = ({ route }: any) => {
             </View>
           </View>
         </AppAlert>
+
         <AppAlert state={doneState} close={() => setDoneState(false)}>
           <View style={styles.textContainer}>
             <Text style={styles.modalText}>Are you sure you want to save your changes?</Text>

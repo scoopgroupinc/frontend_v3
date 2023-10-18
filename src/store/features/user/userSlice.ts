@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, current } from "@reduxjs/toolkit";
 import type { AnyListenerPredicate, PayloadAction } from "@reduxjs/toolkit";
 import { isEqual, cloneDeep } from "lodash";
 import { multiRemove, storeObjectData } from "../../../utils/storage";
@@ -12,6 +12,7 @@ interface UserState {
   user: any;
   userVisuals: { [key: string]: AnyListenerPredicate<UserVisualsType> };
   userTags: { [key: string]: UserTagsTypeVisibleEnity };
+  location: any;
   userPreference: any;
   userProfile: UserProfileEntity;
   userPrompts: { [key: string]: UserPrompt };
@@ -25,6 +26,7 @@ interface UserState {
   originalPrompts: any;
   isUserDirty: boolean;
   isUserProfileDirty: boolean;
+  isUserLocationDirty: boolean;
   isEditPromptDirty: boolean;
   isUserPromptsDirty: boolean;
   isUserPromptsOrderDirty: boolean;
@@ -47,6 +49,7 @@ const initialState: UserState = {
   user: null,
   userVisuals: {},
   userTags: userProfileVisibility,
+  location: {},
   userPreference: null,
   userPrompts: {},
   userProfile: {} as UserProfileEntity,
@@ -60,6 +63,7 @@ const initialState: UserState = {
   originalPrompts: null,
   isUserDirty: false,
   isUserProfileDirty: false,
+  isUserLocationDirty: false,
   isEditPromptDirty: false,
   isUserPromptsDirty: false,
   isUserPromptsOrderDirty: false,
@@ -115,6 +119,7 @@ const UserSlice = createSlice({
       };
       state.isUserProfileDirty =
         state.originalProfile !== null && !isEqual(state.userProfile, state.originalProfile);
+      state.location = action.payload.userProfile.location;
     },
     setUserPrompts: (state, action: PayloadAction<any>) => {
       const { userPrompts } = action.payload;
@@ -138,6 +143,11 @@ const UserSlice = createSlice({
       state.userTags = userTags;
       state.isUserTagsDirty = !!state.originalTags && !isEqual(state.userTags, state.originalTags);
     },
+    setUserLocationVisibility: (state, action: PayloadAction<any>) => {
+      const locx = action.payload;
+      state.location = locx;
+      state.isUserLocationDirty = true;
+    },
     trackCurrentUserStateChanges: (state) => {
       state.originalUser = cloneDeep(state.user);
       state.originalVisuals = cloneDeep(state.userVisuals);
@@ -146,6 +156,7 @@ const UserSlice = createSlice({
       state.originalPrompts = cloneDeep(state.userPrompts);
       state.isUserDirty = false;
       state.isUserProfileDirty = false;
+      state.isUserLocationDirty = false;
       state.isUserPromptsDirty = false;
       state.isUserPromptsOrderDirty = false;
       state.isUserVisualsDirty = false;
@@ -161,6 +172,7 @@ const UserSlice = createSlice({
       state.originalPrompts = null;
       state.isUserDirty = false;
       state.isUserProfileDirty = false;
+      state.isUserLocationDirty = false;
       state.isUserPromptsDirty = false;
       state.isUserPromptsOrderDirty = false;
       state.isUserVisualsDirty = false;
@@ -173,6 +185,7 @@ const UserSlice = createSlice({
       state.originalPrompts = null;
       state.isUserDirty = false;
       state.isUserProfileDirty = false;
+      state.isUserLocationDirty = false;
       state.isUserPromptsDirty = false;
       state.isUserPromptsOrderDirty = false;
       state.isUserVisualsDirty = false;
@@ -232,13 +245,22 @@ export const selectEditPrompt = (state: { appUser: UserState }) => state.appUser
 export const selectEditPromptAnswer = (state: { appUser: UserState }) =>
   state.appUser.editPrompt.answer;
 export const selectIsDirty = ({
-  appUser: { isUserDirty, isUserPromptsDirty, isUserVisualsDirty, isUserTagsDirty },
+  appUser: {
+    isUserDirty,
+    isUserPromptsDirty,
+    isUserVisualsDirty,
+    isUserTagsDirty,
+    isUserLocationDirty,
+  },
 }: {
   appUser: UserState;
-}) => isUserDirty || isUserPromptsDirty || isUserVisualsDirty || isUserTagsDirty;
+}) =>
+  isUserDirty || isUserPromptsDirty || isUserVisualsDirty || isUserTagsDirty || isUserLocationDirty;
 export const selectIsUserDirty = (state: { appUser: UserState }) => state.appUser.isUserDirty;
 export const selectIsEditProfileDirty = (state: { appUser: UserState }) =>
   state.appUser.isUserProfileDirty;
+export const selectIsUserLocationDirty = (state: { appUser: UserState }) =>
+  state.appUser.isUserLocationDirty;
 export const selectIsEditPromptDirty = (state: { appUser: UserState }) =>
   state.appUser.isEditPromptDirty;
 export const selectIsUserPromptsDirty = (state: { appUser: UserState }) =>
@@ -249,6 +271,7 @@ export const selectisUserVisualsDirty = (state: { appUser: UserState }) =>
   state.appUser.isUserVisualsDirty;
 export const selectisUserTagsDirty = (state: { appUser: UserState }) =>
   state.appUser.isUserTagsDirty;
+export const selectUserLocation = (state: { appUser: UserState }) => state.appUser.location;
 
 export const {
   setUser,
@@ -258,6 +281,7 @@ export const {
   setUserPreference,
   setUserProfile,
   setUserProfileVisibilityData,
+  setUserLocationVisibility,
   setUserPrompts,
   setUserPromptsOrder,
   setEditPromptIndex,
