@@ -91,7 +91,7 @@ export const GetLocationsScreen = () => {
             }}
             onFail={(error) => console.error(error)}
             query={{
-              key: "AIzaSyB2Iyg4yEI2tjyHKy6sprw8ait4bGxvOrg",
+              key: process.env.EXPO_PUBLIC_GOOGLE_PLACES_API_KEY,
               language: "en",
             }}
             listEmptyComponent={<EmptyListComponent />}
