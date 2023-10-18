@@ -5,7 +5,16 @@ export interface UserProfile {
   birthday: string;
   height: string;
   gender: string;
-  locationId: string;
+  location: {
+    latitude: string;
+    longitude: string;
+    addressLine1: string;
+    addressLine2: string;
+    stateProvince: string;
+    country: string;
+    city: string;
+    zipPostal: string;
+  };
 }
 
 export interface UserPromptsOrderInput {
@@ -50,5 +59,14 @@ export interface UserProfileEntity {
   birthday?: string;
   height?: number;
   gender?: string;
-  locationId?: string;
+  location: {
+    latitude: string;
+    longitude: string;
+    addressLine1: string;
+    addressLine2: string;
+    stateProvince: string;
+    country: string;
+    city: string;
+    zipPostal: string;
+  };
 }
