@@ -7,6 +7,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { ScrollableGradientLayout } from "../../../components/layouts/ScrollableGradientLayout";
 import { MediaContainer } from "../../../components/molecule/MediaContainer";
 import {
+  selectUserLocation,
   selectUserTags,
   selectUserVisuals,
 } from "../../../store/features/user/userSlice";
@@ -31,15 +32,15 @@ export const UserProfileEdit = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const userVisuals = useAppSelector(selectUserVisuals);
   const userTags = useAppSelector(selectUserTags);
-  const [loading, setIsLoading] = useState<boolean>(false);
-
+  const userLocation = useAppSelector(selectUserLocation);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [shareLinkToSocialMedia] = useGetShareLink();
 
   const insets = useSafeAreaInsets();
 
   const [handleUploadImages, isUploading] = useUploadVisuals();
 
-  const onAddImage = async (image) => {
+  const onAddImage = async (image: any) => {
     handleUploadImages(image);
   };
 
@@ -49,7 +50,7 @@ export const UserProfileEdit = () => {
 
   return (
     <>
-      <AppActivityIndicator visible={loading} />
+      <AppActivityIndicator visible={isLoading} />
       <ScrollableGradientLayout safe={false}>
         <View
           style={{
@@ -69,6 +70,15 @@ export const UserProfileEdit = () => {
               marginBottom: "25%",
             }}
           >
+            <AppInput
+              label="Address"
+              value={userLocation?.addressLine1}
+              placeholder="Search for Address"
+              onPressIn={() => {
+                navigation.navigate(screenName.ADDRESS);
+              }}
+              {...inputTextProps}
+            />
             <AppInput
               _typeOf="tag_field"
               value={userTags[TAG_VISIBLE_TYPES.relationship_goal]?.userTags

@@ -9,6 +9,7 @@ import {
   selectUserProfile,
   selectUserVisuals,
   selectUserPromptsOrder,
+  selectUserLocation,
 } from "../../../store/features/user/userSlice";
 import { Colors, Spacing } from "../../../utils";
 import { QuotedText } from "../../../components/atoms/QuotedText";
@@ -31,6 +32,7 @@ export const UserProfileView = () => {
 
   const userPrompts = useAppSelector(selectUserPrompts);
   const userProfile = useAppSelector(selectUserProfile);
+  const userLocation = useAppSelector(selectUserLocation);
   const promptDisplayOrder = useAppSelector(selectUserPromptsOrder);
   const allPrompts = useAppSelector(selectAllPrompts);
   const visualsRedux = useAppSelector(selectUserVisuals);
@@ -104,8 +106,10 @@ export const UserProfileView = () => {
                   {heightsByInch[userProfile?.height]?.label}
                 </Text>
               )}
-              {userProfile?.location?.city && (
-                <Text style={styles.descriptionText}>{userProfile?.location?.city}</Text>
+              {userLocation && (
+                <Text style={styles.descriptionText}>
+                  {userLocation?.city || userLocation?.stateProvince}
+                </Text>
               )}
 
               {getHometownDetails(userTags)}

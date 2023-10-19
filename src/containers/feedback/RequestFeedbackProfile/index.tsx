@@ -125,7 +125,11 @@ const RequestFeedbackProfile = () => {
                 </Text>
               )}
 
-              {location?.city && <Text style={styles.descriptionText}>{location?.city}</Text>}
+              {location && (
+                <Text style={styles.descriptionText}>
+                  {location?.city || location?.stateProvince}
+                </Text>
+              )}
               {getHometownDetails(userTags)}
               {getJobDetails(userTags)}
               {getSchoolDetails(userTags)}
