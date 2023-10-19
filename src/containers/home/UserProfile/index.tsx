@@ -32,6 +32,7 @@ import StayingIn from "./StayingIn";
 import GoingOut from "./GoingOut";
 import Drink from "./Drink";
 import { ToggleProfileView } from "./ToggleProfileView";
+import { AddressScreen } from "./Address";
 
 const UserProfileStack = createNativeStackNavigator();
 
@@ -75,6 +76,7 @@ const UserProfile = () => (
       <UserProfileStack.Screen name={screenName.STAYING_IN} component={StayingIn} />
       <UserProfileStack.Screen name={screenName.GOING_OUT} component={GoingOut} />
       <UserProfileStack.Screen name={screenName.DRINK} component={Drink} />
+      <UserProfileStack.Screen name={screenName.ADDRESS} component={AddressScreen} />
     </UserProfileStack.Group>
 
     <UserProfileStack.Screen name={screenName.ALLPROMPTS} component={AllPrompts} />

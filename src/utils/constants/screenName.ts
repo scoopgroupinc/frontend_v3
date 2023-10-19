@@ -49,6 +49,7 @@ const screenName = {
   PROFILE_HOME: "Home",
 
   // PROFILE
+  ADDRESS: "Address",
   ANALYTICS: "Analytics",
   USER_PROFILE: "UserProfile",
   PROFILE_MODAL: "ProfileModal",
