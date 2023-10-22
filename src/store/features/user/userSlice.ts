@@ -2,11 +2,14 @@
 import { createSlice, current } from "@reduxjs/toolkit";
 import type { AnyListenerPredicate, PayloadAction } from "@reduxjs/toolkit";
 import { isEqual, cloneDeep } from "lodash";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { multiRemove, storeObjectData } from "../../../utils/storage";
 import { UserPrompt } from "../../../utils/types";
 import { UserTagsEntity, UserTagsTypeVisibleEnity, UserProfileEntity } from "./types";
 import { UserVisualsType } from "../../../utils/helpers";
 import { TAG_VISIBLE_TYPES } from "../../../utils/types/TAGS";
+import { SECURE_STORE } from "../../../utils/constants/expo-sercure-storage-keys";
+import logout from "../../../features/SocialLogin/logout";
 
 interface UserState {
   user: any;
@@ -217,12 +220,11 @@ const UserSlice = createSlice({
     builder
       .addCase("appUser/logout", (state) => {
         Object.assign(state, initialState);
-
-        multiRemove(["user", "userToken", "token", "userVisuals"]);
+        logout();
       })
       .addCase("appUser/deleteAccount", (state) => {
         Object.assign(state, initialState);
-        multiRemove(["user", "userToken", "token", "userVisuals"]);
+        logout();
       });
   },
 });
