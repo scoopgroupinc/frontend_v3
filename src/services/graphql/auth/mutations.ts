@@ -85,3 +85,19 @@ export const PROVIDER_LOGIN = gql`
     }
   }
 `;
+
+export const VALIDATE_APPLE_CREDENTIALS = gql`
+  mutation ValidateAppleCredentials($credentials: AppleAuthCredentialsInput!) {
+    validateAppleCredentials(credentials: $credentials) {
+      token
+      user {
+        userId
+        firstName
+        lastName
+        email
+        isOnboarded
+        isVoteOnboarded
+      }
+    }
+  }
+`;
