@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, Alert } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Heading, VStack } from "native-base";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -69,7 +69,7 @@ const AppleEmail = ({ route }: any) => {
         });
       }
     } catch (err: any) {
-      Alert.alert("Login Error", err.message);
+      Alert.alert("Apple Login Error", err.message);
     }
   };
 
