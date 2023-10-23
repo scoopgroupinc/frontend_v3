@@ -2,7 +2,7 @@ import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import screenName from "../utils/constants/screenName";
 import Launch from "../containers/auth/Launch";
-import AppleEmail from "../containers/auth/AppleEmail";
+import AppleEmail from "../features/SocialLogin/AppleLogin/AppleEmail";
 import UnAuthorizedFeedbackUser from "../containers/feedback/UnAuthorizedFeedbackUser";
 
 const AuthStack = createNativeStackNavigator();

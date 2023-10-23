@@ -6,16 +6,16 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { useMutation } from "@apollo/client";
-import { AppButton } from "../../../components/atoms/AppButton";
-import { GradientLayout } from "../../../components/layouts/GradientLayout";
-import AppActivityIndicator from "../../../components/atoms/ActivityIndicator";
-import { useAppDispatch } from "../../../store/hooks";
-import { analyticScreenNames, screenClass } from "../../../analytics/constants";
-import { useOnScreenView } from "../../../analytics/hooks/useOnScreenView";
-import FormField from "../../../components/molecule/FormField";
-import { PROVIDER_LOGIN } from "../../../services/graphql/auth/mutations";
-import { storeObjectData, storeStringData } from "../../../utils/storage";
-import { setUser } from "../../../store/features/user/userSlice";
+import { AppButton } from "../../../../components/atoms/AppButton";
+import { GradientLayout } from "../../../../components/layouts/GradientLayout";
+import AppActivityIndicator from "../../../../components/atoms/ActivityIndicator";
+import { useAppDispatch } from "../../../../store/hooks";
+import { analyticScreenNames, screenClass } from "../../../../analytics/constants";
+import { useOnScreenView } from "../../../../analytics/hooks/useOnScreenView";
+import FormField from "../../../../components/molecule/FormField";
+import { PROVIDER_LOGIN } from "../../../../services/graphql/auth/mutations";
+import { storeObjectData, storeStringData } from "../../../../utils/storage";
+import { setUser } from "../../../../store/features/user/userSlice";
 
 const AppleEmail = ({ route }: any) => {
   const dispatch = useAppDispatch();
