@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Alert, View } from "react-native";
-import * as AppleAuthentication from "expo-apple-authentication";
-import { AppleAuthenticationCredential } from "expo-apple-authentication";
 import * as WebBrowser from "expo-web-browser";
 import { useMutation } from "@apollo/client";
 import { Icon } from "native-base";
@@ -12,14 +10,14 @@ import { PROVIDER_LOGIN } from "../../../services/graphql/auth/mutations";
 import { useAppDispatch } from "../../../store/hooks";
 import { storeObjectData, storeStringData } from "../../../utils/storage";
 import { setUser } from "../../../store/features/user/userSlice";
-import { navigationRef } from "../../../navigation/RootNavigation";
-import { screenName } from "../../../utils/constants";
+import AppleLogin from "../../../features/SocialLogin/AppleLogin";
 
 WebBrowser.maybeCompleteAuthSession();
 
 const SocialLogins = () => {
   const dispatch = useAppDispatch();
   const [providerUser, setProviderUser] = useState<any>({});
+  const [loginWithProvider] = useMutation(PROVIDER_LOGIN);
 
   GoogleSignin.configure({
     webClientId: "474530368865-qa6pks2e2s41ivpmk8i19el59qns2pb9.apps.googleusercontent.com",
@@ -34,39 +32,14 @@ const SocialLogins = () => {
       setProviderUser({ email, id, provider: "google" });
     } catch (error: any) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-        alert("User Cancelled the Login Flow");
+        Alert.alert("User Cancelled the Login Flow");
       } else if (error.code === statusCodes.IN_PROGRESS) {
-        alert("Sign In is in Progress");
+        Alert.alert("Sign In is in Progress");
       } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-        console.log("Play Services Not Available or Outdated");
+        Alert.alert("Play Services Not Available or Outdated");
       } else {
-        console.log("Some Other Error Happened");
+        Alert.alert(error.message);
       }
-    }
-  };
-
-  const [loginWithProvider] = useMutation(PROVIDER_LOGIN);
-
-  const fetchAppleEmail = async () => {
-    try {
-      const credential: AppleAuthenticationCredential = await AppleAuthentication.signInAsync({
-        requestedScopes: [
-          AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
-          AppleAuthentication.AppleAuthenticationScope.EMAIL,
-        ],
-      });
-
-      const { email, user: id } = credential;
-      if (email) {
-        setProviderUser({ email, id, provider: "apple" });
-      } else {
-        navigationRef.current?.navigate(screenName.APPLE_EMAIL, {
-          credential: JSON.stringify({ ...credential, provider: "apple" }),
-        });
-      }
-    } catch (err: any) {
-      console.log("err", err);
-      // Alert.alert("Apple Authentication Error", err.message);
     }
   };
 
@@ -127,16 +100,7 @@ const SocialLogins = () => {
       >
         Continue with Google
       </AppButton>
-      <AppleAuthentication.AppleAuthenticationButton
-        buttonType={AppleAuthentication.AppleAuthenticationButtonType.CONTINUE}
-        buttonStyle={AppleAuthentication.AppleAuthenticationButtonStyle.WHITE}
-        cornerRadius={20}
-        style={{
-          width: "100%",
-          height: 44,
-        }}
-        onPress={fetchAppleEmail}
-      />
+      <AppleLogin />
     </View>
   );
 };

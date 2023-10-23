@@ -79,6 +79,7 @@ const config = {
   scheme: ["scoop", `fb${oauth[environment].FACEBOOK_APP_ID}`],
   owner: "scoopgroup",
   plugins: [
+    "expo-apple-authentication",
     "@react-native-google-signin/google-signin",
     "@react-native-firebase/app",
     [
