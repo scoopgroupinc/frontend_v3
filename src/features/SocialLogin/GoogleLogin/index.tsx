@@ -1,20 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { Alert, View } from "react-native";
+import { Alert } from "react-native";
 import * as WebBrowser from "expo-web-browser";
 import { useMutation } from "@apollo/client";
 import { Icon } from "native-base";
 import { Ionicons } from "@expo/vector-icons";
 import { GoogleSignin, statusCodes } from "@react-native-google-signin/google-signin";
-import { AppButton } from "../../atoms/AppButton";
 import { PROVIDER_LOGIN } from "../../../services/graphql/auth/mutations";
 import { useAppDispatch } from "../../../store/hooks";
 import { storeObjectData, storeStringData } from "../../../utils/storage";
 import { setUser } from "../../../store/features/user/userSlice";
-import AppleLogin from "../../../features/SocialLogin/AppleLogin";
+import { AppButton } from "../../../components/atoms/AppButton";
 
 WebBrowser.maybeCompleteAuthSession();
 
-const SocialLogins = () => {
+const GoogleLogin = () => {
   const dispatch = useAppDispatch();
   const [providerUser, setProviderUser] = useState<any>({});
   const [loginWithProvider] = useMutation(PROVIDER_LOGIN);
@@ -89,20 +88,17 @@ const SocialLogins = () => {
   }, [providerUser, loginWithProvider, dispatch]);
 
   return (
-    <View>
-      <AppButton
-        style={{ marginVertical: 8 }}
-        onPress={() => {
-          googleSignIn();
-        }}
-        colorScheme="coolGray"
-        leftIcon={<Icon as={Ionicons} name="logo-google" size="sm" />}
-      >
-        Continue with Google
-      </AppButton>
-      <AppleLogin />
-    </View>
+    <AppButton
+      style={{ marginVertical: 8 }}
+      onPress={() => {
+        googleSignIn();
+      }}
+      colorScheme="coolGray"
+      leftIcon={<Icon as={Ionicons} name="logo-google" size="sm" />}
+    >
+      Continue with Google
+    </AppButton>
   );
 };
 
-export default SocialLogins;
+export default GoogleLogin;

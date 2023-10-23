@@ -4,7 +4,7 @@ import { Input } from "native-base";
 import { GradientLayout } from "../../../components/layouts/GradientLayout";
 import { styles } from "./styles";
 import { Typography } from "../../../utils";
-import SocialLogins from "../../../components/molecule/SocialLogins";
+import SocialLogin from "../../../features/SocialLogin";
 
 const UnAuthorizedFeedbackUser = () => (
   <GradientLayout>
@@ -15,7 +15,7 @@ const UnAuthorizedFeedbackUser = () => (
       </Text>
     </View>
     <View style={styles.buttonsBody}>
-      <SocialLogins />
+      <SocialLogin />
     </View>
   </GradientLayout>
 );
