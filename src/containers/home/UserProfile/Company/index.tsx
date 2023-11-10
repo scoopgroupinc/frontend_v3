@@ -14,8 +14,9 @@ import TagScreenHeader from "../../../../components/molecule/TagScreenHeader";
 import TagsView from "../../../../components/molecule/TagsView";
 import { Colors } from "../../../../utils";
 import { AppInput } from "../../../../components/atoms/AppInput";
-import { analyticScreenNames, screenClass } from "../../../../analytics/constants";
+import { analyticScreenNames, eventNames, screenClass } from "../../../../analytics/constants";
 import { useOnScreenView } from "../../../../analytics/hooks/useOnScreenView";
+import { logEvent } from "../../../../analytics";
 
 const Company = ({ navigation, route }: any) => {
   const userTags = useAppSelector(selectUserTags);
@@ -32,10 +33,10 @@ const Company = ({ navigation, route }: any) => {
   const pageTitle = "Company";
 
   const goBackHome = () => {
-    // logEvent({
-    //   eventName: eventNames.backEditProfileButton,
-    //   params:{screenClass:screenClass.profile,}
-    // })
+    logEvent({
+      eventName: eventNames.backEditProfileButton,
+      params: { screenClass: screenClass.profile },
+    });
     navigation.goBack();
   };
 

@@ -47,12 +47,12 @@ export const Home = () => {
 
   //   methods
   const openUrlTerms = useCallback(async () => {
-    //    logEvent({
-    //      eventName: eventNames.redirectTermsButton,
-    //      params: {
-    //        screenClass: screenClass.settings,
-    //      },
-    //    });
+    logEvent({
+      eventName: eventNames.redirectTermsButton,
+      params: {
+        screenClass: screenClass.settings,
+      },
+    });
     const url = "https://scoop.love/terms";
     const supported = await Linking.canOpenURL(url);
 
@@ -60,12 +60,12 @@ export const Home = () => {
   }, []);
 
   const openUrlPolicy = useCallback(async () => {
-    //  logEvent({
-    //    eventName: eventNames.redirectPrivacyButton,
-    //    params: {
-    //      screenClass: screenClass.settings,
-    //    },
-    //  });
+    logEvent({
+      eventName: eventNames.redirectPrivacyButton,
+      params: {
+        screenClass: screenClass.settings,
+      },
+    });
     const url = "https://scoop.love/privacy-policy/";
     const supported = await Linking.canOpenURL(url);
 
@@ -81,12 +81,12 @@ export const Home = () => {
   };
 
   const createLogoutAlert = () => {
-    //   logEvent({
-    //     eventName: eventNames.logoutAccountButton,
-    //     params: {
-    //       screenClass: screenClass.settings,
-    //     },
-    //   });
+    logEvent({
+      eventName: eventNames.logoutAccountButton,
+      params: {
+        screenClass: screenClass.settings,
+      },
+    });
     Alert.alert("Log out", "Are you sure you want to log out?", [
       {
         text: "Cancel",

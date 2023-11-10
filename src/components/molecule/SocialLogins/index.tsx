@@ -11,6 +11,8 @@ import { useAppDispatch } from "../../../store/hooks";
 import { storeObjectData, storeStringData } from "../../../utils/storage";
 import { setUser } from "../../../store/features/user/userSlice";
 import AppleLogin from "../../../features/SocialLogin/AppleLogin";
+import { logEvent } from "../../../analytics";
+import { eventNames } from "../../../analytics/constants";
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -59,6 +61,20 @@ const SocialLogins = () => {
         const token = loginResponse?.data?.loginWithProvider?.token;
 
         if (user && token) {
+          if (providerUser.provider === "google") {
+            logEvent({
+              eventName: eventNames.submitGoogleSignInButtonResponse,
+              params: { error: null },
+            });
+          }
+
+          if (providerUser.provider === "apple") {
+            logEvent({
+              eventName: eventNames.submitAppleSignInButtonResponse,
+              params: { error: null },
+            });
+          }
+
           await storeStringData("userToken", token);
           await storeObjectData("user", {
             ...user,
@@ -81,6 +97,10 @@ const SocialLogins = () => {
         }
       } catch (err: any) {
         Alert.alert("Login Error", err.message);
+        logEvent({
+          eventName: eventNames.submitSignInButtonResponse,
+          params: { error: err.message },
+        });
       }
     };
     if (providerUser?.email && providerUser?.id) {
