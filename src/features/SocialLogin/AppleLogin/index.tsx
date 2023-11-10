@@ -147,9 +147,7 @@ const AppleLogin = () => {
     );
   };
 
-  return (
-    <View>{appleAuthAvailable ? getAuthAppContent() : <Text>Apple Auth Unavailable</Text>}</View>
-  );
+  return <View>{appleAuthAvailable && getAuthAppContent()}</View>;
 };
 
 export default AppleLogin;
