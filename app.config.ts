@@ -43,9 +43,9 @@ const config = {
   ios: {
     jsEngine: "jsc",
     supportsTablet: true,
-    buildNumber: "2.0.7",
+    buildNumber: "2.1.6",
     version: "1.0.0",
-    bundleIdentifier: "com.scoop.love",
+    bundleIdentifier: "com.facets.one",
     icon: "src/assets/icon.png",
     googleServicesFile: "src/services/firebase/GoogleService-Info.plist",
     associatedDomains: ["applinks:scoop.love"],
@@ -60,7 +60,7 @@ const config = {
     },
   },
   android: {
-    package: "com.scoop.love",
+    package: "com.facets.one",
     versionCode: 1,
     googleServicesFile: "src/services/firebase/google-services.json",
     adaptiveIcon: {

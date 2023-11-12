@@ -3,6 +3,11 @@
     "version": ">= 3.13.0"
   },
   "build": {
+    "apk": {
+      "android": {
+        "gradleCommand": ":app:assembleRelease"
+      }
+    },
     "development": {
       "developmentClient": true,
       "distribution": "internal"
