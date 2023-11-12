@@ -22,7 +22,7 @@ const SocialLogins = () => {
   const [loginWithProvider] = useMutation(PROVIDER_LOGIN);
 
   GoogleSignin.configure({
-    webClientId: "474530368865-qa6pks2e2s41ivpmk8i19el59qns2pb9.apps.googleusercontent.com",
+    webClientId: "474530368865-95jmh53ptqa2bv430kuotnqcga6ufvg4.apps.googleusercontent.com",
     iosClientId: "474530368865-87k3pk487b6tb58q49moahprr9usd3f2.apps.googleusercontent.com",
   });
 
