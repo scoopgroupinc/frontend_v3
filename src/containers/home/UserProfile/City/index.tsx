@@ -31,18 +31,22 @@ export const AddressScreen = () => {
 
   return (
     <GradientLayout>
-      <TagScreenHeader close={() => navigation.goBack()} title={"Address"} />
+      <TagScreenHeader close={() => navigation.goBack()} title={"City"} />
       <GooglePlacesAutocomplete
         ref={placesRef}
-        placeholder="Search Address"
+        placeholder="Search City"
         fetchDetails={true}
         onPress={(data, details = null) => {
+          console.log("results", details);
+
           const { lat, lng } = details?.geometry?.location;
-          const { city, state, country }: any = details?.address_components.reduce(
+          let city;
+          const { state, country }: any = details?.address_components.reduce(
             (acc: any, curr: any) => {
-              if (curr.types.includes("locality")) {
-                acc.city = curr.long_name;
-              }
+              // if (curr.types.includes("locality")) {
+              //   console.log("locality", curr);
+              //   acc.city = curr.long_name;
+              // }
               if (curr.types.includes("administrative_area_level_1")) {
                 acc.state = curr.long_name;
               }
@@ -52,6 +56,39 @@ export const AddressScreen = () => {
               return acc;
             }
           );
+
+          // Look for 'locality' in address components
+          const localityComponent = details?.address_components.find((component) =>
+            component.types.includes("locality")
+          );
+
+          // Look for 'administrative_area_level_3' if 'locality' is not found
+          if (!localityComponent) {
+            const adminAreaLevel3Component = details?.address_components.find((component) =>
+              component.types.includes("administrative_area_level_3")
+            );
+
+            if (adminAreaLevel3Component) {
+              city = adminAreaLevel3Component.long_name;
+            } else {
+              // If 'locality' and 'administrative_area_level_3' are not available, look for 'administrative_area_level_2' (county)
+              const countyComponent = details?.address_components.find((component) =>
+                component.types.includes("administrative_area_level_2")
+              );
+
+              if (countyComponent) {
+                city = countyComponent.long_name;
+              } else {
+                // If neither 'locality', 'administrative_area_level_3', nor 'administrative_area_level_2' is available, use the first component
+                city = details?.address_components[0].long_name;
+              }
+            }
+          } else {
+            city = localityComponent.long_name;
+          }
+
+          console.log("city", city);
+
           dispatch(
             setUserLocationVisibility({
               latitude: lat?.toString(),
