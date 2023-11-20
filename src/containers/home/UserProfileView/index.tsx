@@ -1,5 +1,13 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { View, Text, ImageBackground, Image } from "react-native";
+import {
+  View,
+  Text,
+  ImageBackground,
+  Image,
+  Modal,
+  TouchableWithoutFeedback,
+  TouchableOpacity,
+} from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import moment from "moment";
 import { useAppSelector } from "../../../store/hooks";
@@ -26,6 +34,60 @@ import { AppButton } from "../../../components/atoms/AppButton";
 import { ProfilePageDetails } from "../../../features/ProfileView/components/ProfilePageDetails";
 import { heightsByInch } from "../../../utils/constants/heights";
 import { useGetShareLink } from "../../../hooks/useGetShareLink";
+import { getStringData, storeStringData } from "../../../utils/storage";
+
+const ShareModal = ({ visible, onClose }: { visible: boolean; onClose: () => void }) => {
+  const [checkbox, setCheckbox] = useState(false);
+
+  const handleCheckboxToggle = () => {
+    setCheckbox(!checkbox);
+    storeStringData("shareLinkAlert", checkbox ? "false" : "true");
+  };
+
+  return (
+    <Modal animationType="slide" transparent={true} visible={visible} onRequestClose={onClose}>
+      <TouchableWithoutFeedback onPress={onClose}>
+        <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+          <View
+            style={{
+              width: 300,
+              backgroundColor: "white",
+              padding: 20,
+              borderRadius: 10,
+              borderWidth: 1,
+              borderColor: Colors.RUST,
+            }}
+          >
+            <Text style={{ alignSelf: "center", fontSize: 16 }}>Share Profile Link</Text>
+            <Text style={{ marginBottom: 20, marginTop: 10 }}>
+              Once you recieve feedback, you can see it in the main view.
+            </Text>
+
+            <TouchableOpacity onPress={() => handleCheckboxToggle()}>
+              <View style={{ flexDirection: "row", alignItems: "center" }}>
+                <View
+                  style={{
+                    width: 15,
+                    height: 15,
+                    borderRadius: 5,
+                    borderWidth: 1,
+                    borderColor: "black",
+                    marginRight: 10,
+                    backgroundColor: checkbox ? Colors.TEAL : "white",
+                  }}
+                />
+                <Text>Don't show again</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={onClose} style={{ alignSelf: "center" }}>
+              <Text style={{ color: Colors.RUST, marginTop: 10 }}>Close</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </TouchableWithoutFeedback>
+    </Modal>
+  );
+};
 
 export const UserProfileView = () => {
   const userTags = useAppSelector(selectUserTags);
@@ -47,6 +109,23 @@ export const UserProfileView = () => {
   const [merged, setMerged] = useState<any>([]);
 
   useOnScreenView({ screenName: analyticScreenNames.profileView, screenType: screenClass.profile });
+
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const openModal = async () => {
+    const alertState = await getStringData("shareLinkAlert");
+    if (alertState) {
+      setModalVisible(false);
+      shareLinkToSocialMedia();
+    } else {
+      setModalVisible(true);
+    }
+  };
+
+  const closeModal = () => {
+    setModalVisible(false);
+    shareLinkToSocialMedia();
+  };
 
   useEffect(() => {
     const mergeData = () => {
@@ -125,7 +204,6 @@ export const UserProfileView = () => {
                     <View
                       key={index}
                       style={{
-                        // backgroundColor: 'red',
                         padding: Spacing.SCALE_20,
                       }}
                     >
@@ -167,9 +245,10 @@ export const UserProfileView = () => {
         </View>
       </ScrollView>
       <View style={{ backgroundColor: Colors.WHITE, padding: 20 }}>
-        <AppButton colorScheme="coolGray" onPress={shareLinkToSocialMedia}>
+        <AppButton colorScheme="coolGray" onPress={openModal}>
           Share Profile Link
         </AppButton>
+        <ShareModal visible={modalVisible} onClose={closeModal} />
       </View>
     </ImageBackground>
   );

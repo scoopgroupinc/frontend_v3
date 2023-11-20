@@ -1,45 +1,95 @@
-import React, { useEffect } from "react";
-import { Text, View } from "react-native";
-import { useMutation } from "@apollo/client";
+import React, { useState } from "react";
+import { Modal, Text, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { GradientLayout } from "../../../components/layouts/GradientLayout";
 import { styles } from "./styles";
 import { AppButton } from "../../../components/atoms/AppButton";
-import { Typography } from "../../../utils";
-import { useShare } from "../../../hooks/useShare";
-import { useAppSelector } from "../../../store/hooks";
-import { selectUser } from "../../../store/features/user/userSlice";
-import { GET_USER_SHARE_PROFILE_LINK } from "../../../services/graphql/user-link/mutations";
+import { Colors, Typography } from "../../../utils";
 import { screenName } from "../../../utils/constants";
-import { encryptData } from "../../../utils/helpers";
+import { getStringData, storeStringData } from "../../../utils/storage";
+import { useGetShareLink } from "../../../hooks/useGetShareLink";
+
+const ShareModal = ({ visible, onClose }: { visible: boolean; onClose: () => void }) => {
+  const [checkbox, setCheckbox] = useState(false);
+
+  const handleCheckboxToggle = () => {
+    setCheckbox(!checkbox);
+    storeStringData("shareLinkAlert", checkbox ? "false" : "true");
+  };
+
+  return (
+    <Modal animationType="slide" transparent={true} visible={visible} onRequestClose={onClose}>
+      <TouchableWithoutFeedback onPress={onClose}>
+        <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+          <View
+            style={{
+              width: 300,
+              backgroundColor: "white",
+              padding: 20,
+              borderRadius: 10,
+              borderWidth: 1,
+              borderColor: Colors.RUST,
+            }}
+          >
+            <Text style={{ alignSelf: "center", fontSize: 16 }}>Share Profile Link</Text>
+            <Text style={{ marginBottom: 20, marginTop: 10 }}>
+              Once you recieve feedback, you can see it in the main view.
+            </Text>
+
+            <TouchableOpacity onPress={() => handleCheckboxToggle()}>
+              <View style={{ flexDirection: "row", alignItems: "center" }}>
+                <View
+                  style={{
+                    width: 15,
+                    height: 15,
+                    borderRadius: 5,
+                    borderWidth: 1,
+                    borderColor: "black",
+                    marginRight: 10,
+                    backgroundColor: checkbox ? Colors.TEAL : "white",
+                  }}
+                />
+                <Text>Don't show again</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={onClose} style={{ alignSelf: "center" }}>
+              <Text style={{ color: Colors.RUST, marginTop: 10 }}>Close</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </TouchableWithoutFeedback>
+    </Modal>
+  );
+};
 
 const AuthorizedFeedbackUser = () => {
-  const { user } = useAppSelector(selectUser);
-  const userId = user?.userId;
-  const { share } = useShare();
-
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
-  const [link, setLink] = React.useState<string>("");
-
-  const [getShareLink] = useMutation(GET_USER_SHARE_PROFILE_LINK);
-  useEffect(() => {
-    getShareLink({
-      variables: {
-        userId,
-      },
-    }).then((res) => {
-      const cipherLink = encryptData(res?.data.getUserShareProfileLink);
-      setLink(cipherLink);
-    });
-  }, [getShareLink, userId]);
+  const [shareLinkToSocialMedia] = useGetShareLink();
 
   const gotoProfileEditView = (value: string) => {
     navigation.navigate(screenName.PROFILE_NAVIGATOR, {
       screen: screenName.USER_PROFILE,
       params: { screen: screenName.TOGGLE_PROFILE_VIEW, params: { value } },
     });
+  };
+
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const openModal = async () => {
+    const alertState = await getStringData("shareLinkAlert");
+    if (alertState) {
+      setModalVisible(false);
+      shareLinkToSocialMedia();
+    } else {
+      setModalVisible(true);
+    }
+  };
+
+  const closeModal = () => {
+    setModalVisible(false);
+    shareLinkToSocialMedia();
   };
 
   return (
@@ -57,7 +107,7 @@ const AuthorizedFeedbackUser = () => {
         <AppButton
           style={styles.btn}
           onPress={() => {
-            share(link);
+            openModal();
           }}
         >
           Get Share Link
@@ -69,6 +119,7 @@ const AuthorizedFeedbackUser = () => {
           Continue Editing Profile
         </AppButton>
       </View>
+      <ShareModal visible={modalVisible} onClose={closeModal} />
     </GradientLayout>
   );
 };
