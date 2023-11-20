@@ -27,14 +27,14 @@ const oauth = {
 };
 
 const config = {
-  name: "scoop",
-  slug: "scoop",
+  name: "Facets",
+  slug: "facetsapps",
   version: "1.0.0",
   orientation: "portrait",
-  icon: "src/assets/icon.png",
+  icon: "src/assets/app-icon.png",
   userInterfaceStyle: "light",
   splash: {
-    image: "src/assets/splash.png",
+    image: "src/assets/splashscreen.png",
     resizeMode: "cover",
     backgroundColor: "#ffffff",
   },
@@ -43,10 +43,10 @@ const config = {
   ios: {
     jsEngine: "jsc",
     supportsTablet: true,
-    buildNumber: "2.1.6",
+    buildNumber: "1.0.0",
     version: "1.0.0",
     bundleIdentifier: "com.facets.one",
-    icon: "src/assets/icon.png",
+    icon: "src/assets/app-icon.png",
     googleServicesFile: "src/services/firebase/GoogleService-Info.plist",
     associatedDomains: ["applinks:scoop.love"],
     infoPlist: {
@@ -63,8 +63,13 @@ const config = {
     package: "com.facets.one",
     versionCode: 1,
     googleServicesFile: "src/services/firebase/google-services.json",
+    config: {
+      googleSignIn: {
+        certificateHash: "5E:8F:16:06:2E:A3:CD:2C:4A:0D:54:78:76:BA:A6:F3:8C:AB:F6:25",
+      },
+    },
     adaptiveIcon: {
-      foregroundImage: "src/assets/adaptive-icon.png",
+      foregroundImage: "src/assets/app-icon.png",
       backgroundColor: "#FFFFFF",
     },
   },
@@ -73,7 +78,7 @@ const config = {
   },
   extra: {
     eas: {
-      projectId: "c7bc250b-d451-49fd-b042-5a9fae365906",
+      projectId: "8e5ca08a-b63c-441a-bac9-df318db66ae0",
     },
   },
   scheme: ["scoop", `fb${oauth[environment].FACEBOOK_APP_ID}`],
