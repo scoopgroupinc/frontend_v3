@@ -1,10 +1,16 @@
 /* eslint-disable import/prefer-default-export */
 import React, { useEffect, useState } from "react";
-import { View, Text, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  Modal,
+  TouchableWithoutFeedback,
+  TouchableOpacity,
+} from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
-import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
-import { ScrollableGradientLayout } from "../../../components/layouts/ScrollableGradientLayout";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { MediaContainer } from "../../../components/molecule/MediaContainer";
 import {
   selectUserLocation,
@@ -24,9 +30,63 @@ import { Colors } from "../../../utils";
 import { TAG_VISIBLE_TYPES } from "../../../utils/types/TAGS";
 import { useGetShareLink } from "../../../hooks/useGetShareLink";
 import { GradientLayout } from "../../../components/layouts/GradientLayout";
+import { getStringData, storeStringData } from "../../../utils/storage";
 
 const inputTextProps = {
   editable: false,
+};
+
+const ShareModal = ({ visible, onClose }: { visible: boolean; onClose: () => void }) => {
+  const [checkbox, setCheckbox] = useState(false);
+
+  const handleCheckboxToggle = () => {
+    setCheckbox(!checkbox);
+    storeStringData("shareLinkAlert", checkbox ? "false" : "true");
+  };
+
+  return (
+    <Modal animationType="slide" transparent={true} visible={visible} onRequestClose={onClose}>
+      <TouchableWithoutFeedback onPress={onClose}>
+        <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+          <View
+            style={{
+              width: 300,
+              backgroundColor: "white",
+              padding: 20,
+              borderRadius: 10,
+              borderWidth: 1,
+              borderColor: Colors.RUST,
+            }}
+          >
+            <Text style={{ alignSelf: "center", fontSize: 16 }}>Share Profile Link</Text>
+            <Text style={{ marginBottom: 20, marginTop: 10 }}>
+              Once you recieve feedback, you can see it in the main view.
+            </Text>
+
+            <TouchableOpacity onPress={() => handleCheckboxToggle()}>
+              <View style={{ flexDirection: "row", alignItems: "center" }}>
+                <View
+                  style={{
+                    width: 15,
+                    height: 15,
+                    borderRadius: 5,
+                    borderWidth: 1,
+                    borderColor: "black",
+                    marginRight: 10,
+                    backgroundColor: checkbox ? Colors.TEAL : "white",
+                  }}
+                />
+                <Text>Don't show again</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={onClose} style={{ alignSelf: "center" }}>
+              <Text style={{ color: Colors.RUST, marginTop: 10 }}>Close</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </TouchableWithoutFeedback>
+    </Modal>
+  );
 };
 
 export const UserProfileEdit = () => {
@@ -48,6 +108,23 @@ export const UserProfileEdit = () => {
   useEffect(() => {
     setIsLoading(isUploading);
   }, [isUploading]);
+
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const openModal = async () => {
+    const alertState = await getStringData("shareLinkAlert");
+    if (alertState) {
+      setModalVisible(false);
+      shareLinkToSocialMedia();
+    } else {
+      setModalVisible(true);
+    }
+  };
+
+  const closeModal = () => {
+    setModalVisible(false);
+    shareLinkToSocialMedia();
+  };
 
   return (
     <>
@@ -498,10 +575,11 @@ export const UserProfileEdit = () => {
         </ScrollView>
 
         <View style={{ paddingTop: 20 }}>
-          <AppButton colorScheme="coolGray" onPress={shareLinkToSocialMedia}>
+          <AppButton colorScheme="coolGray" onPress={openModal}>
             Share Profile Link
           </AppButton>
         </View>
+        <ShareModal visible={modalVisible} onClose={closeModal} />
       </GradientLayout>
     </>
   );
