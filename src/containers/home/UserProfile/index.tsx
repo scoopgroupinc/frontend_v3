@@ -32,7 +32,7 @@ import StayingIn from "./StayingIn";
 import GoingOut from "./GoingOut";
 import Drink from "./Drink";
 import { ToggleProfileView } from "./ToggleProfileView";
-import { AddressScreen } from "./Address";
+import { AddressScreen } from "./City";
 
 const UserProfileStack = createNativeStackNavigator();
 

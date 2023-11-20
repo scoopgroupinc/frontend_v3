@@ -6,7 +6,8 @@ import { Colors } from "../../../utils";
 import { styles } from "./styles";
 
 export const ScrollableGradientLayout = ({ children, align, safe = true }: any) => {
-  const gradient = [Colors.RUST, Colors.RED, Colors.TEAL];
+  const gradient = ["#197CAD", "#06B198", "#990012"];
+
   return (
     <LinearGradient style={[styles.container, align && styles.alignCenter]} colors={gradient}>
       {safe ? (

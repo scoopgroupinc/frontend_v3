@@ -19,9 +19,8 @@ export const useUploadVisuals = (): [
     try {
       if (image) {
         setIsLoading(true);
-        const postUrl = URLS.FILE_URL;
         const response = await FileSystem.uploadAsync(
-          `${postUrl}/api/v1/visuals/upload/${userId}`,
+          `${process.env.EXPO_PUBLIC_FILE_SERVICE_URL}/api/v1/visuals/upload/${userId}`,
           image.imageUri,
           {
             httpMethod: "POST",
@@ -36,7 +35,7 @@ export const useUploadVisuals = (): [
           order: image.index,
           userId,
           videoOrPhoto: image.imageUri,
-          file: responseBody.file,  // keep blob sas url until saved
+          file: responseBody.file, // keep blob sas url until saved
           blobName: responseBody.Key,
         };
 

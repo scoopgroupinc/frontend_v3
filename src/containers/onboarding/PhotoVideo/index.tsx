@@ -48,16 +48,16 @@ export const PhotoVideoScreen = () => {
   }, [isSaving]);
 
   const saveImages = async () => {
-    // logEvent({
-    //   eventName: eventNames.addOnBoardPhotosButton,
-    //   params: {},
-    // });
+    logEvent({
+      eventName: eventNames.addOnBoardPhotosButton,
+      params: {},
+    });
 
     await handleSaveImages();
     navigation.navigate(screenName.QUESTION_PROMPT);
   };
 
-  const onAddImage = async (image) => {
+  const onAddImage = async (image: any) => {
     handleUploadImages(image);
   };
 

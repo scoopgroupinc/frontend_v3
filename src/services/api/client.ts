@@ -3,10 +3,8 @@ import { ApolloClient, HttpLink, InMemoryCache, from } from "@apollo/client";
 import { onError } from "@apollo/client/link/error";
 import { Alert } from "react-native";
 import { setContext } from "@apollo/client/link/context";
-import { ErrorCodes, URLS } from "../../utils/constants/apis";
+import { ErrorCodes } from "../../utils/constants/apis";
 import { getStringData } from "../../utils/storage";
-import { setUser } from "../../store/features/user/userSlice";
-import { store } from "../../store";
 import { navigationRef } from "../../navigation/RootNavigation";
 import { screenName } from "../../utils/constants";
 
@@ -60,5 +58,9 @@ const authLink = setContext(async (_, { headers }) => {
 
 export const client = new ApolloClient({
   cache: new InMemoryCache(),
-  link: from([errorLink, authLink, new HttpLink({ uri: `${URLS.CLIENT_URL}/graphql` })]),
+  link: from([
+    errorLink,
+    authLink,
+    new HttpLink({ uri: `${process.env.EXPO_PUBLIC_CLIENT_URL}/graphql` }),
+  ]),
 });

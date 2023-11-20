@@ -88,7 +88,7 @@ export const analyticScreenNames = {
   messages: "messages",
   matches: "matches",
   launch: "launch",
-  settings:"settings",
+  settings: "settings",
 };
 
 export const screenClass = {
@@ -110,6 +110,8 @@ export const eventNames = {
   redirectSignInButton: "redirectSignInButton",
   submitSignUpButtonClick: "submitSignUpButtonClick",
   submitSignUpButtonResponse: "submitSignUpButtonResponse",
+  submitGoogleSignInButtonResponse: "submitGoogleSignInButtonResponse",
+  submitAppleSignInButtonResponse: "submitAppleSignInButtonResponse",
   submitOtpButton: "submitOtpButton",
   submitResendOtpButton: "submitResendOtpButton",
   submitSignInButtonClick: "submitSignInButtonClick",

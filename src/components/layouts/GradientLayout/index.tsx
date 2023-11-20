@@ -8,7 +8,7 @@ interface LayoutType {
   children: ReactNode;
 }
 export const GradientLayout = ({ children }: LayoutType) => {
-  const gradient = [Colors.RUST, Colors.RED, Colors.TEAL];
+  const gradient = ["#197CAD", "#06B198", "#990012"];
   return (
     <LinearGradient style={{ flex: 1 }} colors={gradient}>
       <SafeAreaView

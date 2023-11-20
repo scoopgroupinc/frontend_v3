@@ -3,32 +3,31 @@
     "version": ">= 3.13.0"
   },
   "build": {
-    "development": {
-      "developmentClient": true,
-      "distribution": "internal"
-    },
-    "development-simulator": {
-      "developmentClient": true,
-      "distribution": "internal",
-      "ios": {
-        "simulator": true
+    "preview": {
+      "android": {
+        "buildType": "apk"
+      },
+      "env": {
+        "EXPO_PUBLIC_CLIENT_URL": "https://facets-dev-backend-web-app.azurewebsites.net",
+        "EXPO_PUBLIC_CHATSERVICE_BASE_URL": "https://chat.facets.one",
+        "EXPO_PUBLIC_FILE_SERVICE_URL": "https://facets-dev-fileservice.azurewebsites.net",
+        "EXPO_PUBLIC_GOOGLE_PLACES_API_KEY": "AIzaSyB2Iyg4yEI2tjyHKy6sprw8ait4bGxvOrg"
       }
     },
-    "preview": {
-      "distribution": "internal"
+    "preview2": {
+      "android": {
+        "gradleCommand": ":app:assembleRelease"
+      }
+    },
+    "preview3": {
+      "developmentClient": true
     },
     "production": {
-      "channel": "production",
       "env": {
-        "EXPO_PUBLIC_EXPO_CLIENT_ID": "940409374508-hcup1882g47q25umcm0o1oi4knfavqtj.apps.googleusercontent.com",
-        "EXPO_PUBLIC_EXPO_CLIENT_SECRET": "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",
-        "EXPO_PUBLIC_ANDROID_GOOGLE_GUID": "940409374508-0jevmiaibarhubm4s1kjeqr5ih3jd003.apps.googleusercontent.com",
-        "EXPO_PUBLIC_IOS_GOOGLE_GUID": "474530368865-87k3pk487b6tb58q49moahprr9usd3f2.apps.googleusercontent.com",
-        "EXPO_PUBLIC_FACEBOOK_APP_ID": "746932200523934",
-        "EXPO_PUBLIC_CLIENT_URL": "https://20.25.94.84:4000",
-        "EXPO_PUBLIC_CHATSERVICE_BASE_URL": "https://52.168.169.212",
-        "EXPO_PUBLIC_FILE_URL": "https://137.117.84.255:4040",
-        "EXPO_PUBLIC_NOTIFICATION_URL": "https://52.170.25.237"
+        "EXPO_PUBLIC_CLIENT_URL": "https://facets-dev-backend-web-app.azurewebsites.net",
+        "EXPO_PUBLIC_CHATSERVICE_BASE_URL": "https://chat.facets.one",
+        "EXPO_PUBLIC_FILE_SERVICE_URL": "https://facets-dev-fileservice.azurewebsites.net",
+        "EXPO_PUBLIC_GOOGLE_PLACES_API_KEY": "AIzaSyB2Iyg4yEI2tjyHKy6sprw8ait4bGxvOrg"
       }
     }
   },

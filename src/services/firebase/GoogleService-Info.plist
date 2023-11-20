@@ -2,22 +2,18 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CLIENT_ID</key>
-	<string>474530368865-87k3pk487b6tb58q49moahprr9usd3f2.apps.googleusercontent.com</string>
-	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.474530368865-87k3pk487b6tb58q49moahprr9usd3f2</string>
 	<key>API_KEY</key>
-	<string>AIzaSyAEUaLp6vYXEzKCgQSBe8OResPYhQ2WIIc</string>
+	<string>AIzaSyC2_z4TQoLJiXoW7XlPNr8W0-SD3gATpkw</string>
 	<key>GCM_SENDER_ID</key>
-	<string>501079367587</string>
+	<string>818573166952</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.scoop.love</string>
+	<string>com.facets.one</string>
 	<key>PROJECT_ID</key>
-	<string>com-scoop-love-analytics</string>
+	<string>facets-4c74e</string>
 	<key>STORAGE_BUCKET</key>
-	<string>com-scoop-love-analytics.appspot.com</string>
+	<string>facets-4c74e.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:501079367587:ios:9d7a12c3c9b19e2edcc416</string>
+	<string>1:818573166952:ios:7c95f4a3c9895cfbfeeedd</string>
 </dict>
 </plist>
