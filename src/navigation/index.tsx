@@ -22,7 +22,7 @@ const Navigator = () => {
   const [sharedLink, setSharedLink] = useState<any>(null);
 
   const linking = {
-    prefixes: ["https://www.scoop.love/app/", "scoop://", "https://www.scoop.love/shareprofile/"],
+    prefixes: ["https://www.facets.one/app/", "scoop://", "https://www.facets.one/shareprofile/"],
   };
 
   Linking.addEventListener("url", (url) => {

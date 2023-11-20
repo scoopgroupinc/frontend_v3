@@ -53,7 +53,7 @@ export const Home = () => {
         screenClass: screenClass.settings,
       },
     });
-    const url = "https://scoop.love/terms";
+    const url = "https://facets.one/terms";
     const supported = await Linking.canOpenURL(url);
 
     if (supported) await Linking.openURL(url);
@@ -66,7 +66,7 @@ export const Home = () => {
         screenClass: screenClass.settings,
       },
     });
-    const url = "https://scoop.love/privacy-policy/";
+    const url = "https://facets.love/privacy/";
     const supported = await Linking.canOpenURL(url);
 
     if (supported) await Linking.openURL(url);
