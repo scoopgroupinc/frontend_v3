@@ -84,7 +84,7 @@ export const GetLocationsScreen = () => {
               },
             }}
             ref={placesRef}
-            placeholder="Search Address"
+            placeholder="Search City"
             fetchDetails={true}
             onPress={(data, details = null) => {
               setGoogleLocs(details);

@@ -36,7 +36,8 @@ import { useSaveUserLocation } from "./hooks/useSaveUserLocation";
 
 export const ToggleProfileView = ({ route }: any) => {
   const { value } = route.params || { value: "Edit" };
-  const gradient = [Colors.RUST, Colors.RED, Colors.TEAL];
+  // const gradient = [Colors.RUST, Colors.RED, Colors.TEAL];
+  const gradient = ["#197CAD", "#06B198", "#990012"];
   const insets = useSafeAreaInsets();
 
   const Stack = createNativeStackNavigator();
