@@ -108,6 +108,10 @@ const config = {
         locationAlwaysAndWhenInUsePermission: "Allow $(PRODUCT_NAME) to use your location.",
       },
     ],
+    "expo-tracking-transparency",
+    {
+      userTrackingPermission: "Facets will deliver personalized ads to you.",
+    },
   ],
 };
 
