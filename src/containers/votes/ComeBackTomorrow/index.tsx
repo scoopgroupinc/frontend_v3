@@ -16,7 +16,7 @@ export const ComeBackTomorrow = ({ outOfMatches, noMatchToday }: any) => {
       <View style={{ flex: 1, alignItems: "center" }}>
         <Image
           style={styles.noMatchLogo}
-          source={require("../../../assets/images/scoop-logo.png")}
+          source={require("../../../assets/images/facets-logo.png")}
         />
         <View style={styles.textWrapper}>
           {noMatchToday && (

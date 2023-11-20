@@ -15,7 +15,7 @@ const ShareForFeedback = () => {
   const dispatch = useAppDispatch();
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
-  const[ shareLinkToSocialMedia ] = useGetShareLink();
+  const [shareLinkToSocialMedia] = useGetShareLink();
 
   const gotoProfileEditView = (value: string) => {
     dispatch(
@@ -35,7 +35,7 @@ const ShareForFeedback = () => {
     <GradientLayout>
       <View style={styles.headingBody}>
         <Image
-          source={require("../../../assets/images/scoop-logo.png")}
+          source={require("../../../assets/images/facets-logo.png")}
           style={{ height: 250, width: 250 }}
         />
         <View style={styles.textBody}>
@@ -43,10 +43,7 @@ const ShareForFeedback = () => {
         </View>
       </View>
       <View style={styles.buttonsBody}>
-        <AppButton
-          style={styles.btn}
-          onPress={shareLinkToSocialMedia}
-        >
+        <AppButton style={styles.btn} onPress={shareLinkToSocialMedia}>
           Get Share Link
         </AppButton>
         <AppButton style={styles.btn} onPress={() => gotoProfileEditView("View")}>

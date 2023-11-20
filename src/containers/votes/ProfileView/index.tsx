@@ -182,6 +182,7 @@ export const ProfileView = () => {
             <View style={styles.section}>
               <Text style={styles.name}>{userChoices[0].choiceName}</Text>
               <Text style={styles.descriptionText}>{/* {age} years old, {height} */}</Text>
+
               <Text style={styles.descriptionHeader}>My Basics</Text>
             </View>
             <View style={[styles.content, { flexDirection: "column" }]}>
