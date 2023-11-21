@@ -51,10 +51,11 @@ We use [direnv](https://direnv.net/docs/installation.html) to read env files
 4. cd into project folder (if you are already there cd out and cd back)
 5. run `direnv allow` it should read all your exported variables
 6. run `echo $EXPO_CLIENT_ID` to see if it read your .envrc `export EXPO_CLIENT_ID` value
-7. set NODE_ENV to production, development, or local (default is development)
+* [@lloydchang](https://github.com/lloydchang/): bug(?) there isn't an `EXPO_CLIENT_ID` value in the `.envrc` file that I received from [@nataliepan](https://github.com/nataliepan/)
+7.  set NODE_ENV to production, development, or local (default is development)
 8.  in app.config.ts `console.log("environment", process.env.NODE_ENV, environment);` to make sure you've set the right NODE_ENV variable
 9. in `src/utils/constants/apis.ts` add `console.log(Constants.expoConfig.extra.ENV, URLS);` to make sure you're reading the right variables
-10. `cd` in and out of the project folder for `direnv` to read the .envrc file
+   . `cd` in and out of the project folder for `direnv` to read the .envrc file
 
 
 ### github PR template
