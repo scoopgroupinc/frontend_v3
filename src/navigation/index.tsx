@@ -15,11 +15,21 @@ import ErrorScreen from "../containers/ErrorScreen";
 import { GET_USER_PROFILE_BY_LINK_ID } from "../services/graphql/user-link/queries";
 import { getObjectData } from "../utils/storage";
 import { setUser } from "../store/features/user/userSlice";
+import { requestTrackingPermissionsAsync } from "expo-tracking-transparency";
 
 const Stack = createNativeStackNavigator();
 
 const Navigator = () => {
   const [sharedLink, setSharedLink] = useState<any>(null);
+
+  useEffect(() => {
+    (async () => {
+      const { status } = await requestTrackingPermissionsAsync();
+      if (status === "granted") {
+        console.log("Yay! I have user permission to track data");
+      }
+    })();
+  }, []);
 
   const linking = {
     prefixes: ["https://www.facets.one/app/", "scoop://", "https://www.facets.one/shareprofile/"],

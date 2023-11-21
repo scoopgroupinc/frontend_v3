@@ -11,7 +11,6 @@ import { persistor, store } from "./src/store";
 import Navigator from "./src/navigation";
 import { useCustomTheme } from "./src/containers/app/hooks/useCustomTheme";
 import { extendedTheme } from "./src/containers/app/themeConstants";
-import { requestTrackingPermissionsAsync } from "expo-tracking-transparency";
 
 const App = () => {
   const [fontsLoaded] = useCustomTheme();
@@ -34,15 +33,6 @@ const App = () => {
   if (!fontsLoaded) {
     return null;
   }
-
-  useEffect(() => {
-    (async () => {
-      const { status } = await requestTrackingPermissionsAsync();
-      if (status === "granted") {
-        console.log("Yay! I have user permission to track data");
-      }
-    })();
-  }, []);
 
   return (
     <NativeBaseProvider theme={customTheme}>
