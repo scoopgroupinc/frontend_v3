@@ -43,7 +43,7 @@ const config = {
   ios: {
     jsEngine: "jsc",
     supportsTablet: true,
-    buildNumber: "1.0.0",
+    buildNumber: "1.0.1",
     version: "1.0.0",
     bundleIdentifier: "com.facets.one",
     icon: "src/assets/app-icon.png",
@@ -106,6 +106,12 @@ const config = {
       "expo-location",
       {
         locationAlwaysAndWhenInUsePermission: "Allow $(PRODUCT_NAME) to use your location.",
+      },
+    ],
+    [
+      "expo-tracking-transparency",
+      {
+        userTrackingPermission: "Facets will deliver personalized ads to you.",
       },
     ],
   ],
