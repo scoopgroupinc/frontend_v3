@@ -18,7 +18,8 @@
         "ghcr.io/devcontainers/features/git:1": {
             "version": "latest",
             "ppa": "false"
-        }
+        },
+        "ghcr.io/tailscale/codespace/tailscale:1": {}
     },
 
     // Configure tool-specific properties.
@@ -38,12 +39,7 @@
     // Use 'postCreateCommand' to run commands after the container is created.
     // "postCreateCommand": "yarn install",
 
-    // "runArgs": ["--device=/dev/net/tun"],
-    // "features": {
-    //  // ...
-    //  "ghcr.io/tailscale/codespace": {}
-    //  // ...
-    // }
+    "runArgs": ["--device=/dev/net/tun"],
 
     // Set `remoteUser` to `root` to connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
     "remoteUser": "node"
