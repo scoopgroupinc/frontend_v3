@@ -11,6 +11,19 @@ import { persistor, store } from "./src/store";
 import Navigator from "./src/navigation";
 import { useCustomTheme } from "./src/containers/app/hooks/useCustomTheme";
 import { extendedTheme } from "./src/containers/app/themeConstants";
+import { createClient } from '@segment/analytics-react-native';
+import { FirebasePlugin } from '@segment/analytics-react-native-plugin-firebase';
+import { MixpanelPlugin } from '@segment/analytics-react-native-plugin-mixpanel';
+
+const segmentClient = createClient({
+  writeKey: "QKJ82u7RQc0XBu1VM1gvcmAq4grRICtU",
+  trackAppLifecycleEvents: true,
+  // additional config options
+ });
+
+segmentClient.add({ plugin: new FirebasePlugin() });
+
+segmentClient.add({ plugin: new MixpanelPlugin() });
 
 const App = () => {
   const [fontsLoaded] = useCustomTheme();
