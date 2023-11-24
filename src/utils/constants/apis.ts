@@ -27,3 +27,5 @@ const OAUTH = {
 const { ENV } = Constants.expoConfig.extra;
 
 export { URLS, ErrorCodes, OAUTH, ENV };
+
+console.log(Constants.expoConfig.extra.ENV, URLS);
