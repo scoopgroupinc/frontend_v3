@@ -12,22 +12,29 @@ import Navigator from "./src/navigation";
 import { useCustomTheme } from "./src/containers/app/hooks/useCustomTheme";
 import { extendedTheme } from "./src/containers/app/themeConstants";
 import { createClient } from '@segment/analytics-react-native';
+import { AdvertisingIdPlugin } from '@segment/analytics-react-native-plugin-advertising-id';
 import { FirebasePlugin } from '@segment/analytics-react-native-plugin-firebase';
 import { MixpanelPlugin } from '@segment/analytics-react-native-plugin-mixpanel';
+import * as Linking from 'expo-linking';
 
 const segmentClient = createClient({
   writeKey: "QKJ82u7RQc0XBu1VM1gvcmAq4grRICtU",
+  collectDeviceId: true,
+  debug: true,
+  flushAt: 20,
+  flushInterval: 30,
+  maxBatchSize: 1000,
   trackAppLifecycleEvents: true,
-  // additional config options
- });
+  trackDeepLinks: true,
+  autoAddSegmentDestination: true,
+});
 
+segmentClient.add({ plugin: new AdvertisingIdPlugin() });
 segmentClient.add({ plugin: new FirebasePlugin() });
-
 segmentClient.add({ plugin: new MixpanelPlugin() });
 
 const App = () => {
   const [fontsLoaded] = useCustomTheme();
-
   const customTheme = extendTheme(extendedTheme);
 
   useEffect(() => {
@@ -35,6 +42,33 @@ const App = () => {
       await splashScreen.preventAutoHideAsync();
     };
     prepare();
+  }, []);
+
+  useEffect(() => {
+    // Function to handle the deep link
+    const handleDeepLink = (event) => {
+      // Use the Segment client to track the deep link
+      segmentClient.track('Deep Link Opened', {
+        url: event.url,
+      });
+    };
+
+    // Listen for any incoming links
+    Linking.addEventListener('url', handleDeepLink);
+
+    // Check if the app was opened by a deep link
+    Linking.getInitialURL().then((url) => {
+      if (url) {
+        segmentClient.track('Deep Link Opened', {
+          url: url,
+        });
+      }
+    });
+
+    // Clean up
+    return () => {
+      Linking.removeEventListener('url', handleDeepLink);
+    };
   }, []);
 
   const onLayoutRootView = useCallback(async () => {
