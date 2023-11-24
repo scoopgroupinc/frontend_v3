@@ -31,11 +31,19 @@ export const AddressScreen = () => {
 
   return (
     <GradientLayout>
+<<<<<<< HEAD:src/containers/home/UserProfile/City/index.tsx
       <TagScreenHeader close={() => navigation.goBack()} title={"City"} />
       <GooglePlacesAutocomplete
         ref={placesRef}
         placeholder="Search City"
         fetchDetails={true}
+=======
+      <TagScreenHeader close={() => navigation.goBack()} title="Address" />
+      <GooglePlacesAutocomplete
+        ref={placesRef}
+        placeholder="Search Address"
+        fetchDetails
+>>>>>>> 8aaf854 (EXPO_PUBLIC for env):src/containers/home/UserProfile/Address/index.tsx
         onPress={(data, details = null) => {
           console.log("results", details);
 
