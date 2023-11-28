@@ -37,7 +37,8 @@
         "EXPO_PUBLIC_CHATSERVICE_BASE_URL": "https://chat.facets.one",
         "EXPO_PUBLIC_FILE_SERVICE_URL": "https://facets-dev-fileservice.azurewebsites.net",
         "EXPO_PUBLIC_GOOGLE_PLACES_API_KEY": "AIzaSyB2Iyg4yEI2tjyHKy6sprw8ait4bGxvOrg"
-      }
+      },
+      "channel": "production"
     }
   },
   "submit": {

@@ -31,7 +31,7 @@ export const AddressScreen = () => {
 
   return (
     <GradientLayout>
-      <TagScreenHeader close={() => navigation.goBack()} title={"City"} />
+      <TagScreenHeader close={() => navigation.goBack()} title="City" />
       <GooglePlacesAutocomplete
         ref={placesRef}
         placeholder="Search City"
