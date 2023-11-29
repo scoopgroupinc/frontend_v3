@@ -55,7 +55,7 @@ export const DateSpinner = ({ getAge, getDate }: DateSpinnerType) => {
             fontFamily: Typography.FONT_POPPINS_REGULAR,
           }}
         >
-          Add your date of birth
+         Edit your date of birth
         </Text>
       </TouchableOpacity>
 

@@ -8,6 +8,7 @@ import {
   setUserVisuals,
 } from "../store/features/user/userSlice";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { URLS } from "../utils/constants/apis";
 
 export const useSaveUserVisuals = (): [() => Promise<any>, boolean] => {
   const dispatch = useAppDispatch();
@@ -23,7 +24,7 @@ export const useSaveUserVisuals = (): [() => Promise<any>, boolean] => {
       try {
         setIsLoading(true);
         const response = await axios.post(
-          `${process.env.EXPO_PUBLIC_FILE_SERVICE_URL}/api/v1/visuals/save/${userId}`,
+          `${URLS.FILE_URL}/api/v1/visuals/save/${userId}`,
           Object.keys(userVisuals)
             .sort((a, b) => Number(a) - Number(b))
             .map((key) => userVisuals[key]),
