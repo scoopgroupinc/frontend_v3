@@ -27,7 +27,7 @@ const AllPrompts = ({ route }: any) => {
 
   const selectablePrompts = useAppSelector(selectAvailablePrompts);
 
-  const gradient = [Colors.RUST, Colors.RED, Colors.TEAL];
+  const gradient = Colors.GRADIENT_BG;
 
   const { origin } = route.params || {};
 

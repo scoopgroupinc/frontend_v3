@@ -36,8 +36,8 @@ import { useSaveUserLocation } from "./hooks/useSaveUserLocation";
 
 export const ToggleProfileView = ({ route }: any) => {
   const { value } = route.params || { value: "Edit" };
-  // const gradient = [Colors.RUST, Colors.RED, Colors.TEAL];
-  const gradient = ["#197CAD", "#06B198", "#990012"];
+
+  const gradient = Colors.GRADIENT_BG;
   const insets = useSafeAreaInsets();
 
   const Stack = createNativeStackNavigator();
@@ -123,7 +123,7 @@ export const ToggleProfileView = ({ route }: any) => {
     <>
       <AppActivityIndicator visible={saving} />
       <LinearGradient style={{ flex: 1, position: "relative" }} colors={gradient}>
-        <View style={{ flex: 1, marginTop: insets.top ? insets.top + 20 : 20 }}>
+        <View style={{ flex: 1, paddingTop: insets.top ? insets.top + 20 : 20 }}>
           <Stack.Navigator
             screenOptions={{
               headerShown: false,

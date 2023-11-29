@@ -42,13 +42,13 @@ const MatchScreen = () => {
 
   const matchedUsers = useAppSelector(selectMatchedUsers);
   const [user1, user2] = matchedUsers;
-  const gradient = [Colors.RUST, Colors.RED, Colors.TEAL];
+  const gradient = Colors.GRADIENT_BG;
 
   const [msg, setMsg] = useState<string>("");
 
   useOnScreenView({
     screenName: analyticScreenNames.matchMade,
-    screenType: screenClass.matches
+    screenType: screenClass.matches,
   });
 
   // const matchedUsers = useAppSelector(selectMatchedUsers);

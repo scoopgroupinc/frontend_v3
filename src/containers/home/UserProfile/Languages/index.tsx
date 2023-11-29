@@ -17,7 +17,7 @@ const TypeOf = {
 };
 
 const Languages = ({ navigation, route }: any) => {
-  const gradient = [Colors.RUST, Colors.RED, Colors.TEAL];
+  const gradient = Colors.GRADIENT_BG;
 
   const { currentTagType } = route?.params || {};
 

@@ -38,7 +38,7 @@ interface UserTag {
 }
 
 export const TagsButton = ({ currentTagType, typeOf, data }: TagButtonProps) => {
-  const gradient = [Colors.RUST, Colors.RED, Colors.TEAL];
+  const gradient = Colors.GRADIENT_BG;
   const [tags, setTags] = useState<any>([]);
 
   const dispatch = useAppDispatch();
@@ -106,7 +106,18 @@ export const TagsButton = ({ currentTagType, typeOf, data }: TagButtonProps) => 
                 ]
           }
         >
-          <Text style={styles.text}>{data.name}</Text>
+          <Text
+            style={[
+              styles.text,
+              {
+                color: tags?.find((item: any) => item.tagName === data.name)
+                  ? Colors.WHITE
+                  : Colors.BLACK,
+              },
+            ]}
+          >
+            {data.name}
+          </Text>
         </View>
       </LinearGradient>
     </TouchableOpacity>

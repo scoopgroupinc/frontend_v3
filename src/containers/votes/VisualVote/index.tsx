@@ -20,7 +20,7 @@ import { logEvent } from "../../../analytics";
 import { analyticScreenNames, eventNames, screenClass } from "../../../analytics/constants";
 import { useOnScreenView } from "../../../analytics/hooks/useOnScreenView";
 
-const gradient = [Colors.RUST, Colors.RED, Colors.TEAL];
+const gradient = Colors.GRADIENT_BG;
 
 export const VisualVote = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();

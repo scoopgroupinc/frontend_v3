@@ -18,7 +18,7 @@ const TypeOf = {
 };
 
 const Drink = ({ navigation, route }: NavigationScreenProps) => {
-  const gradient = [Colors.RUST, Colors.RED, Colors.TEAL];
+  const gradient = Colors.GRADIENT_BG;
 
   const { currentTagType } = route?.params || {};
 

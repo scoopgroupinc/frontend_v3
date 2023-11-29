@@ -23,7 +23,7 @@ const School = ({ navigation, route }: any) => {
   const { user } = useAppSelector(selectUser);
   const userId = user?.userId;
 
-  const gradient = [Colors.RUST, Colors.RED, Colors.TEAL];
+  const gradient = Colors.GRADIENT_BG;
 
   const input = React.useRef<HTMLInputElement>(null);
 
