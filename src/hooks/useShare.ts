@@ -4,7 +4,7 @@ export const useShare = () => {
   const share = async (link: string) => {
     try {
       const result = await Share.share({
-        message: `https://facets.one/app/${link}`,
+        message: `https://feedback.facets.one/shareprofile/${link}`,
       });
 
       if (result.action === Share.sharedAction) {

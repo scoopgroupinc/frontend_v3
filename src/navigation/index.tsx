@@ -32,11 +32,11 @@ const Navigator = () => {
   }, []);
 
   const linking = {
-    prefixes: ["https://www.facets.one/app/", "scoop://", "https://www.facets.one/shareprofile/"],
+    prefixes: ["https://www.facets.one/app/", "scoop://", "https://feedback.facets.one/"],
   };
 
   Linking.addEventListener("url", (url) => {
-    setSharedLink(url.url.split("/app/")[1]);
+    setSharedLink(url.url.split("/shareprofile/")[1]);
   });
 
   const { user } = useAppSelector((state) => state.appUser);
