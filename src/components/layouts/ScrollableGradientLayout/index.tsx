@@ -6,10 +6,15 @@ import { Colors } from "../../../utils";
 import { styles } from "./styles";
 
 export const ScrollableGradientLayout = ({ children, align, safe = true }: any) => {
-  const gradient = ["#197CAD", "#06B198", "#990012"];
+  const gradient = Colors.GRADIENT_BG;
 
   return (
-    <LinearGradient style={[styles.container, align && styles.alignCenter]} colors={gradient}>
+    <LinearGradient
+      style={[styles.container, align && styles.alignCenter]}
+      colors={gradient}
+      start={{ x: 0, y: 0 }}
+      end={{ x: 1, y: 1.2 }}
+    >
       {safe ? (
         <SafeAreaView style={{ flex: 1 }}>
           <ScrollView showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false}>
