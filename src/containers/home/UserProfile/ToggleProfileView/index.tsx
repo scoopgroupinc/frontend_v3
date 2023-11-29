@@ -122,8 +122,8 @@ export const ToggleProfileView = ({ route }: any) => {
   return (
     <>
       <AppActivityIndicator visible={saving} />
-      <LinearGradient style={{ flex: 1, position: "relative" }} colors={gradient}>
-        <View style={{ flex: 1, paddingTop: insets.top ? insets.top + 20 : 20 }}>
+      <LinearGradient style={{ flex: 1, position: "relative" }} colors={["transparent"]}>
+        <View style={{ flex: 1 }}>
           <Stack.Navigator
             screenOptions={{
               headerShown: false,

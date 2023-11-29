@@ -6,8 +6,10 @@ import { Colors } from "../../../utils";
 
 interface LayoutType {
   children: ReactNode;
+  marginTop: string | undefined;
+  marginBottom: string | undefined;
 }
-export const GradientLayout = ({ children }: LayoutType) => {
+export const GradientLayout = ({ children, marginTop, marginBottom }: LayoutType) => {
   const gradient = Colors.GRADIENT_BG;
   return (
     <LinearGradient
@@ -20,8 +22,8 @@ export const GradientLayout = ({ children }: LayoutType) => {
         style={{
           marginLeft: "3%",
           marginRight: "3%",
-          marginBottom: "3%",
-          marginTop: "10%",
+          marginBottom: marginBottom || "3%",
+          marginTop: marginTop || "10%",
           flex: 1,
         }}
       >
