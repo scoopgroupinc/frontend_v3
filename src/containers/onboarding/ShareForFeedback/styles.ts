@@ -12,7 +12,7 @@ export const styles = StyleSheet.create({
   },
   title: {
     color: Colors.WHITE,
-    fontSize: Typography.FONT_SIZE_24,
+    fontSize: Typography.FONT_SIZE_20,
     fontFamily: Typography.FONT_CAPRIOLA_REGULAR,
     marginTop: Spacing.SCALE_8,
     marginBottom: Spacing.SCALE_12,

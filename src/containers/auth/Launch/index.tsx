@@ -16,7 +16,7 @@ const Launch = () => {
         <Image
           // eslint-disable-next-line global-require
           source={require("../../../assets/images/facets-logo.png")}
-          style={{ height: 250, width: 250 }}
+          style={{ height: 80, width: 80 }}
         />
         <Text style={styles.title}>SCOOP UPDATE</Text>
         <Text style={styles.blur}>Date Smarter. Live Fuller.</Text>
