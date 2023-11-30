@@ -28,7 +28,7 @@ const JobTitle = ({ route }: any) => {
 
   const userId = user?.userId;
 
-  const gradient = [Colors.RUST, Colors.RED, Colors.TEAL];
+  const gradient = Colors.GRADIENT_BG;
 
   const input = React.useRef<HTMLInputElement>(null);
 

@@ -37,12 +37,12 @@ export const PromptVote = () => {
 
   const [comment, setComment] = useState<string>("");
 
-  const gradient = [Colors.RUST, Colors.RED, Colors.TEAL];
+  const gradient = Colors.GRADIENT_BG;
 
   useOnScreenView({
-      screenName: analyticScreenNames.ratePrompt,
-      screenType: screenClass.matches,
-    });
+    screenName: analyticScreenNames.ratePrompt,
+    screenType: screenClass.matches,
+  });
 
   // const dispatch = useAppDispatch();
   const userChoices = useAppSelector(selectUserChoices);

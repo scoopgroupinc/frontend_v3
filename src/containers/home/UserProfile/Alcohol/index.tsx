@@ -16,7 +16,7 @@ const TypeOf = {
   ARRAY: "array",
 };
 const Alcohol = ({ navigation, route }: any) => {
-  const gradient = [Colors.RUST, Colors.RED, Colors.TEAL];
+  const gradient = Colors.GRADIENT_BG;
 
   const { currentTagType } = route?.params || {};
 

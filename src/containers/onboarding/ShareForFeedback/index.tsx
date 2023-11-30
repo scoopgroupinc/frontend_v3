@@ -108,7 +108,7 @@ const ShareForFeedback = () => {
       <View style={styles.headingBody}>
         <Image
           source={require("../../../assets/images/facets-logo.png")}
-          style={{ height: 250, width: 250 }}
+          style={{ height: 80, width: 80 }}
         />
         <View style={styles.textBody}>
           <Text style={styles.title}>Share your profile and get feedback</Text>

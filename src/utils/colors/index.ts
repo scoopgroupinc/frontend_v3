@@ -15,6 +15,7 @@ export const GRAY_BLUE = "#8C9FB1";
 export const DARK_GRAY_BLUE = "#5A6571";
 export const SLATE = "#4A4A68";
 export const TRANSPARENT = "transparent";
+export const GRADIENT_BG = ["#06B198", "#197CAD", "#990012"];
 
 export const ICON_FILL = GRAY_BLUE;
 export const ICON_INNER_SHADOW = DARK_GRAY_BLUE;

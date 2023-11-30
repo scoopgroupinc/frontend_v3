@@ -7,10 +7,12 @@ import {
   Modal,
   TouchableWithoutFeedback,
   TouchableOpacity,
+  SafeAreaView,
 } from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { LinearGradient } from "expo-linear-gradient";
 import { MediaContainer } from "../../../components/molecule/MediaContainer";
 import {
   selectUserLocation,
@@ -45,7 +47,7 @@ const ShareModal = ({ visible, onClose }: { visible: boolean; onClose: () => voi
   };
 
   return (
-    <Modal animationType="slide" transparent={true} visible={visible} onRequestClose={onClose}>
+    <Modal animationType="slide" transparent visible={visible} onRequestClose={onClose}>
       <TouchableWithoutFeedback onPress={onClose}>
         <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
           <View
@@ -99,6 +101,8 @@ export const UserProfileEdit = () => {
 
   const insets = useSafeAreaInsets();
 
+  const gradient = Colors.GRADIENT_BG;
+
   const [handleUploadImages, isUploading] = useUploadVisuals();
 
   const onAddImage = async (image: any) => {
@@ -129,11 +133,16 @@ export const UserProfileEdit = () => {
   return (
     <>
       <AppActivityIndicator visible={isLoading} />
-      <GradientLayout>
+      <LinearGradient
+        style={{ flex: 1, paddingLeft: "3%", paddingRight: "3%" }}
+        colors={gradient}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1.2 }}
+      >
         <ScrollView showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false}>
           <View
             style={{
-              marginBottom: 20,
+              marginTop: insets.top + 50,
             }}
           >
             <View style={styles.mediaBox}>
@@ -574,13 +583,21 @@ export const UserProfileEdit = () => {
           </View>
         </ScrollView>
 
-        <View style={{ paddingTop: 20 }}>
+        <View
+          style={{
+            position: "absolute",
+            width: "100%",
+            bottom: 0,
+            backgroundColor: "transparent",
+            padding: 20,
+          }}
+        >
           <AppButton colorScheme="coolGray" onPress={openModal}>
             Share Profile Link
           </AppButton>
         </View>
         <ShareModal visible={modalVisible} onClose={closeModal} />
-      </GradientLayout>
+      </LinearGradient>
     </>
   );
 };

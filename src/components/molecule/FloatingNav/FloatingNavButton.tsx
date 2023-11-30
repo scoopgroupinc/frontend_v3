@@ -4,7 +4,7 @@ import { View } from "react-native";
 import { Colors } from "../../../utils";
 import { styles } from "./styles";
 
-const gradient = [Colors.RUST, Colors.RED, Colors.TEAL];
+const gradient = Colors.GRADIENT_BG;
 
 interface FloatingNavButtonProps {
   icon: string;

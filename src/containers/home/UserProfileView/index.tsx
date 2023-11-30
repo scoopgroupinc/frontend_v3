@@ -45,7 +45,7 @@ const ShareModal = ({ visible, onClose }: { visible: boolean; onClose: () => voi
   };
 
   return (
-    <Modal animationType="slide" transparent={true} visible={visible} onRequestClose={onClose}>
+    <Modal animationType="slide" transparent visible={visible} onRequestClose={onClose}>
       <TouchableWithoutFeedback onPress={onClose}>
         <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
           <View
@@ -244,7 +244,15 @@ export const UserProfileView = () => {
           </View>
         </View>
       </ScrollView>
-      <View style={{ backgroundColor: Colors.WHITE, padding: 20 }}>
+      <View
+        style={{
+          position: "absolute",
+          width: "100%",
+          bottom: 0,
+          backgroundColor: "transparent",
+          padding: 20,
+        }}
+      >
         <AppButton colorScheme="coolGray" onPress={openModal}>
           Share Profile Link
         </AppButton>

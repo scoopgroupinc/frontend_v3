@@ -20,7 +20,7 @@ export const useUploadVisuals = (): [
       if (image) {
         setIsLoading(true);
         const response = await FileSystem.uploadAsync(
-          `${process.env.EXPO_PUBLIC_FILE_SERVICE_URL}/api/v1/visuals/upload/${userId}`,
+          `${URLS.FILE_URL}/api/v1/visuals/upload/${userId}`,
           image.imageUri,
           {
             httpMethod: "POST",
