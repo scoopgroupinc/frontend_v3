@@ -7,7 +7,6 @@ import {
   Modal,
   TouchableWithoutFeedback,
   TouchableOpacity,
-  SafeAreaView,
 } from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";

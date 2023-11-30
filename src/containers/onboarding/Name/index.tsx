@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useMutation } from "@apollo/client";
-import { View, Text } from "react-native";
+import { View, Text, Alert } from "react-native";
 import { ProgressBar } from "react-native-paper";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -18,9 +18,8 @@ import FieldComponent from "../../../components/molecule/FormField";
 import { AppButton } from "../../../components/atoms/AppButton";
 import AppActivityIndicator from "../../../components/atoms/ActivityIndicator";
 import { updateUser } from "../../../store/features/user/userSlice";
-import { logEvent } from "../../../analytics";
+import { useSegment } from "../../../analytics";
 import { analyticScreenNames, eventNames, screenClass } from "../../../analytics/constants";
-import { useOnScreenView } from "../../../analytics/hooks/useOnScreenView";
 
 export type UserData = {
   firstname: string;
@@ -37,10 +36,13 @@ export const OnboardName = () => {
 
   const dispatch = useAppDispatch();
 
-  useOnScreenView({
-    screenName: analyticScreenNames.onBoardName,
-    screenType: screenClass.onBoarding,
-  });
+  const analytics = useSegment();
+  useEffect(() => {
+    analytics.screenEvent({
+      screenName: analyticScreenNames.onBoardName,
+      screenType: screenClass.onBoarding,
+    });
+  }, []);
 
   const schema = yup.object().shape({
     firstname: yup
@@ -67,7 +69,7 @@ export const OnboardName = () => {
 
   const [updateUserNames, { loading }] = useMutation(SAVE_USER_NAME);
   const saveUserNames = async (formData: any) => {
-    logEvent({
+    analytics.identifyEvent({
       eventName: eventNames.submitOnBoardNameButton,
       params: {
         screenName: analyticScreenNames.onBoardName,
@@ -99,6 +101,15 @@ export const OnboardName = () => {
         }
       });
     } catch (err) {
+      analytics.trackEvent({
+        eventName: `${eventNames.submitOnBoardNameButton} - Error`,
+        params: {
+          error: err,
+          screenName: analyticScreenNames.onBoardName,
+          screenType: screenClass.onBoarding,
+          ...formData,
+        },
+      });
       Alert.alert("Error", err.message || "Something went wrong!");
     }
   };

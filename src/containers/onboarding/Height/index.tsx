@@ -1,5 +1,5 @@
 /* eslint-disable import/prefer-default-export */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Alert } from "react-native";
 import { ProgressBar } from "react-native-paper";
 import { useMutation } from "@apollo/client";
@@ -14,9 +14,8 @@ import { screenName } from "../../../utils/constants";
 import AppActivityIndicator from "../../../components/atoms/ActivityIndicator";
 import { GradientLayout } from "../../../components/layouts/GradientLayout";
 import { AppButton } from "../../../components/atoms/AppButton";
-import { logEvent } from "../../../analytics";
+import { useSegment } from "../../../analytics";
 import { analyticScreenNames, eventNames, screenClass } from "../../../analytics/constants";
-import { useOnScreenView } from "../../../analytics/hooks/useOnScreenView";
 import { heights } from "../../../utils/constants/heights";
 
 export const HeightScreen = () => {
@@ -28,13 +27,22 @@ export const HeightScreen = () => {
   const [height, setHeight] = useState("");
 
   const [saveUserProfile, { loading }] = useMutation(SAVE_USER_HEIGHT);
+
+  const analytics = useSegment();
+  useEffect(() => {
+    analytics.screenEvent({
+      screenName: analyticScreenNames.onBoardHeight,
+      screenType: screenClass.onBoarding,
+    });
+  }, []);
+
   const saveUserHeight = async () => {
     try {
       const data = {
         userId,
         height,
       };
-      logEvent({
+      analytics.identifyEvent({
         eventName: eventNames.nextOnBoardNotificationButton,
         params: { ...data, screenClass: screenClass.onBoarding },
       });
@@ -46,14 +54,13 @@ export const HeightScreen = () => {
         navigation.navigate(screenName.PHOTOS);
       });
     } catch (error) {
+      analytics.trackEvent({
+        eventName: `${eventNames.nextOnBoardNotificationButton} - Error`,
+        params: { ...data, screenClass: screenClass.onBoarding, error },
+      });
       Alert.alert("Error", error.message || "Something went wrong!");
     }
   };
-
-  useOnScreenView({
-    screenName: analyticScreenNames.onBoardHeight,
-    screenType: screenClass.onBoarding,
-  });
 
   return (
     <>

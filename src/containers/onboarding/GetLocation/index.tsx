@@ -1,16 +1,18 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { View, Text, Alert } from "react-native";
 import { ProgressBar } from "react-native-paper";
 import { useMutation } from "@apollo/client";
+import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useNavigation } from "@react-navigation/native";
 import { GradientLayout } from "../../../components/layouts/GradientLayout";
 import { SAVE_USER_LOCATION } from "../../../services/graphql/onboarding/mutations";
 import { useAppSelector } from "../../../store/hooks";
 import { AppButton } from "../../../components/atoms/AppButton";
-import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { styles } from "./styles";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { useNavigation } from "@react-navigation/native";
 import { screenName } from "../../../utils/constants";
+import { useSegment } from "../../../analytics";
+import { analyticScreenNames, eventNames, screenClass } from "../../../analytics/constants";
 
 export const GetLocationsScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
@@ -22,6 +24,14 @@ export const GetLocationsScreen = () => {
   const [saveUserLocation, { loading }] = useMutation(SAVE_USER_LOCATION);
 
   const placesRef = useRef<any>(null);
+
+  const analytics = useSegment();
+  useEffect(() => {
+    analytics.screenEvent({
+      screenName: analyticScreenNames.onBoardLocation,
+      screenType: screenClass.onBoarding,
+    });
+  }, []);
 
   const EmptyListComponent = () => (
     <View style={{ height: 100, justifyContent: "center", alignItems: "center" }}>
@@ -45,6 +55,21 @@ export const GetLocationsScreen = () => {
         return acc;
       }
     );
+
+    analytics.identifyEvent({
+      eventName: eventNames.submitOnBoardLocationButton,
+      params: {
+        screenClass: screenClass.onBoarding,
+        userId,
+        latitude: lat.toString(),
+        longitude: lng.toString(),
+        addressLine1: inputLocation,
+        city,
+        stateProvince: state,
+        country,
+      },
+    });
+
     const CreateLocationInput = {
       userId,
       latitude: lat.toString(),
@@ -65,6 +90,20 @@ export const GetLocationsScreen = () => {
       });
     } catch (error) {
       console.log("save location error", error);
+      analytics.trackEvent({
+        eventName: `${eventNames.submitOnBoardLocationButton} - error`,
+        params: {
+          error,
+          screenClass: screenClass.onBoarding,
+          userId,
+          latitude: lat.toString(),
+          longitude: lng.toString(),
+          addressLine1: inputLocation,
+          city,
+          stateProvince: state,
+          country,
+        },
+      });
     }
   };
 
@@ -85,7 +124,7 @@ export const GetLocationsScreen = () => {
             }}
             ref={placesRef}
             placeholder="Search City"
-            fetchDetails={true}
+            fetchDetails
             onPress={(data, details = null) => {
               setGoogleLocs(details);
             }}

@@ -24,8 +24,8 @@ const OAUTH = {
   FACEBOOK_APP_ID: Constants.expoConfig.extra.FACEBOOK_APP_ID,
 };
 
+const { SEGMENT_WRITE_KEY } = Constants.expoConfig.extra.SEGMENT_WRITE_KEY;
+
 const { ENV } = Constants.expoConfig.extra;
 
-export { URLS, ErrorCodes, OAUTH, ENV };
-
-console.log(Constants.expoConfig.extra.ENV, URLS);
+export { URLS, ErrorCodes, OAUTH, ENV, SEGMENT_WRITE_KEY };

@@ -13,9 +13,8 @@ import {
   trackCurrentUserStateChanges,
   selectUserVisuals,
 } from "../../../store/features/user/userSlice";
-import { logEvent } from "../../../analytics";
+import { useSegment } from "../../../analytics";
 import { analyticScreenNames, eventNames, screenClass } from "../../../analytics/constants";
-import { useOnScreenView } from "../../../analytics/hooks/useOnScreenView";
 import { useUploadVisuals } from "../../../hooks/useUploadVisual";
 import { useSaveUserVisuals } from "../../../hooks/useSaveUserVisuals";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
@@ -27,10 +26,13 @@ export const PhotoVideoScreen = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const userVisuals = useAppSelector(selectUserVisuals);
 
-  useOnScreenView({
-    screenName: analyticScreenNames.onBoardPhotos,
-    screenType: screenClass.onBoarding,
-  });
+  const analytics = useSegment();
+  useEffect(() => {
+    analytics.screenEvent({
+      screenName: analyticScreenNames.onBoardPhotos,
+      screenType: screenClass.onBoarding,
+    });
+  }, []);
 
   useEffect(() => {
     dispatch(trackCurrentUserStateChanges());
@@ -48,7 +50,7 @@ export const PhotoVideoScreen = () => {
   }, [isSaving]);
 
   const saveImages = async () => {
-    logEvent({
+    analytics.trackEvent({
       eventName: eventNames.addOnBoardPhotosButton,
       params: {},
     });

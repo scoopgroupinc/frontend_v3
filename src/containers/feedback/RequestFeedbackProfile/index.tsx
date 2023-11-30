@@ -6,7 +6,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
 import { styles } from "../../../features/ProfileView/styles";
 import { QuotedText } from "../../../components/atoms/QuotedText";
-import { Colors, Spacing } from "../../../utils";
+import { Spacing } from "../../../utils";
 import { AppButton } from "../../../components/atoms/AppButton";
 import { useAppSelector } from "../../../store/hooks";
 import { selectFeedbackUser } from "../../../store/features/feedback/feedbackSlice";
