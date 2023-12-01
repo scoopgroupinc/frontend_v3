@@ -136,6 +136,7 @@ export const eventNames = {
   navigateChatButton: "navigate: Chat Button - Click",
   navigateRateButton: "navigate: Rate Button - Click",
   editMainProfileButton: "edit: Main Profile Button - Click",
+  selectProfileOption: "select: Profile Option",
   saveProfileButton: "save: Profile Button - Click",
   cancelProfileButton: "cancel: Profile Button - Click",
   togglePreviewProfileButton: "toggle: PreviewProfile Button - Click",
