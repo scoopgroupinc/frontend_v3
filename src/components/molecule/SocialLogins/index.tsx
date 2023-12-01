@@ -11,7 +11,7 @@ import { useAppDispatch } from "../../../store/hooks";
 import { storeObjectData, storeStringData } from "../../../utils/storage";
 import { setUser } from "../../../store/features/user/userSlice";
 import AppleLogin from "../../../features/SocialLogin/AppleLogin";
-import { logEvent, useSegment } from "../../../analytics";
+import { useSegment } from "../../../analytics";
 import { eventNames } from "../../../analytics/constants";
 
 WebBrowser.maybeCompleteAuthSession();
@@ -89,7 +89,7 @@ const SocialLogins = () => {
         }
       } catch (err: any) {
         Alert.alert("Login Error", err.message);
-        logEvent({
+        analytics.trackEvent({
           eventName: eventNames.submitSignInButtonResponse,
           params: { error: err.message, provider: providerUser.provider },
         });

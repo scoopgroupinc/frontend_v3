@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { View } from "react-native";
@@ -8,8 +8,7 @@ import { GOING_OUT } from "../../../../utils/types/TAGS";
 import TagScreenHeader from "../../../../components/molecule/TagScreenHeader";
 import TagsView from "../../../../components/molecule/TagsView";
 import { analyticScreenNames, eventNames, screenClass } from "../../../../analytics/constants";
-import { logEvent } from "../../../../analytics";
-import { useOnScreenView } from "../../../../analytics/hooks/useOnScreenView";
+import { useSegment } from "../../../../analytics";
 
 const TypeOf = {
   SINGLE: "single",
@@ -25,13 +24,16 @@ const GoingOut = ({ navigation, route }: any) => {
 
   const goingOutTag = GOING_OUT;
 
-  useOnScreenView({
-    screenName: analyticScreenNames.goingOut,
-    screenType: screenClass.profile,
-  });
+  const analytics = useSegment();
+  useEffect(() => {
+    analytics.screenEvent({
+      screenName: analyticScreenNames.goingOut,
+      screenType: screenClass.profile,
+    });
+  }, []);
 
   const goBackHome = () => {
-    logEvent({
+    analytics.trackEvent({
       eventName: eventNames.backEditProfileButton,
       params: { screenClass: screenClass.profile },
     });

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, Image, TextInput } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -20,8 +20,7 @@ import {
   selectMatchedUsers,
   selectUserChoices,
 } from "../../../store/features/matches/matchSlice";
-import { logEvent } from "../../../analytics";
-import { useOnScreenView } from "../../../analytics/hooks/useOnScreenView";
+import { useSegment } from "../../../analytics";
 
 const MatchScreen = () => {
   const { user } = useAppSelector(selectUser);
@@ -46,10 +45,13 @@ const MatchScreen = () => {
 
   const [msg, setMsg] = useState<string>("");
 
-  useOnScreenView({
-    screenName: analyticScreenNames.matchMade,
-    screenType: screenClass.matches,
-  });
+  const analytics = useSegment();
+  useEffect(() => {
+    analytics.screenEvent({
+      screenName: analyticScreenNames.matchMade,
+      screenType: screenClass.matches,
+    });
+  }, []);
 
   // const matchedUsers = useAppSelector(selectMatchedUsers);
 
@@ -68,7 +70,7 @@ const MatchScreen = () => {
     );
     navigation.navigate(screenName.CHAT_NAVIGATOR);
 
-    logEvent({
+    analytics.trackEvent({
       eventName: eventNames.submitConversationStarterButton,
       params: {
         userId: user1?.userId,

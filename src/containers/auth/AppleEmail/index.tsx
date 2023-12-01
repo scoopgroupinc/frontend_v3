@@ -21,11 +21,13 @@ const AppleEmail = ({ route }: any) => {
   const dispatch = useAppDispatch();
 
   const analytics = useSegment();
-
   useEffect(() => {
-    analytics.screenEvent({ screenName: analyticScreenNames.signIn, screenType: screenClass.auth });
+    analytics.screenEvent({
+      screenName: analyticScreenNames.signIn,
+      screenType: screenClass.auth,
+    });
   }, []);
-  
+
   const schema = yup.object().shape({
     email: yup.string().email().required("Email is required."),
   });

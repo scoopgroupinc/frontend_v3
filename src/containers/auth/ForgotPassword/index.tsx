@@ -15,8 +15,7 @@ import { OTPInputModal } from "../../../components/templates/OTPInputModal";
 import AppActivityIndicator from "../../../components/atoms/ActivityIndicator";
 import { screenName } from "../../../utils/constants";
 import { analyticScreenNames, eventNames, screenClass } from "../../../analytics/constants";
-import { logEvent, useSegment } from "../../../analytics";
-import { useOnScreenView } from "../../../analytics/hooks/useOnScreenView";
+import { useSegment } from "../../../analytics";
 
 const ForgotPassword = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
@@ -44,12 +43,12 @@ const ForgotPassword = () => {
   const [verify] = useMutation(FORGOT_PASSWORD);
 
   const analytics = useSegment();
-
   useEffect(() => {
-    analytics.screenEvent({screenName:analyticScreenNames.forgetPassword,
-      screenType:screenClass.auth});
+    analytics.screenEvent({
+      screenName:analyticScreenNames.forgetPassword,
+      screenType:screenClass.auth
+    });
   }, []);
-
 
   const forgotPasswordEvent = (formData: any) => {
     setLoading(true);

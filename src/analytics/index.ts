@@ -2,7 +2,7 @@ import analytics from "@react-native-firebase/analytics";
 import { useAnalytics } from "@segment/analytics-react-native";
 import { methods } from "./constants";
 import { IEvent, IScreen } from "./types";
-import { selectUser, selectUserId } from "../store/features/user/userSlice";
+import { selectUserId } from "../store/features/user/userSlice";
 import { useAppSelector } from "../store/hooks";
 
 export const logEvent = async (data: IEvent) => {

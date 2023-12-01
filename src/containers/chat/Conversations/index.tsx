@@ -12,7 +12,7 @@ import Badge from "../../../components/atoms/Badge";
 import styles from "./styles";
 import { selectMessages } from "../../../store/features/messages/MessagesSlice";
 import { screenName } from "../../../utils/constants";
-import { onScreenView } from "../../../analytics";
+import { useSegment } from "../../../analytics";
 import { analyticScreenNames, screenClass } from "../../../analytics/constants";
 
 const Conversations = () => {
@@ -24,8 +24,9 @@ const Conversations = () => {
 
   const chatUsers = useAppSelector(selectMessages);
 
+  const analytics = useSegment();
   useEffect(() => {
-    onScreenView({
+    analytics.screenEvent({
       screenName: analyticScreenNames.chatList,
       screenType: screenClass.chat,
     });

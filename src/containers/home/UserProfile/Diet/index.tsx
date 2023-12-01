@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { View } from "react-native";
@@ -8,8 +8,7 @@ import { DIET } from "../../../../utils/types/TAGS";
 import TagScreenHeader from "../../../../components/molecule/TagScreenHeader";
 import TagsView from "../../../../components/molecule/TagsView";
 import { analyticScreenNames, eventNames, screenClass } from "../../../../analytics/constants";
-import { logEvent } from "../../../../analytics";
-import { useOnScreenView } from "../../../../analytics/hooks/useOnScreenView";
+import { useSegment } from "../../../../analytics";
 
 const TypeOf = {
   SINGLE: "single",
@@ -23,20 +22,23 @@ const Diet = ({ navigation, route }: any) => {
 
   const dietTags = DIET;
 
+  const pageTitle = "Diet";
+
+  const analytics = useSegment();
+  useEffect(() => {
+    analytics.screenEvent({
+      screenName: analyticScreenNames.diet,
+      screenType: screenClass.profile,
+    });
+  }, []);
+
   const goBackHome = () => {
-    logEvent({
+    analytics.trackEvent({
       eventName: eventNames.backEditProfileButton,
       params: { screenClass: screenClass.profile },
     });
     navigation.goBack();
   };
-
-  useOnScreenView({
-    screenName: analyticScreenNames.diet,
-    screenType: screenClass.profile,
-  });
-
-  const pageTitle = "Diet";
 
   return (
     <LinearGradient style={styles.container} colors={gradient}>
