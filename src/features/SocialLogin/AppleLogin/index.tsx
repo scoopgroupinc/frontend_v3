@@ -87,7 +87,7 @@ const AppleLogin = () => {
         checkAppleCredentials();
       }
     }
-  }, [userToken, validateAppleCredentials, dispatch, navigateToAppleEmail]);
+  }, [userToken]);
 
   const signUp = async () => {
     try {
