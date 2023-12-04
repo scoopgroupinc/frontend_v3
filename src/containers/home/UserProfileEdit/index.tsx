@@ -33,16 +33,17 @@ import { TAG_VISIBLE_TYPES } from "../../../utils/types/TAGS";
 import { useGetShareLink } from "../../../hooks/useGetShareLink";
 import { GradientLayout } from "../../../components/layouts/GradientLayout";
 import { getStringData, storeStringData } from "../../../utils/storage";
+import { Checkbox } from "native-base";
 
 const inputTextProps = {
   editable: false,
 };
 
 const ShareModal = ({ visible, onClose }: { visible: boolean; onClose: () => void }) => {
-  const [checkbox, setCheckbox] = useState(false);
+  const [checkbox, setCheckbox] = useState<string>();
 
   const handleCheckboxToggle = () => {
-    setCheckbox(!checkbox);
+    setCheckbox(checkbox ? "false" : "true");
     storeStringData("shareLinkAlert", checkbox ? "false" : "true");
   };
 
@@ -57,33 +58,28 @@ const ShareModal = ({ visible, onClose }: { visible: boolean; onClose: () => voi
               padding: 20,
               borderRadius: 10,
               borderWidth: 1,
-              borderColor: Colors.RUST,
+              borderColor: Colors.GRAY_BLUE,
             }}
           >
             <Text style={{ alignSelf: "center", fontSize: 16 }}>Share Profile Link</Text>
             <Text style={{ marginBottom: 20, marginTop: 10 }}>
               Once you recieve feedback, you can see it in the main view.
             </Text>
+            <Checkbox size="sm" value={checkbox} onChange={handleCheckboxToggle} colorScheme="info">
+              Don't show again
+            </Checkbox>
 
-            <TouchableOpacity onPress={() => handleCheckboxToggle()}>
-              <View style={{ flexDirection: "row", alignItems: "center" }}>
-                <View
-                  style={{
-                    width: 15,
-                    height: 15,
-                    borderRadius: 5,
-                    borderWidth: 1,
-                    borderColor: "black",
-                    marginRight: 10,
-                    backgroundColor: checkbox ? Colors.TEAL : "white",
-                  }}
-                />
-                <Text>Don't show again</Text>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={onClose} style={{ alignSelf: "center" }}>
-              <Text style={{ color: Colors.RUST, marginTop: 10 }}>Close</Text>
-            </TouchableOpacity>
+            <View style={{ marginTop: 20, justifyContent: "center", alignItems: "center" }}>
+              <AppButton
+                colorScheme="coolGray"
+                onPress={onClose}
+                style={{
+                  width: "50%",
+                }}
+              >
+                Close
+              </AppButton>
+            </View>
           </View>
         </View>
       </TouchableWithoutFeedback>
