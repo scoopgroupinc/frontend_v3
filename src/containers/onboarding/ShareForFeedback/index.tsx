@@ -1,6 +1,6 @@
 /* eslint-disable global-require */
 import { Image, Modal, Text, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
 import { GradientLayout } from "../../../components/layouts/GradientLayout";
@@ -12,6 +12,8 @@ import { screenName } from "../../../utils/constants";
 import { useGetShareLink } from "../../../hooks/useGetShareLink";
 import { Colors } from "../../../utils";
 import { getStringData, storeStringData } from "../../../utils/storage";
+import { useSegment } from "../../../analytics";
+import { analyticScreenNames, screenClass } from "../../../analytics/constants";
 
 const ShareModal = ({ visible, onClose }: { visible: boolean; onClose: () => void }) => {
   const [checkbox, setCheckbox] = useState(false);
@@ -22,7 +24,7 @@ const ShareModal = ({ visible, onClose }: { visible: boolean; onClose: () => voi
   };
 
   return (
-    <Modal animationType="slide" transparent={true} visible={visible} onRequestClose={onClose}>
+    <Modal animationType="slide" transparent visible={visible} onRequestClose={onClose}>
       <TouchableWithoutFeedback onPress={onClose}>
         <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
           <View
@@ -69,6 +71,15 @@ const ShareModal = ({ visible, onClose }: { visible: boolean; onClose: () => voi
 const ShareForFeedback = () => {
   const dispatch = useAppDispatch();
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
+
+  const analytics = useSegment();
+
+  useEffect(() => {
+    analytics.screenEvent({
+      screenName: analyticScreenNames.onBoardingEnd,
+      screenType: screenClass.onBoarding,
+    });
+  }, []);
 
   const [shareLinkToSocialMedia] = useGetShareLink();
 

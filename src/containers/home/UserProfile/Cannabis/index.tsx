@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { View } from "react-native";
@@ -7,9 +7,8 @@ import { Colors } from "../../../../utils";
 import { CANNABIS_USAGE } from "../../../../utils/types/TAGS";
 import TagScreenHeader from "../../../../components/molecule/TagScreenHeader";
 import TagsView from "../../../../components/molecule/TagsView";
-import { logEvent } from "../../../../analytics";
 import { analyticScreenNames, eventNames, screenClass } from "../../../../analytics/constants";
-import { useOnScreenView } from "../../../../analytics/hooks/useOnScreenView";
+import { useSegment } from "../../../../analytics";
 
 const TypeOf = {
   SINGLE: "single",
@@ -21,17 +20,20 @@ const Cannabis = ({ navigation, route }: any) => {
 
   const { currentTagType } = route?.params || {};
 
-  useOnScreenView({
-    screenName: analyticScreenNames.cannabis,
-    screenType: screenClass.profile,
-  });
-
   const pageTitle = "Cannabis";
 
   const cannabisTags = CANNABIS_USAGE;
 
+  const analytics = useSegment();
+  useEffect(() => {
+    analytics.screenEvent({
+      screenName: analyticScreenNames.cannabis,
+      screenType: screenClass.profile,
+    });
+  }, []);
+
   const goBackHome = () => {
-    logEvent({
+    analytics.trackEvent({
       eventName: eventNames.backEditProfileButton,
       params: { screenClass: screenClass.profile },
     });

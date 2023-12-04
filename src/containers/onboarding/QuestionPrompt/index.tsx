@@ -15,11 +15,11 @@ import { AppButton } from "../../../components/atoms/AppButton";
 import AppActivityIndicator from "../../../components/atoms/ActivityIndicator";
 import { selectUserId, selectUserPrompts } from "../../../store/features/user/userSlice";
 import { analyticScreenNames, screenClass } from "../../../analytics/constants";
-import { useOnScreenView } from "../../../analytics/hooks/useOnScreenView";
 import { EditPromptList } from "../../../features/Prompt/components/EditPromptList";
 import { ORIGIN } from "../../../features/Prompt/constants";
 import { useSaveUserPrompts } from "../../home/UserProfile/ToggleProfileView/hooks/useSaveUserPrompts";
 import { screenName } from "../../../utils/constants";
+import { useSegment } from "../../../analytics";
 
 export const QuestionPromptScreen = () => {
   const userId = useAppSelector(selectUserId);
@@ -27,7 +27,8 @@ export const QuestionPromptScreen = () => {
 
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
-  useOnScreenView({
+  const analytics = useSegment();
+  analytics.screenEvent({
     screenName: analyticScreenNames.onBoardAllPrompts,
     screenType: screenClass.onBoarding,
   });

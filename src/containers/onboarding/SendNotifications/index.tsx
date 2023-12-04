@@ -3,13 +3,12 @@ import { View, Text, Alert } from "react-native";
 import * as Notifications from "expo-notifications";
 import { ProgressBar } from "react-native-paper";
 import { GradientLayout } from "../../../components/layouts/GradientLayout";
-import { logEvent } from "../../../analytics";
+import { useSegment } from "../../../analytics";
 import { eventNames, screenClass, analyticScreenNames } from "../../../analytics/constants";
 import { AppButton } from "../../../components/atoms/AppButton";
 import { screenName } from "../../../utils/constants";
 import { styles } from "./styles";
 import { NavigationScreenType } from "../../../types/globals";
-import { useOnScreenView } from "../../../analytics/hooks/useOnScreenView";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -22,13 +21,14 @@ Notifications.setNotificationHandler({
 const SendNotificationScreen = ({ navigation, route }: NavigationScreenType) => {
   const [showNotifications, setShowNotifications] = useState<boolean | null>(null);
 
-  useOnScreenView({
+  const analytics = useSegment();
+  analytics.screenEvent({
     screenName: analyticScreenNames.onBoardNotification,
     screenType: screenClass.onBoarding,
   });
 
   const next = (state: boolean) => {
-    logEvent({
+    analytics.trackEvent({
       eventName: eventNames.nextOnBoardNotificationButton,
       params: { screenClass: screenClass.onBoarding },
     });
@@ -42,17 +42,21 @@ const SendNotificationScreen = ({ navigation, route }: NavigationScreenType) => 
 
   const requestNotifications = () => {
     const isAllowed = async () => {
-      logEvent({
-        eventName: eventNames.allowOnBoardNotificationButton,
-        params: {},
+      analytics.trackEvent({
+        eventName: eventNames.notificationChoice,
+        params: {
+          notifications: true,
+        },
       });
       navigation.navigate(screenName.QUESTION_PROMPT);
       next(true);
     };
     const isNotAllowed = async () => {
-      logEvent({
-        eventName: eventNames.dontAllowOnBoardNotificationButton,
-        params: {},
+      analytics.trackEvent({
+        eventName: eventNames.notificationChoice,
+        params: {
+          notifications: false,
+        },
       });
       next(false);
     };

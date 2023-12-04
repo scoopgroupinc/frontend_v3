@@ -20,7 +20,7 @@ import { OTPInputModal } from "../../../components/templates/OTPInputModal";
 import { useAppDispatch } from "../../../store/hooks";
 import { setUser } from "../../../store/features/user/userSlice";
 import { storeStringData } from "../../../utils/storage";
-import { logEvent } from "../../../analytics";
+import { useSegment } from "../../../analytics";
 import { analyticScreenNames, eventNames, screenClass } from "../../../analytics/constants";
 import { useOnScreenView } from "../../../analytics/hooks/useOnScreenView";
 
@@ -29,6 +29,7 @@ const CreateAccount = () => {
   const [userData, setUserData] = useState<any>();
   const [modalState, setModalState] = useState<boolean>(false);
 
+  const analytics = useSegment();
   const dispatch = useAppDispatch();
 
   useOnScreenView({screenName:analyticScreenNames.signUp,
@@ -69,7 +70,7 @@ const CreateAccount = () => {
   const createUserAccount = (formData: any) => {
     setUserData({ ...userData, ...formData });
 
-    logEvent({
+    analytics.trackEvent({
       eventName: eventNames.submitSignUpButtonClick,
       params: { email: userData.email },
     });
@@ -85,15 +86,15 @@ const CreateAccount = () => {
         if (response && response?.data?.createUser) {
           setModalState(true);
         }
-        logEvent({
+        analytics.trackEvent({
           eventName: eventNames.submitSignUpButtonResponse,
-          params: { success: response?.data?.createUser },
+          params: { success: response?.data?.createUser, email: userData.email },
         });
       });
     } catch (err) {
-      logEvent({
+      analytics.trackEvent({
         eventName: eventNames.submitSignUpButtonResponse,
-        params: { error: err.message },
+        params: { error: err.message, email: userData.email },
       });
     }
   };

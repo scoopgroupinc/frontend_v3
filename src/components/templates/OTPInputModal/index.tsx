@@ -5,7 +5,7 @@ import { useMutation } from "@apollo/client";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import SmoothPinCodeInput from "react-native-smooth-pincode-input";
 import { styles } from "./styles";
-import { useAppDispatch } from "../../../store/hooks";
+
 import {
   ACTIVATE_ACCOUNT,
   FORGOT_PASSWORD,
@@ -20,7 +20,7 @@ import { storeStringData } from "../../../utils/storage";
 // when removed make sure to delete src/types/index.d.tx declare of react-native-smooth-pincode-input
 import { setUser } from "../../../store/features/user/userSlice";
 import { analyticScreenNames, eventNames, screenClass } from "../../../analytics/constants";
-import { logEvent, onScreenView } from "../../../analytics";
+import { useSegment } from "../../../analytics";
 
 type UserData = {
   email: string;
@@ -56,13 +56,18 @@ export const OTPInputModal = ({
   const [activateAccount] = useMutation(ACTIVATE_ACCOUNT);
   const [verifyRstPassCode] = useMutation(VERIFY_PASSWORD_CHANGE);
 
+  const { screenEvent, trackEvent } = useSegment();
+
   useEffect(() => {
-    onScreenView({
+    screenEvent({
       screenName: forgotPass
         ? analyticScreenNames.forgotPasswordOTP
         : analyticScreenNames.signUpOTP,
       screenType: screenClass.auth,
     });
+  }, []);
+
+  useEffect(() => {
     if (timer === 0) {
       setShowResend(true);
     }
@@ -78,7 +83,7 @@ export const OTPInputModal = ({
   const handleResend = () => {
     if (changeValidation) changeValidation(false);
     setShowResend(false);
-    logEvent({
+    trackEvent({
       eventName: eventNames.submitResendOtpButton,
       params: {},
     });
@@ -95,7 +100,7 @@ export const OTPInputModal = ({
   };
 
   const verifyRstPassOtp = async () => {
-    logEvent({
+    trackEvent({
       eventName: eventNames.submitOtpButton,
       params: { email: userData.email },
     });
@@ -119,7 +124,7 @@ export const OTPInputModal = ({
   };
 
   const verifyOtp = async () => {
-    logEvent({
+    trackEvent({
       eventName: eventNames.submitOtpButton,
       params: { email: userData.email },
     });

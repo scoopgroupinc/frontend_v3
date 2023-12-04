@@ -1,5 +1,5 @@
 /* eslint-disable import/prefer-default-export */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Alert, View } from "react-native";
 import { useMutation } from "@apollo/client";
 import { ProgressBar } from "react-native-paper";
@@ -13,9 +13,8 @@ import { screenName } from "../../../utils/constants";
 import { GradientLayout } from "../../../components/layouts/GradientLayout";
 import { AppButton } from "../../../components/atoms/AppButton";
 import { SelectButtons } from "../../../components/layouts/SelectButtons";
-import { logEvent } from "../../../analytics";
+import { useSegment } from "../../../analytics";
 import { analyticScreenNames, eventNames, screenClass } from "../../../analytics/constants";
-import { useOnScreenView } from "../../../analytics/hooks/useOnScreenView";
 
 export const GenderScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
@@ -26,13 +25,22 @@ export const GenderScreen = () => {
   const [gender, setGender] = useState<string>("");
 
   const [saveUserProfile] = useMutation(SAVE_USER_GENDER);
+
+  const analytics = useSegment();
+  useEffect(() => {
+    analytics.screenEvent({
+      screenName: analyticScreenNames.onBoardGender,
+      screenType: screenClass.onBoarding,
+    });
+  }, []);
+
   const saveUserGender = async () => {
     try {
       const data = {
         userId,
         gender,
       };
-      logEvent({
+      analytics.identifyEvent({
         eventName: eventNames.submitOnBoardGenderButton,
         params: { ...data, screenClass: screenClass.onBoarding },
       });
@@ -44,14 +52,13 @@ export const GenderScreen = () => {
         navigation.navigate(screenName.DATE_WHO);
       });
     } catch (error) {
+      analytics.trackEvent({
+        eventName: `${eventNames.submitOnBoardGenderButton} - Error`,
+        params: { ...data, screenClass: screenClass.onBoarding, error },
+      });
       Alert.alert("Error", error.message || "Something went wrong!");
     }
   };
-
-  useOnScreenView({
-    screenName: analyticScreenNames.onBoardGender,
-    screenType: screenClass.onBoarding,
-  });
 
   return (
     <GradientLayout>

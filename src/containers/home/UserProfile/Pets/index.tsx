@@ -1,15 +1,14 @@
 import { LinearGradient } from "expo-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { View } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import { styles } from "./styles";
 import { Colors } from "../../../../utils";
 import { PETS } from "../../../../utils/types/TAGS";
 import TagScreenHeader from "../../../../components/molecule/TagScreenHeader";
 import TagsView from "../../../../components/molecule/TagsView";
 import { analyticScreenNames, eventNames, screenClass } from "../../../../analytics/constants";
-import { logEvent } from "../../../../analytics";
-import { useOnScreenView } from "../../../../analytics/hooks/useOnScreenView";
+import { useSegment } from "../../../../analytics";
 
 const TypeOf = {
   SINGLE: "single",
@@ -25,18 +24,21 @@ const Pets = ({ navigation, route }: any) => {
 
   const petsTags = PETS;
 
+  const analytics = useSegment();
+  useEffect(() => {
+    analytics.screenEvent({
+      screenName: analyticScreenNames.pets,
+      screenType: screenClass.profile,
+    });
+  }, []);
+
   const goBackHome = () => {
-    logEvent({
+    analytics.trackEvent({
       eventName: eventNames.backEditProfileButton,
       params: { screenClass: screenClass.profile },
     });
     navigation.goBack();
   };
-
-  useOnScreenView({
-    screenName: analyticScreenNames.pets,
-    screenType: screenClass.profile,
-  });
 
   return (
     <LinearGradient style={styles.container} colors={gradient}>

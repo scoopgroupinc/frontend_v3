@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Image, Text, View } from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
@@ -8,12 +8,24 @@ import { AppButton } from "../../../components/atoms/AppButton";
 import { screenName } from "../../../utils/constants";
 import { useAppSelector } from "../../../store/hooks";
 import { selectFeedbackUser } from "../../../store/features/feedback/feedbackSlice";
+import { analyticScreenNames, screenClass } from "../../../analytics/constants";
+import { useSegment } from "../../../analytics";
 
 const RequestFeedbackSplash = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
-  const { visuals } = useAppSelector(selectFeedbackUser) || {
+  const user = useAppSelector(selectFeedbackUser) || {
     visuals: [],
   };
+  const { visuals } = user;
+
+  const analytics = useSegment();
+  useEffect(() => {
+    analytics.screenEvent({
+      screenName: analyticScreenNames.profileFeedbackLanding,
+      screenType: screenClass.feedback,
+      feedbackUser: user,
+    });
+  }, []);
 
   return (
     <GradientLayout>

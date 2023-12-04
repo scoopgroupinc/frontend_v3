@@ -1,15 +1,14 @@
 import { LinearGradient } from "expo-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
-import React from "react";
+import React, { useEffect } from "react";
 import { View } from "react-native";
 import { styles } from "./styles";
 import { Colors } from "../../../../utils";
 import { MUSIC_GENRE } from "../../../../utils/types/TAGS";
 import TagScreenHeader from "../../../../components/molecule/TagScreenHeader";
 import TagsView from "../../../../components/molecule/TagsView";
-import { logEvent } from "../../../../analytics";
+import { useSegment } from "../../../../analytics";
 import { analyticScreenNames, eventNames, screenClass } from "../../../../analytics/constants";
-import { useOnScreenView } from "../../../../analytics/hooks/useOnScreenView";
 
 const TypeOf = {
   SINGLE: "single",
@@ -25,20 +24,21 @@ const MusicGenre = ({ navigation, route }: any) => {
 
   const musicGenreTags = MUSIC_GENRE;
 
+  const analytics = useSegment();
+  useEffect(() => {
+    analytics.screenEvent({
+      screenName: analyticScreenNames.musicGenre,
+      screenType: screenClass.profile,
+    });
+  }, []);
+
   const goBackHome = () => {
-    logEvent({
+    analytics.trackEvent({
       eventName: eventNames.backEditProfileButton,
-      params: {
-        screenClass: screenClass.profile,
-      },
+      params: { screenClass: screenClass.profile },
     });
     navigation.goBack();
   };
-
-  useOnScreenView({
-    screenName: analyticScreenNames.musicGenre,
-    screenType: screenClass.profile,
-  });
 
   return (
     <LinearGradient style={styles.container} colors={gradient}>

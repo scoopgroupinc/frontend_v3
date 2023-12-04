@@ -15,9 +15,8 @@ import { styles } from "./styles";
 import TagScreenHeader from "../../../../components/molecule/TagScreenHeader";
 import { AppInput } from "../../../../components/atoms/AppInput";
 import TagsView from "../../../../components/molecule/TagsView";
-import { logEvent } from "../../../../analytics";
+import { useSegment } from "../../../../analytics";
 import { analyticScreenNames, eventNames, screenClass } from "../../../../analytics/constants";
-import { useOnScreenView } from "../../../../analytics/hooks/useOnScreenView";
 
 const JobTitle = ({ route }: any) => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
@@ -36,24 +35,25 @@ const JobTitle = ({ route }: any) => {
 
   const pageTitle = "Job Title";
 
-  useOnScreenView({
-    screenName: analyticScreenNames.jobTitle,
-    screenType: screenClass.profile,
-  });
+  const analytics = useSegment();
+  useEffect(() => {
+    analytics.screenEvent({
+      screenName: analyticScreenNames.jobTitle,
+      screenType: screenClass.profile,
+    });
+
+    if (input.current) {
+      input.current.focus();
+    }
+  }, []);
 
   const goBackHome = () => {
-    logEvent({
+    analytics.trackEvent({
       eventName: eventNames.backEditProfileButton,
       params: { screenClass: screenClass.profile },
     });
     navigation.goBack();
   };
-
-  useEffect(() => {
-    if (input.current) {
-      input.current.focus();
-    }
-  }, []);
 
   return (
     <LinearGradient style={styles.container} colors={gradient}>

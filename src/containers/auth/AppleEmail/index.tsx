@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, Text, Alert } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Heading, VStack } from "native-base";
@@ -10,8 +10,8 @@ import { AppButton } from "../../../components/atoms/AppButton";
 import { GradientLayout } from "../../../components/layouts/GradientLayout";
 import AppActivityIndicator from "../../../components/atoms/ActivityIndicator";
 import { useAppDispatch } from "../../../store/hooks";
-import { analyticScreenNames, screenClass } from "../../../analytics/constants";
-import { useOnScreenView } from "../../../analytics/hooks/useOnScreenView";
+import { analyticScreenNames, eventNames, screenClass } from "../../../analytics/constants";
+import { useSegment } from "../../../analytics";
 import FormField from "../../../components/molecule/FormField";
 import { PROVIDER_LOGIN } from "../../../services/graphql/auth/mutations";
 import { storeObjectData, storeStringData } from "../../../utils/storage";
@@ -20,7 +20,13 @@ import { setUser } from "../../../store/features/user/userSlice";
 const AppleEmail = ({ route }: any) => {
   const dispatch = useAppDispatch();
 
-  useOnScreenView({ screenName: analyticScreenNames.signIn, screenType: screenClass.auth });
+  const analytics = useSegment();
+  useEffect(() => {
+    analytics.screenEvent({
+      screenName: analyticScreenNames.signIn,
+      screenType: screenClass.auth,
+    });
+  }, []);
 
   const schema = yup.object().shape({
     email: yup.string().email().required("Email is required."),
@@ -33,6 +39,15 @@ const AppleEmail = ({ route }: any) => {
   const loginUser = async (formData: any) => {
     const { email } = formData;
     const cred = JSON.parse(credential);
+
+    analytics.trackEvent({
+      eventName: eventNames.submitAppleSignInEmail,
+      params: {
+        screenName: analyticScreenNames.signIn,
+        screenType: screenClass.auth,
+        email,
+      },
+    });
 
     try {
       const loginResponse = await loginWithProvider({
@@ -68,8 +83,25 @@ const AppleEmail = ({ route }: any) => {
           );
         });
       }
+      analytics.trackEvent({
+        eventName: `${eventNames.submitAppleSignInEmail} - Success`,
+        params: {
+          screenName: analyticScreenNames.signIn,
+          screenType: screenClass.auth,
+          email,
+          ...user,
+        },
+      });
     } catch (err: any) {
       Alert.alert("Apple Login Error", err.message);
+      analytics.trackEvent({
+        eventName: `${eventNames.submitAppleSignInEmail} - Error`,
+        params: {
+          screenName: analyticScreenNames.signIn,
+          screenType: screenClass.auth,
+          email,
+        },
+      });
     }
   };
 

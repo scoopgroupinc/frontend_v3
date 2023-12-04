@@ -15,7 +15,7 @@ import { setCriterias } from "../../store/features/matches/matchSlice";
 import { styles } from "./styles";
 import OptionTab from "../../components/atoms/OptionsTabs";
 import { analyticScreenNames, eventNames, screenClass } from "../../analytics/constants";
-import { logEvent, onScreenView } from "../../analytics";
+import { useSegment } from "../../analytics";
 import { selectUser, selectUserVisuals } from "../../store/features/user/userSlice";
 import { GET_SHARE_PROFILE_FEEDBACK } from "../../services/graphql/share-profile/queries";
 import { selectFeedbacks, setFeedback } from "../../store/features/feedback/feedbackSlice";
@@ -36,18 +36,20 @@ export const Home = () => {
 
   const [openSettings, setOpenSettings] = useState<boolean>(false);
 
+  const analytics = useSegment();
+
   useEffect(() => {
     const view = openSettings
       ? { screenName: analyticScreenNames.settings, screenType: screenClass.profile }
       : { screenName: analyticScreenNames.profileHome, screenType: screenClass.profile };
-    onScreenView(view);
-  }, [openSettings]);
+    analytics.screenEvent(view);
+  }, [openSettings, analytics]);
 
   const [deleteUser] = useMutation(DELETE_USER_PROFILE);
 
   //   methods
   const openUrlTerms = useCallback(async () => {
-    logEvent({
+    analytics.trackEvent({
       eventName: eventNames.redirectTermsButton,
       params: {
         screenClass: screenClass.settings,
@@ -60,7 +62,7 @@ export const Home = () => {
   }, []);
 
   const openUrlPolicy = useCallback(async () => {
-    logEvent({
+    analytics.trackEvent({
       eventName: eventNames.redirectPrivacyButton,
       params: {
         screenClass: screenClass.settings,
@@ -81,7 +83,7 @@ export const Home = () => {
   };
 
   const createLogoutAlert = () => {
-    logEvent({
+    analytics.trackEvent({
       eventName: eventNames.logoutAccountButton,
       params: {
         screenClass: screenClass.settings,
@@ -90,7 +92,15 @@ export const Home = () => {
     Alert.alert("Log out", "Are you sure you want to log out?", [
       {
         text: "Cancel",
-        onPress: () => {},
+        onPress: () => {
+          analytics.trackEvent({
+            eventName: eventNames.logoutAccountButton,
+            params: {
+              screenClass: screenClass.settings,
+              action: 'cancel',
+            },
+          });
+        },
         style: "cancel",
       },
       {
@@ -99,13 +109,20 @@ export const Home = () => {
         onPress: () => {
           setOpenSettings(false);
           revokeAppleSignInPermission();
+          analytics.trackEvent({
+            eventName: eventNames.logoutAccountButton,
+            params: {
+              screenClass: screenClass.settings,
+              action: 'log out',
+            },
+          });
         },
       },
     ]);
   };
 
   const createDeleteAlert = () => {
-    logEvent({
+    analytics.trackEvent({
       eventName: eventNames.deleteAccountButton,
       params: {
         screenClass: screenClass.settings,
@@ -114,13 +131,28 @@ export const Home = () => {
     Alert.alert("Delete", "Are you sure you want to delete your scoop account?", [
       {
         text: "Cancel",
-        onPress: () => {},
+        onPress: () => {
+          analytics.trackEvent({
+            eventName: eventNames.deleteAccountButton,
+            params: {
+              screenClass: screenClass.settings,
+              action: 'cancel',
+            },
+          });
+        },
         style: "cancel",
       },
       {
         text: "OK",
         style: "destructive",
         onPress: () => {
+          analytics.trackEvent({
+            eventName: eventNames.deleteAccountButton,
+            params: {
+              screenClass: screenClass.settings,
+              action: 'confirm delete',
+            },
+          });
           deleteUser({ variables: { email, userId } }).then(() => {
             setOpenSettings(false);
             dispatch({

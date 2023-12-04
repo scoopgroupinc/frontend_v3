@@ -1,5 +1,5 @@
 /* eslint-disable import/prefer-default-export */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Alert, View } from "react-native";
 import { ProgressBar } from "react-native-paper";
 import { useMutation } from "@apollo/client";
@@ -14,9 +14,8 @@ import { SAVE_GENDER_PREFENCE } from "../../../services/graphql/onboarding/mutat
 import { screenName } from "../../../utils/constants";
 import { GradientLayout } from "../../../components/layouts/GradientLayout";
 import AppActivityIndicator from "../../../components/atoms/ActivityIndicator";
-import { logEvent } from "../../../analytics";
+import { useSegment } from "../../../analytics";
 import { analyticScreenNames, eventNames, screenClass } from "../../../analytics/constants";
-import { useOnScreenView } from "../../../analytics/hooks/useOnScreenView";
 
 export const DateWhoScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
@@ -25,7 +24,13 @@ export const DateWhoScreen = () => {
   const userId = user?.userId;
 
   const [mate, setMate] = useState<string>("");
-
+  const analytics = useSegment();
+  useEffect(() => {
+    analytics.screenEvent({
+      screenName: analyticScreenNames.onBoardGenderPreference,
+      screenType: screenClass.onBoarding,
+    });
+  }, []);
   const [saveUserProfile, { loading }] = useMutation(SAVE_GENDER_PREFENCE);
   const saveGenderPreference = async () => {
     try {
@@ -33,7 +38,7 @@ export const DateWhoScreen = () => {
         userId,
         gender: mate,
       };
-      logEvent({
+      analytics.identifyEvent({
         eventName: eventNames.submitOnBoardGenderPreferenceButton,
         params: { ...data, screenClass: screenClass.onBoarding },
       });
@@ -45,14 +50,13 @@ export const DateWhoScreen = () => {
         navigation.navigate(screenName.LOCATION);
       });
     } catch (err) {
+      analytics.trackEvent({
+        eventName: `${eventNames.submitOnBoardGenderPreferenceButton} - Error`,
+        params: { ...data, screenClass: screenClass.onBoarding, error: err },
+      });
       Alert.alert("Error", err.message || "Something went wrong!");
     }
   };
-
-  useOnScreenView({
-    screenName: analyticScreenNames.onBoardGenderPreference,
-    screenType: screenClass.onBoarding,
-  });
 
   return (
     <>

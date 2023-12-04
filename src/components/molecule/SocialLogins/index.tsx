@@ -11,7 +11,7 @@ import { useAppDispatch } from "../../../store/hooks";
 import { storeObjectData, storeStringData } from "../../../utils/storage";
 import { setUser } from "../../../store/features/user/userSlice";
 import AppleLogin from "../../../features/SocialLogin/AppleLogin";
-import { logEvent } from "../../../analytics";
+import { useSegment } from "../../../analytics";
 import { eventNames } from "../../../analytics/constants";
 
 WebBrowser.maybeCompleteAuthSession();
@@ -20,6 +20,7 @@ const SocialLogins = () => {
   const dispatch = useAppDispatch();
   const [providerUser, setProviderUser] = useState<any>({});
   const [loginWithProvider] = useMutation(PROVIDER_LOGIN);
+  const analytics = useSegment();
 
   GoogleSignin.configure({
     webClientId: "474530368865-95jmh53ptqa2bv430kuotnqcga6ufvg4.apps.googleusercontent.com",
@@ -61,19 +62,10 @@ const SocialLogins = () => {
         const token = loginResponse?.data?.loginWithProvider?.token;
 
         if (user && token) {
-          if (providerUser.provider === "google") {
-            logEvent({
-              eventName: eventNames.submitGoogleSignInButtonResponse,
-              params: { error: null },
-            });
-          }
-
-          if (providerUser.provider === "apple") {
-            logEvent({
-              eventName: eventNames.submitAppleSignInButtonResponse,
-              params: { error: null },
-            });
-          }
+          analytics.trackEvent({
+            eventName: eventNames.submitSignInButtonResponse,
+            params: { error: null, provider: providerUser.provider, user },
+          });
 
           await storeStringData("userToken", token);
           await storeObjectData("user", {
@@ -97,9 +89,9 @@ const SocialLogins = () => {
         }
       } catch (err: any) {
         Alert.alert("Login Error", err.message);
-        logEvent({
+        analytics.trackEvent({
           eventName: eventNames.submitSignInButtonResponse,
-          params: { error: err.message },
+          params: { error: err.message, provider: providerUser.provider },
         });
       }
     };

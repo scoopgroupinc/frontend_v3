@@ -5,7 +5,6 @@ import { ImageBackground, ScrollView, Text, View, Image, Dimensions } from "reac
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
 import { useMutation } from "@apollo/client";
-import moment from "moment";
 import { screenName } from "../../../utils/constants";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import {
@@ -19,7 +18,7 @@ import { USER_SWIPER_ACTION } from "../../../services/graphql/profile/mutations"
 import { Spacing } from "../../../utils";
 import { QuotedText } from "../../../components/atoms/QuotedText";
 import LikeButtonsView from "../../../components/molecule/LikeButtonsView";
-import { logEvent } from "../../../analytics";
+import { useSegment } from "../../../analytics";
 import { analyticScreenNames, eventNames, screenClass } from "../../../analytics/constants";
 import { selectUser } from "../../../store/features/user/userSlice";
 import {
@@ -28,7 +27,6 @@ import {
   getSchoolDetails,
 } from "../../../features/ProfileView/components/getDetails";
 import { styles } from "../../../features/ProfileView/styles";
-import { useOnScreenView } from "../../../analytics/hooks/useOnScreenView";
 import { selectAllPrompts } from "../../../store/features/prompts/promptsSlice";
 import { ProfilePageDetails } from "../../../features/ProfileView/components/ProfilePageDetails";
 
@@ -39,10 +37,13 @@ export const ProfileView = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const dispatch = useAppDispatch();
 
-  useOnScreenView({
-    screenName: analyticScreenNames.profileView,
-    screenType: screenClass.matches,
-  });
+  const analytics = useSegment();
+  useEffect(() => {
+    analytics.screenEvent({
+      screenName: analyticScreenNames.profileView,
+      screenType: screenClass.matches,
+    });
+  }, []);
 
   const { user } = useAppSelector(selectUser);
   const userId = user?.id;
@@ -56,11 +57,13 @@ export const ProfileView = () => {
   const [handleLikeDislike] = useMutation(USER_SWIPER_ACTION);
 
   const handleLike = () => {
-    logEvent({
-      eventName: eventNames.acceptMatchButton,
+    analytics.trackEvent({
+      eventName: eventNames.matchChoice,
       params: {
         userId,
+        matchId: userChoices[0].id,
         screenClass: screenClass.matches,
+        like: true,
       },
     });
     const choice = "yes";
@@ -93,11 +96,13 @@ export const ProfileView = () => {
   };
 
   const handleDislike = () => {
-    logEvent({
-      eventName: eventNames.declineMatchButton,
+    analytics.trackEvent({
+      eventName: eventNames.matchChoice,
       params: {
         userId,
+        matchId: userChoices[0].id,
         screenClass: screenClass.matches,
+        like: false,
       },
     });
     const choice = "no";

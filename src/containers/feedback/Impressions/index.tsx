@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FlatList, SectionList, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -10,6 +10,8 @@ import { styles } from "./styles";
 import { AppButton } from "../../../components/atoms/AppButton";
 import { screenName } from "../../../utils/constants";
 import TagScreenHeader from "../../../components/molecule/TagScreenHeader";
+import { useSegment } from "../../../analytics";
+import { analyticScreenNames, eventNames, screenClass } from "../../../analytics/constants";
 
 const FeedbackImpressions = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
@@ -20,11 +22,28 @@ const FeedbackImpressions = () => {
 
   const MAX_SELECTION = 3;
 
+  const analytics = useSegment();
+
+  useEffect(() => {
+    analytics.screenEvent({
+      screenName: analyticScreenNames.profileFeedbackImpressions,
+      screenType: screenClass.feedback,
+    });
+  }, []);
+
   const handleButtonSelection = (buttonId: string) => {
     if (selectedButtons.includes(buttonId)) {
       setSelectedButtons((prevSelected) => prevSelected.filter((id) => id !== buttonId));
+      analytics.trackEvent({
+        eventName: eventNames.selectFirstImpressions,
+        params: { deselected: buttonId },
+      })
     } else {
       setSelectedButtons((prevSelected) => [...prevSelected, buttonId]);
+      analytics.trackEvent({
+        eventName: eventNames.selectFirstImpressions,
+        params: { selected: buttonId },
+      })
     }
   };
 
@@ -95,6 +114,10 @@ const FeedbackImpressions = () => {
       <AppButton
         isDisabled={selectedButtons.length !== 3}
         onPress={() => {
+          analytics.trackEvent({
+            eventName: eventNames. submitFirstImpressionsButton,
+            params: { personsalities: setSelectedButtons },
+          })
           navigation.navigate(screenName.GO_DEEPER, {
             selectedButtons,
           });

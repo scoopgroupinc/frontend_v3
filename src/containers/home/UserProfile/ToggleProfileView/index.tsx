@@ -23,8 +23,8 @@ import {
   resetToCopyData,
   selectIsDirty,
 } from "../../../../store/features/user/userSlice";
-import { logEvent } from "../../../../analytics";
-import { eventNames } from "../../../../analytics/constants";
+import { useSegment } from "../../../../analytics";
+import { analyticScreenNames, eventNames, screenClass } from "../../../../analytics/constants";
 
 import AppActivityIndicator from "../../../../components/atoms/ActivityIndicator";
 import { screenName } from "../../../../utils/constants";
@@ -37,7 +37,6 @@ import { useSaveUserLocation } from "./hooks/useSaveUserLocation";
 export const ToggleProfileView = ({ route }: any) => {
   const { value } = route.params || { value: "Edit" };
 
-  const gradient = Colors.GRADIENT_BG;
   const insets = useSafeAreaInsets();
 
   const Stack = createNativeStackNavigator();
@@ -52,6 +51,14 @@ export const ToggleProfileView = ({ route }: any) => {
 
   const dispatch = useAppDispatch();
 
+  const analytics = useSegment();
+  useEffect(() => {
+    analytics.screenEvent({
+      screenName: analyticScreenNames.profileView,
+      screenType: screenClass.profile,
+    });
+  }, []);
+
   // make copy to allow for undoing of changes
   useEffect(() => {
     dispatch(trackCurrentUserStateChanges());
@@ -64,7 +71,7 @@ export const ToggleProfileView = ({ route }: any) => {
 
   const saveChanges = useCallback(async () => {
     isSaving(true);
-    logEvent({
+    analytics.trackEvent({
       eventName: eventNames.editMainProfileButton,
       params: {},
     });
@@ -101,7 +108,7 @@ export const ToggleProfileView = ({ route }: any) => {
 
   const cancelChanges = () => {
     dispatch(resetToCopyData());
-    logEvent({
+    analytics.trackEvent({
       eventName: eventNames.cancelProfileButton,
       params: {},
     });

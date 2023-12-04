@@ -5,7 +5,7 @@ import { SafeAreaView } from "react-native";
 import { Colors } from "../../../utils";
 
 interface LayoutType {
-  children: ReactNode;
+  children: ReactNode | undefined;
   marginTop: string | undefined;
   marginBottom: string | undefined;
 }
