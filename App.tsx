@@ -19,7 +19,7 @@ import { extendedTheme } from "./src/containers/app/themeConstants";
 import { SEGMENT_WRITE_KEY } from "./src/utils/constants/apis";
 
 const segmentClient = createClient({
-  writeKey: SEGMENT_WRITE_KEY,
+  writeKey: "QKJ82u7RQc0XBu1VM1gvcmAq4grRICtU",
   collectDeviceId: true,
   debug: true,
   flushAt: 20,
@@ -45,32 +45,32 @@ const App = () => {
     prepare();
   }, []);
 
-  useEffect(() => {
-    // Function to handle the deep link
-    const handleDeepLink = (event) => {
-      // Use the Segment client to track the deep link
-      segmentClient.track("Deep Link Opened", {
-        url: event.url,
-      });
-    };
+  // useEffect(() => {
+  //   // Function to handle the deep link
+  //   const handleDeepLink = (event) => {
+  //     // Use the Segment client to track the deep link
+  //     segmentClient.track("Deep Link Opened", {
+  //       url: event.url,
+  //     });
+  //   };
 
-    // Listen for any incoming links
-    Linking.addEventListener("url", handleDeepLink);
+  //   // Listen for any incoming links
+  //   Linking.addEventListener("url", handleDeepLink);
 
-    // Check if the app was opened by a deep link
-    Linking.getInitialURL().then((url) => {
-      if (url) {
-        segmentClient.track("Deep Link Opened", {
-          url,
-        });
-      }
-    });
+  //   // Check if the app was opened by a deep link
+  //   Linking.getInitialURL().then((url) => {
+  //     if (url) {
+  //       segmentClient.track("Deep Link Opened", {
+  //         url,
+  //       });
+  //     }
+  //   });
 
-    // Clean up
-    return () => {
-      Linking.removeEventListener("url", handleDeepLink);
-    };
-  }, []);
+  //   // Clean up
+  //   return () => {
+  //     Linking.removeEventListener("url", handleDeepLink);
+  //   };
+  // }, []);
 
   const onLayoutRootView = useCallback(async () => {
     if (fontsLoaded) {

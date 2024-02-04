@@ -31,6 +31,7 @@ export const DateWhoScreen = () => {
       screenType: screenClass.onBoarding,
     });
   }, []);
+  
   const [saveUserProfile, { loading }] = useMutation(SAVE_GENDER_PREFENCE);
   const saveGenderPreference = async () => {
     try {

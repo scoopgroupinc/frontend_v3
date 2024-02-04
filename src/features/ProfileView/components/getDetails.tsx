@@ -237,7 +237,7 @@ const getAlcoholDetails = (userTags: any) => {
 };
 
 const getSmokingDetails = (userTags: any) => {
-  const smoking = userTags[TAG_VISIBLE_TYPES.smoking];
+  const smoking = userTags[TAG_VISIBLE_TYPES.smoking_usage];
   const smokingName = smoking?.userTags[0]?.tagName;
   if (smoking?.visible && smokingName) {
     return (

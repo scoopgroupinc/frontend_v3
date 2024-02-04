@@ -93,6 +93,7 @@ export const analyticScreenNames = {
   profileFeedbackImpressions: "Profile Feedback Impressions",
   profileFeedbackLanding: "Profile Feedback Landing",
   profileFeedbackThankYou: "Profile Feedback Thank You",
+  profileFeedback: "Profile Feedback",
 };
 
 export const screenClass = {
@@ -159,6 +160,8 @@ export const eventNames = {
   submitFirstImpressionsButton: "submit: FirstImpressions Button - Click",
   selectFirstImpressions: "select: First Impressions",
   getFeedbackLink: "get: Feedback Link - Click",
+  activateShareLink: "activate: Share Link - Click",
+  deactivateShareLink: "deactivate: Share Link - Click",
 };
 
 export const methods = {

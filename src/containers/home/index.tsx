@@ -39,11 +39,20 @@ export const Home = () => {
   const analytics = useSegment();
 
   useEffect(() => {
-    const view = openSettings
-      ? { screenName: analyticScreenNames.settings, screenType: screenClass.profile }
-      : { screenName: analyticScreenNames.profileHome, screenType: screenClass.profile };
-    analytics.screenEvent(view);
-  }, [openSettings, analytics]);
+    analytics.screenEvent({
+      screenName: analyticScreenNames.profileHome,
+      screenType: screenClass.profile,
+    });
+  }, []);
+
+  useEffect(() => {
+    if (openSettings) {
+      analytics.screenEvent({
+        screenName: analyticScreenNames.settings,
+        screenType: screenClass.profile,
+      });
+    }
+  }, [openSettings]);
 
   const [deleteUser] = useMutation(DELETE_USER_PROFILE);
 
@@ -97,7 +106,7 @@ export const Home = () => {
             eventName: eventNames.logoutAccountButton,
             params: {
               screenClass: screenClass.settings,
-              action: 'cancel',
+              action: "cancel",
             },
           });
         },
@@ -113,7 +122,7 @@ export const Home = () => {
             eventName: eventNames.logoutAccountButton,
             params: {
               screenClass: screenClass.settings,
-              action: 'log out',
+              action: "log out",
             },
           });
         },
@@ -136,7 +145,7 @@ export const Home = () => {
             eventName: eventNames.deleteAccountButton,
             params: {
               screenClass: screenClass.settings,
-              action: 'cancel',
+              action: "cancel",
             },
           });
         },
@@ -150,7 +159,7 @@ export const Home = () => {
             eventName: eventNames.deleteAccountButton,
             params: {
               screenClass: screenClass.settings,
-              action: 'confirm delete',
+              action: "confirm delete",
             },
           });
           deleteUser({ variables: { email, userId } }).then(() => {

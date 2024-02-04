@@ -41,6 +41,7 @@ export const onScreenView = async (event: IScreen) => {
 };
 
 export const useSegment = () => {
+  
   const userId = useAppSelector(selectUserId);
   const { track, screen, identify } = useAnalytics();
 
