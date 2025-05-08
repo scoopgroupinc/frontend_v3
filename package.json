@@ -69,7 +69,7 @@
     "@segment/analytics-react-native-plugin-mixpanel": "^0.3.4",
     "@segment/sovran-react-native": "^1.0.4",
     "@types/socket.io": "^3.0.2",
-    "axios": "^1.6.0",
+    "axios": "^1.8.2",
     "expo": "^49.0.0",
     "expo-apple-authentication": "~6.1.0",
     "expo-application": "~5.3.0",
