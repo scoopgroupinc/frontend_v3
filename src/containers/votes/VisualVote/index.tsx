@@ -1,5 +1,5 @@
 /* eslint-disable import/prefer-default-export */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, Image, ScrollView, TextInput } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -16,9 +16,8 @@ import { SAVE_GROUP_RATING } from "../../../services/graphql/profile/mutations";
 import { styles } from "./style";
 import { RatingSlider } from "../../../components/molecule/RatingSlider";
 import AppActivityIndicator from "../../../components/atoms/ActivityIndicator";
-import { logEvent } from "../../../analytics";
+import { useSegment } from "../../../analytics";
 import { analyticScreenNames, eventNames, screenClass } from "../../../analytics/constants";
-import { useOnScreenView } from "../../../analytics/hooks/useOnScreenView";
 
 const gradient = Colors.GRADIENT_BG;
 
@@ -72,10 +71,13 @@ export const VisualVote = () => {
     endTime: new Date().toISOString(),
   };
 
-  useOnScreenView({
-    screenName: analyticScreenNames.ratePhoto,
-    screenType: screenClass.matches,
-  });
+  const analytics = useSegment();
+  useEffect(() => {
+    analytics.screenEvent({
+      screenName: analyticScreenNames.ratePhoto,
+      screenType: screenClass.matches,
+    });
+  }, []);
 
   const [saveGroupRating] = useMutation(SAVE_GROUP_RATING, {
     variables: { ratingGroupInput },
@@ -147,7 +149,7 @@ export const VisualVote = () => {
                 onPress={() => {
                   setLoading(true);
                   saveGroupRating();
-                  logEvent({
+                  analytics.trackEvent({
                     eventName: eventNames.submitPhotoRatingButton,
                     params: {
                       userId,

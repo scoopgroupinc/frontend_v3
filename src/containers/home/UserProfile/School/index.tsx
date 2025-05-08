@@ -14,8 +14,7 @@ import TagScreenHeader from "../../../../components/molecule/TagScreenHeader";
 import { AppInput } from "../../../../components/atoms/AppInput";
 import TagsView from "../../../../components/molecule/TagsView";
 import { analyticScreenNames, eventNames, screenClass } from "../../../../analytics/constants";
-import { logEvent } from "../../../../analytics";
-import { useOnScreenView } from "../../../../analytics/hooks/useOnScreenView";
+import { useSegment } from "../../../../analytics";
 
 const School = ({ navigation, route }: any) => {
   const userTags = useAppSelector(selectUserTags);
@@ -31,18 +30,21 @@ const School = ({ navigation, route }: any) => {
 
   const pageTitle = "School";
 
+  const analytics = useSegment();
+  useEffect(() => {
+    analytics.screenEvent({
+      screenName: analyticScreenNames.school,
+      screenType: screenClass.profile,
+    });
+  }, []);
+
   const goBackHome = () => {
-    logEvent({
+    analytics.trackEvent({
       eventName: eventNames.backEditProfileButton,
       params: { screenClass: screenClass.profile },
     });
     navigation.goBack();
   };
-
-  useOnScreenView({
-    screenName: analyticScreenNames.school,
-    screenType: screenClass.profile,
-  });
 
   useEffect(() => {
     if (input.current) {

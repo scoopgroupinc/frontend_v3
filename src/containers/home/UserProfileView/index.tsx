@@ -35,6 +35,7 @@ import { ProfilePageDetails } from "../../../features/ProfileView/components/Pro
 import { heightsByInch } from "../../../utils/constants/heights";
 import { useGetShareLink } from "../../../hooks/useGetShareLink";
 import { getStringData, storeStringData } from "../../../utils/storage";
+import { useSegment } from "../../../analytics";
 
 const ShareModal = ({ visible, onClose }: { visible: boolean; onClose: () => void }) => {
   const [checkbox, setCheckbox] = useState(false);
@@ -108,8 +109,14 @@ export const UserProfileView = () => {
 
   const [merged, setMerged] = useState<any>([]);
 
-  useOnScreenView({ screenName: analyticScreenNames.profileView, screenType: screenClass.profile });
-
+  const analytics = useSegment();
+  useEffect(() => {
+    analytics.screenEvent({
+      screenName: analyticScreenNames.profileView,
+      screenType: screenClass.profile,
+    });
+  }, []);
+  
   const [modalVisible, setModalVisible] = useState(false);
 
   const openModal = async () => {

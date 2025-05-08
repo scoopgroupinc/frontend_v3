@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Alert, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useForm } from "react-hook-form";
@@ -19,8 +19,7 @@ import { multiRemove, storeStringData } from "../../../utils/storage";
 import { OTPInputModal } from "../../../components/templates/OTPInputModal";
 import { screenName } from "../../../utils/constants";
 import { analyticScreenNames, eventNames, screenClass } from "../../../analytics/constants";
-import { logEvent } from "../../../analytics";
-import { useOnScreenView } from "../../../analytics/hooks/useOnScreenView";
+import { useSegment } from "../../../analytics";
 
 const LoginScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
@@ -29,8 +28,10 @@ const LoginScreen = () => {
   const [revalidate, setRevalidate] = useState<boolean>(true);
   const dispatch = useAppDispatch();
 
-  useOnScreenView({screenName:analyticScreenNames.signIn,
-    screenType:screenClass.auth});
+  const analytics = useSegment();
+  useEffect(() => {
+    analytics.screenEvent({ screenName: analyticScreenNames.signIn, screenType: screenClass.auth });
+  }, []);
 
   const [loginUserMutation, { loading: loginLoading }] = useMutation(LOG_IN_USER);
 
@@ -57,6 +58,10 @@ const LoginScreen = () => {
 
   const loginUser = (formData: any) => {
     setUserData(formData);
+    analytics.trackEvent({
+      eventName: eventNames.submitSignInButtonClick,
+      params: { ...formData, screenName: analyticScreenNames.signIn },
+    });
     loginUserMutation({
       variables: {
         loginUserInput: {
@@ -83,9 +88,9 @@ const LoginScreen = () => {
           Alert.alert("Error", err.message || "Something went wrong!");
           multiRemove(["user", "userToken", "token", "userVisuals"]);
         }
-        logEvent({
+        analytics.trackEvent({
           eventName: eventNames.submitSignInButtonResponse,
-          params: { error: err.message },
+          params: { error: err.message, screenName: analyticScreenNames.signIn },
         });
       });
   };

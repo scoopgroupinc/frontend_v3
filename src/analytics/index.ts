@@ -1,16 +1,9 @@
 import analytics from "@react-native-firebase/analytics";
+import { useAnalytics } from "@segment/analytics-react-native";
 import { methods } from "./constants";
-
-interface IEvent {
-  eventName: string;
-  params?: any;
-}
-
-interface IScreen {
-  screenName: string;
-  screenType: string;
-  userId: string;
-}
+import { IEvent, IScreen } from "./types";
+import { selectUserId } from "../store/features/user/userSlice";
+import { useAppSelector } from "../store/hooks";
 
 export const logEvent = async (data: IEvent) => {
   await analytics().logEvent(data.eventName, { ...data.params });
@@ -40,10 +33,32 @@ export const onAppOpen = async () => {
 };
 
 export const onScreenView = async (event: IScreen) => {
-
   await analytics().logScreenView({
     screen_name: event.screenName,
     screen_class: event.screenType,
     userId: event.userId,
   });
+};
+
+export const useSegment = () => {
+  
+  const userId = useAppSelector(selectUserId);
+  const { track, screen, identify } = useAnalytics();
+
+  const trackEvent = (data: IEvent) => {
+    track(data.eventName, { eventName: data.eventName, ...data.params, userId });
+  };
+
+  const screenEvent = (data: IScreen) => {
+    screen("Page Viewed", {
+      ...data,
+      userId,
+    });
+  };
+
+  const identifyEvent = (data: any) => {
+    identify(userId, { ...data });
+  };
+
+  return { trackEvent, screenEvent, identifyEvent };
 };

@@ -10,6 +10,8 @@ import {
   setUserProfileVisibilityData,
 } from "../../../store/features/user/userSlice";
 import { TagsButton } from "../../atoms/TagsButton";
+import { useSegment } from "../../../analytics";
+import { eventNames, screenClass } from "../../../analytics/constants";
 
 const TypeOf = {
   SINGLE: "single",
@@ -18,10 +20,19 @@ const TypeOf = {
 
 const TagsView = ({ currentTagType, tags, typeOf }: TagsViewProps) => {
   const userTags = useAppSelector(selectUserTags);
+  const analytics = useSegment();
 
   const dispatch = useAppDispatch();
 
   const toggleSwitch = () => {
+    analytics.trackEvent({
+      eventName: eventNames.selectProfileOption,
+      params: {
+        screenClass: screenClass.profile,
+        tagType: currentTagType,
+        tagVisibility: !userTags[currentTagType]?.visible,
+      },
+    });
     const data = {
       ...userTags,
       [currentTagType]: {

@@ -14,9 +14,8 @@ import { Colors } from "../../../../utils";
 import TagScreenHeader from "../../../../components/molecule/TagScreenHeader";
 import { AppInput } from "../../../../components/atoms/AppInput";
 import TagsView from "../../../../components/molecule/TagsView";
-import { logEvent } from "../../../../analytics";
+import { useSegment } from "../../../../analytics";
 import { analyticScreenNames, eventNames, screenClass } from "../../../../analytics/constants";
-import { useOnScreenView } from "../../../../analytics/hooks/useOnScreenView";
 
 const Hometown = ({ navigation, route }: any) => {
   const userTags = useAppSelector(selectUserTags);
@@ -32,24 +31,26 @@ const Hometown = ({ navigation, route }: any) => {
 
   const pageTitle = "Hometown";
 
-  useOnScreenView({
-    screenName: analyticScreenNames.homeTown,
-    screenType: screenClass.profile,
-  });
+  const analytics = useSegment();
+  useEffect(() => {
+    analytics.screenEvent({
+      screenName: analyticScreenNames.homeTown,
+      screenType: screenClass.profile,
+    });
+
+    if (input.current) {
+      input.current.focus();
+    }
+  }, []);
 
   const goBackHome = () => {
-    logEvent({
+    analytics.trackEvent({
       eventName: eventNames.backEditProfileButton,
       params: { screenClass: screenClass.profile },
     });
     navigation.goBack();
   };
 
-  useEffect(() => {
-    if (input.current) {
-      input.current.focus();
-    }
-  }, []);
 
   return (
     <LinearGradient style={styles.container} colors={gradient}>

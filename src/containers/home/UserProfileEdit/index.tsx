@@ -7,7 +7,6 @@ import {
   Modal,
   TouchableWithoutFeedback,
   TouchableOpacity,
-  SafeAreaView,
 } from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
@@ -31,7 +30,6 @@ import { AppButton } from "../../../components/atoms/AppButton";
 import { Colors } from "../../../utils";
 import { TAG_VISIBLE_TYPES } from "../../../utils/types/TAGS";
 import { useGetShareLink } from "../../../hooks/useGetShareLink";
-import { GradientLayout } from "../../../components/layouts/GradientLayout";
 import { getStringData, storeStringData } from "../../../utils/storage";
 
 const inputTextProps = {

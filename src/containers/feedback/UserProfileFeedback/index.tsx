@@ -1,8 +1,8 @@
 /* eslint-disable guard-for-in */
 /* eslint-disable no-restricted-syntax */
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { View, Text, Alert, ScrollView } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useMutation } from "@apollo/client";
 import TagScreenHeader from "../../../components/molecule/TagScreenHeader";
@@ -19,6 +19,8 @@ import AppActivityIndicator from "../../../components/atoms/ActivityIndicator";
 import { useAppSelector } from "../../../store/hooks";
 import { selectFeedbacks } from "../../../store/features/feedback/feedbackSlice";
 import { useGetShareLink } from "../../../hooks/useGetShareLink";
+import { useSegment } from "../../../analytics";
+import { analyticScreenNames, eventNames, screenClass } from "../../../analytics/constants";
 
 interface PersonalityFeedback {
   personality: string;
@@ -29,7 +31,6 @@ interface Feedback {
 }
 
 const UserProfileFeedback = () => {
-
   const feedback = useAppSelector(selectFeedbacks);
 
   const [pesPercentage, setPesPercentage] = useState<any>([]);
@@ -63,6 +64,20 @@ const UserProfileFeedback = () => {
 
   const [shareLinkToSocialMedia, shareLink, setShareLink] = useGetShareLink();
 
+  const analytics = useSegment();
+  useEffect(() => {
+    analytics.screenEvent({
+      screenName: analyticScreenNames.profileFeedback,
+      screenType: screenClass.chat,
+    });
+  }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      console.log("useFocusEffect");
+    }, [])
+  );
+
   const [
     deactivateProfileLink,
     { data: deactivateLinkData, loading: deactivateProfileLinkLoading },
@@ -91,6 +106,10 @@ const UserProfileFeedback = () => {
 
   const handleActivation = (state: string) => {
     if (state === "activate") {
+      analytics.trackEvent({
+        eventName: eventNames.activateShareLink,
+        params: {},
+      });
       Alert.alert(
         "Activate Share Link",
         "Activate your share link. Anyone using the link will be able to see your profile",
@@ -101,11 +120,23 @@ const UserProfileFeedback = () => {
           },
           {
             text: "Activate",
-            onPress: () => activateProfileLink(),
+            onPress: () => {
+              analytics.trackEvent({
+                eventName: eventNames.activateShareLink,
+                params: {
+                  confirm: "true",
+                },
+              });
+              activateProfileLink();
+            },
           },
         ]
       );
     } else {
+      analytics.trackEvent({
+        eventName: eventNames.deactivateShareLink,
+        params: {},
+      });
       Alert.alert(
         "Deactivate Share Link",
         "Your share link will no longer work. Anyone using the link will no longer see your profile",
@@ -118,6 +149,12 @@ const UserProfileFeedback = () => {
           {
             text: "Deactivate",
             onPress: () => {
+              analytics.trackEvent({
+                eventName: eventNames.deactivateShareLink,
+                params: {
+                  confirm: "true",
+                },
+              });
               deactivateProfileLink();
             },
           },
@@ -125,7 +162,6 @@ const UserProfileFeedback = () => {
       );
     }
   };
-
 
   return (
     <>
